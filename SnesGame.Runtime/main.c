@@ -1,6 +1,17 @@
 #include "SDL.h"
 #include <stdio.h>
 
+Uint32 heartbeatCallback(Uint32 interval, void* param) {
+	SDL_UserEvent userEvent;
+	userEvent.type = SDL_USEREVENT;
+	userEvent.code = 0;
+	SDL_Event event;
+	event.type = SDL_USEREVENT;
+	event.user = userEvent;
+	SDL_PushEvent(&event);
+	return interval;
+}
+
 int main(int argc, char** argv) {
 	int result = 0;
 	if (SDL_Init(SDL_INIT_VIDEO) == 0) {
@@ -27,13 +38,26 @@ int main(int argc, char** argv) {
 				SDL_UnlockSurface(surface);
 				SDL_UpdateWindowSurface(window);
 
+				SDL_AddTimer(20, heartbeatCallback, NULL);
+				int x = 0;
+				int y = 0;
+
 				SDL_bool loop = SDL_TRUE;
 				SDL_Event event;
 				while (loop) {
-					SDL_PollEvent(&event);
+					SDL_WaitEvent(&event);
 					switch (event.type) {
 					case SDL_QUIT:
 						loop = SDL_FALSE;
+						break;
+					case SDL_USEREVENT:
+						x = (x + 1) % (640 * 2);
+						y = (y + 1) % (480 * 2);
+						int i = 640 * (y >= 480 ? (480 * 2 - 1) - y : y) + (x >= 640 ? (640 * 2 - 1) - x : x);
+						SDL_LockSurface(surface);
+						((Uint32*)surface->pixels)[i] = 0x00FFFFFF;
+						SDL_UnlockSurface(surface);
+						SDL_UpdateWindowSurface(window);
 						break;
 					}
 				}
