@@ -1,6 +1,40 @@
 #include "SDL.h"
 #include <stdio.h>
 
+// --- BackBuffer ---
+
+Uint8 bbR[248 * 248];
+Uint8 bbG[248 * 248];
+Uint8 bbB[248 * 248];
+
+void bbClear(Uint8 r, Uint8 g, Uint8 b) {
+	SDL_memset(bbR, r, 248 * 248);
+	SDL_memset(bbG, g, 248 * 248);
+	SDL_memset(bbB, b, 248 * 248);
+}
+
+void bbSet(int x, int y, Uint8 r, Uint8 g, Uint8 b) {
+	int i = (y * 248) + x;
+	bbR[i] = r;
+	bbG[i] = g;
+	bbB[i] = b;
+}
+
+Uint32 bbGet(int x, int y) {
+	int i = (y * 248) + x;
+	return (bbR[i] << 16) | (bbG[i] << 8) | (bbB[i]);
+}
+
+void bbBlit(Uint32* dest) {
+	int i = 0;
+	for (int y = 0; y < 248; y++) {
+		for (int x = 0; x < 248; x++) {
+			int i = (y * 248) + x;
+			dest[i] = bbGet(x, y);
+		}
+	}
+}
+
 Uint32 heartbeatCallback(Uint32 interval, void* param) {
 	SDL_UserEvent userEvent;
 	userEvent.type = SDL_USEREVENT;
@@ -12,6 +46,9 @@ Uint32 heartbeatCallback(Uint32 interval, void* param) {
 	return interval;
 }
 
+#define R_WIDTH 248
+#define R_HEIGHT 247
+
 int main(int argc, char** argv) {
 	int result = 0;
 	if (SDL_Init(SDL_INIT_VIDEO) == 0) {
@@ -19,22 +56,16 @@ int main(int argc, char** argv) {
 				"SnesGame",
 				SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED,
-				640, 480,
+				248, 248,
 				0);
 		if (window != NULL) {
 			SDL_Surface* surface = SDL_GetWindowSurface(window);
 			if (surface != NULL) {
 				// Error check the lock/unlock/update
 				// Check the window surface format just in case it isn't 8bpp ARGB
+				bbClear(0x64, 0x95, 0xED);
 				SDL_LockSurface(surface);
-				for (int y = 0; y < 480; y++) {
-					for (int x = 0; x < 640; x++) {
-						int i = 640 * y + x;
-						Uint32 r = (255 * x) / 639;
-						Uint32 b = (255 * y) / 479;
-						((Uint32*)surface->pixels)[i] = (r << 16) | (b);
-					}
-				}
+				bbBlit((Uint32*)surface->pixels);
 				SDL_UnlockSurface(surface);
 				SDL_UpdateWindowSurface(window);
 
@@ -51,11 +82,14 @@ int main(int argc, char** argv) {
 						loop = SDL_FALSE;
 						break;
 					case SDL_USEREVENT:
-						x = (x + 1) % (640 * 2);
-						y = (y + 1) % (480 * 2);
-						int i = 640 * (y >= 480 ? (480 * 2 - 1) - y : y) + (x >= 640 ? (640 * 2 - 1) - x : x);
+						x = (x + 7) % (R_WIDTH * 2);
+						y = (y + 12) % (R_HEIGHT * 2);
+						int dX = x >= R_WIDTH ? (R_WIDTH * 2 - 1) - x : x;
+						int dY = y >= R_HEIGHT ? (R_HEIGHT * 2 - 1) - y : y;
+						bbSet(dX, dY, 0xFF, 0xFF, 0xFF);
+
 						SDL_LockSurface(surface);
-						((Uint32*)surface->pixels)[i] = 0x00FFFFFF;
+						bbBlit((Uint32*)surface->pixels);
 						SDL_UnlockSurface(surface);
 						SDL_UpdateWindowSurface(window);
 						break;
