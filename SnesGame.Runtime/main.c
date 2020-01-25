@@ -48,12 +48,29 @@ void ppuDrawBar(int x, int y, Uint8* data, Uint8* palette, SDL_bool hFlip) {
 	}
 }
 
+// Probably won't end up using this in the final version, as it will slice the data by
+// scanline (desination data) instead of sprites (source data)
+void ppuDrawGlyph(int x, int y, Uint8* data, Uint8* palette, SDL_bool vFlip, SDL_bool hFlip) {
+	Uint8 barIndex = vFlip ? 7 * 4 : 0;
+	for (int i = 0; i < 8; i++) {
+		ppuDrawBar(x, y + i, &data[barIndex], palette, hFlip);
+		barIndex = vFlip ? barIndex - 4 : barIndex + 4;
+	}
+}
+
 void ppuSetBarPaletteIndex(Uint8* data, int x, Uint8 value) {
 	SDL_assert(value < 16);
 	SDL_assert(x < 8);
 	Uint8 mask = 0x80 >> x;
 	for (int i = 0; i < 4; i++)
 		data[i] = ((value & (1 << i)) == 0) ? (data[i] & ~mask) : (data[i] | mask);
+}
+
+void ppuSetGlyphPaletteIndex(Uint8* data, int x, int y, Uint8 value) {
+	SDL_assert(value < 16);
+	SDL_assert(x < 8);
+	SDL_assert(y < 8);
+	ppuSetBarPaletteIndex(&data[4 * y], x, value);
 }
 
 void ppuPackPalette(Uint8 pIndex, Uint8* palette, Uint8 r, Uint8 g, Uint8 b, SDL_bool t) {
@@ -115,15 +132,13 @@ int main(int argc, char** argv) {
 	ppuPackPalette(0xE, palette, 0xFF, 0xFF, 0x55, SDL_FALSE); // Yellow
 	ppuPackPalette(0xF, palette, 0xFF, 0xFF, 0xFF, SDL_FALSE); // White
 
-	Uint8 bar[4];
-	ppuSetBarPaletteIndex(bar, 0x0, 12);
-	ppuSetBarPaletteIndex(bar, 0x1,  4);
-	ppuSetBarPaletteIndex(bar, 0x2,  2);
-	ppuSetBarPaletteIndex(bar, 0x3,  2);
-	ppuSetBarPaletteIndex(bar, 0x4,  3);
-	ppuSetBarPaletteIndex(bar, 0x5, 14);
-	ppuSetBarPaletteIndex(bar, 0x6, 11);
-	ppuSetBarPaletteIndex(bar, 0x7,  8);
+	Uint8 glyph[32];
+	SDL_memset(glyph, 0xFF, 32);
+	for (int i = 0; i < 8; i++) {
+		ppuSetGlyphPaletteIndex(glyph, i, 0, 0x04);
+		ppuSetGlyphPaletteIndex(glyph, 0, i, 0x02);
+		ppuSetGlyphPaletteIndex(glyph, i, i, 0x09);
+	}
 
 	if (SDL_Init(SDL_INIT_VIDEO) == 0) {
 		SDL_Window* window = SDL_CreateWindow(
@@ -142,8 +157,10 @@ int main(int argc, char** argv) {
 						ppuSetPixel(x, y, y >> 3, palette);
 					}
 				}
-				ppuDrawBar(80, 192, bar, palette, SDL_FALSE);
-				ppuDrawBar(80, 194, bar, palette, SDL_TRUE);
+				ppuDrawGlyph(80, 192, glyph, palette, SDL_FALSE, SDL_FALSE);
+				ppuDrawGlyph(89, 192, glyph, palette, SDL_FALSE, SDL_TRUE);
+				ppuDrawGlyph(80, 201, glyph, palette, SDL_TRUE, SDL_FALSE);
+				ppuDrawGlyph(89, 201, glyph, palette, SDL_TRUE, SDL_TRUE);
 				SDL_LockSurface(surface);
 				bbBlit((Uint32*)surface->pixels);
 				SDL_UnlockSurface(surface);
