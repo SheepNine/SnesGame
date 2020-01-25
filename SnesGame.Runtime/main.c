@@ -13,11 +13,57 @@ void bbClear(Uint8 r, Uint8 g, Uint8 b) {
 	SDL_memset(bbB, b, 248 * 248);
 }
 
-void bbSet(int x, int y, Uint8 r, Uint8 g, Uint8 b) {
+void bbSet(int x, int y, Uint8 r, Uint8 g, Uint8 b, SDL_bool t) {
 	int i = (y * 248) + x;
-	bbR[i] = r;
-	bbG[i] = g;
-	bbB[i] = b;
+	bbR[i] = (r >> 1) + ((t ? bbR[i] : r) >> 1);
+	bbG[i] = (g >> 1) + ((t ? bbG[i] : g) >> 1);
+	bbB[i] = (b >> 1) + ((t ? bbB[i] : b) >> 1);
+}
+
+void ppuSetPixel(int x, int y, Uint8 pIndex, Uint8* palette) {
+	SDL_assert(pIndex < 16);
+	Uint8 paletteLow = palette[pIndex * 2];
+	Uint8 paletteHigh = palette[pIndex * 2 + 1];
+
+	SDL_bool a = (paletteHigh & 0x4) != 0;
+	Uint8 r = paletteHigh & 0xF8;
+	paletteHigh <<= 6;
+	Uint8 b = paletteLow & 0xF8;
+	paletteLow <<= 3;
+	Uint8 g = (paletteHigh & 0xC0) | (paletteLow & 0x38);
+
+	bbSet(x, y, r, g, b, a);
+}
+
+void ppuDrawBar(int x, int y, Uint8* data, Uint8* palette, SDL_bool hFlip) {
+	Uint8 mask = hFlip ? 0x01 : 0x80;
+	for (int i = 0; i < 8; i++) {
+		Uint8 pIndex = 0;
+		if ((data[0] & mask) != 0) pIndex |= 1;
+		if ((data[1] & mask) != 0) pIndex |= 2;
+		if ((data[2] & mask) != 0) pIndex |= 4;
+		if ((data[3] & mask) != 0) pIndex |= 8;
+		ppuSetPixel(x + i, y, pIndex, palette);
+		mask = hFlip ? mask << 1 : mask >> 1;
+	}
+}
+
+void ppuSetBarPaletteIndex(Uint8* data, int x, Uint8 value) {
+	SDL_assert(value < 16);
+	SDL_assert(x < 8);
+	Uint8 mask = 0x80 >> x;
+	for (int i = 0; i < 4; i++)
+		data[i] = ((value & (1 << i)) == 0) ? (data[i] & ~mask) : (data[i] | mask);
+}
+
+void ppuPackPalette(Uint8 pIndex, Uint8* palette, Uint8 r, Uint8 g, Uint8 b, SDL_bool t) {
+	SDL_assert(pIndex < 16);
+
+	Uint8 paletteHigh = (r & 0xF8) | (g >> 6) | (t ? 0x04 : 0x00);
+	Uint8 paletteLow = (b & 0xF8) | ((g >> 3) & 0x07);
+
+	palette[2 * pIndex] = paletteLow;
+	palette[2 * pIndex + 1] = paletteHigh;
 }
 
 Uint32 bbGet(int x, int y) {
@@ -51,6 +97,34 @@ Uint32 heartbeatCallback(Uint32 interval, void* param) {
 
 int main(int argc, char** argv) {
 	int result = 0;
+	Uint8 palette[32];
+	ppuPackPalette(0x0, palette, 0x00, 0x00, 0x00, SDL_FALSE); // Black
+	ppuPackPalette(0x1, palette, 0x00, 0x00, 0xAA, SDL_FALSE); // Blue
+	ppuPackPalette(0x2, palette, 0x00, 0xAA, 0x00, SDL_FALSE); // Green
+	ppuPackPalette(0x3, palette, 0x00, 0xAA, 0xAA, SDL_FALSE); // Cyan
+	ppuPackPalette(0x4, palette, 0xAA, 0x00, 0x00, SDL_FALSE); // Red
+	ppuPackPalette(0x5, palette, 0xAA, 0x00, 0xAA, SDL_FALSE); // Magenta
+	ppuPackPalette(0x6, palette, 0xAA, 0x55, 0x00, SDL_FALSE); // Brown
+	ppuPackPalette(0x7, palette, 0xAA, 0xAA, 0xAA, SDL_FALSE); // Light gray
+	ppuPackPalette(0x8, palette, 0x55, 0x55, 0x55, SDL_FALSE); // Dark gray
+	ppuPackPalette(0x9, palette, 0x55, 0x55, 0xFF, SDL_FALSE); // Light blue
+	ppuPackPalette(0xA, palette, 0x55, 0xFF, 0x55, SDL_FALSE); // Light green
+	ppuPackPalette(0xB, palette, 0x55, 0xFF, 0xFF, SDL_FALSE); // Light cyan
+	ppuPackPalette(0xC, palette, 0xFF, 0x55, 0x55, SDL_FALSE); // Light red
+	ppuPackPalette(0xD, palette, 0xFF, 0x55, 0xFF, SDL_FALSE); // Light magenta
+	ppuPackPalette(0xE, palette, 0xFF, 0xFF, 0x55, SDL_FALSE); // Yellow
+	ppuPackPalette(0xF, palette, 0xFF, 0xFF, 0xFF, SDL_FALSE); // White
+
+	Uint8 bar[4];
+	ppuSetBarPaletteIndex(bar, 0x0, 12);
+	ppuSetBarPaletteIndex(bar, 0x1,  4);
+	ppuSetBarPaletteIndex(bar, 0x2,  2);
+	ppuSetBarPaletteIndex(bar, 0x3,  2);
+	ppuSetBarPaletteIndex(bar, 0x4,  3);
+	ppuSetBarPaletteIndex(bar, 0x5, 14);
+	ppuSetBarPaletteIndex(bar, 0x6, 11);
+	ppuSetBarPaletteIndex(bar, 0x7,  8);
+
 	if (SDL_Init(SDL_INIT_VIDEO) == 0) {
 		SDL_Window* window = SDL_CreateWindow(
 				"SnesGame",
@@ -63,7 +137,13 @@ int main(int argc, char** argv) {
 			if (surface != NULL) {
 				// Error check the lock/unlock/update
 				// Check the window surface format just in case it isn't 8bpp ARGB
-				bbClear(0x64, 0x95, 0xED);
+				for (int y = 0; y < 128; y++) {
+					for (int x = 0; x < 248; x++) {
+						ppuSetPixel(x, y, y >> 3, palette);
+					}
+				}
+				ppuDrawBar(80, 192, bar, palette, SDL_FALSE);
+				ppuDrawBar(80, 194, bar, palette, SDL_TRUE);
 				SDL_LockSurface(surface);
 				bbBlit((Uint32*)surface->pixels);
 				SDL_UnlockSurface(surface);
@@ -86,7 +166,7 @@ int main(int argc, char** argv) {
 						y = (y + 12) % (R_HEIGHT * 2);
 						int dX = x >= R_WIDTH ? (R_WIDTH * 2 - 1) - x : x;
 						int dY = y >= R_HEIGHT ? (R_HEIGHT * 2 - 1) - y : y;
-						bbSet(dX, dY, 0xFF, 0xFF, 0xFF);
+						bbSet(dX, dY, 0x80, 0x80, 0x80, SDL_TRUE);
 
 						SDL_LockSurface(surface);
 						bbBlit((Uint32*)surface->pixels);
