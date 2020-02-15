@@ -7,6 +7,15 @@ Uint8 bbR[248 * 248];
 Uint8 bbG[248 * 248];
 Uint8 bbB[248 * 248];
 
+void readGlyphList(char *filename, Uint8 *glyphlist) {
+	SDL_memset(glyphlist, 0, 8192);
+	SDL_RWops* rw = SDL_RWFromFile(filename, "r");
+	if (rw != NULL) {
+		SDL_RWread(rw, glyphlist, 8192, 1);
+		SDL_RWclose(rw);
+	}
+}
+
 void bbClear(Uint8 r, Uint8 g, Uint8 b) {
 	SDL_memset(bbR, r, 248 * 248);
 	SDL_memset(bbG, g, 248 * 248);
