@@ -23,6 +23,12 @@ void bbClear(Uint8 r, Uint8 g, Uint8 b) {
 }
 
 void bbSet(int x, int y, Uint8 r, Uint8 g, Uint8 b, SDL_bool t) {
+	SDL_assert(y >= 0);
+	SDL_assert(y < 248);
+	if (x < 0 || x >= 248) {
+		return;
+	}
+
 	int i = (y * 248) + x;
 	bbR[i] = (r >> 1) + ((t ? bbR[i] : r) >> 1);
 	bbG[i] = (g >> 1) + ((t ? bbG[i] : g) >> 1);
@@ -188,6 +194,11 @@ int main(int argc, char** argv) {
 						ppuSetPixel(x, y, y >> 3, palette);
 					}
 				}
+
+				ppuDrawSprite(-3, -3, 2, 2, 1, glyphList, palette, SDL_FALSE, SDL_FALSE);
+
+				ppuDrawSprite(244, 244, 2, 2, 1, glyphList, palette, SDL_FALSE, SDL_FALSE);
+
 				ppuDrawGlyph(80, 192, glyphList, palette, SDL_FALSE, SDL_FALSE);
 				ppuDrawGlyph(89, 192, glyphList, palette, SDL_FALSE, SDL_TRUE);
 				ppuDrawGlyph(80, 201, glyphList, palette, SDL_TRUE, SDL_FALSE);
