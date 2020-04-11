@@ -67,6 +67,18 @@ void ppuDrawGlyph(int x, int y, Uint8* data, Uint8* palette, SDL_bool vFlip, SDL
 	}
 }
 
+// Probably won't end up using this in the final version, as it will slice the data by
+// scanline (desination data) instead of sprites (source data)
+void ppuDrawSprite(int x, int y, int width, int height, Uint8 glyphIndex, Uint8* data, Uint8* palette) {
+	for (int row = 0; row < height; row++) {
+		Uint8 glyphY = ((glyphIndex / 16) + row) % 16;
+		for (int col = 0; col < width; col++) {
+			Uint8 glyphX = ((glyphIndex % 16) + col) % 16;
+			ppuDrawGlyph(x + 8 * col, y + 8 * row, &data[32 * (glyphY * 16 + glyphX)], palette, SDL_FALSE, SDL_FALSE);
+		}
+	}
+}
+
 void ppuSetBarPaletteIndex(Uint8* data, int x, Uint8 value) {
 	SDL_assert(value < 16);
 	SDL_assert(x < 8);
@@ -143,6 +155,9 @@ int main(int argc, char** argv) {
 
 	Uint8 glyph_F[32] = { 0x7F, 0x7F, 0x7F, 0x7F, 0x03, 0x03, 0x03, 0xFF, 0x03, 0x03, 0x03, 0x07, 0x3F, 0x3F, 0x3F, 0x3F, 0x03, 0x03, 0x03, 0x7F, 0x03, 0x03, 0x03, 0x07, 0x03, 0x03, 0x03, 0x07, 0x00, 0x00, 0x00, 0x06 };
 
+	Uint8 glyphList[8192];
+	readGlyphList("..\\resources\\default.glyphset", glyphList);
+
 	if (SDL_Init(SDL_INIT_VIDEO) == 0) {
 		SDL_Window* window = SDL_CreateWindow(
 				"SnesGame",
@@ -160,10 +175,13 @@ int main(int argc, char** argv) {
 						ppuSetPixel(x, y, y >> 3, palette);
 					}
 				}
-				ppuDrawGlyph(80, 192, glyph_F, palette, SDL_FALSE, SDL_FALSE);
-				ppuDrawGlyph(89, 192, glyph_F, palette, SDL_FALSE, SDL_TRUE);
-				ppuDrawGlyph(80, 201, glyph_F, palette, SDL_TRUE, SDL_FALSE);
-				ppuDrawGlyph(89, 201, glyph_F, palette, SDL_TRUE, SDL_TRUE);
+				ppuDrawGlyph(80, 192, glyphList, palette, SDL_FALSE, SDL_FALSE);
+				ppuDrawGlyph(89, 192, glyphList, palette, SDL_FALSE, SDL_TRUE);
+				ppuDrawGlyph(80, 201, glyphList, palette, SDL_TRUE, SDL_FALSE);
+				ppuDrawGlyph(89, 201, glyphList, palette, SDL_TRUE, SDL_TRUE);
+
+				ppuDrawSprite(3, 1, 2, 2, 1, glyphList, palette);
+
 				SDL_LockSurface(surface);
 				bbBlit((Uint32*)surface->pixels);
 				SDL_UnlockSurface(surface);
