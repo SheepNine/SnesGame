@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferenceImplementations", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scribe", "Scribe\Scribe.csproj", "{0346BE8F-D605-4627-B144-F1409CB53EE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceCompiler", "ResourceCompiler\ResourceCompiler.csproj", "{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,18 @@ Global
 		{0346BE8F-D605-4627-B144-F1409CB53EE4}.Release|x64.Build.0 = Release|Any CPU
 		{0346BE8F-D605-4627-B144-F1409CB53EE4}.Release|x86.ActiveCfg = Release|Any CPU
 		{0346BE8F-D605-4627-B144-F1409CB53EE4}.Release|x86.Build.0 = Release|Any CPU
+		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Debug|x64.Build.0 = Debug|Any CPU
+		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Debug|x86.Build.0 = Debug|Any CPU
+		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Release|x64.ActiveCfg = Release|Any CPU
+		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Release|x64.Build.0 = Release|Any CPU
+		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Release|x86.ActiveCfg = Release|Any CPU
+		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
