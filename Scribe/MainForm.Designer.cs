@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.glyphPanel = new System.Windows.Forms.Control();
-            this.palettePanel = new System.Windows.Forms.Control();
+            this.glyphPanel = new Scribe.DoubleBufferedControl();
+            this.palettePanel = new Scribe.DoubleBufferedControl();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -80,8 +80,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Control glyphPanel;
-        private System.Windows.Forms.Control palettePanel;
+        private Scribe.DoubleBufferedControl glyphPanel;
+        private Scribe.DoubleBufferedControl palettePanel;
         private System.Windows.Forms.TextBox textBox1;
     }
 }
