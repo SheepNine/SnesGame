@@ -57,8 +57,8 @@ void ppuDrawBar(int x, int y, Uint8* data, Uint8* palette, SDL_bool hFlip) {
 	}
 }
 
-// Probably won't end up using this in the final version, as it will slice the data by
-// scanline (desination data) instead of sprites (source data)
+// Probably won't end up using this in the final version, as the primitives will be ppuScanSprite
+// and ppuScanBackground
 void ppuDrawGlyph(int x, int y, Uint8* data, Uint8* palette, SDL_bool vFlip, SDL_bool hFlip) {
 	Uint8 barIndex = vFlip ? 7 * 4 : 0;
 	for (int i = 0; i < 8; i++) {
@@ -67,15 +67,28 @@ void ppuDrawGlyph(int x, int y, Uint8* data, Uint8* palette, SDL_bool vFlip, SDL
 	}
 }
 
+void ppuScanSprite(int scanline, int x, int y, int width, int height, Uint8 glyphIndex, Uint8* data, Uint8* palette, SDL_bool vFlip, SDL_bool hFlip) {
+	int localY = vFlip ? ((y + 8 * height) - (scanline + 1)) : (scanline - y);
+
+	if (localY < 0 || localY >= 8 * height)
+		return;
+
+	Uint8 glyphRowIndex = glyphIndex + 16 * (localY / 8);
+	Uint8 glyphBarIndex = localY % 8;
+
+
+	int localX = hFlip ? (x + 8 * (width - 1)) : (x);
+	for (int col = 0; col < width; col++) {
+		ppuDrawBar(localX, scanline, &data[32 * ((glyphRowIndex + col) % 256) + 4 * glyphBarIndex], palette, hFlip);
+		localX = hFlip ? localX - 8 : localX + 8;
+	}
+}
+
 // Probably won't end up using this in the final version, as it will slice the data by
 // scanline (desination data) instead of sprites (source data)
-void ppuDrawSprite(int x, int y, int width, int height, Uint8 glyphIndex, Uint8* data, Uint8* palette) {
-	for (int row = 0; row < height; row++) {
-		Uint8 glyphY = ((glyphIndex / 16) + row) % 16;
-		for (int col = 0; col < width; col++) {
-			Uint8 glyphX = ((glyphIndex % 16) + col) % 16;
-			ppuDrawGlyph(x + 8 * col, y + 8 * row, &data[32 * (glyphY * 16 + glyphX)], palette, SDL_FALSE, SDL_FALSE);
-		}
+void ppuDrawSprite(int x, int y, int width, int height, Uint8 glyphIndex, Uint8* glyphList, Uint8* palette, SDL_bool vFlip, SDL_bool hFlip) {
+	for (int scanline = 0; scanline < 248; scanline++) {
+		ppuScanSprite(scanline, x, y, width, height, glyphIndex, glyphList, palette, vFlip, hFlip);
 	}
 }
 
@@ -180,7 +193,10 @@ int main(int argc, char** argv) {
 				ppuDrawGlyph(80, 201, glyphList, palette, SDL_TRUE, SDL_FALSE);
 				ppuDrawGlyph(89, 201, glyphList, palette, SDL_TRUE, SDL_TRUE);
 
-				ppuDrawSprite(3, 1, 2, 2, 1, glyphList, palette);
+				ppuDrawSprite( 3,  1, 2, 2, 1, glyphList, palette, SDL_FALSE, SDL_FALSE);
+				ppuDrawSprite(20,  1, 2, 2, 1, glyphList, palette, SDL_FALSE,  SDL_TRUE);
+				ppuDrawSprite( 3, 18, 2, 2, 1, glyphList, palette,  SDL_TRUE, SDL_FALSE);
+				ppuDrawSprite(20, 18, 2, 2, 1, glyphList, palette,  SDL_TRUE,  SDL_TRUE);
 
 				SDL_LockSurface(surface);
 				bbBlit((Uint32*)surface->pixels);
