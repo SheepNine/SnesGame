@@ -45,7 +45,7 @@ void ppuSetPixel(int x, int y, Uint8 pIndex, Uint8* palette) {
 }
 
 void ppuDrawBar(int x, int y, Uint8* data, Uint8* palette, SDL_bool hFlip) {
-	Uint8 mask = hFlip ? 0x01 : 0x80;
+	Uint8 mask = hFlip ? 0x80 : 0x01;
 	for (int i = 0; i < 8; i++) {
 		Uint8 pIndex = 0;
 		if ((data[0] & mask) != 0) pIndex |= 1;
@@ -53,7 +53,7 @@ void ppuDrawBar(int x, int y, Uint8* data, Uint8* palette, SDL_bool hFlip) {
 		if ((data[2] & mask) != 0) pIndex |= 4;
 		if ((data[3] & mask) != 0) pIndex |= 8;
 		ppuSetPixel(x + i, y, pIndex, palette);
-		mask = hFlip ? mask << 1 : mask >> 1;
+		mask = hFlip ? mask >> 1 : mask << 1;
 	}
 }
 
@@ -141,13 +141,7 @@ int main(int argc, char** argv) {
 	ppuPackPalette(0xE, palette, 0xFF, 0xFF, 0x55, SDL_FALSE); // Yellow
 	ppuPackPalette(0xF, palette, 0xFF, 0xFF, 0xFF, SDL_FALSE); // White
 
-	Uint8 glyph[32];
-	SDL_memset(glyph, 0xFF, 32);
-	for (int i = 0; i < 8; i++) {
-		ppuSetGlyphPaletteIndex(glyph, i, 0, 0x04);
-		ppuSetGlyphPaletteIndex(glyph, 0, i, 0x02);
-		ppuSetGlyphPaletteIndex(glyph, i, i, 0x09);
-	}
+	Uint8 glyph_F[32] = { 0x7F, 0x7F, 0x7F, 0x7F, 0x03, 0x03, 0x03, 0xFF, 0x03, 0x03, 0x03, 0x07, 0x3F, 0x3F, 0x3F, 0x3F, 0x03, 0x03, 0x03, 0x7F, 0x03, 0x03, 0x03, 0x07, 0x03, 0x03, 0x03, 0x07, 0x00, 0x00, 0x00, 0x06 };
 
 	if (SDL_Init(SDL_INIT_VIDEO) == 0) {
 		SDL_Window* window = SDL_CreateWindow(
@@ -166,10 +160,10 @@ int main(int argc, char** argv) {
 						ppuSetPixel(x, y, y >> 3, palette);
 					}
 				}
-				ppuDrawGlyph(80, 192, glyph, palette, SDL_FALSE, SDL_FALSE);
-				ppuDrawGlyph(89, 192, glyph, palette, SDL_FALSE, SDL_TRUE);
-				ppuDrawGlyph(80, 201, glyph, palette, SDL_TRUE, SDL_FALSE);
-				ppuDrawGlyph(89, 201, glyph, palette, SDL_TRUE, SDL_TRUE);
+				ppuDrawGlyph(80, 192, glyph_F, palette, SDL_FALSE, SDL_FALSE);
+				ppuDrawGlyph(89, 192, glyph_F, palette, SDL_FALSE, SDL_TRUE);
+				ppuDrawGlyph(80, 201, glyph_F, palette, SDL_TRUE, SDL_FALSE);
+				ppuDrawGlyph(89, 201, glyph_F, palette, SDL_TRUE, SDL_TRUE);
 				SDL_LockSurface(surface);
 				bbBlit((Uint32*)surface->pixels);
 				SDL_UnlockSurface(surface);
