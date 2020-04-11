@@ -4,7 +4,7 @@ using System;
 
 namespace ReferenceImplementations
 {
-    class Glyph
+    public class Glyph
     {
         private byte[] data;
 
@@ -47,12 +47,20 @@ namespace ReferenceImplementations
 
             if ((value & 0x1) != 0)
                 data[4 * y + 0] |= mask;
+            else
+                data[4 * y + 0] &= (byte)~mask;
             if ((value & 0x2) != 0)
                 data[4 * y + 1] |= mask;
+            else
+                data[4 * y + 1] &= (byte)~mask;
             if ((value & 0x4) != 0)
                 data[4 * y + 2] |= mask;
+            else
+                data[4 * y + 2] &= (byte)~mask;
             if ((value & 0x8) != 0)
                 data[4 * y + 3] |= mask;
+            else
+                data[4 * y + 3] &= (byte)~mask;
         }
 
         public IEnumerable<byte> Bytes

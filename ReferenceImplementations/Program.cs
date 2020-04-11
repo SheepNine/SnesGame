@@ -7,6 +7,7 @@ namespace ReferenceImplementations
     {
         static void Main(string[] args)
         {
+            GlyphTests.SetReset();
             GlyphTests.AllZero();
             GlyphTests.AllOne();
             GlyphTests.AllTwo();
@@ -34,6 +35,15 @@ namespace ReferenceImplementations
             sut.SetIndex(x, y, value);
             if (sut.GetIndex(x, y) != value)
                 System.Diagnostics.Debugger.Break();
+        }
+
+
+        public static void SetReset()
+        {
+            var sut = new Glyph();
+            WriteAndRead(sut, 0, 0, 0);
+            WriteAndRead(sut, 0, 0, 15);
+            WriteAndRead(sut, 0, 0, 0);
         }
 
         public static void AllZero()
