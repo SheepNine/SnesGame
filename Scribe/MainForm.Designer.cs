@@ -40,6 +40,8 @@
             this.glyphPanel.Size = new System.Drawing.Size(256, 256);
             this.glyphPanel.TabIndex = 0;
             this.glyphPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.glyphPanel_Paint);
+            this.glyphPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.glyphPanel_MouseDown);
+            this.glyphPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.glyphPanel_MouseMove);
             this.glyphPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.glyphPanel_MouseUp);
             // 
             // palettePanel

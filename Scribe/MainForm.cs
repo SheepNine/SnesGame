@@ -71,12 +71,7 @@ namespace Scribe
 
         private void glyphPanel_MouseUp(object sender, MouseEventArgs e)
         {
-            var x = Math.Max(0, Math.Min(7, e.X / 32));
-            var y = Math.Max(0, Math.Min(7, e.Y / 32));
-
-            glyph.SetIndex(x, y, activeColorIndex);
-            glyphPanel.Invalidate();
-            UpdateLiteralText();
+            PaintActiveColor(e);
         }
 
         private void UpdateLiteralText()
@@ -84,6 +79,32 @@ namespace Scribe
             textBox1.Text = "Uint8 data[32] = { "
                 + string.Join(", ", glyph.Bytes.Select(b => string.Format("0x{0:X2}", b)))
                 + " };";
+        }
+
+        private void glyphPanel_MouseDown(object sender, MouseEventArgs e)
+        {
+            PaintActiveColor(e);
+        }
+
+        private void glyphPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            PaintActiveColor(e);
+        }
+
+        private void PaintActiveColor(MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.None)
+                return;
+
+            var x = Math.Max(0, Math.Min(7, e.X / 32));
+            var y = Math.Max(0, Math.Min(7, e.Y / 32));
+
+            if (glyph.GetIndex(x, y) == activeColorIndex)
+                return;
+
+            glyph.SetIndex(x, y, activeColorIndex);
+            glyphPanel.Invalidate();
+            UpdateLiteralText();
         }
     }
 }
