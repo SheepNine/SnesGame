@@ -1,11 +1,10 @@
 #include "SDL.h"
 #include <stdio.h>
+#include "bb.h"
 
 // --- BackBuffer ---
 
-Uint8 bbR[248 * 248];
-Uint8 bbG[248 * 248];
-Uint8 bbB[248 * 248];
+hBB bb;
 
 void readGlyphList(char *filename, Uint8 *glyphlist) {
 	SDL_memset(glyphlist, 0, 8192);
@@ -14,25 +13,6 @@ void readGlyphList(char *filename, Uint8 *glyphlist) {
 		SDL_RWread(rw, glyphlist, 8192, 1);
 		SDL_RWclose(rw);
 	}
-}
-
-void bbClear(Uint8 r, Uint8 g, Uint8 b) {
-	SDL_memset(bbR, r, 248 * 248);
-	SDL_memset(bbG, g, 248 * 248);
-	SDL_memset(bbB, b, 248 * 248);
-}
-
-void bbSet(int x, int y, Uint8 r, Uint8 g, Uint8 b, SDL_bool t) {
-	SDL_assert(y >= 0);
-	SDL_assert(y < 248);
-	if (x < 0 || x >= 248) {
-		return;
-	}
-
-	int i = (y * 248) + x;
-	bbR[i] = (r >> 1) + ((t ? bbR[i] : r) >> 1);
-	bbG[i] = (g >> 1) + ((t ? bbG[i] : g) >> 1);
-	bbB[i] = (b >> 1) + ((t ? bbB[i] : b) >> 1);
 }
 
 void ppuSetPixel(int x, int y, Uint8 pIndex, Uint8* palette) {
@@ -47,7 +27,7 @@ void ppuSetPixel(int x, int y, Uint8 pIndex, Uint8* palette) {
 	paletteLow <<= 3;
 	Uint8 g = (paletteHigh & 0xC0) | (paletteLow & 0x38);
 
-	bbSet(x, y, r, g, b, a);
+	setDot_BB(bb, x, y, r, g, b, a);
 }
 
 void ppuDrawBar(int x, int y, Uint8* data, Uint8* palette, SDL_bool hFlip) {
@@ -123,17 +103,12 @@ void ppuPackPalette(Uint8 pIndex, Uint8* palette, Uint8 r, Uint8 g, Uint8 b, SDL
 	palette[2 * pIndex + 1] = paletteHigh;
 }
 
-Uint32 bbGet(int x, int y) {
-	int i = (y * 248) + x;
-	return (bbR[i] << 16) | (bbG[i] << 8) | (bbB[i]);
-}
-
 void bbBlit(Uint32* dest) {
 	int i = 0;
 	for (int y = 0; y < 248; y++) {
 		for (int x = 0; x < 248; x++) {
 			int i = (y * 248) + x;
-			dest[i] = bbGet(x, y);
+			dest[i] = getDot_BB(bb, x, y);
 		}
 	}
 }
@@ -154,6 +129,8 @@ Uint32 heartbeatCallback(Uint32 interval, void* param) {
 
 int main(int argc, char** argv) {
 	int result = 0;
+	bb = creat_BB();
+
 	Uint8 palette[32];
 	ppuPackPalette(0x0, palette, 0x00, 0x00, 0x00, SDL_FALSE); // Black
 	ppuPackPalette(0x1, palette, 0x00, 0x00, 0xAA, SDL_FALSE); // Blue
@@ -231,7 +208,7 @@ int main(int argc, char** argv) {
 						y = (y + 12) % (R_HEIGHT * 2);
 						int dX = x >= R_WIDTH ? (R_WIDTH * 2 - 1) - x : x;
 						int dY = y >= R_HEIGHT ? (R_HEIGHT * 2 - 1) - y : y;
-						bbSet(dX, dY, 0x80, 0x80, 0x80, SDL_TRUE);
+						setDot_BB(bb, dX, dY, 0x80, 0x80, 0x80, SDL_TRUE);
 
 						SDL_LockSurface(surface);
 						bbBlit((Uint32*)surface->pixels);
@@ -251,5 +228,7 @@ int main(int argc, char** argv) {
 		fprintf(stderr, "Unable to initialize SDL: %s\n", SDL_GetError());
 		result = 1;
 	}
+
+	destr_BB(bb);
 	return result;
 }
