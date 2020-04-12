@@ -15,40 +15,15 @@ void readGlyphList(char *filename, Uint8 *glyphlist) {
 	}
 }
 
-void ppuSetPixel(int x, int y, Uint8 pIndex, Uint8* palette) {
-	SDL_assert(pIndex < 16);
-	Uint8 paletteLow = palette[pIndex * 2];
-	Uint8 paletteHigh = palette[pIndex * 2 + 1];
-
-	SDL_bool a = (paletteHigh & 0x4) != 0;
-	Uint8 r = paletteHigh & 0xF8;
-	paletteHigh <<= 6;
-	Uint8 b = paletteLow & 0xF8;
-	paletteLow <<= 3;
-	Uint8 g = (paletteHigh & 0xC0) | (paletteLow & 0x38);
-
-	setDot_BB(bb, x, y, r, g, b, a);
-}
-
-void ppuDrawBar(int x, int y, Uint8* data, Uint8* palette, SDL_bool hFlip) {
-	Uint8 mask = hFlip ? 0x80 : 0x01;
-	for (int i = 0; i < 8; i++) {
-		Uint8 pIndex = 0;
-		if ((data[0] & mask) != 0) pIndex |= 1;
-		if ((data[1] & mask) != 0) pIndex |= 2;
-		if ((data[2] & mask) != 0) pIndex |= 4;
-		if ((data[3] & mask) != 0) pIndex |= 8;
-		ppuSetPixel(x + i, y, pIndex, palette);
-		mask = hFlip ? mask >> 1 : mask << 1;
-	}
-}
-
 // Probably won't end up using this in the final version, as the primitives will be ppuScanSprite
 // and ppuScanBackground
 void ppuDrawGlyph(int x, int y, Uint8* data, Uint8* palette, SDL_bool vFlip, SDL_bool hFlip) {
 	Uint8 barIndex = vFlip ? 7 * 4 : 0;
+
 	for (int i = 0; i < 8; i++) {
-		ppuDrawBar(x, y + i, &data[barIndex], palette, hFlip);
+		hSL sl = creat_SL(bb, y + i);
+		scanBar_SL(sl, data + barIndex, palette, x, hFlip);
+		destr_SL(sl);
 		barIndex = vFlip ? barIndex - 4 : barIndex + 4;
 	}
 }
@@ -65,7 +40,10 @@ void ppuScanSprite(int scanline, int x, int y, int width, int height, Uint8 glyp
 
 	int localX = hFlip ? (x + 8 * (width - 1)) : (x);
 	for (int col = 0; col < width; col++) {
-		ppuDrawBar(localX, scanline, &data[32 * ((glyphRowIndex + col) % 256) + 4 * glyphBarIndex], palette, hFlip);
+		Uint8* bar = data + 32 * ((glyphRowIndex + col) % 256) + 4 * glyphBarIndex;
+		hSL sl = creat_SL(bb, scanline);
+		scanBar_SL(sl, bar, palette, localX, hFlip);
+		destr_SL(sl);
 		localX = hFlip ? localX - 8 : localX + 8;
 	}
 }
@@ -166,11 +144,6 @@ int main(int argc, char** argv) {
 			if (surface != NULL) {
 				// Error check the lock/unlock/update
 				// Check the window surface format just in case it isn't 8bpp ARGB
-				for (int y = 0; y < 128; y++) {
-					for (int x = 0; x < 248; x++) {
-						ppuSetPixel(x, y, y >> 3, palette);
-					}
-				}
 
 				ppuDrawSprite(-3, -3, 2, 2, 1, glyphList, palette, SDL_FALSE, SDL_FALSE);
 
