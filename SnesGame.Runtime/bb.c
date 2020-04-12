@@ -43,6 +43,8 @@ struct SL {
 	Uint8* r;
 	Uint8* g;
 	Uint8* b;
+	int minX;
+	int maxX;
 } SL;
 
 hSL creat_SL(hBB bb, int y) {
@@ -50,6 +52,8 @@ hSL creat_SL(hBB bb, int y) {
 	result->r = bb->r + __BB_DIM * y;
 	result->g = bb->g + __BB_DIM * y;
 	result->b = bb->b + __BB_DIM * y;
+	result->minX = 0;
+	result->maxX = __BB_DIM;
 	return result;
 }
 
@@ -57,8 +61,30 @@ destr_SL(hSL sl) {
 	SDL_free(sl);
 }
 
+void setClip_SL(hSL sl, Uint8 leftClip, Uint8 rightClip) {
+	sl->minX = 0;
+	sl->maxX = __BB_DIM - 1;
+
+	if ((leftClip & 0x80) == 0) {
+		sl->minX = SDL_max(sl->minX, leftClip & 0x7F);
+	}
+	else {
+		sl->maxX = SDL_min(sl->maxX, leftClip & 0x7F);
+	}
+
+	if ((rightClip & 0x80) == 0) {
+		sl->maxX = SDL_min(sl->maxX, __BB_DIM - 1 - (rightClip & 0x7F));
+	}
+	else {
+		sl->minX = SDL_max(sl->minX, __BB_DIM - 1 - (rightClip & 0x7F));
+	}
+}
+
 
 void setDot_SL(hSL sl, int x, Uint8 r, Uint8 g, Uint8 b, SDL_bool t) {
+	if (x < sl->minX || x > sl->maxX)
+		return;
+
 	sl->r[x] = (r >> 1) + ((t ? sl->r[x] : r) >> 1);
 	sl->g[x] = (g >> 1) + ((t ? sl->g[x] : g) >> 1);
 	sl->b[x] = (b >> 1) + ((t ? sl->b[x] : b) >> 1);
@@ -79,6 +105,9 @@ void _setDot_SL(hSL sl, int x, Uint8 colorIndex, Uint8* swatch) {
 }
 
 void scanBar_SL(hSL sl, Uint8* bar, Uint8* swatch, int x, SDL_bool hFlip) {
+	if (x + 7 < sl->minX || x > sl->maxX)
+		return;
+
 	int dX = 1;
 	if (hFlip) {
 		x += 7;
