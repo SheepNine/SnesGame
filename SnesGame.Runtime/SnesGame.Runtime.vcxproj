@@ -140,12 +140,14 @@
   <ItemGroup>
     <ClCompile Include="bb.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="mapper.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bb.h" />
+    <ClInclude Include="mapper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
