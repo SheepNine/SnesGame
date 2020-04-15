@@ -104,7 +104,7 @@ void _setDot_SL(hSL sl, int x, Uint8 colorIndex, Uint8* swatch) {
 	setDot_SL(sl, x, r, g, b, a);
 }
 
-void scanBar_SL(hSL sl, Uint8* bar, Uint8* swatch, int x, SDL_bool hFlip) {
+void scanBar_SL(hSL sl, Uint8* bar, Uint8* swatch, int x, SDL_bool hFlip, SDL_bool mask0) {
 	if (x + 7 < sl->minX || x > sl->maxX)
 		return;
 
@@ -121,7 +121,11 @@ void scanBar_SL(hSL sl, Uint8* bar, Uint8* swatch, int x, SDL_bool hFlip) {
 		if ((bar[1] & mask) != 0) colorIndex |= 2;
 		if ((bar[2] & mask) != 0) colorIndex |= 4;
 		if ((bar[3] & mask) != 0) colorIndex |= 8;
-		_setDot_SL(sl, x, colorIndex, swatch);
+
+		if (!mask0 || colorIndex != 0) {
+			_setDot_SL(sl, x, colorIndex, swatch);
+		}
+
 
 		mask <<= 1;
 		x += dX;

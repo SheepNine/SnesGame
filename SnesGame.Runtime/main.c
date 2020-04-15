@@ -1,10 +1,12 @@
 #include "SDL.h"
 #include <stdio.h>
 #include "bb.h"
+#include "mapper.h"
 
 // --- BackBuffer ---
 
 hBB bb;
+hMapper mapper;
 
 void readGlyphList(char *filename, Uint8 *glyphlist) {
 	SDL_memset(glyphlist, 0, 8192);
@@ -17,18 +19,18 @@ void readGlyphList(char *filename, Uint8 *glyphlist) {
 
 // Probably won't end up using this in the final version, as the primitives will be ppuScanSprite
 // and ppuScanBackground
-void ppuDrawGlyph(int x, int y, Uint8* data, Uint8* palette, SDL_bool vFlip, SDL_bool hFlip) {
-	Uint8 barIndex = vFlip ? 7 * 4 : 0;
+void ppuDrawGlyph(int x, int y, int glyph, Uint8* palette, SDL_bool vFlip, SDL_bool hFlip, SDL_bool mask0) {
+	Uint8 barIndex = vFlip ? 7 : 0;
 
 	for (int i = 0; i < 8; i++) {
 		hSL sl = creat_SL(bb, y + i);
-		scanBar_SL(sl, data + barIndex, palette, x, hFlip);
+		scanBar_SL(sl, getBar_Mapper(mapper, 0, glyph, barIndex), palette, x, hFlip, mask0);
 		destr_SL(sl);
-		barIndex = vFlip ? barIndex - 4 : barIndex + 4;
+		barIndex = vFlip ? barIndex - 1 : barIndex + 1;
 	}
 }
 
-void ppuScanSprite(int scanline, int x, int y, int width, int height, Uint8 glyphIndex, Uint8* data, Uint8* palette, SDL_bool vFlip, SDL_bool hFlip) {
+void ppuScanSprite(int scanline, int x, int y, int width, int height, Uint8 glyphIndex, Uint8* palette, SDL_bool vFlip, SDL_bool hFlip, SDL_bool mask0) {
 	int localY = vFlip ? ((y + 8 * height) - (scanline + 1)) : (scanline - y);
 
 	if (localY < 0 || localY >= 8 * height)
@@ -40,9 +42,9 @@ void ppuScanSprite(int scanline, int x, int y, int width, int height, Uint8 glyp
 
 	int localX = hFlip ? (x + 8 * (width - 1)) : (x);
 	for (int col = 0; col < width; col++) {
-		Uint8* bar = data + 32 * ((glyphRowIndex + col) % 256) + 4 * glyphBarIndex;
+		Uint8 glyph = glyphRowIndex + col;
 		hSL sl = creat_SL(bb, scanline);
-		scanBar_SL(sl, bar, palette, localX, hFlip);
+		scanBar_SL(sl, getBar_Mapper(mapper, 0, glyph, glyphBarIndex), palette, localX, hFlip, mask0);
 		destr_SL(sl);
 		localX = hFlip ? localX - 8 : localX + 8;
 	}
@@ -50,9 +52,9 @@ void ppuScanSprite(int scanline, int x, int y, int width, int height, Uint8 glyp
 
 // Probably won't end up using this in the final version, as it will slice the data by
 // scanline (desination data) instead of sprites (source data)
-void ppuDrawSprite(int x, int y, int width, int height, Uint8 glyphIndex, Uint8* glyphList, Uint8* palette, SDL_bool vFlip, SDL_bool hFlip) {
+void ppuDrawSprite(int x, int y, int width, int height, Uint8 glyphIndex, Uint8* palette, SDL_bool vFlip, SDL_bool hFlip, SDL_bool mask0) {
 	for (int scanline = 0; scanline < 248; scanline++) {
-		ppuScanSprite(scanline, x, y, width, height, glyphIndex, glyphList, palette, vFlip, hFlip);
+		ppuScanSprite(scanline, x, y, width, height, glyphIndex, palette, vFlip, hFlip, mask0);
 	}
 }
 
@@ -108,6 +110,8 @@ Uint32 heartbeatCallback(Uint32 interval, void* param) {
 int main(int argc, char** argv) {
 	int result = 0;
 	bb = creat_BB();
+	fill_BB(bb, 128, 128, 128);
+	mapper = creat_Mapper(1);
 
 	Uint8 palette[32];
 	ppuPackPalette(0x0, palette, 0x00, 0x00, 0x00, SDL_FALSE); // Black
@@ -131,6 +135,7 @@ int main(int argc, char** argv) {
 
 	Uint8 glyphList[8192];
 	readGlyphList("..\\resources\\default.glyphset", glyphList);
+	loadPage_Mapper(mapper, 0, glyphList);
 
 	if (SDL_Init(SDL_INIT_VIDEO) == 0) {
 		SDL_Window* window = SDL_CreateWindow(
@@ -145,19 +150,19 @@ int main(int argc, char** argv) {
 				// Error check the lock/unlock/update
 				// Check the window surface format just in case it isn't 8bpp ARGB
 
-				ppuDrawSprite(-3, -3, 2, 2, 1, glyphList, palette, SDL_FALSE, SDL_FALSE);
+				ppuDrawSprite(-3, -3, 2, 2, 1, palette, SDL_FALSE, SDL_FALSE, SDL_FALSE);
 
-				ppuDrawSprite(244, 244, 2, 2, 1, glyphList, palette, SDL_FALSE, SDL_FALSE);
+				ppuDrawSprite(244, 244, 2, 2, 1, palette, SDL_FALSE, SDL_FALSE, SDL_FALSE);
 
-				ppuDrawGlyph(80, 192, glyphList, palette, SDL_FALSE, SDL_FALSE);
-				ppuDrawGlyph(89, 192, glyphList, palette, SDL_FALSE, SDL_TRUE);
-				ppuDrawGlyph(80, 201, glyphList, palette, SDL_TRUE, SDL_FALSE);
-				ppuDrawGlyph(89, 201, glyphList, palette, SDL_TRUE, SDL_TRUE);
+				ppuDrawGlyph(80, 192, 17, palette, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+				ppuDrawGlyph(89, 192, 17, palette, SDL_FALSE, SDL_TRUE, SDL_FALSE);
+				ppuDrawGlyph(80, 201, 17, palette, SDL_TRUE, SDL_FALSE, SDL_FALSE);
+				ppuDrawGlyph(89, 201, 17, palette, SDL_TRUE, SDL_TRUE, SDL_TRUE);
 
-				ppuDrawSprite( 3,  1, 2, 2, 1, glyphList, palette, SDL_FALSE, SDL_FALSE);
-				ppuDrawSprite(20,  1, 2, 2, 1, glyphList, palette, SDL_FALSE,  SDL_TRUE);
-				ppuDrawSprite( 3, 18, 2, 2, 1, glyphList, palette,  SDL_TRUE, SDL_FALSE);
-				ppuDrawSprite(20, 18, 2, 2, 1, glyphList, palette,  SDL_TRUE,  SDL_TRUE);
+				ppuDrawSprite( 3,  1, 2, 2, 1, palette, SDL_FALSE, SDL_FALSE, SDL_FALSE);
+				ppuDrawSprite(20,  1, 2, 2, 1, palette, SDL_FALSE,  SDL_TRUE, SDL_TRUE);
+				ppuDrawSprite( 3, 18, 2, 2, 1, palette,  SDL_TRUE, SDL_FALSE, SDL_TRUE);
+				ppuDrawSprite(20, 18, 2, 2, 1, palette,  SDL_TRUE,  SDL_TRUE, SDL_FALSE);
 
 				SDL_LockSurface(surface);
 				bbBlit((Uint32*)surface->pixels);
@@ -202,6 +207,7 @@ int main(int argc, char** argv) {
 		result = 1;
 	}
 
+	destr_Mapper(mapper);
 	destr_BB(bb);
 	return result;
 }
