@@ -33,5 +33,5 @@ void switchBank_Mapper(hMapper mapper, int bank, int page) {
 }
 
 Uint8* getBar_Mapper(hMapper mapper, int bank, int glyph, int bar) {
-	return mapper->banks[bank] + 32 * glyph + 4 * bar;
+	return mapper->banks[bank] + 4 * (8 * glyph + bar);
 }

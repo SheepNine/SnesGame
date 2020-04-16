@@ -53,7 +53,7 @@ hSL creat_SL(hBB bb, int y) {
 	result->g = bb->g + __BB_DIM * y;
 	result->b = bb->b + __BB_DIM * y;
 	result->minX = 0;
-	result->maxX = __BB_DIM;
+	result->maxX = __BB_DIM - 1;
 	return result;
 }
 

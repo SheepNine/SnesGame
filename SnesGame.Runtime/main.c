@@ -2,11 +2,13 @@
 #include <stdio.h>
 #include "bb.h"
 #include "mapper.h"
+#include "ppu.h"
 
 // --- BackBuffer ---
 
 hBB bb;
 hMapper mapper;
+hPPU ppu;
 
 void readGlyphList(char *filename, Uint8 *glyphlist) {
 	SDL_memset(glyphlist, 0, 8192);
@@ -112,6 +114,7 @@ int main(int argc, char** argv) {
 	bb = creat_BB();
 	fill_BB(bb, 128, 128, 128);
 	mapper = creat_Mapper(1);
+	ppu = creat_PPU(mapper, NULL);
 
 	Uint8 palette[32];
 	ppuPackPalette(0x0, palette, 0x00, 0x00, 0x00, SDL_FALSE); // Black
@@ -136,6 +139,44 @@ int main(int argc, char** argv) {
 	Uint8 glyphList[8192];
 	readGlyphList("..\\resources\\default.glyphset", glyphList);
 	loadPage_Mapper(mapper, 0, glyphList);
+
+	setBgColor_PPU(ppu, 0, 0x0, 0x00, 0x00, 0x00, SDL_FALSE); // Black
+	setBgColor_PPU(ppu, 0, 0x1, 0x00, 0x00, 0xAA, SDL_FALSE); // Blue
+	setBgColor_PPU(ppu, 0, 0x2, 0x00, 0xAA, 0x00, SDL_FALSE); // Green
+	setBgColor_PPU(ppu, 0, 0x3, 0x00, 0xAA, 0xAA, SDL_FALSE); // Cyan
+	setBgColor_PPU(ppu, 0, 0x4, 0xAA, 0x00, 0x00, SDL_FALSE); // Red
+	setBgColor_PPU(ppu, 0, 0x5, 0xAA, 0x00, 0xAA, SDL_FALSE); // Magenta
+	setBgColor_PPU(ppu, 0, 0x6, 0xAA, 0x55, 0x00, SDL_FALSE); // Brown
+	setBgColor_PPU(ppu, 0, 0x7, 0xAA, 0xAA, 0xAA, SDL_FALSE); // Light gray
+	setBgColor_PPU(ppu, 0, 0x8, 0x55, 0x55, 0x55, SDL_FALSE); // Dark gray
+	setBgColor_PPU(ppu, 0, 0x9, 0x55, 0x55, 0xFF, SDL_FALSE); // Light blue
+	setBgColor_PPU(ppu, 0, 0xA, 0x55, 0xFF, 0x55, SDL_FALSE); // Light green
+	setBgColor_PPU(ppu, 0, 0xB, 0x55, 0xFF, 0xFF, SDL_FALSE); // Light cyan
+	setBgColor_PPU(ppu, 0, 0xC, 0xFF, 0x55, 0x55, SDL_FALSE); // Light red
+	setBgColor_PPU(ppu, 0, 0xD, 0xFF, 0x55, 0xFF, SDL_FALSE); // Light magenta
+	setBgColor_PPU(ppu, 0, 0xE, 0xFF, 0xFF, 0x55, SDL_FALSE); // Yellow
+	setBgColor_PPU(ppu, 0, 0xF, 0xFF, 0xFF, 0xFF, SDL_FALSE); // White
+
+	setBgControl_PPU(ppu, 0, 0, 0, SDL_TRUE, SDL_FALSE);
+
+	for (int y = 0; y < 32; y++) {
+		for (int x = 0; x < 32; x++) {
+			int glyph;
+			if (y > 28) {
+				glyph = 49;
+			}
+			else if (y == 28) {
+				glyph = 34;
+			}
+			else {
+				glyph = 16;
+			}
+
+			setBgBrush_PPU(ppu, 0, x, y, glyph, 0, 0, x % 4 == 1, x % 4 == 3, SDL_TRUE);
+		}
+	}
+
+	scan_PPU(ppu, bb);
 
 	if (SDL_Init(SDL_INIT_VIDEO) == 0) {
 		SDL_Window* window = SDL_CreateWindow(
@@ -207,6 +248,7 @@ int main(int argc, char** argv) {
 		result = 1;
 	}
 
+	destr_PPU(ppu);
 	destr_Mapper(mapper);
 	destr_BB(bb);
 	return result;
