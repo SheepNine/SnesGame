@@ -10,6 +10,8 @@ struct PPU {
 
 	Uint8 brushMaps[8192];
 	Uint8 bgControls[4];
+
+	Uint8 layerClips[16];
 } PPU;
 
 hPPU creat_PPU(hMapper bgMapper, hMapper spriteMapper) {
@@ -89,6 +91,38 @@ void setBgBrush_PPU(hPPU ppu, Uint8 layer, Uint8 x, Uint8 y, Uint8 glyphIndex, U
 
 void setBgControl_PPU(hPPU ppu, Uint8 layer, Uint8 dX, Uint8 dY, SDL_bool visible, SDL_bool topmost) {
 	_packBgControl_PPU(ppu->bgControls + layer, dX, dY, visible, topmost);
+}
+
+void _unpackHClips_PPU(Uint8* clipSet, Uint8* leftWidth, Uint8* rightWidth, SDL_bool* invertLeft, SDL_bool* invertRight) {
+	*leftWidth = clipSet[0] & 0x7F;
+	*invertLeft = (clipSet[0] & 0x80) == 0 ? SDL_FALSE : SDL_TRUE;
+	*rightWidth = clipSet[1] & 0x7F;
+	*invertRight = (clipSet[1] & 0x80) == 0 ? SDL_FALSE : SDL_TRUE;
+}
+
+void _unpackVClips_PPU(Uint8* clipSet, Uint8* topWidth, Uint8* bottomWidth, SDL_bool* invertTop, SDL_bool* invertBottom) {
+	*topWidth = clipSet[0] & 0x7F;
+	*invertTop = (clipSet[0] & 0x80) == 0 ? SDL_FALSE : SDL_TRUE;
+	*bottomWidth = clipSet[1] & 0x7F;
+	*invertBottom = (clipSet[1] & 0x80) == 0 ? SDL_FALSE : SDL_TRUE;
+}
+
+void _packClips_PPU(Uint8* clipSet, Uint8 leftWidth, Uint8 rightWidth, Uint8 topHeight, Uint8 bottomHeight,
+	    SDL_bool invertLeft, SDL_bool invertRight, SDL_bool invertTop, SDL_bool invertBottom) {
+	clipSet[0] = leftWidth | (invertLeft ? 0x80 : 0x00);
+	clipSet[1] = rightWidth | (invertRight ? 0x80 : 0x00);
+	clipSet[2] = topHeight | (invertTop ? 0x80 : 0x00);
+	clipSet[3] = bottomHeight | (invertBottom ? 0x80 : 0x00);
+}
+
+void setFullLayerClips_PPU(hPPU ppu, Uint8 layer, Uint8 leftWidth, Uint8 rightWidth, Uint8 topHeight, Uint8 bottomHeight,
+	    SDL_bool invertLeft, SDL_bool invertRight, SDL_bool invertTop, SDL_bool invertBottom) {
+	_packClips_PPU(ppu->layerClips + 4 * layer, leftWidth, rightWidth, topHeight, bottomHeight,
+		invertLeft, invertRight, invertTop, invertBottom);
+}
+
+void setLayerClips_PPU(hPPU ppu, Uint8 layer, Uint8 leftWidth, Uint8 rightWidth, Uint8 topHeight, Uint8 bottomHeight) {
+	setFullLayerClips_PPU(ppu, layer, leftWidth, rightWidth, topHeight, bottomHeight, SDL_FALSE, SDL_FALSE, SDL_FALSE, SDL_FALSE);
 }
 
 void scanLayer_PPU(hPPU ppu, Uint8 layer, int destScanline, hSL sl) {
