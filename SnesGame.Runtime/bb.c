@@ -37,6 +37,45 @@ void setDot_BB(hBB bb, int x, int y, Uint8 r, Uint8 g, Uint8 b, SDL_bool t) {
 	bb->b[i] = (b >> 1) + ((t ? bb->b[i] : b) >> 1);
 }
 
+struct BBC {
+	Uint8 minX;
+	Uint8 maxX;
+} BBC;
+
+hBBC creat_BBC() {
+	hBBC result = (hBBC)SDL_malloc(sizeof(BBC));
+	result->minX = 0;
+	result->maxX = __BB_DIM - 1;
+	return result;
+}
+
+void destr_BBC(hBBC bbc) {
+	SDL_free(bbc);
+}
+
+void setClip_BBC(hBBC bbc, Uint8 minClip, Uint8 maxClip) {
+	bbc->minX = 0;
+	bbc->maxX = __BB_DIM - 1;
+
+	if ((minClip & 0x80) == 0) {
+		bbc->minX = SDL_max(bbc->minX, minClip & 0x7F);
+	}
+	else {
+		bbc->maxX = SDL_min(bbc->maxX, minClip & 0x7F);
+	}
+
+	if ((maxClip & 0x80) == 0) {
+		bbc->maxX = SDL_min(bbc->maxX, __BB_DIM - 1 - (maxClip & 0x7F));
+	}
+	else {
+		bbc->minX = SDL_max(bbc->minX, __BB_DIM - 1 - (maxClip & 0x7F));
+	}
+}
+
+SDL_bool isClipped_BBC(hBBC bbc, int value) {
+	return value < bbc->minX || bbc->maxX < value;
+}
+
 
 
 struct SL {
@@ -44,8 +83,7 @@ struct SL {
 	Uint8* g;
 	Uint8* b;
 	Uint8 line;
-	int minX;
-	int maxX;
+	hBBC bbc;
 } SL;
 
 hSL creat_SL(hBB bb, Uint8 line) {
@@ -56,12 +94,12 @@ hSL creat_SL(hBB bb, Uint8 line) {
 	result->g = bb->g + __BB_DIM * line;
 	result->b = bb->b + __BB_DIM * line;
 	result->line = line;
-	result->minX = 0;
-	result->maxX = __BB_DIM - 1;
+	result->bbc = creat_BBC();
 	return result;
 }
 
 destr_SL(hSL sl) {
+	SDL_free(sl->bbc);
 	SDL_free(sl);
 }
 
@@ -70,27 +108,12 @@ Uint8 getLine_SL(hSL sl) {
 }
 
 void setClip_SL(hSL sl, Uint8 leftClip, Uint8 rightClip) {
-	sl->minX = 0;
-	sl->maxX = __BB_DIM - 1;
-
-	if ((leftClip & 0x80) == 0) {
-		sl->minX = SDL_max(sl->minX, leftClip & 0x7F);
-	}
-	else {
-		sl->maxX = SDL_min(sl->maxX, leftClip & 0x7F);
-	}
-
-	if ((rightClip & 0x80) == 0) {
-		sl->maxX = SDL_min(sl->maxX, __BB_DIM - 1 - (rightClip & 0x7F));
-	}
-	else {
-		sl->minX = SDL_max(sl->minX, __BB_DIM - 1 - (rightClip & 0x7F));
-	}
+	setClip_BBC(sl->bbc, leftClip, rightClip);
 }
 
 
 void setDot_SL(hSL sl, int x, Uint8 r, Uint8 g, Uint8 b, SDL_bool t) {
-	if (x < sl->minX || x > sl->maxX)
+	if (isClipped_BBC(sl->bbc, x))
 		return;
 
 	sl->r[x] = (r >> 1) + ((t ? sl->r[x] : r) >> 1);
@@ -113,9 +136,6 @@ void _setDot_SL(hSL sl, int x, Uint8 colorIndex, Uint8* swatch) {
 }
 
 void scanBar_SL(hSL sl, Uint8* bar, Uint8* swatch, int x, SDL_bool hFlip, SDL_bool mask0) {
-	if (x + 7 < sl->minX || x > sl->maxX)
-		return;
-
 	int dX = 1;
 	if (hFlip) {
 		x += 7;
@@ -133,7 +153,6 @@ void scanBar_SL(hSL sl, Uint8* bar, Uint8* swatch, int x, SDL_bool hFlip, SDL_bo
 		if (!mask0 || colorIndex != 0) {
 			_setDot_SL(sl, x, colorIndex, swatch);
 		}
-
 
 		mask <<= 1;
 		x += dX;

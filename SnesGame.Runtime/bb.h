@@ -23,3 +23,11 @@ void setClip_SL(hSL sl, Uint8 leftClip, Uint8 rightClip);
 
 void setDot_SL(hSL sl, int x, Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
 void scanBar_SL(hSL sl, Uint8* bar, Uint8* swatch, int x, SDL_bool hFlip, SDL_bool mask0);
+
+typedef struct BBC* hBBC;
+
+hBBC creat_BBC();
+void destr_BBC(hBBC bbc);
+
+void setClip_BBC(hBBC bbc, Uint8 minClip, Uint8 maxClip);
+SDL_bool isClipped_BBC(hBBC bbc, int value);
