@@ -51,8 +51,8 @@ void _unpackBrush_PPU(Uint8* brush, Uint8* glyphIndex, Uint8* bankIndex, Uint8* 
 	*mask0 = (brush[0] & 0x80) == 0 ? SDL_FALSE : SDL_TRUE;
 	*hFlip = (brush[0] & 0x40) == 0 ? SDL_FALSE : SDL_TRUE;
 	*vFlip = (brush[0] & 0x20) == 0 ? SDL_FALSE : SDL_TRUE;
-	*swatchIndex = (brush[0] & 0x18) >> 2;
-	*bankIndex = (brush[0] & 0x7);
+	*swatchIndex = (brush[0] & 0x1C) >> 2;
+	*bankIndex = (brush[0] & 0x3);
 	*glyphIndex = brush[1];
 }
 
@@ -275,7 +275,7 @@ void _scanSprites_PPU(hPPU ppu, Uint8 layer, int destScanLine, hSL sl) {
 						    _getSwatch_PPU(ppu->spritePalette, swatchIndex), destX, hFlip, mask0);
 
 					glyphIndex += 1;
-					destX += x;
+					destX += dX;
 				}
 			}
 		}

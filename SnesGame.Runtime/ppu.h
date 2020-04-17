@@ -23,4 +23,7 @@ void setFullLayerClips_PPU(hPPU ppu, Uint8 layer, Uint8 leftWidth, Uint8 rightWi
 
 void setLayerClips_PPU(hPPU ppu, Uint8 layer, Uint8 leftWidth, Uint8 rightWidth, Uint8 topHeight, Uint8 bottomHeight);
 
+void setSpriteBrush_PPU(hPPU ppu, Uint8 sprite, Uint8 glyphIndex, Uint8 bankIndex, Uint8 swatchIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);
+void setSpriteControl_PPU(hPPU ppu, Uint8 sprite, int x, int y, Uint8 sizeX, Uint8 sizeY, SDL_bool visible, Uint8 layer);
+
 void scan_PPU(hPPU ppu, hBB bb);
