@@ -204,7 +204,7 @@ void setSpriteControl_PPU(hPPU ppu, Uint8 sprite, int x, int y, Uint8 sizeX, Uin
 	_packSpriteControl_PPU(ppu->spriteControls + 3 * sprite, x, y, sizeX, sizeY, visible, layer);
 }
 
-void scanLayer_PPU(hPPU ppu, Uint8 layer, int destScanline, hSL sl) {
+void _scanBackground_PPU(hPPU ppu, Uint8 layer, int destScanline, hSL sl) {
 	Uint8 dX, dY;
 	SDL_bool visible, topmost;
 	_unpackBgControl_PPU(ppu->bgControls + layer, &dX, &dY, &visible, &topmost);
@@ -226,17 +226,71 @@ void scanLayer_PPU(hPPU ppu, Uint8 layer, int destScanline, hSL sl) {
 		_unpackBrush_PPU(brushBar, &glyphIndex, &bankIndex, &swatchIndex, &hFlip, &vFlip, &mask0);
 
 		scanBar_SL(sl, getBar_Mapper(ppu->bgMapper, bankIndex, glyphIndex, vFlip ? 7 - barIndex : barIndex),
-			_getSwatch_PPU(ppu->bgPalette, swatchIndex), destX, hFlip, mask0);
+			    _getSwatch_PPU(ppu->bgPalette, swatchIndex), destX, hFlip, mask0);
 
 		brushBar += 2;
 		destX += 8;
 	}
 }
 
+void _scanSprites_PPU(hPPU ppu, Uint8 layer, int destScanLine, hSL sl) {
+	Uint8* brush = ppu->spriteBrushes;
+	Uint8* control = ppu->spriteControls;
+
+	for (int i = 0; i < 124; i++) {
+		int x, y;
+		Uint8 sizeX, sizeY, spriteLayer;
+		SDL_bool visible;
+		_unpackSpriteControl_PPU(control, &x, &y, &sizeX, &sizeY, &visible, &spriteLayer);
+
+		if (visible && spriteLayer == layer) {
+			Uint8 glyphIndex, bankIndex, swatchIndex;
+			SDL_bool hFlip, vFlip, mask0;
+			_unpackBrush_PPU(brush, &glyphIndex, &bankIndex, &swatchIndex, &hFlip, &vFlip, &mask0);
+
+			int localY;
+			if (vFlip) {
+				localY = (y + 8 * sizeY) - (destScanLine + 1);
+			}
+			else {
+				localY = destScanLine - y;
+			}
+			if (localY >= 0 && localY < 8 * sizeY) {
+				Uint8 bar = localY % 8;
+				glyphIndex += 16 * (localY / 8);
+
+				int destX;
+				int dX;
+				if (hFlip) {
+					destX = x + 8 * (sizeX - 1);
+					dX = -8;
+				}
+				else {
+					destX = x;
+					dX = 8;
+				}
+
+				for (int i = 0; i < sizeX; i++) {
+					scanBar_SL(sl, getBar_Mapper(ppu->spriteMapper, bankIndex, glyphIndex, bar),
+						    _getSwatch_PPU(ppu->spritePalette, swatchIndex), destX, hFlip, mask0);
+
+					glyphIndex += 1;
+					destX += x;
+				}
+			}
+		}
+
+		brush += 2;
+		control += 3;
+	}
+}
+
 void scan_PPU(hPPU ppu, hBB bb) {
 	for (int i = 0; i < 248; i++) {
 		hSL sl = creat_SL(bb, i);
-		scanLayer_PPU(ppu, 0, i, sl);
+		_scanBackground_PPU(ppu, 0, i, sl);
+		_scanSprites_PPU(ppu, 0, i, sl);
+		
 		destr_SL(sl);
 	}
 }
