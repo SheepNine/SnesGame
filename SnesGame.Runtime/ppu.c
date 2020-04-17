@@ -12,6 +12,9 @@ struct PPU {
 	Uint8 bgControls[4];
 
 	Uint8 layerClips[16];
+
+	Uint8 spriteBrushes[248];
+	Uint8 spriteControls[372];
 } PPU;
 
 hPPU creat_PPU(hMapper bgMapper, hMapper spriteMapper) {
@@ -123,6 +126,82 @@ void setFullLayerClips_PPU(hPPU ppu, Uint8 layer, Uint8 leftWidth, Uint8 rightWi
 
 void setLayerClips_PPU(hPPU ppu, Uint8 layer, Uint8 leftWidth, Uint8 rightWidth, Uint8 topHeight, Uint8 bottomHeight) {
 	setFullLayerClips_PPU(ppu, layer, leftWidth, rightWidth, topHeight, bottomHeight, SDL_FALSE, SDL_FALSE, SDL_FALSE, SDL_FALSE);
+}
+
+void setSpriteBrush_PPU(hPPU ppu, Uint8 sprite, Uint8 glyphIndex, Uint8 bankIndex, Uint8 swatchIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0) {
+	_packBrush_PPU(ppu->spriteBrushes + 2 * sprite, glyphIndex, bankIndex, swatchIndex, hFlip, vFlip, mask0);
+}
+
+Uint8 _packSpriteSize_PPU(Uint8 sizeX, Uint8 sizeY) {
+	if (sizeX == 1 && sizeY == 1) return 0;
+	if (sizeX == 2 && sizeY == 2) return 1;
+	if (sizeX == 4 && sizeY == 4) return 2;
+	if (sizeX == 8 && sizeY == 8) return 3;
+	if (sizeX == 2 && sizeY == 4) return 4;
+	if (sizeX == 4 && sizeY == 8) return 5;
+	if (sizeX == 4 && sizeY == 2) return 6;
+	if (sizeX == 8 && sizeY == 4) return 7;
+	return 0;
+}
+
+Uint8 _unpackSpriteSize_PPU(Uint8 size, Uint8* sizeX, Uint8* sizeY) {
+	if (size == 0) { *sizeX = 1; *sizeY = 1; }
+	if (size == 1) { *sizeX = 2; *sizeY = 2; }
+	if (size == 2) { *sizeX = 4; *sizeY = 4; }
+	if (size == 3) { *sizeX = 8; *sizeY = 8; }
+	if (size == 4) { *sizeX = 2; *sizeY = 4; }
+	if (size == 5) { *sizeX = 4; *sizeY = 8; }
+	if (size == 6) { *sizeX = 4; *sizeY = 2; }
+	if (size == 7) { *sizeX = 8; *sizeY = 4; }
+	return 0;
+}
+
+void _packSpriteControl_PPU(Uint8* control, int x, int y, Uint8 sizeX, Uint8 sizeY, SDL_bool visible, Uint8 layer) {
+	Uint8 yByte;
+	SDL_bool invertY;
+	if (y >= 0) {
+		yByte = y;
+		invertY = SDL_FALSE;
+	}
+	else {
+		yByte = -y;
+		invertY = SDL_TRUE;
+	}
+
+	Uint8 xByte;
+	SDL_bool invertX;
+	if (x >= 0) {
+		xByte = x;
+		invertX = SDL_FALSE;
+	}
+	else {
+		xByte = -x;
+		invertX = SDL_TRUE;
+	}
+
+	Uint8 size = _packSpriteSize_PPU(sizeX, sizeY);
+
+	control[0] = xByte;
+	control[1] = yByte;
+	control[2] = (invertX ? 0x80 : 0x00) | (invertY ? 0x40 : 0x00) | (layer << 4) | (visible ? 0x08 : 0x00) | (size);
+}
+
+void _unpackSpriteControl_PPU(Uint8* control, int* x, int* y, Uint8* sizeX, Uint8* sizeY, SDL_bool* visible, Uint8* layer) {
+	*x = control[0];
+	if ((control[2] & 0x80) != 0) {
+		*x = -*x;
+	}
+	*y = control[1];
+	if ((control[2] & 0x40) != 0) {
+		*y = -*y;
+	}
+	_unpackSpriteSize_PPU(control[2] & 0x07, sizeX, sizeY);
+	*visible = (control[2] & 0x08) == 0 ? SDL_FALSE : SDL_TRUE;
+	*layer = (control[2] & 0x3) >> 4;
+}
+
+void setSpriteControl_PPU(hPPU ppu, Uint8 sprite, int x, int y, Uint8 sizeX, Uint8 sizeY, SDL_bool visible, Uint8 layer) {
+	_packSpriteControl_PPU(ppu->spriteControls + 3 * sprite, x, y, sizeX, sizeY, visible, layer);
 }
 
 void scanLayer_PPU(hPPU ppu, Uint8 layer, int destScanline, hSL sl) {
