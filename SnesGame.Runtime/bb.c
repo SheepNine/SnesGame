@@ -43,15 +43,19 @@ struct SL {
 	Uint8* r;
 	Uint8* g;
 	Uint8* b;
+	Uint8 line;
 	int minX;
 	int maxX;
 } SL;
 
-hSL creat_SL(hBB bb, int y) {
+hSL creat_SL(hBB bb, Uint8 line) {
+	SDL_assert(line < __BB_DIM);
+
 	hSL result = (hSL)SDL_malloc(sizeof(SL));
-	result->r = bb->r + __BB_DIM * y;
-	result->g = bb->g + __BB_DIM * y;
-	result->b = bb->b + __BB_DIM * y;
+	result->r = bb->r + __BB_DIM * line;
+	result->g = bb->g + __BB_DIM * line;
+	result->b = bb->b + __BB_DIM * line;
+	result->line = line;
 	result->minX = 0;
 	result->maxX = __BB_DIM - 1;
 	return result;
@@ -59,6 +63,10 @@ hSL creat_SL(hBB bb, int y) {
 
 destr_SL(hSL sl) {
 	SDL_free(sl);
+}
+
+Uint8 getLine_SL(hSL sl) {
+	return sl->line;
 }
 
 void setClip_SL(hSL sl, Uint8 leftClip, Uint8 rightClip) {

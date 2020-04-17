@@ -14,8 +14,10 @@ void setDot_BB(hBB bb, int x, int y, Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
 
 typedef struct SL* hSL;
 
-hSL creat_SL(hBB bb, int y);
+hSL creat_SL(hBB bb, Uint8 y);
 destr_SL(hSL sl);
+
+Uint8 getLine_SL(hSL sl);
 
 void setClip_SL(hSL sl, Uint8 leftClip, Uint8 rightClip);
 

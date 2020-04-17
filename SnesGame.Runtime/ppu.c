@@ -25,6 +25,9 @@ hPPU creat_PPU(hMapper bgMapper, hMapper spriteMapper) {
 	SDL_memset(result->spritePalette, 0, 256);
 	SDL_memset(result->brushMaps, 0, 8192);
 	SDL_memset(result->bgControls, 0, 4);
+	SDL_memset(result->layerClips, 0, 16);
+	SDL_memset(result->spriteBrushes, 0, 248);
+	SDL_memset(result->spriteControls, 0, 372);
 	return result;
 }
 
@@ -204,7 +207,7 @@ void setSpriteControl_PPU(hPPU ppu, Uint8 sprite, int x, int y, Uint8 sizeX, Uin
 	_packSpriteControl_PPU(ppu->spriteControls + 3 * sprite, x, y, sizeX, sizeY, visible, layer);
 }
 
-void _scanBackground_PPU(hPPU ppu, Uint8 layer, int destScanline, hSL sl) {
+void _scanBackground_PPU(hPPU ppu, Uint8 layer, hSL sl) {
 	Uint8 dX, dY;
 	SDL_bool visible, topmost;
 	_unpackBgControl_PPU(ppu->bgControls + layer, &dX, &dY, &visible, &topmost);
@@ -213,7 +216,7 @@ void _scanBackground_PPU(hPPU ppu, Uint8 layer, int destScanline, hSL sl) {
 		return;
 	}
 
-	int srcScanLine = destScanline + dY;
+	int srcScanLine = getLine_SL(sl) + dY;
 	int brushBarIndex = srcScanLine / 8;
 	int barIndex = srcScanLine % 8;
 
@@ -233,7 +236,7 @@ void _scanBackground_PPU(hPPU ppu, Uint8 layer, int destScanline, hSL sl) {
 	}
 }
 
-void _scanSprites_PPU(hPPU ppu, Uint8 layer, int destScanLine, hSL sl) {
+void _scanSprites_PPU(hPPU ppu, Uint8 layer, hSL sl) {
 	Uint8* brush = ppu->spriteBrushes;
 	Uint8* control = ppu->spriteControls;
 
@@ -250,10 +253,10 @@ void _scanSprites_PPU(hPPU ppu, Uint8 layer, int destScanLine, hSL sl) {
 
 			int localY;
 			if (vFlip) {
-				localY = (y + 8 * sizeY) - (destScanLine + 1);
+				localY = (y + 8 * sizeY) - (getLine_SL(sl) + 1);
 			}
 			else {
-				localY = destScanLine - y;
+				localY = getLine_SL(sl) - y;
 			}
 			if (localY >= 0 && localY < 8 * sizeY) {
 				Uint8 bar = localY % 8;
@@ -288,8 +291,8 @@ void _scanSprites_PPU(hPPU ppu, Uint8 layer, int destScanLine, hSL sl) {
 void scan_PPU(hPPU ppu, hBB bb) {
 	for (int i = 0; i < 248; i++) {
 		hSL sl = creat_SL(bb, i);
-		_scanBackground_PPU(ppu, 0, i, sl);
-		_scanSprites_PPU(ppu, 0, i, sl);
+		_scanBackground_PPU(ppu, 0, sl);
+		_scanSprites_PPU(ppu, 0, sl);
 		
 		destr_SL(sl);
 	}
