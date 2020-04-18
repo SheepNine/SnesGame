@@ -7,9 +7,7 @@ hBB creat_BB();
 void destr_BB(hBB bb);
 
 void fill_BB(hBB bb, Uint8 r, Uint8 g, Uint8 b);
-
-Uint32 getDot_BB(hBB bb, int x, int y);
-void setDot_BB(hBB bb, int x, int y, Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
+void blit_BB(hBB bb, SDL_Surface* surface);
 
 
 typedef struct SL* hSL;
@@ -21,8 +19,8 @@ Uint8 getLine_SL(hSL sl);
 
 void setClip_SL(hSL sl, Uint8 leftClip, Uint8 rightClip);
 
-void setDot_SL(hSL sl, int x, Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
 void scanBar_SL(hSL sl, Uint8* bar, Uint8* swatch, int x, SDL_bool hFlip, SDL_bool mask0);
+
 
 typedef struct BBC* hBBC;
 

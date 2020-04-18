@@ -20,31 +20,6 @@ void readGlyphList(char *filename, Uint8 *glyphlist) {
 	}
 }
 
-void bbBlit(SDL_Surface* surface) {
-	int scale = SDL_min(surface->w, surface->h) / 248;
-	if (scale < 1) {
-		return;
-	}
-
-	int xSkip = (surface->w - scale * 248) / 2;
-	int ySkip = (surface->h - scale * 248) / 2;
-
-	Uint32* dest = (Uint32*)surface->pixels + ySkip * surface->pitch / 4 + xSkip;
-	int i = 0;
-	for (int y = 0; y < 248; y++) {
-		for (int v = 0; v < scale; v++) {
-			Uint32* writPtr = dest;
-			for (int x = 0; x < 248; x++) {
-				for (int u = 0; u < scale; u++) {
-					*writPtr = getDot_BB(bb, x, y);
-					writPtr += 1;
-				}
-			}
-			dest += surface->pitch / 4;
-		}
-	}
-}
-
 Uint32 heartbeatCallback(Uint32 interval, void* param) {
 	SDL_UserEvent userEvent;
 	userEvent.type = SDL_USEREVENT;
@@ -114,6 +89,10 @@ int main(int argc, char** argv) {
 	setSpriteControl_PPU(ppu, 1, 25, 11, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 1, 1, 3, 7, SDL_TRUE, SDL_FALSE, SDL_FALSE);
 	setSpriteControl_PPU(ppu, 2, 42, 14, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 2, 1, 3, 7, SDL_TRUE, SDL_TRUE, SDL_TRUE);
 	setSpriteControl_PPU(ppu, 3, 60, 20, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 3, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	setSpriteControl_PPU(ppu, 4,  -5,  -5, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 4, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	setSpriteControl_PPU(ppu, 5,  -5, 243, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 5, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	setSpriteControl_PPU(ppu, 6, 243, 243, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 6, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	setSpriteControl_PPU(ppu, 7, 243,  -5, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 7, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
 
 	for (int y = 0; y < 32; y++) {
 		for (int x = 0; x < 32; x++) {
@@ -137,7 +116,7 @@ int main(int argc, char** argv) {
 				"SnesGame",
 				SDL_WINDOWPOS_CENTERED,
 				SDL_WINDOWPOS_CENTERED,
-				248 * 3, 248 * 3,
+				770, 770,
 				SDL_WINDOW_RESIZABLE);
 		if (window != NULL) {
 			// Error check the lock/unlock/update
@@ -160,7 +139,7 @@ int main(int argc, char** argv) {
 					SDL_Surface* surface = SDL_GetWindowSurface(window);
 					if (surface != NULL) {
 						SDL_LockSurface(surface);
-						bbBlit(surface);
+						blit_BB(bb, surface);
 						SDL_UnlockSurface(surface);
 						SDL_UpdateWindowSurface(window);
 					}

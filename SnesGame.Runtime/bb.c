@@ -25,22 +25,52 @@ void fill_BB(hBB bb, Uint8 r, Uint8 g, Uint8 b) {
 	SDL_memset(bb->b, b, __BB_DIM * __BB_DIM);
 }
 
-Uint32 getDot_BB(hBB bb, int x, int y) {
-	int i = (y * 248) + x;
-	return (bb->r[i] << 16) | (bb->g[i] << 8) | (bb->b[i]);
+void blit_BB(hBB bb, SDL_Surface* surface) {
+	int scale = SDL_min(surface->w, surface->h) / __BB_DIM;
+	if (scale < 1) {
+		return;
+	}
+
+	int xSkip = (surface->w - scale * __BB_DIM) / 2;
+	int ySkip = (surface->h - scale * __BB_DIM) / 2;
+
+	Uint32* dest = (Uint32*)surface->pixels + ySkip * surface->pitch / 4 + xSkip;
+	int i = 0;
+
+	Uint8* readR = bb->r;
+	Uint8* readG = bb->g;
+	Uint8* readB = bb->b;
+
+	for (int y = 0; y < __BB_DIM; y++) {
+		for (int v = 0; v < scale; v++) {
+			Uint8* yR = readR;
+			Uint8* yG = readG;
+			Uint8* yB = readB;
+			Uint32* writPtr = dest;
+			for (int x = 0; x < __BB_DIM; x++) {
+				Uint32 color = ((*yR) << 16) | ((*yG) << 8) | (*yB);
+				for (int u = 0; u < scale; u++) {
+					*(writPtr++) = color;
+				}
+				yR++;
+				yG++;
+				yB++;
+			}
+			dest += surface->pitch / 4;
+		}
+		readR += __BB_DIM;
+		readG += __BB_DIM;
+		readB += __BB_DIM;
+	}
 }
 
-void setDot_BB(hBB bb, int x, int y, Uint8 r, Uint8 g, Uint8 b, SDL_bool t) {
-	int i = (y * __BB_DIM) + x;
-	bb->r[i] = (r >> 1) + ((t ? bb->r[i] : r) >> 1);
-	bb->g[i] = (g >> 1) + ((t ? bb->g[i] : g) >> 1);
-	bb->b[i] = (b >> 1) + ((t ? bb->b[i] : b) >> 1);
-}
+
 
 struct BBC {
 	Uint8 minX;
 	Uint8 maxX;
 } BBC;
+
 
 hBBC creat_BBC() {
 	hBBC result = (hBBC)SDL_malloc(sizeof(BBC));
@@ -86,6 +116,7 @@ struct SL {
 	hBBC bbc;
 } SL;
 
+
 hSL creat_SL(hBB bb, Uint8 line) {
 	SDL_assert(line < __BB_DIM);
 
@@ -111,16 +142,6 @@ void setClip_SL(hSL sl, Uint8 leftClip, Uint8 rightClip) {
 	setClip_BBC(sl->bbc, leftClip, rightClip);
 }
 
-
-void setDot_SL(hSL sl, int x, Uint8 r, Uint8 g, Uint8 b, SDL_bool t) {
-	if (isClipped_BBC(sl->bbc, x))
-		return;
-
-	sl->r[x] = (r >> 1) + ((t ? sl->r[x] : r) >> 1);
-	sl->g[x] = (g >> 1) + ((t ? sl->g[x] : g) >> 1);
-	sl->b[x] = (b >> 1) + ((t ? sl->b[x] : b) >> 1);
-}
-
 void _setDot_SL(hSL sl, int x, Uint8 colorIndex, Uint8* swatch) {
 	Uint8 colorLow = swatch[colorIndex * 2];
 	Uint8 colorHigh = swatch[colorIndex * 2 + 1];
@@ -132,7 +153,9 @@ void _setDot_SL(hSL sl, int x, Uint8 colorIndex, Uint8* swatch) {
 	colorLow <<= 3;
 	Uint8 g = (colorHigh & 0xC0) | (colorLow & 0x38);
 
-	setDot_SL(sl, x, r, g, b, a);
+	sl->r[x] = (r >> 1) + ((a ? sl->r[x] : r) >> 1);
+	sl->g[x] = (g >> 1) + ((a ? sl->g[x] : g) >> 1);
+	sl->b[x] = (b >> 1) + ((a ? sl->b[x] : b) >> 1);
 }
 
 void scanBar_SL(hSL sl, Uint8* bar, Uint8* swatch, int x, SDL_bool hFlip, SDL_bool mask0) {
@@ -144,16 +167,17 @@ void scanBar_SL(hSL sl, Uint8* bar, Uint8* swatch, int x, SDL_bool hFlip, SDL_bo
 
 	Uint8 mask = 0x01;
 	for (int i = 0; i < 8; i++) {
-		Uint8 colorIndex = 0;
-		if ((bar[0] & mask) != 0) colorIndex |= 1;
-		if ((bar[1] & mask) != 0) colorIndex |= 2;
-		if ((bar[2] & mask) != 0) colorIndex |= 4;
-		if ((bar[3] & mask) != 0) colorIndex |= 8;
+		if (!isClipped_BBC(sl->bbc, x)) {
+			Uint8 colorIndex = 0;
+			if ((bar[0] & mask) != 0) colorIndex |= 1;
+			if ((bar[1] & mask) != 0) colorIndex |= 2;
+			if ((bar[2] & mask) != 0) colorIndex |= 4;
+			if ((bar[3] & mask) != 0) colorIndex |= 8;
 
-		if (!mask0 || colorIndex != 0) {
-			_setDot_SL(sl, x, colorIndex, swatch);
+			if (!mask0 || colorIndex != 0) {
+				_setDot_SL(sl, x, colorIndex, swatch);
+			}
 		}
-
 		mask <<= 1;
 		x += dX;
 	}
