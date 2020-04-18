@@ -68,9 +68,15 @@ void _packBgControl_PPU(Uint8* control, Uint8 dX, Uint8 dY, SDL_bool visible, SD
 	control[0] = (visible ? 0x80 : 0x00) | (topmost ? 0x40 : 0x00) | (dX << 3) | (dY);
 }
 
-void _unpackBgControl_PPU(Uint8* control, Uint8* dX, Uint8* dY, SDL_bool* visible, SDL_bool* topmost) {
-	*visible = (*control & 0x80) == 0 ? SDL_FALSE : SDL_TRUE;
-	*topmost = (*control & 0x40) == 0 ? SDL_FALSE : SDL_TRUE;
+SDL_bool _isBgVisible_PPU(Uint8* control) {
+	return (*control & 0x80) == 0 ? SDL_FALSE : SDL_TRUE;
+}
+
+SDL_bool _isBgTopmost_PPU(Uint8* control) {
+	return (*control & 0x40) == 0 ? SDL_FALSE : SDL_TRUE;
+}
+
+void _unpackBgOffset_PPU(Uint8* control, Uint8* dX, Uint8* dY) {
 	*dX = (*control & 0x28) >> 3;
 	*dY = (*control & 0x07);
 }
@@ -189,7 +195,16 @@ void _packSpriteControl_PPU(Uint8* control, int x, int y, Uint8 sizeX, Uint8 siz
 	control[2] = (invertX ? 0x80 : 0x00) | (invertY ? 0x40 : 0x00) | (layer << 4) | (visible ? 0x08 : 0x00) | (size);
 }
 
-void _unpackSpriteControl_PPU(Uint8* control, int* x, int* y, Uint8* sizeX, Uint8* sizeY, SDL_bool* visible, Uint8* layer) {
+SDL_bool _isSpriteVisible_PPU(Uint8* control) {
+	return (control[2] & 0x08) == 0 ? SDL_FALSE : SDL_TRUE;
+}
+
+Uint8 _unpackSpriteLayer_PPU(Uint8* control) {
+	return (control[2] & 0x3) >> 4;
+}
+
+
+void _unpackSpriteControl_PPU(Uint8* control, int* x, int* y, Uint8* sizeX, Uint8* sizeY) {
 	*x = control[0];
 	if ((control[2] & 0x80) != 0) {
 		*x = -*x;
@@ -199,101 +214,112 @@ void _unpackSpriteControl_PPU(Uint8* control, int* x, int* y, Uint8* sizeX, Uint
 		*y = -*y;
 	}
 	_unpackSpriteSize_PPU(control[2] & 0x07, sizeX, sizeY);
-	*visible = (control[2] & 0x08) == 0 ? SDL_FALSE : SDL_TRUE;
-	*layer = (control[2] & 0x3) >> 4;
 }
 
 void setSpriteControl_PPU(hPPU ppu, Uint8 sprite, int x, int y, Uint8 sizeX, Uint8 sizeY, SDL_bool visible, Uint8 layer) {
 	_packSpriteControl_PPU(ppu->spriteControls + 3 * sprite, x, y, sizeX, sizeY, visible, layer);
 }
 
-void _scanBackground_PPU(hPPU ppu, Uint8 layer, hSL sl) {
+void _scanBackground(Uint8* control, Uint8* brushMap, hMapper mapper, Uint8* palette, hSL sl) {
 	Uint8 dX, dY;
-	SDL_bool visible, topmost;
-	_unpackBgControl_PPU(ppu->bgControls + layer, &dX, &dY, &visible, &topmost);
-
-	if (!visible) {
-		return;
-	}
+	_unpackBgOffset_PPU(control, &dX, &dY);
 
 	int srcScanLine = getLine_SL(sl) + dY;
-	int brushBarIndex = srcScanLine / 8;
-	int barIndex = srcScanLine % 8;
+	Uint8* brush = brushMap + 64 * (srcScanLine / 8);
+	int glyphBarIndex = srcScanLine % 8;
 
-	Uint8* brushBar = ppu->brushMaps + (64 * (32 * layer + brushBarIndex));
-
-	int destX = -dX;
+	int x = -dX;
 	for (int i = 0; i < 32; i++) {
 		Uint8 glyphIndex, bankIndex, swatchIndex;
 		SDL_bool hFlip, vFlip, mask0;
-		_unpackBrush_PPU(brushBar, &glyphIndex, &bankIndex, &swatchIndex, &hFlip, &vFlip, &mask0);
+		_unpackBrush_PPU(brush, &glyphIndex, &bankIndex, &swatchIndex, &hFlip, &vFlip, &mask0);
 
-		scanBar_SL(sl, getBar_Mapper(ppu->bgMapper, bankIndex, glyphIndex, vFlip ? 7 - barIndex : barIndex),
-			    _getSwatch_PPU(ppu->bgPalette, swatchIndex), destX, hFlip, mask0);
+		scanBar_SL(sl, getBar_Mapper(mapper, bankIndex, glyphIndex, vFlip ? 7 - glyphBarIndex : glyphBarIndex),
+			    _getSwatch_PPU(palette, swatchIndex), x, hFlip, mask0);
 
-		brushBar += 2;
-		destX += 8;
+		brush += 2;
+		x += 8;
+	}
+}
+
+void _scanSprite(Uint8* control, Uint8* brush, hMapper mapper, Uint8* palette, hSL sl) {
+	int x, y;
+	Uint8 sizeX, sizeY, glyphIndex, bankIndex, swatchIndex;
+	SDL_bool hFlip, vFlip, mask0;
+	_unpackSpriteControl_PPU(control, &x, &y, &sizeX, &sizeY);
+	_unpackBrush_PPU(brush, &glyphIndex, &bankIndex, &swatchIndex, &hFlip, &vFlip, &mask0);
+
+	int localY;
+	if (vFlip) {
+		localY = (y + 8 * sizeY) - (getLine_SL(sl) + 1);
+	}
+	else {
+		localY = getLine_SL(sl) - y;
+	}
+	if (localY >= 0 && localY < 8 * sizeY) {
+		Uint8 bar = localY % 8;
+		glyphIndex += 16 * (localY / 8);
+
+		int destX;
+		int dX;
+		if (hFlip) {
+			destX = x + 8 * (sizeX - 1);
+			dX = -8;
+		}
+		else {
+			destX = x;
+			dX = 8;
+		}
+
+		for (int i = 0; i < sizeX; i++) {
+			scanBar_SL(sl, getBar_Mapper(mapper, bankIndex, glyphIndex, bar),
+				_getSwatch_PPU(palette, swatchIndex), destX, hFlip, mask0);
+
+			glyphIndex += 1;
+			destX += dX;
+		}
 	}
 }
 
 void _scanSprites_PPU(hPPU ppu, Uint8 layer, hSL sl) {
 	Uint8* brush = ppu->spriteBrushes;
 	Uint8* control = ppu->spriteControls;
-
 	for (int i = 0; i < 124; i++) {
-		int x, y;
-		Uint8 sizeX, sizeY, spriteLayer;
-		SDL_bool visible;
-		_unpackSpriteControl_PPU(control, &x, &y, &sizeX, &sizeY, &visible, &spriteLayer);
-
-		if (visible && spriteLayer == layer) {
-			Uint8 glyphIndex, bankIndex, swatchIndex;
-			SDL_bool hFlip, vFlip, mask0;
-			_unpackBrush_PPU(brush, &glyphIndex, &bankIndex, &swatchIndex, &hFlip, &vFlip, &mask0);
-
-			int localY;
-			if (vFlip) {
-				localY = (y + 8 * sizeY) - (getLine_SL(sl) + 1);
-			}
-			else {
-				localY = getLine_SL(sl) - y;
-			}
-			if (localY >= 0 && localY < 8 * sizeY) {
-				Uint8 bar = localY % 8;
-				glyphIndex += 16 * (localY / 8);
-
-				int destX;
-				int dX;
-				if (hFlip) {
-					destX = x + 8 * (sizeX - 1);
-					dX = -8;
-				}
-				else {
-					destX = x;
-					dX = 8;
-				}
-
-				for (int i = 0; i < sizeX; i++) {
-					scanBar_SL(sl, getBar_Mapper(ppu->spriteMapper, bankIndex, glyphIndex, bar),
-						    _getSwatch_PPU(ppu->spritePalette, swatchIndex), destX, hFlip, mask0);
-
-					glyphIndex += 1;
-					destX += dX;
-				}
-			}
+		if (_unpackSpriteLayer_PPU(control) == layer && _isSpriteVisible_PPU(control)) {
+			_scanSprite(control, brush, ppu->spriteMapper, ppu->spritePalette, sl);
 		}
-
 		brush += 2;
 		control += 3;
 	}
 }
 
+void _scanBackground_PPU(hPPU ppu, Uint8 layer, hSL sl, SDL_bool topmost) {
+	Uint8* control = ppu->bgControls + layer;
+	if (_isBgTopmost_PPU(control) == topmost && _isBgVisible_PPU(control)) {
+		_scanBackground(control, ppu->brushMaps + 2048 * layer, ppu->bgMapper, ppu->bgPalette, sl);
+	}
+}
+
+void _scan_PPU(hPPU ppu, hSL sl) {
+	hBBC vClip = creat_BBC();
+	Uint8* clips = ppu->layerClips;
+	for (int layer = 0; layer < 4; layer++) {
+		setClip_BBC(vClip, clips[2], clips[3]);
+		if (!isClipped_BBC(vClip, getLine_SL(sl))) {
+			setClip_SL(sl, clips[0], clips[1]);
+			_scanBackground_PPU(ppu, layer, sl, SDL_FALSE);
+			_scanSprites_PPU(ppu, layer, sl);
+			_scanBackground_PPU(ppu, layer, sl, SDL_TRUE);
+		}
+		clips += 4;
+	}
+	destr_BBC(vClip);
+}
+
 void scan_PPU(hPPU ppu, hBB bb) {
 	for (int i = 0; i < 248; i++) {
 		hSL sl = creat_SL(bb, i);
-		_scanBackground_PPU(ppu, 0, sl);
-		_scanSprites_PPU(ppu, 0, sl);
-		
+		_scan_PPU(ppu, sl);
 		destr_SL(sl);
 	}
 }

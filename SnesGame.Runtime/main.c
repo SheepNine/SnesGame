@@ -94,6 +94,8 @@ int main(int argc, char** argv) {
 	setSpriteControl_PPU(ppu, 6, 243, 243, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 6, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
 	setSpriteControl_PPU(ppu, 7, 243,  -5, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 7, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
 
+	setLayerClips_PPU(ppu, 0, 1, 3, 4, 9);
+
 	for (int y = 0; y < 32; y++) {
 		for (int x = 0; x < 32; x++) {
 			int glyph;
