@@ -115,6 +115,7 @@ int main(int argc, char** argv) {
 	}
 
 	if (SDL_Init(SDL_INIT_VIDEO) == 0) {
+		SDL_LogSetPriority(SDL_LOG_CATEGORY_CUSTOM, SDL_LOG_PRIORITY_WARN);
 		SDL_Window* window = SDL_CreateWindow(
 				"SnesGame",
 				SDL_WINDOWPOS_CENTERED,
@@ -137,8 +138,18 @@ int main(int argc, char** argv) {
 				case SDL_QUIT:
 					loop = SDL_FALSE;
 					break;
+				case SDL_KEYDOWN:
+					if (event.key.keysym.sym == SDLK_F11) {
+						if (SDL_LogGetPriority(SDL_LOG_CATEGORY_CUSTOM) == SDL_LOG_PRIORITY_WARN) {
+							SDL_LogSetPriority(SDL_LOG_CATEGORY_CUSTOM, SDL_LOG_PRIORITY_DEBUG);
+						}
+						else{
+							SDL_LogSetPriority(SDL_LOG_CATEGORY_CUSTOM, SDL_LOG_PRIORITY_WARN);
+						}
+					}
+					break;
 				case SDL_USEREVENT:
-					hPerf perf = creat_Perf();
+					hPerf perf = creat_Perf(SDL_LOG_CATEGORY_CUSTOM);
 					scan_PPU(ppu, bb);
 					logInterval_Perf(perf, "Scan");
 					SDL_Surface* surface = SDL_GetWindowSurface(window);
@@ -151,6 +162,7 @@ int main(int argc, char** argv) {
 						SDL_UpdateWindowSurface(window);
 					}
 					logInterval_Perf(perf, "Post-blit");
+					logTarget_Perf(perf, "update and render", 18000);
 					destr_Perf(perf);
 					break;
 				}
