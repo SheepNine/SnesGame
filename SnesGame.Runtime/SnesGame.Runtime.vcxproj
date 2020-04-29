@@ -141,6 +141,7 @@
     <ClCompile Include="bb.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mapper.c" />
+    <ClCompile Include="perf.c" />
     <ClCompile Include="ppu.c" />
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="bb.h" />
     <ClInclude Include="mapper.h" />
+    <ClInclude Include="perf.h" />
     <ClInclude Include="ppu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

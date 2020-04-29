@@ -3,6 +3,7 @@
 #include "bb.h"
 #include "mapper.h"
 #include "ppu.h"
+#include "perf.h"
 
 // --- BackBuffer ---
 
@@ -137,14 +138,20 @@ int main(int argc, char** argv) {
 					loop = SDL_FALSE;
 					break;
 				case SDL_USEREVENT:
+					hPerf perf = creat_Perf();
 					scan_PPU(ppu, bb);
+					logInterval_Perf(perf, "Scan");
 					SDL_Surface* surface = SDL_GetWindowSurface(window);
 					if (surface != NULL) {
 						SDL_LockSurface(surface);
+						logInterval_Perf(perf, "Pre-blit");
 						blit_BB(bb, surface);
+						logInterval_Perf(perf, "Blit");
 						SDL_UnlockSurface(surface);
 						SDL_UpdateWindowSurface(window);
 					}
+					logInterval_Perf(perf, "Post-blit");
+					destr_Perf(perf);
 					break;
 				}
 			}
