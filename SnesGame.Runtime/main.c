@@ -137,6 +137,35 @@ void handleJoyEvent(SDL_Event* event) {
 	}
 }
 
+SDL_AudioSpec have;
+int halfPeriod = 16;
+int periodPosition = 0;
+SDL_bool firstHalf = SDL_TRUE;
+Sint16 output = 0;
+Sint16 stepDelta[16] = { 30341, -7107, 4204, -2991, 2323, -1899, 1606, -742,  742, -1606, 1899, -2323, 2991, -4204, 7107, -30341 };
+SDL_bool silent = SDL_TRUE;
+
+void AnAudioCallback(void* userdata, Uint8* stream, int len) {
+	Sint16* writePtr = (Sint16*)stream;
+	for (int i = 0; i < have.samples; i++) {
+		if (periodPosition != 0 || !silent) {
+			if (periodPosition < 8) {
+				output += stepDelta[periodPosition] * (firstHalf ? 1 : -1);
+			}
+			if (halfPeriod < 9 + periodPosition) {
+				output += stepDelta[15 + periodPosition - halfPeriod] * (firstHalf ? 1 : -1);
+			}
+
+			periodPosition += 1;
+			if (periodPosition == halfPeriod) {
+				firstHalf ^= SDL_TRUE;
+				periodPosition = 0;
+			}
+		}
+		writePtr[i] = output;
+	}
+}
+
 int main(int argc, char** argv) {
 	int result = 0;
 	bb = creat_BB();
@@ -216,8 +245,23 @@ int main(int argc, char** argv) {
 		}
 	}
 
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) == 0) {
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) == 0) {
 		SDL_LogSetPriority(SDL_LOG_CATEGORY_CUSTOM, SDL_LOG_PRIORITY_WARN);
+
+		SDL_AudioDeviceID dev;
+		SDL_AudioSpec want;
+		SDL_memset(&want, 0, sizeof(want));
+		want.freq = 48000;
+		want.format = AUDIO_S16;
+		want.channels = 1;
+		want.samples = 4096;
+		want.callback = AnAudioCallback;
+		dev = SDL_OpenAudioDevice(NULL, SDL_FALSE, &want, &have, 0);
+
+		if (dev == 0) {
+			return;
+		}
+
 		SDL_Window* window = SDL_CreateWindow(
 			"SnesGame",
 			SDL_WINDOWPOS_CENTERED,
@@ -228,6 +272,7 @@ int main(int argc, char** argv) {
 			// Error check the lock/unlock/update
 			// Check the window surface format just in case it isn't 8bpp ARGB
 
+			SDL_PauseAudioDevice(dev, 0);
 			SDL_AddTimer(20, heartbeatCallback, NULL);
 			int x = 0;
 			int y = 0;
@@ -256,6 +301,9 @@ int main(int argc, char** argv) {
 							SDL_LogSetPriority(SDL_LOG_CATEGORY_CUSTOM, SDL_LOG_PRIORITY_WARN);
 						}
 					}
+					if (event.key.keysym.sym == SDLK_SPACE) {
+						silent = !silent;
+					}
 					break;
 				case SDL_USEREVENT:
 					hPerf perf = creat_Perf(SDL_LOG_CATEGORY_CUSTOM);
@@ -276,6 +324,7 @@ int main(int argc, char** argv) {
 					break;
 				}
 			}
+			SDL_CloseAudioDevice(dev);
 			SDL_DestroyWindow(window);
 		} else {
 			fprintf(stderr, "Unable to initialize SDL: %s\n", SDL_GetError());
