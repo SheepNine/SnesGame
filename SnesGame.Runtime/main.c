@@ -138,30 +138,59 @@ void handleJoyEvent(SDL_Event* event) {
 }
 
 SDL_AudioSpec have;
-int halfPeriod = 16;
-int periodPosition = 0;
-SDL_bool firstHalf = SDL_TRUE;
-Sint16 output = 0;
-Sint16 stepDelta[16] = { 30341, -7107, 4204, -2991, 2323, -1899, 1606, -742,  742, -1606, 1899, -2323, 2991, -4204, 7107, -30341 };
+
 SDL_bool silent = SDL_TRUE;
+SDL_bool newHalfPeriod = 250;
+
+Sint16 output = 0;
+Sint16 stepDelta[16] = { -742, 1606, -1900, 2324, -2990, 4204, -7106, 30340, 30340, -7106, 4204, -2990, 2324, -1900, 1606, -742 };
+
+// Recorded state for current half-wave
+int avPos = 0;
+int avHalfPeriod = 0;
+SDL_bool avUpper = SDL_TRUE;
+SDL_bool avHalfWave = SDL_TRUE;
 
 void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 	Sint16* writePtr = (Sint16*)stream;
 	for (int i = 0; i < have.samples; i++) {
-		if (periodPosition != 0 || !silent) {
-			if (periodPosition < 8) {
-				output += stepDelta[periodPosition] * (firstHalf ? 1 : -1);
-			}
-			if (halfPeriod < 9 + periodPosition) {
-				output += stepDelta[15 + periodPosition - halfPeriod] * (firstHalf ? 1 : -1);
-			}
+		if (avPos == avHalfPeriod) {
+			avPos = 0;
+			avUpper = !avUpper;
 
-			periodPosition += 1;
-			if (periodPosition == halfPeriod) {
-				firstHalf ^= SDL_TRUE;
-				periodPosition = 0;
+			if (avHalfPeriod == 0) { // Not currently playing
+				if (silent) { // No nothing
+				}
+				else { // Start playing
+					avHalfPeriod = newHalfPeriod;
+					avHalfWave = SDL_TRUE;
+				}
+			}
+			else { // Currently playing
+				if (silent) { // But don't want to anymore
+					if (output == 0) { // Fade complete, mute the channel
+						avHalfPeriod = 0;
+					}
+					else { // Schedule a fade back to silence
+						avHalfPeriod = 16;
+						avHalfWave = SDL_TRUE;
+					}
+				}
+				else { // Keep playing, but with full waves now
+					avHalfPeriod = newHalfPeriod;
+					avHalfWave = SDL_FALSE;
+				}
 			}
 		}
+
+
+		if (avHalfPeriod != 0) {
+			if (avPos < 16)
+				output += (stepDelta[avPos] >> (avHalfWave ? 1 : 0)) * (avUpper ? 1 : -1);
+			avPos += 1;
+		}
+
+
 		writePtr[i] = output;
 	}
 }
@@ -304,6 +333,10 @@ int main(int argc, char** argv) {
 					if (event.key.keysym.sym == SDLK_SPACE) {
 						silent = !silent;
 					}
+					if (event.key.keysym.sym == SDLK_a) { newHalfPeriod = 110; }
+					if (event.key.keysym.sym == SDLK_s) { newHalfPeriod = 150; }
+					if (event.key.keysym.sym == SDLK_d) { newHalfPeriod = 200; }
+					if (event.key.keysym.sym == SDLK_f) { newHalfPeriod = 250; }
 					break;
 				case SDL_USEREVENT:
 					hPerf perf = creat_Perf(SDL_LOG_CATEGORY_CUSTOM);
