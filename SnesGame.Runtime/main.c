@@ -168,46 +168,55 @@ Sint16 stepDelta[16] = { -742, 1606, -1900, 2324, -2990, 4204, -7106, 30340, 303
 // Recorded state for current half-wave
 int avPos = 0;
 int avHalfPeriod = 0;
-SDL_bool avUpper = SDL_TRUE;
-SDL_bool avHalfWave = SDL_TRUE;
+Sint8 avPrevStepVolume = 0;
+Sint8 avCurrStepVolume = 0;
 
 void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 	Sint16* writePtr = (Sint16*)stream;
 	for (int i = 0; i < have.samples; i++) {
 		if (avPos == avHalfPeriod) {
 			avPos = 0;
-			avUpper = !avUpper;
+			avPrevStepVolume = avCurrStepVolume;
 
-			if (avHalfPeriod == 0) { // Not currently playing
-				if (silent) { // No nothing
-				}
-				else { // Start playing
+			if (avCurrStepVolume == 0) {
+				if (silent == SDL_FALSE) {
 					avHalfPeriod = newHalfPeriod;
-					avHalfWave = SDL_TRUE;
+					avCurrStepVolume = 8;
 				}
 			}
-			else { // Currently playing
-				if (silent) { // But don't want to anymore
-					if (output == 0) { // Fade complete, mute the channel
-						avHalfPeriod = 0;
-					}
-					else { // Schedule a fade back to silence
-						avHalfPeriod = 16;
-						avHalfWave = SDL_TRUE;
-					}
+			else {
+				if (silent) {
+					avHalfPeriod = 16;
+					avCurrStepVolume = 0;
 				}
-				else { // Keep playing, but with full waves now
+				else {
 					avHalfPeriod = newHalfPeriod;
-					avHalfWave = SDL_FALSE;
+					avCurrStepVolume = -avCurrStepVolume;
+
+					if (avCurrStepVolume > 0) {
+						avCurrStepVolume -= 1;
+						if (avCurrStepVolume == 0) {
+							silent = SDL_TRUE;
+						}
+					}
 				}
 			}
 		}
 
 
-		if (avHalfPeriod != 0) {
-			if (avPos < 16)
-				output += (stepDelta[avPos] >> (avHalfWave ? 1 : 0)) * (avUpper ? 1 : -1);
+		if (avCurrStepVolume != 0 || avPrevStepVolume != 0) {
+			if (avPos < 16) {
+				if (avPrevStepVolume > avCurrStepVolume) {
+					output += stepDeltas[avPrevStepVolume - avCurrStepVolume][avPos];
+				}
+				else {
+					output -= stepDeltas[avCurrStepVolume - avPrevStepVolume][avPos];
+				}
+			}
 			avPos += 1;
+		}
+		else {
+			avPos = avHalfPeriod;
 		}
 
 
@@ -353,6 +362,7 @@ int main(int argc, char** argv) {
 					if (event.key.keysym.sym == SDLK_SPACE) {
 						silent = !silent;
 					}
+					if (event.key.keysym.sym == SDLK_q) { newHalfPeriod = 20; }
 					if (event.key.keysym.sym == SDLK_a) { newHalfPeriod = 110; }
 					if (event.key.keysym.sym == SDLK_s) { newHalfPeriod = 150; }
 					if (event.key.keysym.sym == SDLK_d) { newHalfPeriod = 200; }
