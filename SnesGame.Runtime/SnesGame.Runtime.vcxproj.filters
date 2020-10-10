@@ -33,6 +33,9 @@
     <ClCompile Include="sw.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

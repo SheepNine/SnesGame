@@ -4,7 +4,7 @@
 #include "mapper.h"
 #include "ppu.h"
 #include "perf.h"
-#include "sw.h"
+#include "sc.h"
 
 // --- BackBuffer ---
 
@@ -140,10 +140,7 @@ void handleJoyEvent(SDL_Event* event) {
 
 SDL_AudioSpec have;
 
-SDL_bool halfPeriod = 250; // 0 => silent
-Sint8 volume = 8;
-SDL_bool lowerWave = SDL_FALSE;
-hSW sw;
+hSC sc;
 
 // Recorded state for current half-wave
 int avHalfwaveTimer = 0;
@@ -151,24 +148,7 @@ int avHalfwaveTimer = 0;
 void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 	Sint16* writePtr = (Sint16*)stream;
 	for (int i = 0; i < have.samples; i++) {
-		if (avHalfwaveTimer == 0) {
-			if (halfPeriod == 0) {
-				if (!isSilent_SW(sw)) {
-					setTargetVolume_SW(sw, 0);
-					avHalfwaveTimer = 16;
-				}
-			}
-			else {
-				lowerWave = lowerWave ? SDL_FALSE : SDL_TRUE;
-				avHalfwaveTimer = halfPeriod;
-				setTargetVolume_SW(sw, lowerWave ? -volume : volume);
-			}
-		}
-		else {
-			avHalfwaveTimer -= 1;
-		}
-
-		writePtr[i] = getNextSample_SW(sw);
+		writePtr[i] = getNextSample_SC(sc);
 	}
 }
 
@@ -179,7 +159,7 @@ int main(int argc, char** argv) {
 	bgMapper = creat_Mapper(1);
 	spriteMapper = creat_Mapper(2);
 	ppu = creat_PPU(bgMapper, spriteMapper);
-	sw = creat_SW();
+	sc = creat_SC();
 
 	Uint8 glyphList[8192];
 	readGlyphList("..\\resources\\default.glyphset", glyphList);
@@ -309,18 +289,33 @@ int main(int argc, char** argv) {
 						}
 					}
 					if (event.key.keysym.sym == SDLK_SPACE) {
-						halfPeriod = 0;
+						silence_SC(sc);
 					}
-					if (event.key.keysym.sym == SDLK_q) { halfPeriod = 20; volume = 8; }
-					if (event.key.keysym.sym == SDLK_a) { halfPeriod = 110; volume = 8; }
-					if (event.key.keysym.sym == SDLK_s) { halfPeriod = 150; volume = 8; }
-					if (event.key.keysym.sym == SDLK_d) { halfPeriod = 200; volume = 8; }
-					if (event.key.keysym.sym == SDLK_f) { halfPeriod = 250; volume = 8; }
+					if (event.key.keysym.sym == SDLK_q) {
+						playNote_SC(sc, 65535,
+							8, SD_NONE, 0, EB_SILENCE,
+							250, 250, SD_NONE, 0, EB_SILENCE);
+					}
+					if (event.key.keysym.sym == SDLK_a) {
+						playNote_SC(sc, 65535,
+							8, SD_NONE, 0, EB_SILENCE,
+							100, 250, SD_RISING, 1, EB_SILENCE);
+					}
+					if (event.key.keysym.sym == SDLK_s) {
+					}
+					if (event.key.keysym.sym == SDLK_d) {
+					}
+					if (event.key.keysym.sym == SDLK_f) {
+					}
 
-					if (event.key.keysym.sym == SDLK_z) { halfPeriod = 250; volume = 6; }
-					if (event.key.keysym.sym == SDLK_x) { halfPeriod = 250; volume = 4; }
-					if (event.key.keysym.sym == SDLK_c) { halfPeriod = 250; volume = 2; }
-					if (event.key.keysym.sym == SDLK_v) { halfPeriod = 250; volume = 1; }
+					if (event.key.keysym.sym == SDLK_z) {
+					}
+					if (event.key.keysym.sym == SDLK_x) {
+					}
+					if (event.key.keysym.sym == SDLK_c) {
+					}
+					if (event.key.keysym.sym == SDLK_v) {
+					}
 					break;
 				case SDL_USEREVENT:
 					hPerf perf = creat_Perf(SDL_LOG_CATEGORY_CUSTOM);
@@ -353,7 +348,7 @@ int main(int argc, char** argv) {
 		result = 1;
 	}
 
-	destr_SW(sw);
+	destr_SC(sc);
 	destr_PPU(ppu);
 	destr_Mapper(bgMapper);
 	destr_Mapper(spriteMapper);
