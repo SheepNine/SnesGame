@@ -143,6 +143,7 @@
     <ClCompile Include="mapper.c" />
     <ClCompile Include="perf.c" />
     <ClCompile Include="ppu.c" />
+    <ClCompile Include="sw.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -152,6 +153,7 @@
     <ClInclude Include="mapper.h" />
     <ClInclude Include="perf.h" />
     <ClInclude Include="ppu.h" />
+    <ClInclude Include="sw.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

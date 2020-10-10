@@ -4,6 +4,7 @@
 #include "mapper.h"
 #include "ppu.h"
 #include "perf.h"
+#include "sw.h"
 
 // --- BackBuffer ---
 
@@ -139,88 +140,35 @@ void handleJoyEvent(SDL_Event* event) {
 
 SDL_AudioSpec have;
 
-SDL_bool silent = SDL_TRUE;
-SDL_bool newHalfPeriod = 250;
-
-Sint16 stepDeltas[17][16] = {
-   {     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,      0,      0,      0,      0 },
-   {     6,   -13,    16,   -20,    26,   -36,    60,  -256,  -256,    60,   -36,    26,    -20,     16,    -13,      6 },
-   {    13,   -27,    32,   -39,    50,   -71,   120,  -512,  -512,   120,   -71,    50,    -39,     32,    -27,     13 },
-   {    19,   -40,    48,   -59,    76,  -107,   180,  -768,  -768,   180,  -107,    76,    -59,     48,    -40,     19 },
-   {    26,   -55,    64,   -78,   101,  -142,   240, -1024, -1024,   240,  -142,   101,    -78,     64,    -55,     26 },
-   {    32,   -68,    80,   -98,   127,  -178,   300, -1280, -1280,   300,  -178,   127,    -98,     80,    -68,     32 },
-   {    38,   -81,    96,  -117,   151,  -213,   360, -1536, -1536,   360,  -213,   151,   -117,     96,    -81,     38 },
-   {    45,   -95,   112,  -137,   177,  -249,   420, -1792, -1792,   420,  -249,   177,   -137,    112,    -95,     45 },
-   {    51,  -108,   128,  -157,   202,  -284,   480, -2048, -2048,   480,  -284,   202,   -157,    128,   -108,     51 },
-   {    58,  -122,   144,  -177,   228,  -320,   540, -2304, -2304,   540,  -320,   228,   -177,    144,   -122,     58 },
-   {    64,  -136,   161,  -196,   252,  -355,   600, -2560, -2560,   600,  -355,   252,   -196,    161,   -136,     64 },
-   {    70,  -149,   177,  -216,   278,  -391,   660, -2816, -2816,   660,  -391,   278,   -216,    177,   -149,     70 },
-   {    77,  -163,   192,  -235,   303,  -426,   720, -3072, -3072,   720,  -426,   303,   -235,    192,   -163,     77 },
-   {    83,  -176,   208,  -255,   329,  -462,   780, -3328, -3328,   780,  -462,   329,   -255,    208,   -176,     83 },
-   {    90,  -190,   224,  -274,   353,  -496,   839, -3584, -3584,   839,  -496,   353,   -274,    224,   -190,     90 },
-   {    96,  -203,   240,  -294,   379,  -532,   899, -3840, -3840,   899,  -532,   379,   -294,    240,   -203,     96 },
-   {   102,  -217,   257,  -314,   404,  -567,   958, -4095, -4095,   958,  -567,   404,   -314,    257,   -217,    102 }
-};
-
-Sint16 output = 0;
-Sint16 stepDelta[16] = { -742, 1606, -1900, 2324, -2990, 4204, -7106, 30340, 30340, -7106, 4204, -2990, 2324, -1900, 1606, -742 };
+SDL_bool halfPeriod = 250; // 0 => silent
+Sint8 volume = 8;
+SDL_bool lowerWave = SDL_FALSE;
+hSW sw;
 
 // Recorded state for current half-wave
-int avPos = 0;
-int avHalfPeriod = 0;
-Sint8 avPrevStepVolume = 0;
-Sint8 avCurrStepVolume = 0;
+int avHalfwaveTimer = 0;
 
 void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 	Sint16* writePtr = (Sint16*)stream;
 	for (int i = 0; i < have.samples; i++) {
-		if (avPos == avHalfPeriod) {
-			avPos = 0;
-			avPrevStepVolume = avCurrStepVolume;
-
-			if (avCurrStepVolume == 0) {
-				if (silent == SDL_FALSE) {
-					avHalfPeriod = newHalfPeriod;
-					avCurrStepVolume = 8;
+		if (avHalfwaveTimer == 0) {
+			if (halfPeriod == 0) {
+				if (!isSilent_SW(sw)) {
+					setTargetVolume_SW(sw, 0);
+					avHalfwaveTimer = 16;
 				}
 			}
 			else {
-				if (silent) {
-					avHalfPeriod = 16;
-					avCurrStepVolume = 0;
-				}
-				else {
-					avHalfPeriod = newHalfPeriod;
-					avCurrStepVolume = -avCurrStepVolume;
-
-					if (avCurrStepVolume > 0) {
-						avCurrStepVolume -= 1;
-						if (avCurrStepVolume == 0) {
-							silent = SDL_TRUE;
-						}
-					}
-				}
+				lowerWave = lowerWave ? SDL_FALSE : SDL_TRUE;
+				avHalfwaveTimer = halfPeriod;
+				setTargetVolume_SW(sw, lowerWave ? -volume : volume);
 			}
-		}
-
-
-		if (avCurrStepVolume != 0 || avPrevStepVolume != 0) {
-			if (avPos < 16) {
-				if (avPrevStepVolume > avCurrStepVolume) {
-					output += stepDeltas[avPrevStepVolume - avCurrStepVolume][avPos];
-				}
-				else {
-					output -= stepDeltas[avCurrStepVolume - avPrevStepVolume][avPos];
-				}
-			}
-			avPos += 1;
 		}
 		else {
-			avPos = avHalfPeriod;
+			avHalfwaveTimer -= 1;
 		}
 
-
-		writePtr[i] = output;
+		writePtr[i] = getNextSample_SW(sw);
 	}
 }
 
@@ -231,6 +179,7 @@ int main(int argc, char** argv) {
 	bgMapper = creat_Mapper(1);
 	spriteMapper = creat_Mapper(2);
 	ppu = creat_PPU(bgMapper, spriteMapper);
+	sw = creat_SW();
 
 	Uint8 glyphList[8192];
 	readGlyphList("..\\resources\\default.glyphset", glyphList);
@@ -360,13 +309,18 @@ int main(int argc, char** argv) {
 						}
 					}
 					if (event.key.keysym.sym == SDLK_SPACE) {
-						silent = !silent;
+						halfPeriod = 0;
 					}
-					if (event.key.keysym.sym == SDLK_q) { newHalfPeriod = 20; }
-					if (event.key.keysym.sym == SDLK_a) { newHalfPeriod = 110; }
-					if (event.key.keysym.sym == SDLK_s) { newHalfPeriod = 150; }
-					if (event.key.keysym.sym == SDLK_d) { newHalfPeriod = 200; }
-					if (event.key.keysym.sym == SDLK_f) { newHalfPeriod = 250; }
+					if (event.key.keysym.sym == SDLK_q) { halfPeriod = 20; volume = 8; }
+					if (event.key.keysym.sym == SDLK_a) { halfPeriod = 110; volume = 8; }
+					if (event.key.keysym.sym == SDLK_s) { halfPeriod = 150; volume = 8; }
+					if (event.key.keysym.sym == SDLK_d) { halfPeriod = 200; volume = 8; }
+					if (event.key.keysym.sym == SDLK_f) { halfPeriod = 250; volume = 8; }
+
+					if (event.key.keysym.sym == SDLK_z) { halfPeriod = 250; volume = 6; }
+					if (event.key.keysym.sym == SDLK_x) { halfPeriod = 250; volume = 4; }
+					if (event.key.keysym.sym == SDLK_c) { halfPeriod = 250; volume = 2; }
+					if (event.key.keysym.sym == SDLK_v) { halfPeriod = 250; volume = 1; }
 					break;
 				case SDL_USEREVENT:
 					hPerf perf = creat_Perf(SDL_LOG_CATEGORY_CUSTOM);
@@ -399,6 +353,7 @@ int main(int argc, char** argv) {
 		result = 1;
 	}
 
+	destr_SW(sw);
 	destr_PPU(ppu);
 	destr_Mapper(bgMapper);
 	destr_Mapper(spriteMapper);
