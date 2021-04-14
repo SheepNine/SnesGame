@@ -39,6 +39,9 @@
     <ClCompile Include="joydriver.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gamepad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -63,6 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="joydriver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gamepad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

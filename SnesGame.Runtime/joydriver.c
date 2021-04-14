@@ -1,175 +1,113 @@
 #include "joydriver.h"
+#include "gamepad.h"
 
-typedef void (*JoyButtonEventHandler)(SDL_JoyButtonEvent* evt);
-typedef void (*JoyAxisEventHandler)(SDL_JoyAxisEvent* evt);
-typedef void (*JoyHatEventHandler)(SDL_JoyHatEvent* evt);
+typedef void (*JoyButtonEventHandler)(hGP gp, SDL_JoyButtonEvent* evt);
+typedef void (*JoyAxisEventHandler)(hGP gp, SDL_JoyAxisEvent* evt);
+typedef void (*JoyHatEventHandler)(hGP gp, SDL_JoyHatEvent* evt);
 
-void NullButton(SDL_JoyButtonEvent* evt) { }
-void NullAxis(SDL_JoyAxisEvent* evt) { }
-void NullHat(SDL_JoyHatEvent* evt) { }
+void NullButton(hGP gp, SDL_JoyButtonEvent* evt) { }
+void NullAxis(hGP gp, SDL_JoyAxisEvent* evt) { }
+void NullHat(hGP gp, SDL_JoyHatEvent* evt) { }
 
-void RetrolinkButtonDown(SDL_JoyButtonEvent* evt) {
+void RetrolinkButtonDown(hGP gp, SDL_JoyButtonEvent* evt) {
 	switch (evt->button) {
-	case 0:
-		SDL_Log("+X");
-		break;
-	case 1:
-		SDL_Log("+A");
-		break;
-	case 2:
-		SDL_Log("+B");
-		break;
-	case 3:
-		SDL_Log("+Y");
-		break;
-	case 4:
-		SDL_Log("+ZL");
-		break;
-	case 5:
-		SDL_Log("+ZR");
-		break;
-	case 8:
-		SDL_Log("+SELECT");
-		break;
-	case 9:
-		SDL_Log("+START");
-		break;
+	case 0: engageButton_GP(gp, GP_BUTTON_BX); break;
+	case 1: engageButton_GP(gp, GP_BUTTON_BA); break;
+	case 2: engageButton_GP(gp, GP_BUTTON_BB); break;
+	case 3: engageButton_GP(gp, GP_BUTTON_BY); break;
+	case 4: engageButton_GP(gp, GP_BUTTON_ZL); break;
+	case 5: engageButton_GP(gp, GP_BUTTON_ZR); break;
+	case 8: engageButton_GP(gp, GP_BUTTON_SL); break;
+	case 9: engageButton_GP(gp, GP_BUTTON_ST); break;
 	}
 }
 
-void RetrolinkButtonUp(SDL_JoyButtonEvent* evt) {
+void RetrolinkButtonUp(hGP gp, SDL_JoyButtonEvent* evt) {
 	switch (evt->button) {
-	case 0:
-		SDL_Log("-X");
-		break;
-	case 1:
-		SDL_Log("-A");
-		break;
-	case 2:
-		SDL_Log("-B");
-		break;
-	case 3:
-		SDL_Log("-Y");
-		break;
-	case 4:
-		SDL_Log("-ZL");
-		break;
-	case 5:
-		SDL_Log("-ZR");
-		break;
-	case 8:
-		SDL_Log("-SELECT");
-		break;
-	case 9:
-		SDL_Log("-START");
-		break;
+	case 0: disengageButton_GP(gp, GP_BUTTON_BX); break;
+	case 1: disengageButton_GP(gp, GP_BUTTON_BA); break;
+	case 2: disengageButton_GP(gp, GP_BUTTON_BB); break;
+	case 3: disengageButton_GP(gp, GP_BUTTON_BY); break;
+	case 4: disengageButton_GP(gp, GP_BUTTON_ZL); break;
+	case 5: disengageButton_GP(gp, GP_BUTTON_ZR); break;
+	case 8: disengageButton_GP(gp, GP_BUTTON_SL); break;
+	case 9: disengageButton_GP(gp, GP_BUTTON_ST); break;
 	}
 }
 
-void RetrolinkAxis(SDL_JoyAxisEvent* evt) {
+void RetrolinkAxis(hGP gp, SDL_JoyAxisEvent* evt) {
 	switch (evt->axis) {
 	case 0:
 		switch (evt->value) {
 		case -32768:
-			SDL_Log("+L -R");
+			engageButton_GP(gp, GP_BUTTON_DL);
+			disengageButton_GP(gp, GP_BUTTON_DR);
 			break;
 		case -256:
-			SDL_Log("-L -R");
+			disengageButton_GP(gp, GP_BUTTON_DL);
+			disengageButton_GP(gp, GP_BUTTON_DR);
 			break;
 		case 32767:
-			SDL_Log("-L +R");
+			disengageButton_GP(gp, GP_BUTTON_DL);
+			engageButton_GP(gp, GP_BUTTON_DR);
 			break;
 		}
 		break;
 	case 4:
 		switch (evt->value) {
 		case -32768:
-			SDL_Log("+U -D");
+			engageButton_GP(gp, GP_BUTTON_DU);
+			disengageButton_GP(gp, GP_BUTTON_DD);
 			break;
 		case -256:
-			SDL_Log("-U -D");
+			disengageButton_GP(gp, GP_BUTTON_DU);
+			disengageButton_GP(gp, GP_BUTTON_DD);
 			break;
 		case 32767:
-			SDL_Log("-U +D");
+			disengageButton_GP(gp, GP_BUTTON_DU);
+			engageButton_GP(gp, GP_BUTTON_DD);
 			break;
 		}
 		break;
 	}
 }
 
-void XboxButtonDown(SDL_JoyButtonEvent* evt) {
+void XboxButtonDown(hGP gp, SDL_JoyButtonEvent* evt) {
 	switch (evt->button) {
-	case 0:
-		SDL_Log("+A");
-		break;
-	case 1:
-		SDL_Log("+B");
-		break;
-	case 2:
-		SDL_Log("+X");
-		break;
-	case 3:
-		SDL_Log("+Y");
-		break;
-	case 4:
-		SDL_Log("+ZL");
-		break;
-	case 5:
-		SDL_Log("+ZR");
-		break;
-	case 6:
-		SDL_Log("+SELECT");
-		break;
-	case 7:
-		SDL_Log("+START");
-		break;
-	default:
-		SDL_Log(evt->button);
-		break;
+	case 0: engageButton_GP(gp, GP_BUTTON_BB); break;
+	case 1: engageButton_GP(gp, GP_BUTTON_BA); break;
+	case 2: engageButton_GP(gp, GP_BUTTON_BY); break;
+	case 3: engageButton_GP(gp, GP_BUTTON_BX); break;
+	case 4: engageButton_GP(gp, GP_BUTTON_ZL); break;
+	case 5: engageButton_GP(gp, GP_BUTTON_ZR); break;
+	case 6: engageButton_GP(gp, GP_BUTTON_SL); break;
+	case 7: engageButton_GP(gp, GP_BUTTON_ST); break;
 	}
 }
 
-void XboxButtonUp(SDL_JoyButtonEvent* evt) {
+void XboxButtonUp(hGP gp, SDL_JoyButtonEvent* evt) {
 	switch (evt->button) {
-	case 0:
-		SDL_Log("-A");
-		break;
-	case 1:
-		SDL_Log("-B");
-		break;
-	case 2:
-		SDL_Log("-X");
-		break;
-	case 3:
-		SDL_Log("-Y");
-		break;
-	case 4:
-		SDL_Log("-ZL");
-		break;
-	case 5:
-		SDL_Log("-ZR");
-		break;
-	case 6:
-		SDL_Log("-SELECT");
-		break;
-	case 7:
-		SDL_Log("-START");
-		break;
+	case 0: disengageButton_GP(gp, GP_BUTTON_BB); break;
+	case 1: disengageButton_GP(gp, GP_BUTTON_BA); break;
+	case 2: disengageButton_GP(gp, GP_BUTTON_BY); break;
+	case 3: disengageButton_GP(gp, GP_BUTTON_BX); break;
+	case 4: disengageButton_GP(gp, GP_BUTTON_ZL); break;
+	case 5: disengageButton_GP(gp, GP_BUTTON_ZR); break;
+	case 6: disengageButton_GP(gp, GP_BUTTON_SL); break;
+	case 7: disengageButton_GP(gp, GP_BUTTON_ST); break;
 	}
 }
 
-void XboxHat(SDL_JoyHatEvent* evt) {
+void XboxHat(hGP gp, SDL_JoyHatEvent* evt) {
 	if (evt->hat != 0) return;
 
-	char u = (evt->value & 0x1) ? 'U' : '-';
-	char r = (evt->value & 0x2) ? 'R' : '-';
-	char d = (evt->value & 0x4) ? 'D' : '-';
-	char l = (evt->value & 0x8) ? 'L' : '-';
-
-	SDL_Log("D %c%c%c%c", u, r, d, l);
+	setButtonEngaged_GP(gp, GP_BUTTON_DU, (evt->value & 0x1) ? SDL_TRUE : SDL_FALSE);
+	setButtonEngaged_GP(gp, GP_BUTTON_DR, (evt->value & 0x2) ? SDL_TRUE : SDL_FALSE);
+	setButtonEngaged_GP(gp, GP_BUTTON_DD, (evt->value & 0x4) ? SDL_TRUE : SDL_FALSE);
+	setButtonEngaged_GP(gp, GP_BUTTON_DL, (evt->value & 0x8) ? SDL_TRUE : SDL_FALSE);
 }
 
-void XboxAxis(SDL_JoyAxisEvent* evt) {
+void XboxAxis(hGP gp, SDL_JoyAxisEvent* evt) {
 	// TODO: Map controller
 }
 
@@ -179,12 +117,14 @@ struct JD {
 	JoyButtonEventHandler buttonUp;
 	JoyAxisEventHandler axis;
 	JoyHatEventHandler hat;
+	hGP gp;
 } JD;
 
-hJD creat_JD(Sint32 which) {
+hJD creat_JD(Sint32 which, hGP gp) {
 	hJD result = (hJD)SDL_malloc(sizeof(JD));
 	result->joystick = SDL_JoystickOpen(which);
 	// TODO handle joystick NULL
+	result->gp = gp;
 
 	char guidBuffer[33];
 	SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(result->joystick), guidBuffer, sizeof(guidBuffer));
@@ -232,24 +172,24 @@ hJD handleDeviceRemoved_JD(hJD jd, SDL_JoyDeviceEvent* evt) {
 
 void handleJoyButtonDown_JD(hJD jd, SDL_JoyButtonEvent* evt) {
 	if (evt->which == SDL_JoystickInstanceID(jd->joystick)) {
-		jd->buttonDown(evt);
+		jd->buttonDown(jd->gp, evt);
 	}
 }
 
 void handleJoyButtonUp_JD(hJD jd, SDL_JoyButtonEvent* evt) {
-	if (evt->which != SDL_JoystickInstanceID(jd->joystick)) {
-		jd->buttonUp(evt);
+	if (evt->which == SDL_JoystickInstanceID(jd->joystick)) {
+		jd->buttonUp(jd->gp, evt);
 	}
 }
 
 void handleJoyAxisMotion_JD(hJD jd, SDL_JoyAxisEvent* evt) {
-	if (evt->which != SDL_JoystickInstanceID(jd->joystick)) {
-		jd->axis(evt);
+	if (evt->which == SDL_JoystickInstanceID(jd->joystick)) {
+		jd->axis(jd->gp, evt);
 	}
 }
 
 void handleJoyHatMotion_JD(hJD jd, SDL_JoyHatEvent* evt) {
-	if (evt->which != SDL_JoystickInstanceID(jd->joystick)) {
-		jd->hat(evt);
+	if (evt->which == SDL_JoystickInstanceID(jd->joystick)) {
+		jd->hat(jd->gp, evt);
 	}
 }

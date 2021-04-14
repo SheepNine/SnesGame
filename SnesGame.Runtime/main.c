@@ -6,6 +6,7 @@
 #include "perf.h"
 #include "sc.h"
 #include "joydriver.h"
+#include "gamepad.h"
 
 // --- BackBuffer ---
 
@@ -112,6 +113,19 @@ int main(int argc, char** argv) {
 	setSpriteControl_PPU(ppu, 6, 243, 243, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 6, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
 	setSpriteControl_PPU(ppu, 7, 243,  -5, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 7, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
 
+	setSpriteControl_PPU(ppu,  8,  8 + 64,  8 + 64, 1, 1, SDL_TRUE, 0);
+	setSpriteControl_PPU(ppu,  9, 16 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
+	setSpriteControl_PPU(ppu, 10,  8 + 64, 24 + 64, 1, 1, SDL_TRUE, 0);
+	setSpriteControl_PPU(ppu, 11,  0 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
+	setSpriteControl_PPU(ppu, 12, 72 + 64,  8 + 64, 1, 1, SDL_TRUE, 0);
+	setSpriteControl_PPU(ppu, 13, 80 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
+	setSpriteControl_PPU(ppu, 14, 72 + 64, 24 + 64, 1, 1, SDL_TRUE, 0);
+	setSpriteControl_PPU(ppu, 15, 64 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
+	setSpriteControl_PPU(ppu, 16, 32 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
+	setSpriteControl_PPU(ppu, 17, 48 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
+	setSpriteControl_PPU(ppu, 18, 24 + 64,  0 + 64, 1, 1, SDL_TRUE, 0);
+	setSpriteControl_PPU(ppu, 19, 56 + 64,  0 + 64, 1, 1, SDL_TRUE, 0);
+
 	setLayerClips_PPU(ppu, 0, 1, 3, 4, 9);
 
 	for (int y = 0; y < 32; y++) {
@@ -164,6 +178,7 @@ int main(int argc, char** argv) {
 			int y = 0;
 
 			hJD jd = NULL;
+			hGP gp = creat_GP();
 
 			SDL_bool loop = SDL_TRUE;
 			SDL_Event event;
@@ -175,7 +190,7 @@ int main(int argc, char** argv) {
 					break;
 				case SDL_JOYDEVICEADDED:
 					if (jd == NULL) {
-						jd = creat_JD(event.jdevice.which);
+						jd = creat_JD(event.jdevice.which, gp);
 					}
 					break;
 				case SDL_JOYDEVICEREMOVED:
@@ -235,6 +250,20 @@ int main(int argc, char** argv) {
 					}
 					break;
 				case SDL_USEREVENT:
+					// controller state
+					setSpriteBrush_PPU(ppu,  8, isEngaged_GP(gp, GP_BUTTON_DU) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setSpriteBrush_PPU(ppu,  9, isEngaged_GP(gp, GP_BUTTON_DR) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setSpriteBrush_PPU(ppu, 10, isEngaged_GP(gp, GP_BUTTON_DD) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setSpriteBrush_PPU(ppu, 11, isEngaged_GP(gp, GP_BUTTON_DL) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setSpriteBrush_PPU(ppu, 12, isEngaged_GP(gp, GP_BUTTON_BX) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setSpriteBrush_PPU(ppu, 13, isEngaged_GP(gp, GP_BUTTON_BA) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setSpriteBrush_PPU(ppu, 14, isEngaged_GP(gp, GP_BUTTON_BB) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setSpriteBrush_PPU(ppu, 15, isEngaged_GP(gp, GP_BUTTON_BY) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setSpriteBrush_PPU(ppu, 16, isEngaged_GP(gp, GP_BUTTON_SL) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setSpriteBrush_PPU(ppu, 17, isEngaged_GP(gp, GP_BUTTON_ST) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setSpriteBrush_PPU(ppu, 18, isEngaged_GP(gp, GP_BUTTON_ZL) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setSpriteBrush_PPU(ppu, 19, isEngaged_GP(gp, GP_BUTTON_ZR) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+
 					hPerf perf = creat_Perf(SDL_LOG_CATEGORY_CUSTOM);
 					scan_PPU(ppu, bb);
 					logInterval_Perf(perf, "Scan");
@@ -253,6 +282,12 @@ int main(int argc, char** argv) {
 					break;
 				}
 			}
+
+			if (jd != NULL) {
+				destr_JD(jd);
+			}
+			destr_GP(gp);
+
 			SDL_CloseAudioDevice(dev);
 			SDL_DestroyWindow(window);
 		} else {
