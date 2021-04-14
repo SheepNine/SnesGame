@@ -5,6 +5,7 @@
 #include "ppu.h"
 #include "perf.h"
 #include "sc.h"
+#include "joydriver.h"
 
 // --- BackBuffer ---
 
@@ -35,108 +36,6 @@ Uint32 heartbeatCallback(Uint32 interval, void* param) {
 
 #define R_WIDTH 248
 #define R_HEIGHT 247
-
-void handleJoyEvent(SDL_Event* event) {
-	switch (event->type) {
-	case SDL_JOYDEVICEADDED:
-		SDL_JoystickID joyId = SDL_JoystickInstanceID(SDL_JoystickOpen(event->jdevice.which));
-		SDL_Log("Added Joystick (device index:%i, instance id %i)", event->jdevice.which, joyId);
-		break;
-	case SDL_JOYDEVICEREMOVED:
-		SDL_Log("Removed Joystick (instance ID:%i)", event->jdevice.which);
-		SDL_JoystickClose(SDL_JoystickFromInstanceID(event->jdevice.which));
-		break;
-	case SDL_JOYBUTTONDOWN:
-		//SDL_Log("Joy button down (button: %u, instance ID: %i)", event->jbutton.button, event->jbutton.which);
-		switch (event->jbutton.button) {
-		case 0:
-			SDL_Log("+X");
-			break;
-		case 1:
-			SDL_Log("+A");
-			break;
-		case 2:
-			SDL_Log("+B");
-			break;
-		case 3:
-			SDL_Log("+Y");
-			break;
-		case 4:
-			SDL_Log("+ZL");
-			break;
-		case 5:
-			SDL_Log("+ZR");
-			break;
-		case 8:
-			SDL_Log("+SELECT");
-			break;
-		case 9:
-			SDL_Log("+START");
-			break;
-		}
-		break;
-	case SDL_JOYBUTTONUP:
-		//SDL_Log("Joy button up (button: %u, instance ID: %i)", event->jbutton.button, event->jbutton.which);
-		switch (event->jbutton.button) {
-		case 0:
-			SDL_Log("-X");
-			break;
-		case 1:
-			SDL_Log("-A");
-			break;
-		case 2:
-			SDL_Log("-B");
-			break;
-		case 3:
-			SDL_Log("-Y");
-			break;
-		case 4:
-			SDL_Log("-ZL");
-			break;
-		case 5:
-			SDL_Log("-ZR");
-			break;
-		case 8:
-			SDL_Log("-SELECT");
-			break;
-		case 9:
-			SDL_Log("-START");
-			break;
-		}
-		break;
-	case SDL_JOYAXISMOTION:
-		//SDL_Log("Joy axis motion (axis: %u, value: %i, instance ID: %i)", event->jaxis.axis, event->jaxis.value, event->jaxis.which);
-		switch (event->jaxis.axis) {
-		case 0:
-			switch (event->jaxis.value) {
-			case -32768:
-				SDL_Log("+L -R");
-				break;
-			case -256:
-				SDL_Log("-L -R");
-				break;
-			case 32767:
-				SDL_Log("-L +R");
-				break;
-			}
-			break;
-		case 4:
-			switch (event->jaxis.value) {
-			case -32768:
-				SDL_Log("+U -D");
-				break;
-			case -256:
-				SDL_Log("-U -D");
-				break;
-			case 32767:
-				SDL_Log("-U +D");
-				break;
-			}
-			break;
-		}
-		break;
-	}
-}
 
 SDL_AudioSpec have;
 
@@ -264,6 +163,8 @@ int main(int argc, char** argv) {
 			int x = 0;
 			int y = 0;
 
+			hJD jd = NULL;
+
 			SDL_bool loop = SDL_TRUE;
 			SDL_Event event;
 			while (loop) {
@@ -273,11 +174,27 @@ int main(int argc, char** argv) {
 					loop = SDL_FALSE;
 					break;
 				case SDL_JOYDEVICEADDED:
+					if (jd == NULL) {
+						jd = creat_JD(event.jdevice.which);
+					}
+					break;
 				case SDL_JOYDEVICEREMOVED:
+					if (jd != NULL) {
+						jd = handleDeviceRemoved_JD(jd, &event.jdevice);
+					}
+					// if JD == NULL, find a new joystick?
+					break;
 				case SDL_JOYBUTTONDOWN:
+					handleJoyButtonDown_JD(jd, &event.jbutton);
+					break;
 				case SDL_JOYBUTTONUP:
+					handleJoyButtonUp_JD(jd, &event.jbutton);
+					break;
 				case SDL_JOYAXISMOTION:
-					handleJoyEvent(&event);
+					handleJoyAxisMotion_JD(jd, &event.jaxis);
+					break;
+				case SDL_JOYHATMOTION:
+					handleJoyHatMotion_JD(jd, &event.jhat);
 					break;
 				case SDL_KEYDOWN:
 					if (event.key.keysym.sym == SDLK_F11) {

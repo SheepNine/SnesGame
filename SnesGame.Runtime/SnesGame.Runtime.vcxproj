@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bb.c" />
+    <ClCompile Include="joydriver.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mapper.c" />
     <ClCompile Include="perf.c" />
@@ -151,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bb.h" />
+    <ClInclude Include="joydriver.h" />
     <ClInclude Include="mapper.h" />
     <ClInclude Include="perf.h" />
     <ClInclude Include="ppu.h" />
