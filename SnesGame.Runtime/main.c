@@ -52,7 +52,7 @@ void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 	}
 }
 
-int main(int argc, char** argv) {
+extern int libMain(int argc, char** argv) {
 	int result = 0;
 	bb = creat_BB();
 	fill_BB(bb, 128, 128, 128);
