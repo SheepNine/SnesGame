@@ -7,6 +7,7 @@
 #include "sc.h"
 #include "joydriver.h"
 #include "gamepad.h"
+#include "api/snes_api.h"
 
 // --- BackBuffer ---
 
@@ -51,7 +52,7 @@ void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 	}
 }
 
-extern int libMain(char* title) {
+extern int libMain(char* title, pInitCallback initFunc) {
 	int result = 0;
 	bb = creat_BB();
 	fill_BB(bb, 128, 128, 128);
@@ -63,6 +64,7 @@ extern int libMain(char* title) {
 	readGlyphList("..\\resources\\default.glyphset", glyphList);
 	loadPage_Mapper(romMapper, 0, glyphList);
 	loadPage_Mapper(romMapper, 1, glyphList);
+	initFunc(NULL);
 
 	switchSpriteBank_PPU(ppu, 3, 1);
 
