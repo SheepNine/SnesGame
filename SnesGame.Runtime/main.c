@@ -52,7 +52,7 @@ void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 	}
 }
 
-extern int libMain(int argc, char** argv) {
+extern int libMain(char* title) {
 	int result = 0;
 	bb = creat_BB();
 	fill_BB(bb, 128, 128, 128);
@@ -163,7 +163,7 @@ extern int libMain(int argc, char** argv) {
 		}
 
 		SDL_Window* window = SDL_CreateWindow(
-			"SnesGame",
+			title,
 			SDL_WINDOWPOS_CENTERED,
 			SDL_WINDOWPOS_CENTERED,
 			770, 770,
