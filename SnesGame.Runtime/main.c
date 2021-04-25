@@ -11,8 +11,7 @@
 // --- BackBuffer ---
 
 hBB bb;
-hMapper bgMapper;
-hMapper spriteMapper;
+hMapper romMapper;
 hPPU ppu;
 
 void readGlyphList(char *filename, Uint8 *glyphlist) {
@@ -56,15 +55,14 @@ extern int libMain(char* title) {
 	int result = 0;
 	bb = creat_BB();
 	fill_BB(bb, 128, 128, 128);
-	bgMapper = creat_Mapper(1);
-	spriteMapper = creat_Mapper(2);
-	ppu = creat_PPU(bgMapper, spriteMapper);
+	romMapper = creat_Mapper(2);
+	ppu = creat_PPU(romMapper);
 	sc = creat_SC();
 
 	Uint8 glyphList[8192];
 	readGlyphList("..\\resources\\default.glyphset", glyphList);
-	loadPage_Mapper(bgMapper, 0, glyphList);
-	loadPage_Mapper(spriteMapper, 1, glyphList);
+	loadPage_Mapper(romMapper, 0, glyphList);
+	loadPage_Mapper(romMapper, 1, glyphList);
 
 	switchSpriteBank_PPU(ppu, 3, 1);
 
@@ -302,8 +300,7 @@ extern int libMain(char* title) {
 
 	destr_SC(sc);
 	destr_PPU(ppu);
-	destr_Mapper(bgMapper);
-	destr_Mapper(spriteMapper);
+	destr_Mapper(romMapper);
 	destr_BB(bb);
 	return result;
 }

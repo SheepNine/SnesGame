@@ -5,17 +5,23 @@
 struct Mapper {
 	Uint8* pages;
 	int numPages;
-	Uint8* banks[4];
+	Uint8* spriteBanks[4];
+	Uint8* backgroundBanks[4];
 } Mapper;
 
 hMapper creat_Mapper(int numPages) {
 	hMapper result = (hMapper)SDL_malloc(sizeof(Mapper));
 	result->numPages = numPages;
 	result->pages = SDL_malloc(numPages * __MAPPER_PAGE_SIZE);
-	result->banks[0] = result->pages;
-	result->banks[1] = result->pages;
-	result->banks[2] = result->pages;
-	result->banks[3] = result->pages;
+	result->spriteBanks[0] = result->pages;
+	result->spriteBanks[1] = result->pages;
+	result->spriteBanks[2] = result->pages;
+	result->spriteBanks[3] = result->pages;
+
+	result->backgroundBanks[0] = result->pages;
+	result->backgroundBanks[1] = result->pages;
+	result->backgroundBanks[2] = result->pages;
+	result->backgroundBanks[3] = result->pages;
 	return result;
 }
 
@@ -28,10 +34,16 @@ void loadPage_Mapper(hMapper mapper, int page, Uint8* data) {
 	SDL_memcpy(mapper->pages + __MAPPER_PAGE_SIZE * page, data, __MAPPER_PAGE_SIZE);
 }
 
-void switchBank_Mapper(hMapper mapper, int bank, int page) {
-	mapper->banks[bank] = mapper->pages + page * __MAPPER_PAGE_SIZE;
+void switchSpriteBank_Mapper(hMapper mapper, int bank, int page) {
+	mapper->spriteBanks[bank] = mapper->pages + page * __MAPPER_PAGE_SIZE;
+}
+void switchBackgroundBank_Mapper(hMapper mapper, int bank, int page) {
+	mapper->backgroundBanks[bank] = mapper->pages + page * __MAPPER_PAGE_SIZE;
 }
 
-Uint8* getBar_Mapper(hMapper mapper, int bank, int glyph, int bar) {
-	return mapper->banks[bank] + 4 * (8 * glyph + bar);
+Uint8* getSpriteBar_Mapper(hMapper mapper, int bank, int glyph, int bar) {
+	return mapper->spriteBanks[bank] + 4 * (8 * glyph + bar);
+}
+Uint8* getBackgroundBar_Mapper(hMapper mapper, int bank, int glyph, int bar) {
+	return mapper->backgroundBanks[bank] + 4 * (8 * glyph + bar);
 }

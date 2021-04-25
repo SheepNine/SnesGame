@@ -5,7 +5,7 @@
 
 typedef struct PPU* hPPU;
 
-hPPU creat_PPU(hMapper bgMapper, hMapper spriteMapper);
+hPPU creat_PPU(hMapper romMapper);
 void destr_PPU(hPPU ppu);
 
 void switchBgBank_PPU(hPPU ppu, Uint8 bank, int page);

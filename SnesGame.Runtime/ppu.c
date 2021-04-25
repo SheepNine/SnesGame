@@ -2,8 +2,7 @@
 
 
 struct PPU {
-	hMapper bgMapper;
-	hMapper spriteMapper;
+	hMapper romMapper;
 
 	Uint8 bgPalette[256];
 	Uint8 spritePalette[256];
@@ -17,10 +16,9 @@ struct PPU {
 	Uint8 spriteControls[372];
 } PPU;
 
-hPPU creat_PPU(hMapper bgMapper, hMapper spriteMapper) {
+hPPU creat_PPU(hMapper romMapper) {
 	hPPU result = (hPPU)SDL_malloc(sizeof(PPU));
-	result->bgMapper = bgMapper;
-	result->spriteMapper = spriteMapper;
+	result->romMapper = romMapper;
 	SDL_memset(result->bgPalette, 0, 256);
 	SDL_memset(result->spritePalette, 0, 256);
 	SDL_memset(result->brushMaps, 0, 8192);
@@ -37,12 +35,12 @@ void destr_PPU(hPPU ppu) {
 
 void switchBgBank_PPU(hPPU ppu, Uint8 bank, int page) {
 	SDL_assert(bank < 4);
-	switchBank_Mapper(ppu->bgMapper, bank, page);
+	switchBackgroundBank_Mapper(ppu->romMapper, bank, page);
 }
 
 void switchSpriteBank_PPU(hPPU ppu, Uint8 bank, int page) {
 	SDL_assert(bank < 4);
-	switchBank_Mapper(ppu->spriteMapper, bank, page);
+	switchSpriteBank_Mapper(ppu->romMapper, bank, page);
 }
 
 void _packBrush_PPU(Uint8* brush, Uint8 glyphIndex, Uint8 bankIndex, Uint8 swatchIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0) {
@@ -234,7 +232,7 @@ void _scanBackground(Uint8* control, Uint8* brushMap, hMapper mapper, Uint8* pal
 		SDL_bool hFlip, vFlip, mask0;
 		_unpackBrush_PPU(brush, &glyphIndex, &bankIndex, &swatchIndex, &hFlip, &vFlip, &mask0);
 
-		scanBar_SL(sl, getBar_Mapper(mapper, bankIndex, glyphIndex, vFlip ? 7 - glyphBarIndex : glyphBarIndex),
+		scanBar_SL(sl, getBackgroundBar_Mapper(mapper, bankIndex, glyphIndex, vFlip ? 7 - glyphBarIndex : glyphBarIndex),
 			    _getSwatch_PPU(palette, swatchIndex), x, hFlip, mask0);
 
 		brush += 2;
@@ -272,7 +270,7 @@ void _scanSprite(Uint8* control, Uint8* brush, hMapper mapper, Uint8* palette, h
 		}
 
 		for (int i = 0; i < sizeX; i++) {
-			scanBar_SL(sl, getBar_Mapper(mapper, bankIndex, glyphIndex, bar),
+			scanBar_SL(sl, getSpriteBar_Mapper(mapper, bankIndex, glyphIndex, bar),
 				_getSwatch_PPU(palette, swatchIndex), destX, hFlip, mask0);
 
 			glyphIndex += 1;
@@ -286,7 +284,7 @@ void _scanSprites_PPU(hPPU ppu, Uint8 layer, hSL sl) {
 	Uint8* control = ppu->spriteControls;
 	for (int i = 0; i < 124; i++) {
 		if (_unpackSpriteLayer_PPU(control) == layer && _isSpriteVisible_PPU(control)) {
-			_scanSprite(control, brush, ppu->spriteMapper, ppu->spritePalette, sl);
+			_scanSprite(control, brush, ppu->romMapper, ppu->spritePalette, sl);
 		}
 		brush += 2;
 		control += 3;
@@ -296,7 +294,7 @@ void _scanSprites_PPU(hPPU ppu, Uint8 layer, hSL sl) {
 void _scanBackground_PPU(hPPU ppu, Uint8 layer, hSL sl, SDL_bool topmost) {
 	Uint8* control = ppu->bgControls + layer;
 	if (_isBgTopmost_PPU(control) == topmost && _isBgVisible_PPU(control)) {
-		_scanBackground(control, ppu->brushMaps + 2048 * layer, ppu->bgMapper, ppu->bgPalette, sl);
+		_scanBackground(control, ppu->brushMaps + 2048 * layer, ppu->romMapper, ppu->bgPalette, sl);
 	}
 }
 
