@@ -159,7 +159,7 @@ int main(int argc, char** argv) {
 		dev = SDL_OpenAudioDevice(NULL, SDL_FALSE, &want, &have, 0);
 
 		if (dev == 0) {
-			return;
+			return 1;
 		}
 
 		SDL_Window* window = SDL_CreateWindow(
