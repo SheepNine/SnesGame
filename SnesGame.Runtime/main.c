@@ -52,7 +52,7 @@ void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 	}
 }
 
-extern int libMain(char* title, pInitCallback initFunc) {
+extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFunc, pRenderCallback renderFunc) {
 	int result = 0;
 	bb = creat_BB();
 	fill_BB(bb, 128, 128, 128);
@@ -250,6 +250,8 @@ extern int libMain(char* title, pInitCallback initFunc) {
 					}
 					break;
 				case SDL_USEREVENT:
+					updateFunc(NULL);
+					renderFunc(NULL);
 					// controller state
 					setSpriteBrush_PPU(ppu,  8, isEngaged_GP(gp, GP_BUTTON_DU) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
 					setSpriteBrush_PPU(ppu,  9, isEngaged_GP(gp, GP_BUTTON_DR) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
@@ -263,7 +265,6 @@ extern int libMain(char* title, pInitCallback initFunc) {
 					setSpriteBrush_PPU(ppu, 17, isEngaged_GP(gp, GP_BUTTON_ST) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
 					setSpriteBrush_PPU(ppu, 18, isEngaged_GP(gp, GP_BUTTON_ZL) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
 					setSpriteBrush_PPU(ppu, 19, isEngaged_GP(gp, GP_BUTTON_ZR) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-
 					hPerf perf = creat_Perf(SDL_LOG_CATEGORY_CUSTOM);
 					scan_PPU(ppu, bb);
 					logInterval_Perf(perf, "Scan");
