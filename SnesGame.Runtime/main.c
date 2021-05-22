@@ -66,65 +66,65 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 	loadPage_Mapper(romMapper, 1, glyphList);
 	initFunc(NULL);
 
-	switchSpriteBank_PPU(ppu, 3, 1);
+	switchBackdropBrushList_PPU(ppu, 3, 1);
 
-	setBgColor_PPU(ppu, 0, 0x0, 0x00, 0x00, 0x00, SDL_FALSE); // Black
-	setBgColor_PPU(ppu, 0, 0x1, 0x00, 0x00, 0xAA, SDL_FALSE); // Blue
-	setBgColor_PPU(ppu, 0, 0x2, 0x00, 0xAA, 0x00, SDL_FALSE); // Green
-	setBgColor_PPU(ppu, 0, 0x3, 0x00, 0xAA, 0xAA, SDL_FALSE); // Cyan
-	setBgColor_PPU(ppu, 0, 0x4, 0xAA, 0x00, 0x00, SDL_FALSE); // Red
-	setBgColor_PPU(ppu, 0, 0x5, 0xAA, 0x00, 0xAA, SDL_FALSE); // Magenta
-	setBgColor_PPU(ppu, 0, 0x6, 0xAA, 0x55, 0x00, SDL_FALSE); // Brown
-	setBgColor_PPU(ppu, 0, 0x7, 0xAA, 0xAA, 0xAA, SDL_FALSE); // Light gray
-	setBgColor_PPU(ppu, 0, 0x8, 0x55, 0x55, 0x55, SDL_FALSE); // Dark gray
-	setBgColor_PPU(ppu, 0, 0x9, 0x55, 0x55, 0xFF, SDL_FALSE); // Light blue
-	setBgColor_PPU(ppu, 0, 0xA, 0x55, 0xFF, 0x55, SDL_FALSE); // Light green
-	setBgColor_PPU(ppu, 0, 0xB, 0x55, 0xFF, 0xFF, SDL_FALSE); // Light cyan
-	setBgColor_PPU(ppu, 0, 0xC, 0xFF, 0x55, 0x55, SDL_FALSE); // Light red
-	setBgColor_PPU(ppu, 0, 0xD, 0xFF, 0x55, 0xFF, SDL_FALSE); // Light magenta
-	setBgColor_PPU(ppu, 0, 0xE, 0xFF, 0xFF, 0x55, SDL_FALSE); // Yellow
-	setBgColor_PPU(ppu, 0, 0xF, 0xFF, 0xFF, 0xFF, SDL_FALSE); // White
+	setBackdropPaletteColor_PPU(ppu, 0, 0x0, 0x00, 0x00, 0x00, SDL_FALSE); // Black
+	setBackdropPaletteColor_PPU(ppu, 0, 0x1, 0x00, 0x00, 0xAA, SDL_FALSE); // Blue
+	setBackdropPaletteColor_PPU(ppu, 0, 0x2, 0x00, 0xAA, 0x00, SDL_FALSE); // Green
+	setBackdropPaletteColor_PPU(ppu, 0, 0x3, 0x00, 0xAA, 0xAA, SDL_FALSE); // Cyan
+	setBackdropPaletteColor_PPU(ppu, 0, 0x4, 0xAA, 0x00, 0x00, SDL_FALSE); // Red
+	setBackdropPaletteColor_PPU(ppu, 0, 0x5, 0xAA, 0x00, 0xAA, SDL_FALSE); // Magenta
+	setBackdropPaletteColor_PPU(ppu, 0, 0x6, 0xAA, 0x55, 0x00, SDL_FALSE); // Brown
+	setBackdropPaletteColor_PPU(ppu, 0, 0x7, 0xAA, 0xAA, 0xAA, SDL_FALSE); // Light gray
+	setBackdropPaletteColor_PPU(ppu, 0, 0x8, 0x55, 0x55, 0x55, SDL_FALSE); // Dark gray
+	setBackdropPaletteColor_PPU(ppu, 0, 0x9, 0x55, 0x55, 0xFF, SDL_FALSE); // Light blue
+	setBackdropPaletteColor_PPU(ppu, 0, 0xA, 0x55, 0xFF, 0x55, SDL_FALSE); // Light green
+	setBackdropPaletteColor_PPU(ppu, 0, 0xB, 0x55, 0xFF, 0xFF, SDL_FALSE); // Light cyan
+	setBackdropPaletteColor_PPU(ppu, 0, 0xC, 0xFF, 0x55, 0x55, SDL_FALSE); // Light red
+	setBackdropPaletteColor_PPU(ppu, 0, 0xD, 0xFF, 0x55, 0xFF, SDL_FALSE); // Light magenta
+	setBackdropPaletteColor_PPU(ppu, 0, 0xE, 0xFF, 0xFF, 0x55, SDL_FALSE); // Yellow
+	setBackdropPaletteColor_PPU(ppu, 0, 0xF, 0xFF, 0xFF, 0xFF, SDL_FALSE); // White
 
-	setSpriteColor_PPU(ppu, 7, 0x0, 0x00, 0x00, 0x00, SDL_FALSE); // Black
-	setSpriteColor_PPU(ppu, 7, 0x1, 0x00, 0x00, 0xAA, SDL_FALSE); // Blue
-	setSpriteColor_PPU(ppu, 7, 0x2, 0x00, 0xAA, 0x00, SDL_FALSE); // Green
-	setSpriteColor_PPU(ppu, 7, 0x3, 0x00, 0xAA, 0xAA, SDL_FALSE); // Cyan
-	setSpriteColor_PPU(ppu, 7, 0x4, 0xAA, 0x00, 0x00, SDL_FALSE); // Red
-	setSpriteColor_PPU(ppu, 7, 0x5, 0xAA, 0x00, 0xAA, SDL_FALSE); // Magenta
-	setSpriteColor_PPU(ppu, 7, 0x6, 0xAA, 0x55, 0x00, SDL_FALSE); // Brown
-	setSpriteColor_PPU(ppu, 7, 0x7, 0xAA, 0xAA, 0xAA, SDL_FALSE); // Light gray
-	setSpriteColor_PPU(ppu, 7, 0x8, 0x55, 0x55, 0x55, SDL_FALSE); // Dark gray
-	setSpriteColor_PPU(ppu, 7, 0x9, 0x55, 0x55, 0xFF, SDL_FALSE); // Light blue
-	setSpriteColor_PPU(ppu, 7, 0xA, 0x55, 0xFF, 0x55, SDL_FALSE); // Light green
-	setSpriteColor_PPU(ppu, 7, 0xB, 0x55, 0xFF, 0xFF, SDL_FALSE); // Light cyan
-	setSpriteColor_PPU(ppu, 7, 0xC, 0xFF, 0x55, 0x55, SDL_FALSE); // Light red
-	setSpriteColor_PPU(ppu, 7, 0xD, 0xFF, 0x55, 0xFF, SDL_FALSE); // Light magenta
-	setSpriteColor_PPU(ppu, 7, 0xE, 0xFF, 0xFF, 0x55, SDL_FALSE); // Yellow
-	setSpriteColor_PPU(ppu, 7, 0xF, 0xFF, 0xFF, 0xFF, SDL_FALSE); // White
+	setActorPaletteColor_PPU(ppu, 7, 0x0, 0x00, 0x00, 0x00, SDL_FALSE); // Black
+	setActorPaletteColor_PPU(ppu, 7, 0x1, 0x00, 0x00, 0xAA, SDL_FALSE); // Blue
+	setActorPaletteColor_PPU(ppu, 7, 0x2, 0x00, 0xAA, 0x00, SDL_FALSE); // Green
+	setActorPaletteColor_PPU(ppu, 7, 0x3, 0x00, 0xAA, 0xAA, SDL_FALSE); // Cyan
+	setActorPaletteColor_PPU(ppu, 7, 0x4, 0xAA, 0x00, 0x00, SDL_FALSE); // Red
+	setActorPaletteColor_PPU(ppu, 7, 0x5, 0xAA, 0x00, 0xAA, SDL_FALSE); // Magenta
+	setActorPaletteColor_PPU(ppu, 7, 0x6, 0xAA, 0x55, 0x00, SDL_FALSE); // Brown
+	setActorPaletteColor_PPU(ppu, 7, 0x7, 0xAA, 0xAA, 0xAA, SDL_FALSE); // Light gray
+	setActorPaletteColor_PPU(ppu, 7, 0x8, 0x55, 0x55, 0x55, SDL_FALSE); // Dark gray
+	setActorPaletteColor_PPU(ppu, 7, 0x9, 0x55, 0x55, 0xFF, SDL_FALSE); // Light blue
+	setActorPaletteColor_PPU(ppu, 7, 0xA, 0x55, 0xFF, 0x55, SDL_FALSE); // Light green
+	setActorPaletteColor_PPU(ppu, 7, 0xB, 0x55, 0xFF, 0xFF, SDL_FALSE); // Light cyan
+	setActorPaletteColor_PPU(ppu, 7, 0xC, 0xFF, 0x55, 0x55, SDL_FALSE); // Light red
+	setActorPaletteColor_PPU(ppu, 7, 0xD, 0xFF, 0x55, 0xFF, SDL_FALSE); // Light magenta
+	setActorPaletteColor_PPU(ppu, 7, 0xE, 0xFF, 0xFF, 0x55, SDL_FALSE); // Yellow
+	setActorPaletteColor_PPU(ppu, 7, 0xF, 0xFF, 0xFF, 0xFF, SDL_FALSE); // White
 
-	setBgControl_PPU(ppu, 0, 0, 0, SDL_TRUE, SDL_FALSE);
+	setBackdropControl_PPU(ppu, 0, 0, 0, SDL_TRUE, SDL_FALSE);
 
-	setSpriteControl_PPU(ppu, 0, 4, 9, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 0, 1, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setSpriteControl_PPU(ppu, 1, 25, 11, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 1, 1, 3, 7, SDL_TRUE, SDL_FALSE, SDL_FALSE);
-	setSpriteControl_PPU(ppu, 2, 42, 14, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 2, 1, 3, 7, SDL_TRUE, SDL_TRUE, SDL_TRUE);
-	setSpriteControl_PPU(ppu, 3, 60, 20, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 3, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
-	setSpriteControl_PPU(ppu, 4,  -5,  -5, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 4, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
-	setSpriteControl_PPU(ppu, 5,  -5, 243, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 5, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
-	setSpriteControl_PPU(ppu, 6, 243, 243, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 6, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
-	setSpriteControl_PPU(ppu, 7, 243,  -5, 2, 2, SDL_TRUE, 0); setSpriteBrush_PPU(ppu, 7, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	setActorControl_PPU(ppu, 0,   4,   9, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 0, 1, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorControl_PPU(ppu, 1,  25,  11, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 1, 1, 3, 7, SDL_TRUE, SDL_FALSE, SDL_FALSE);
+	setActorControl_PPU(ppu, 2,  42,  14, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 2, 1, 3, 7, SDL_TRUE, SDL_TRUE, SDL_TRUE);
+	setActorControl_PPU(ppu, 3,  60,  20, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 3, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	setActorControl_PPU(ppu, 4,  -5,  -5, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 4, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	setActorControl_PPU(ppu, 5,  -5, 243, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 5, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	setActorControl_PPU(ppu, 6, 243, 243, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 6, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	setActorControl_PPU(ppu, 7, 243,  -5, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 7, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
 
-	setSpriteControl_PPU(ppu,  8,  8 + 64,  8 + 64, 1, 1, SDL_TRUE, 0);
-	setSpriteControl_PPU(ppu,  9, 16 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setSpriteControl_PPU(ppu, 10,  8 + 64, 24 + 64, 1, 1, SDL_TRUE, 0);
-	setSpriteControl_PPU(ppu, 11,  0 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setSpriteControl_PPU(ppu, 12, 72 + 64,  8 + 64, 1, 1, SDL_TRUE, 0);
-	setSpriteControl_PPU(ppu, 13, 80 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setSpriteControl_PPU(ppu, 14, 72 + 64, 24 + 64, 1, 1, SDL_TRUE, 0);
-	setSpriteControl_PPU(ppu, 15, 64 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setSpriteControl_PPU(ppu, 16, 32 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setSpriteControl_PPU(ppu, 17, 48 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setSpriteControl_PPU(ppu, 18, 24 + 64,  0 + 64, 1, 1, SDL_TRUE, 0);
-	setSpriteControl_PPU(ppu, 19, 56 + 64,  0 + 64, 1, 1, SDL_TRUE, 0);
+	setActorControl_PPU(ppu,  8,  8 + 64,  8 + 64, 1, 1, SDL_TRUE, 0);
+	setActorControl_PPU(ppu,  9, 16 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
+	setActorControl_PPU(ppu, 10,  8 + 64, 24 + 64, 1, 1, SDL_TRUE, 0);
+	setActorControl_PPU(ppu, 11,  0 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
+	setActorControl_PPU(ppu, 12, 72 + 64,  8 + 64, 1, 1, SDL_TRUE, 0);
+	setActorControl_PPU(ppu, 13, 80 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
+	setActorControl_PPU(ppu, 14, 72 + 64, 24 + 64, 1, 1, SDL_TRUE, 0);
+	setActorControl_PPU(ppu, 15, 64 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
+	setActorControl_PPU(ppu, 16, 32 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
+	setActorControl_PPU(ppu, 17, 48 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
+	setActorControl_PPU(ppu, 18, 24 + 64,  0 + 64, 1, 1, SDL_TRUE, 0);
+	setActorControl_PPU(ppu, 19, 56 + 64,  0 + 64, 1, 1, SDL_TRUE, 0);
 
 	setLayerClips_PPU(ppu, 0, 1, 3, 4, 9);
 
@@ -141,7 +141,7 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 				glyph = 16;
 			}
 
-			setBgBrush_PPU(ppu, 0, x, y, glyph, 0, 0, x % 4 == 1, x % 4 == 3, SDL_TRUE);
+			setBackdropStroke_PPU(ppu, 0, x, y, glyph, 0, 0, x % 4 == 1, x % 4 == 3, SDL_TRUE);
 		}
 	}
 
@@ -253,18 +253,18 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 					updateFunc(NULL);
 					renderFunc(NULL);
 					// controller state
-					setSpriteBrush_PPU(ppu,  8, isEngaged_GP(gp, GP_BUTTON_DU) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setSpriteBrush_PPU(ppu,  9, isEngaged_GP(gp, GP_BUTTON_DR) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setSpriteBrush_PPU(ppu, 10, isEngaged_GP(gp, GP_BUTTON_DD) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setSpriteBrush_PPU(ppu, 11, isEngaged_GP(gp, GP_BUTTON_DL) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setSpriteBrush_PPU(ppu, 12, isEngaged_GP(gp, GP_BUTTON_BX) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setSpriteBrush_PPU(ppu, 13, isEngaged_GP(gp, GP_BUTTON_BA) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setSpriteBrush_PPU(ppu, 14, isEngaged_GP(gp, GP_BUTTON_BB) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setSpriteBrush_PPU(ppu, 15, isEngaged_GP(gp, GP_BUTTON_BY) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setSpriteBrush_PPU(ppu, 16, isEngaged_GP(gp, GP_BUTTON_SL) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setSpriteBrush_PPU(ppu, 17, isEngaged_GP(gp, GP_BUTTON_ST) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setSpriteBrush_PPU(ppu, 18, isEngaged_GP(gp, GP_BUTTON_ZL) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setSpriteBrush_PPU(ppu, 19, isEngaged_GP(gp, GP_BUTTON_ZR) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setActorStroke_PPU(ppu,  8, isEngaged_GP(gp, GP_BUTTON_DU) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setActorStroke_PPU(ppu,  9, isEngaged_GP(gp, GP_BUTTON_DR) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setActorStroke_PPU(ppu, 10, isEngaged_GP(gp, GP_BUTTON_DD) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setActorStroke_PPU(ppu, 11, isEngaged_GP(gp, GP_BUTTON_DL) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setActorStroke_PPU(ppu, 12, isEngaged_GP(gp, GP_BUTTON_BX) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setActorStroke_PPU(ppu, 13, isEngaged_GP(gp, GP_BUTTON_BA) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setActorStroke_PPU(ppu, 14, isEngaged_GP(gp, GP_BUTTON_BB) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setActorStroke_PPU(ppu, 15, isEngaged_GP(gp, GP_BUTTON_BY) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setActorStroke_PPU(ppu, 16, isEngaged_GP(gp, GP_BUTTON_SL) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setActorStroke_PPU(ppu, 17, isEngaged_GP(gp, GP_BUTTON_ST) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setActorStroke_PPU(ppu, 18, isEngaged_GP(gp, GP_BUTTON_ZL) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+					setActorStroke_PPU(ppu, 19, isEngaged_GP(gp, GP_BUTTON_ZR) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
 					hPerf perf = creat_Perf(SDL_LOG_CATEGORY_CUSTOM);
 					scan_PPU(ppu, bb);
 					logInterval_Perf(perf, "Scan");
