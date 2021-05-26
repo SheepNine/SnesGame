@@ -10,6 +10,7 @@
 #include "api/snes_api.h"
 #include "init.h"
 #include "render.h"
+#include "update.h"
 
 // --- BackBuffer ---
 
@@ -160,25 +161,16 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 					}
 					break;
 				case SDL_USEREVENT:
-					updateFunc(NULL);
+					{
+						hUPDATE update = creat_UPDATE(gp);
+						updateFunc(update);
+						destr_UPDATE(update);
+					}					
 					{
 						hRENDER render = creat_RENDER(ppu);
 						renderFunc(render);
 						destr_RENDER(render);
 					}
-					// controller state
-					setActorStroke_PPU(ppu,  8, isEngaged_GP(gp, GP_BUTTON_DU) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setActorStroke_PPU(ppu,  9, isEngaged_GP(gp, GP_BUTTON_DR) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setActorStroke_PPU(ppu, 10, isEngaged_GP(gp, GP_BUTTON_DD) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setActorStroke_PPU(ppu, 11, isEngaged_GP(gp, GP_BUTTON_DL) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setActorStroke_PPU(ppu, 12, isEngaged_GP(gp, GP_BUTTON_BX) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setActorStroke_PPU(ppu, 13, isEngaged_GP(gp, GP_BUTTON_BA) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setActorStroke_PPU(ppu, 14, isEngaged_GP(gp, GP_BUTTON_BB) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setActorStroke_PPU(ppu, 15, isEngaged_GP(gp, GP_BUTTON_BY) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setActorStroke_PPU(ppu, 16, isEngaged_GP(gp, GP_BUTTON_SL) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setActorStroke_PPU(ppu, 17, isEngaged_GP(gp, GP_BUTTON_ST) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setActorStroke_PPU(ppu, 18, isEngaged_GP(gp, GP_BUTTON_ZL) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-					setActorStroke_PPU(ppu, 19, isEngaged_GP(gp, GP_BUTTON_ZR) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
 					hPerf perf = creat_Perf(SDL_LOG_CATEGORY_CUSTOM);
 					scan_PPU(ppu, bb);
 					logInterval_Perf(perf, "Scan");

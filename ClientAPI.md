@@ -151,3 +151,15 @@ D♯6 | 19 | 1263.16 | 1.50%
 E6 | 18 | 1333.33 | 1.12%
 F6 | 17 | 1411.76 | 1.06%
 F♯6 | 16 | 1500.00 | 1.35%
+
+## Controllers
+
+The SNES game runtime abstracts physical input devices to a unified 'logical' controller abstraction. This controller has the same layout as an SNES controller: a D-pad, L and R shoulder buttons, select, start, and four buttons labelled X, A, B and Y (clockwise from the top).
+
+Each button on the logical controller can be in one of two states: in (being held down), or out (not being held down). If the button is currently in, but was out on the last update call, it is 'pressed' in addition to being in; similarly, if the button is currently out, but was in on the last update call, it is 'released' in addition to being out.
+
+The state of each logical button is captured just before the call to the update lifecycle method. As a reasult, if the player manages to press and release the controller button between two update calls, the runtime will not register any change to the logical controller. 
+
+## Recording and Playback
+
+TBD

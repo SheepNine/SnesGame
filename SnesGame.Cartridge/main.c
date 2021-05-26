@@ -1,13 +1,27 @@
 #include <wtypes.h>
 #include "snes_api.h"
 
+SDL_bool controllerState[12];
+
 void initFunc(hINIT init) {
 	allocBrushLists(init, 1);
 	loadBrushList(init, 0, "..\\resources\\default.glyphset");
 }
 
-void updateFunc(void* hUPDATE) {
+void updateFunc(hUPDATE update) {
 
+	controllerState[ 0] = isButtonIn(update, GP_BUTTON_DU) == SDL_TRUE;
+	controllerState[ 1] = isButtonIn(update, GP_BUTTON_DR) == SDL_TRUE;
+	controllerState[ 2] = isButtonIn(update, GP_BUTTON_DD) == SDL_TRUE;
+	controllerState[ 3] = isButtonIn(update, GP_BUTTON_DL) == SDL_TRUE;
+	controllerState[ 4] = isButtonIn(update, GP_BUTTON_BX) == SDL_TRUE;
+	controllerState[ 5] = isButtonIn(update, GP_BUTTON_BA) == SDL_TRUE;
+	controllerState[ 6] = isButtonIn(update, GP_BUTTON_BB) == SDL_TRUE;
+	controllerState[ 7] = isButtonIn(update, GP_BUTTON_BY) == SDL_TRUE;
+	controllerState[ 8] = isButtonIn(update, GP_BUTTON_SL) == SDL_TRUE;
+	controllerState[ 9] = isButtonIn(update, GP_BUTTON_ST) == SDL_TRUE;
+	controllerState[10] = isButtonIn(update, GP_BUTTON_ZL) == SDL_TRUE;
+	controllerState[11] = isButtonIn(update, GP_BUTTON_ZR) == SDL_TRUE;
 }
 
 void renderFunc(hRENDER render) {
@@ -90,6 +104,18 @@ void renderFunc(hRENDER render) {
 		}
 	}
 
+	setActorStroke(render,  8, controllerState[ 0] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render,  9, controllerState[ 1] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 10, controllerState[ 2] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 11, controllerState[ 3] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 12, controllerState[ 4] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 13, controllerState[ 5] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 14, controllerState[ 6] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 15, controllerState[ 7] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 16, controllerState[ 8] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 17, controllerState[ 9] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 18, controllerState[10] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 19, controllerState[11] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {

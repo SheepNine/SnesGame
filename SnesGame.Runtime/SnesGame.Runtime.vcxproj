@@ -151,6 +151,7 @@
     <ClCompile Include="render.c" />
     <ClCompile Include="sc.c" />
     <ClCompile Include="sw.c" />
+    <ClCompile Include="update.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -167,6 +168,7 @@
     <ClInclude Include="render.h" />
     <ClInclude Include="sc.h" />
     <ClInclude Include="sw.h" />
+    <ClInclude Include="update.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

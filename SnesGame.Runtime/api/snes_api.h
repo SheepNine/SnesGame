@@ -1,14 +1,34 @@
 #pragma once
 #include "SDL.h"
 
+typedef enum {
+	GP_BUTTON_DU = 1 << 0,
+	GP_BUTTON_DR = 1 << 1,
+	GP_BUTTON_DD = 1 << 2,
+	GP_BUTTON_DL = 1 << 3,
+	GP_BUTTON_BX = 1 << 4,
+	GP_BUTTON_BA = 1 << 5,
+	GP_BUTTON_BB = 1 << 6,
+	GP_BUTTON_BY = 1 << 7,
+	GP_BUTTON_SL = 1 << 8,
+	GP_BUTTON_ST = 1 << 9,
+	GP_BUTTON_ZL = 1 << 10,
+	GP_BUTTON_ZR = 1 << 11,
+} GP_BUTTON;
+
+
 typedef struct INIT* hINIT;
 typedef void (*pInitCallback)(hINIT);
 void allocBrushLists(hINIT init, Uint16 count);
 void initBrushList(hINIT init, Uint16 brushListIndex, Uint8* data);
 void loadBrushList(hINIT init, Uint16 brushListIndex, char* filename);
 
-typedef struct UPDATE* H_UPDATE;
-typedef void (*pUpdateCallback)(H_UPDATE);
+typedef struct UPDATE* hUPDATE;
+typedef void (*pUpdateCallback)(hUPDATE);
+SDL_bool isButtonIn(hUPDATE update, GP_BUTTON button);
+SDL_bool isButtonOut(hUPDATE update, GP_BUTTON button);
+SDL_bool wasButtonPressed(hUPDATE update, GP_BUTTON button);
+SDL_bool wasButtonReleased(hUPDATE update, GP_BUTTON button);
 
 typedef struct RENDER* hRENDER;
 typedef void (*pRenderCallback)(hRENDER);
