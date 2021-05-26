@@ -8,21 +8,14 @@
 #include "joydriver.h"
 #include "gamepad.h"
 #include "api/snes_api.h"
+#include "init.h"
+#include "render.h"
 
 // --- BackBuffer ---
 
 hBB bb;
 hMapper romMapper;
 hPPU ppu;
-
-void readGlyphList(char *filename, Uint8 *glyphlist) {
-	SDL_memset(glyphlist, 0, 8192);
-	SDL_RWops* rw = SDL_RWFromFile(filename, "r");
-	if (rw != NULL) {
-		SDL_RWread(rw, glyphlist, 8192, 1);
-		SDL_RWclose(rw);
-	}
-}
 
 Uint32 heartbeatCallback(Uint32 interval, void* param) {
 	SDL_UserEvent userEvent;
@@ -39,11 +32,7 @@ Uint32 heartbeatCallback(Uint32 interval, void* param) {
 #define R_HEIGHT 247
 
 SDL_AudioSpec have;
-
 hSC sc;
-
-// Recorded state for current half-wave
-int avHalfwaveTimer = 0;
 
 void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 	Sint16* writePtr = (Sint16*)stream;
@@ -56,93 +45,14 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 	int result = 0;
 	bb = creat_BB();
 	fill_BB(bb, 128, 128, 128);
-	romMapper = creat_Mapper(2);
+	romMapper = creat_Mapper(1);
 	ppu = creat_PPU(romMapper);
 	sc = creat_SC();
 
-	Uint8 glyphList[8192];
-	readGlyphList("..\\resources\\default.glyphset", glyphList);
-	loadPage_Mapper(romMapper, 0, glyphList);
-	loadPage_Mapper(romMapper, 1, glyphList);
-	initFunc(NULL);
-
-	switchBackdropBrushList_PPU(ppu, 3, 1);
-
-	setBackdropPaletteColor_PPU(ppu, 0, 0x0, 0x00, 0x00, 0x00, SDL_FALSE); // Black
-	setBackdropPaletteColor_PPU(ppu, 0, 0x1, 0x00, 0x00, 0xAA, SDL_FALSE); // Blue
-	setBackdropPaletteColor_PPU(ppu, 0, 0x2, 0x00, 0xAA, 0x00, SDL_FALSE); // Green
-	setBackdropPaletteColor_PPU(ppu, 0, 0x3, 0x00, 0xAA, 0xAA, SDL_FALSE); // Cyan
-	setBackdropPaletteColor_PPU(ppu, 0, 0x4, 0xAA, 0x00, 0x00, SDL_FALSE); // Red
-	setBackdropPaletteColor_PPU(ppu, 0, 0x5, 0xAA, 0x00, 0xAA, SDL_FALSE); // Magenta
-	setBackdropPaletteColor_PPU(ppu, 0, 0x6, 0xAA, 0x55, 0x00, SDL_FALSE); // Brown
-	setBackdropPaletteColor_PPU(ppu, 0, 0x7, 0xAA, 0xAA, 0xAA, SDL_FALSE); // Light gray
-	setBackdropPaletteColor_PPU(ppu, 0, 0x8, 0x55, 0x55, 0x55, SDL_FALSE); // Dark gray
-	setBackdropPaletteColor_PPU(ppu, 0, 0x9, 0x55, 0x55, 0xFF, SDL_FALSE); // Light blue
-	setBackdropPaletteColor_PPU(ppu, 0, 0xA, 0x55, 0xFF, 0x55, SDL_FALSE); // Light green
-	setBackdropPaletteColor_PPU(ppu, 0, 0xB, 0x55, 0xFF, 0xFF, SDL_FALSE); // Light cyan
-	setBackdropPaletteColor_PPU(ppu, 0, 0xC, 0xFF, 0x55, 0x55, SDL_FALSE); // Light red
-	setBackdropPaletteColor_PPU(ppu, 0, 0xD, 0xFF, 0x55, 0xFF, SDL_FALSE); // Light magenta
-	setBackdropPaletteColor_PPU(ppu, 0, 0xE, 0xFF, 0xFF, 0x55, SDL_FALSE); // Yellow
-	setBackdropPaletteColor_PPU(ppu, 0, 0xF, 0xFF, 0xFF, 0xFF, SDL_FALSE); // White
-
-	setActorPaletteColor_PPU(ppu, 7, 0x0, 0x00, 0x00, 0x00, SDL_FALSE); // Black
-	setActorPaletteColor_PPU(ppu, 7, 0x1, 0x00, 0x00, 0xAA, SDL_FALSE); // Blue
-	setActorPaletteColor_PPU(ppu, 7, 0x2, 0x00, 0xAA, 0x00, SDL_FALSE); // Green
-	setActorPaletteColor_PPU(ppu, 7, 0x3, 0x00, 0xAA, 0xAA, SDL_FALSE); // Cyan
-	setActorPaletteColor_PPU(ppu, 7, 0x4, 0xAA, 0x00, 0x00, SDL_FALSE); // Red
-	setActorPaletteColor_PPU(ppu, 7, 0x5, 0xAA, 0x00, 0xAA, SDL_FALSE); // Magenta
-	setActorPaletteColor_PPU(ppu, 7, 0x6, 0xAA, 0x55, 0x00, SDL_FALSE); // Brown
-	setActorPaletteColor_PPU(ppu, 7, 0x7, 0xAA, 0xAA, 0xAA, SDL_FALSE); // Light gray
-	setActorPaletteColor_PPU(ppu, 7, 0x8, 0x55, 0x55, 0x55, SDL_FALSE); // Dark gray
-	setActorPaletteColor_PPU(ppu, 7, 0x9, 0x55, 0x55, 0xFF, SDL_FALSE); // Light blue
-	setActorPaletteColor_PPU(ppu, 7, 0xA, 0x55, 0xFF, 0x55, SDL_FALSE); // Light green
-	setActorPaletteColor_PPU(ppu, 7, 0xB, 0x55, 0xFF, 0xFF, SDL_FALSE); // Light cyan
-	setActorPaletteColor_PPU(ppu, 7, 0xC, 0xFF, 0x55, 0x55, SDL_FALSE); // Light red
-	setActorPaletteColor_PPU(ppu, 7, 0xD, 0xFF, 0x55, 0xFF, SDL_FALSE); // Light magenta
-	setActorPaletteColor_PPU(ppu, 7, 0xE, 0xFF, 0xFF, 0x55, SDL_FALSE); // Yellow
-	setActorPaletteColor_PPU(ppu, 7, 0xF, 0xFF, 0xFF, 0xFF, SDL_FALSE); // White
-
-	setBackdropControl_PPU(ppu, 0, 0, 0, SDL_TRUE, SDL_FALSE);
-
-	setActorControl_PPU(ppu, 0,   4,   9, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 0, 1, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorControl_PPU(ppu, 1,  25,  11, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 1, 1, 3, 7, SDL_TRUE, SDL_FALSE, SDL_FALSE);
-	setActorControl_PPU(ppu, 2,  42,  14, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 2, 1, 3, 7, SDL_TRUE, SDL_TRUE, SDL_TRUE);
-	setActorControl_PPU(ppu, 3,  60,  20, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 3, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
-	setActorControl_PPU(ppu, 4,  -5,  -5, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 4, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
-	setActorControl_PPU(ppu, 5,  -5, 243, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 5, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
-	setActorControl_PPU(ppu, 6, 243, 243, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 6, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
-	setActorControl_PPU(ppu, 7, 243,  -5, 2, 2, SDL_TRUE, 0); setActorStroke_PPU(ppu, 7, 1, 3, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
-
-	setActorControl_PPU(ppu,  8,  8 + 64,  8 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl_PPU(ppu,  9, 16 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl_PPU(ppu, 10,  8 + 64, 24 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl_PPU(ppu, 11,  0 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl_PPU(ppu, 12, 72 + 64,  8 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl_PPU(ppu, 13, 80 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl_PPU(ppu, 14, 72 + 64, 24 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl_PPU(ppu, 15, 64 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl_PPU(ppu, 16, 32 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl_PPU(ppu, 17, 48 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl_PPU(ppu, 18, 24 + 64,  0 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl_PPU(ppu, 19, 56 + 64,  0 + 64, 1, 1, SDL_TRUE, 0);
-
-	setLayerClips_PPU(ppu, 0, 1, 3, 4, 9);
-
-	for (int y = 0; y < 32; y++) {
-		for (int x = 0; x < 32; x++) {
-			int glyph;
-			if (y > 28) {
-				glyph = 49;
-			}
-			else if (y == 28) {
-				glyph = 34;
-			}
-			else {
-				glyph = 16;
-			}
-
-			setBackdropStroke_PPU(ppu, 0, x, y, glyph, 0, 0, x % 4 == 1, x % 4 == 3, SDL_TRUE);
-		}
+	{
+		hINIT init = creat_INIT(romMapper);
+		initFunc(init);
+		destr_INIT(init);
 	}
 
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) == 0) {
@@ -251,7 +161,11 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 					break;
 				case SDL_USEREVENT:
 					updateFunc(NULL);
-					renderFunc(NULL);
+					{
+						hRENDER render = creat_RENDER(ppu);
+						renderFunc(render);
+						destr_RENDER(render);
+					}
 					// controller state
 					setActorStroke_PPU(ppu,  8, isEngaged_GP(gp, GP_BUTTON_DU) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
 					setActorStroke_PPU(ppu,  9, isEngaged_GP(gp, GP_BUTTON_DR) == SDL_TRUE ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);

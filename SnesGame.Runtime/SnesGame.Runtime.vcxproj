@@ -142,11 +142,13 @@
   <ItemGroup>
     <ClCompile Include="bb.c" />
     <ClCompile Include="gamepad.c" />
+    <ClCompile Include="init.c" />
     <ClCompile Include="joydriver.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mapper.c" />
     <ClCompile Include="perf.c" />
     <ClCompile Include="ppu.c" />
+    <ClCompile Include="render.c" />
     <ClCompile Include="sc.c" />
     <ClCompile Include="sw.c" />
   </ItemGroup>
@@ -157,10 +159,12 @@
     <ClInclude Include="api\snes_api.h" />
     <ClInclude Include="bb.h" />
     <ClInclude Include="gamepad.h" />
+    <ClInclude Include="init.h" />
     <ClInclude Include="joydriver.h" />
     <ClInclude Include="mapper.h" />
     <ClInclude Include="perf.h" />
     <ClInclude Include="ppu.h" />
+    <ClInclude Include="render.h" />
     <ClInclude Include="sc.h" />
     <ClInclude Include="sw.h" />
   </ItemGroup>
