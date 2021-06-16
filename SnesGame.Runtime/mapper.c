@@ -38,6 +38,7 @@ void allocPages_Mapper(hMapper mapper, Uint16 brushListCount) {
 	SDL_memcpy(newPages, mapper->pages, SDL_min(mapper->numPages, brushListCount) * __MAPPER_PAGE_SIZE);
 	SDL_free(mapper->pages);
 	mapper->pages = newPages;
+	mapper->numPages = brushListCount;
 	mapper->spriteBanks[0] = newPages;
 	mapper->spriteBanks[1] = newPages;
 	mapper->spriteBanks[2] = newPages;
