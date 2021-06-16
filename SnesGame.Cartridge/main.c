@@ -3,9 +3,16 @@
 
 SDL_bool controllerState[12];
 
+#define BL_DEFAULT 0
+#define BL_ASCII 1
+#define BB_2 2
+#define BB_3 3
+#define AB_3 3
+
 void initFunc(hINIT init) {
-	allocBrushLists(init, 1);
-	loadBrushList(init, 0, "..\\resources\\default.glyphset");
+	allocBrushLists(init, 2);
+	loadBrushList(init, BL_DEFAULT, "..\\resources\\default.glyphset");
+	loadBrushList(init, BL_ASCII, "..\\resources\\ascii.glyphset");
 }
 
 void updateFunc(hUPDATE update) {
@@ -24,8 +31,21 @@ void updateFunc(hUPDATE update) {
 	controllerState[11] = isButtonIn(update, GP_BUTTON_ZR) == SDL_TRUE;
 }
 
-void renderFunc(hRENDER render) {
+void drawString(hRENDER render, Uint8 backdropIndex, char* data, Uint8 x, Uint8 y, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool mask0) {
+	while (x < 32 && (*data) != 0) {
+		setBackdropStroke(render, backdropIndex, x++, y, *(data++), bankIndex, paletteIndex, SDL_FALSE, SDL_FALSE, mask0);
+	}
+}
 
+void fillBackdrop(hRENDER render, Uint8 backdropIndex, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0) {
+	for (int y = 0; y < 32; y++) {
+		for (int x = 0; x < 32; x++) {
+			setBackdropStroke(render, backdropIndex, x, y, brushIndex, bankIndex, paletteIndex, hFlip, vFlip, mask0);
+		}
+	}
+}
+
+void renderFunc(hRENDER render) {
 	setBackdropPaletteColor(render, 0, 0x0, 0x00, 0x00, 0x00, SDL_FALSE); // Black
 	setBackdropPaletteColor(render, 0, 0x1, 0x00, 0x00, 0xAA, SDL_FALSE); // Blue
 	setBackdropPaletteColor(render, 0, 0x2, 0x00, 0xAA, 0x00, SDL_FALSE); // Green
@@ -42,6 +62,10 @@ void renderFunc(hRENDER render) {
 	setBackdropPaletteColor(render, 0, 0xD, 0xFF, 0x55, 0xFF, SDL_FALSE); // Light magenta
 	setBackdropPaletteColor(render, 0, 0xE, 0xFF, 0xFF, 0x55, SDL_FALSE); // Yellow
 	setBackdropPaletteColor(render, 0, 0xF, 0xFF, 0xFF, 0xFF, SDL_FALSE); // White
+
+	setBackdropPaletteColor(render, 1, 0x0, 0x00, 0x00, 0x00, SDL_FALSE);
+	setBackdropPaletteColor(render, 1, 0x1, 0xFF, 0xFF, 0xFF, SDL_FALSE);
+	setBackdropPaletteColor(render, 1, 0x2, 0xFF, 0x55, 0x55, SDL_TRUE);
 
 	setActorPaletteColor(render, 7, 0x0, 0x00, 0x00, 0x00, SDL_FALSE); // Black
 	setActorPaletteColor(render, 7, 0x1, 0x00, 0x00, 0xAA, SDL_FALSE); // Blue
@@ -86,7 +110,7 @@ void renderFunc(hRENDER render) {
 
 	setLayerClips(render, 0, 1, 3, 4, 9);
 
-	switchBackdropBrushList(render, 3, 1);
+	switchBackdropBrushList(render, BB_2, BL_DEFAULT);
 	for (int y = 0; y < 32; y++) {
 		for (int x = 0; x < 32; x++) {
 			int glyph;
@@ -100,22 +124,30 @@ void renderFunc(hRENDER render) {
 				glyph = 16;
 			}
 
-			setBackdropStroke(render, 0, x, y, glyph, 0, 0, x % 4 == 1, x % 4 == 3, SDL_TRUE);
+			setBackdropStroke(render, 0, x, y, glyph, BB_2, 0, x % 4 == 1, x % 4 == 3, SDL_TRUE);
 		}
 	}
 
-	setActorStroke(render,  8, controllerState[ 0] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorStroke(render,  9, controllerState[ 1] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorStroke(render, 10, controllerState[ 2] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorStroke(render, 11, controllerState[ 3] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorStroke(render, 12, controllerState[ 4] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorStroke(render, 13, controllerState[ 5] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorStroke(render, 14, controllerState[ 6] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorStroke(render, 15, controllerState[ 7] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorStroke(render, 16, controllerState[ 8] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorStroke(render, 17, controllerState[ 9] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorStroke(render, 18, controllerState[10] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorStroke(render, 19, controllerState[11] ? 66 : 50, 3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	switchActorBrushList(render, AB_3, BL_DEFAULT);
+	setActorStroke(render,  8, controllerState[ 0] ? 66 : 50, AB_3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render,  9, controllerState[ 1] ? 66 : 50, AB_3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 10, controllerState[ 2] ? 66 : 50, AB_3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 11, controllerState[ 3] ? 66 : 50, AB_3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 12, controllerState[ 4] ? 66 : 50, AB_3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 13, controllerState[ 5] ? 66 : 50, AB_3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 14, controllerState[ 6] ? 66 : 50, AB_3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 15, controllerState[ 7] ? 66 : 50, AB_3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 16, controllerState[ 8] ? 66 : 50, AB_3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 17, controllerState[ 9] ? 66 : 50, AB_3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 18, controllerState[10] ? 66 : 50, AB_3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorStroke(render, 19, controllerState[11] ? 66 : 50, AB_3, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+
+
+	switchBackdropBrushList(render, BB_3, BL_ASCII);
+	setLayerClips(render, 1, 0, 0, 0, 0);
+	setBackdropControl(render, 1, 0, 0, SDL_TRUE, SDL_TRUE);
+	fillBackdrop(render, 1, 0, BB_3, 1, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	drawString(render, 1, "HELLO, WORLD!", 1, 1, BB_3, 1, SDL_TRUE);
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
