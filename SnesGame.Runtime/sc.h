@@ -1,8 +1,6 @@
 #pragma once
 #include "SDL.h"
-
-enum ShiftDir { SD_FALLING = -1, SD_NONE = 0, SD_RISING = 1 };
-enum EdgeBehaviour { EB_SILENCE = 0, EB_REVERSE = 1, EB_LOOP = 2 };
+#include "api/snes_api.h"
 
 typedef struct SC* hSC;
 

@@ -12,6 +12,14 @@ void initFunc(hINIT init) {
 }
 
 void updateFunc(hUPDATE update) {
+	if (wasButtonPressed(update, GP_BUTTON_SL)) {
+		// implement wasButtonPressed!
+		//silenceChannel(update, 0);
+	}
+	if (wasButtonPressed(update, GP_BUTTON_ST)) {
+		// implement wasButtonPressed!
+		//playSquareNote(update, 0, 12000, 8, SD_NONE, 0, EB_SILENCE, 55, 55, SD_NONE, 0, EB_SILENCE);
+	}
 }
 
 void renderFunc(hRENDER render) {

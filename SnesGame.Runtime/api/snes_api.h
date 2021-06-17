@@ -17,6 +17,18 @@ typedef enum {
 } GP_BUTTON;
 
 
+typedef enum {
+	SD_FALLING = -1,
+	SD_NONE = 0,
+	SD_RISING = 1
+} ShiftDir;
+
+typedef enum {
+	EB_SILENCE = 0,
+	EB_REVERSE = 1,
+	EB_LOOP = 2
+} EdgeBehaviour;
+
 typedef struct INIT* hINIT;
 typedef void (*pInitCallback)(hINIT);
 void allocBrushLists(hINIT init, Uint16 count);
@@ -29,6 +41,13 @@ SDL_bool isButtonIn(hUPDATE update, GP_BUTTON button);
 SDL_bool isButtonOut(hUPDATE update, GP_BUTTON button);
 SDL_bool wasButtonPressed(hUPDATE update, GP_BUTTON button);
 SDL_bool wasButtonReleased(hUPDATE update, GP_BUTTON button);
+
+void silenceChannel(hUPDATE update, Uint8 channelIndex);
+void playSquareNote(hUPDATE update, Uint8 channelIndex,
+	Uint16 length,
+	Uint8 volume, enum ShiftDir volumeShift, Uint8 volumeShiftSpeed, enum EdgeBehaviour volumeEB,
+	Uint16 periodLow, Uint16 periodHigh, enum ShiftDir periodShift, Uint8 periodShiftSpeed, enum EdgeBehaviour periodEB);
+
 
 typedef struct RENDER* hRENDER;
 typedef void (*pRenderCallback)(hRENDER);

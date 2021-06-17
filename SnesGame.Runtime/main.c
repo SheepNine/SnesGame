@@ -33,12 +33,13 @@ Uint32 heartbeatCallback(Uint32 interval, void* param) {
 #define R_HEIGHT 247
 
 SDL_AudioSpec have;
-hSC sc;
+hSC soundChannels[8];
 
 void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 	Sint16* writePtr = (Sint16*)stream;
 	for (int i = 0; i < have.samples; i++) {
-		writePtr[i] = getNextSample_SC(sc);
+		for (int c = 0; c < 8; c++)
+			writePtr[i] = getNextSample_SC(soundChannels[c]);
 	}
 }
 
@@ -48,7 +49,8 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 	fill_BB(bb, 128, 128, 128);
 	romMapper = creat_Mapper(1);
 	ppu = creat_PPU(romMapper);
-	sc = creat_SC();
+	for (int i = 0; i < 8; i++)
+		soundChannels[i] = creat_SC();
 
 	{
 		hINIT init = creat_INIT(romMapper);
@@ -131,38 +133,11 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 							SDL_LogSetPriority(SDL_LOG_CATEGORY_CUSTOM, SDL_LOG_PRIORITY_WARN);
 						}
 					}
-					if (event.key.keysym.sym == SDLK_SPACE) {
-						silence_SC(sc);
-					}
-					if (event.key.keysym.sym == SDLK_q) {
-						playNote_SC(sc, 65535,
-							8, SD_NONE, 0, EB_SILENCE,
-							250, 250, SD_NONE, 0, EB_SILENCE);
-					}
-					if (event.key.keysym.sym == SDLK_a) {
-						playNote_SC(sc, 65535,
-							8, SD_NONE, 0, EB_SILENCE,
-							100, 250, SD_RISING, 1, EB_SILENCE);
-					}
-					if (event.key.keysym.sym == SDLK_s) {
-					}
-					if (event.key.keysym.sym == SDLK_d) {
-					}
-					if (event.key.keysym.sym == SDLK_f) {
-					}
 
-					if (event.key.keysym.sym == SDLK_z) {
-					}
-					if (event.key.keysym.sym == SDLK_x) {
-					}
-					if (event.key.keysym.sym == SDLK_c) {
-					}
-					if (event.key.keysym.sym == SDLK_v) {
-					}
 					break;
 				case SDL_USEREVENT:
 					{
-						hUPDATE update = creat_UPDATE(gp);
+						hUPDATE update = creat_UPDATE(gp, soundChannels);
 						updateFunc(update);
 						destr_UPDATE(update);
 					}					
@@ -207,7 +182,8 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 		result = 1;
 	}
 
-	destr_SC(sc);
+	for (int i = 0; i < 8; i++)
+		destr_SC(soundChannels[i]);
 	destr_PPU(ppu);
 	destr_Mapper(romMapper);
 	destr_BB(bb);
