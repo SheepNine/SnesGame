@@ -133,14 +133,14 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 							SDL_LogSetPriority(SDL_LOG_CATEGORY_CUSTOM, SDL_LOG_PRIORITY_WARN);
 						}
 					}
-
 					break;
 				case SDL_USEREVENT:
 					{
 						hUPDATE update = creat_UPDATE(gp, soundChannels);
 						updateFunc(update);
 						destr_UPDATE(update);
-					}					
+						advanceFrame_GP(gp);
+					}
 					{
 						hRENDER render = creat_RENDER(ppu);
 						renderFunc(render);

@@ -25,11 +25,11 @@ SDL_bool isButtonOut(hUPDATE update, GP_BUTTON button) {
 }
 
 SDL_bool wasButtonPressed(hUPDATE update, GP_BUTTON button) {
-	return SDL_FALSE; // Pending implementation
+	return isEngaged_GP(update->gp, button) == SDL_TRUE && wasEngagedLastFrame_GP(update->gp, button) == SDL_FALSE ? SDL_TRUE : SDL_FALSE;
 }
 
 SDL_bool wasButtonReleased(hUPDATE update, GP_BUTTON button) {
-	return SDL_FALSE; // Pending implementation
+	return isEngaged_GP(update->gp, button) == SDL_FALSE && wasEngagedLastFrame_GP(update->gp, button) == SDL_TRUE ? SDL_TRUE : SDL_FALSE;
 }
 
 void silenceChannel(hUPDATE update, Uint8 channelIndex) {
