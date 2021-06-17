@@ -38,8 +38,9 @@ hSC soundChannels[8];
 void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 	Sint16* writePtr = (Sint16*)stream;
 	for (int i = 0; i < have.samples; i++) {
+		writePtr[i] = 0;
 		for (int c = 0; c < 8; c++)
-			writePtr[i] = getNextSample_SC(soundChannels[c]);
+			writePtr[i] += getNextSample_SC(soundChannels[c]);
 	}
 }
 
