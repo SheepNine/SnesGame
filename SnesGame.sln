@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ClientAPI.md = ClientAPI.md
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnesGame.SoundTest", "SnesGame.SoundTest\SnesGame.SoundTest.vcxproj", "{27536043-C09D-4371-A4D0-DB2F42E700CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,16 @@ Global
 		{50680FE1-FD49-4037-82B2-6F004C9A02A8}.Release|x64.Build.0 = Release|x64
 		{50680FE1-FD49-4037-82B2-6F004C9A02A8}.Release|x86.ActiveCfg = Release|Win32
 		{50680FE1-FD49-4037-82B2-6F004C9A02A8}.Release|x86.Build.0 = Release|Win32
+		{27536043-C09D-4371-A4D0-DB2F42E700CE}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{27536043-C09D-4371-A4D0-DB2F42E700CE}.Debug|x64.ActiveCfg = Debug|x64
+		{27536043-C09D-4371-A4D0-DB2F42E700CE}.Debug|x64.Build.0 = Debug|x64
+		{27536043-C09D-4371-A4D0-DB2F42E700CE}.Debug|x86.ActiveCfg = Debug|Win32
+		{27536043-C09D-4371-A4D0-DB2F42E700CE}.Debug|x86.Build.0 = Debug|Win32
+		{27536043-C09D-4371-A4D0-DB2F42E700CE}.Release|Any CPU.ActiveCfg = Release|Win32
+		{27536043-C09D-4371-A4D0-DB2F42E700CE}.Release|x64.ActiveCfg = Release|x64
+		{27536043-C09D-4371-A4D0-DB2F42E700CE}.Release|x64.Build.0 = Release|x64
+		{27536043-C09D-4371-A4D0-DB2F42E700CE}.Release|x86.ActiveCfg = Release|Win32
+		{27536043-C09D-4371-A4D0-DB2F42E700CE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
