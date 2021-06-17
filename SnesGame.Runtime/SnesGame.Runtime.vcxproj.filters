@@ -54,6 +54,9 @@
     <ClCompile Include="update.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="snes_foundation_classes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="update.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="api\snes_foundation_classes.h">
+      <Filter>Header Files\api</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

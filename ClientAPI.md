@@ -152,6 +152,10 @@ E6 | 18 | 1333.33 | 1.12%
 F6 | 17 | 1411.76 | 1.06%
 F♯6 | 16 | 1500.00 | 1.35%
 
+Noise channels: TBD
+
+Triangle channels: TBD
+
 ## Controllers
 
 The SNES game runtime abstracts physical input devices to a unified 'logical' controller abstraction. This controller has the same layout as an SNES controller: a D-pad, L and R shoulder buttons, select, start, and four buttons labelled X, A, B and Y (clockwise from the top).
@@ -161,5 +165,27 @@ Each button on the logical controller can be in one of two states: in (being hel
 The state of each logical button is captured just before the call to the update lifecycle method. As a reasult, if the player manages to press and release the controller button between two update calls, the runtime will not register any change to the logical controller. 
 
 ## Recording and Playback
+
+TBD
+
+## Utility Libraries
+
+### Text rendering
+
+TBD
+
+### Music/sound effect definition and playback
+
+TBD
+
+### Larger background data files
+
+TBD
+
+### Model-to-world and world-to-camera transforms
+
+TBD
+
+### Animation, multi-actor sprites
 
 TBD

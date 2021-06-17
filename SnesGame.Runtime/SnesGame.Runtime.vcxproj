@@ -150,6 +150,7 @@
     <ClCompile Include="ppu.c" />
     <ClCompile Include="render.c" />
     <ClCompile Include="sc.c" />
+    <ClCompile Include="snes_foundation_classes.c" />
     <ClCompile Include="sw.c" />
     <ClCompile Include="update.c" />
   </ItemGroup>
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api\snes_api.h" />
+    <ClInclude Include="api\snes_foundation_classes.h" />
     <ClInclude Include="bb.h" />
     <ClInclude Include="gamepad.h" />
     <ClInclude Include="init.h" />

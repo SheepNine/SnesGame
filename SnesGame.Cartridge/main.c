@@ -1,5 +1,6 @@
 #include <wtypes.h>
 #include "snes_api.h"
+#include "snes_foundation_classes.h"
 
 SDL_bool controllerState[12];
 
@@ -29,20 +30,6 @@ void updateFunc(hUPDATE update) {
 	controllerState[ 9] = isButtonIn(update, GP_BUTTON_ST) == SDL_TRUE;
 	controllerState[10] = isButtonIn(update, GP_BUTTON_ZL) == SDL_TRUE;
 	controllerState[11] = isButtonIn(update, GP_BUTTON_ZR) == SDL_TRUE;
-}
-
-void drawString(hRENDER render, Uint8 backdropIndex, char* data, Uint8 x, Uint8 y, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool mask0) {
-	while (x < 32 && (*data) != 0) {
-		setBackdropStroke(render, backdropIndex, x++, y, *(data++), bankIndex, paletteIndex, SDL_FALSE, SDL_FALSE, mask0);
-	}
-}
-
-void fillBackdrop(hRENDER render, Uint8 backdropIndex, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0) {
-	for (int y = 0; y < 32; y++) {
-		for (int x = 0; x < 32; x++) {
-			setBackdropStroke(render, backdropIndex, x, y, brushIndex, bankIndex, paletteIndex, hFlip, vFlip, mask0);
-		}
-	}
 }
 
 void renderFunc(hRENDER render) {
@@ -147,7 +134,7 @@ void renderFunc(hRENDER render) {
 	setLayerClips(render, 1, 0, 0, 0, 0);
 	setBackdropControl(render, 1, 0, 0, SDL_TRUE, SDL_TRUE);
 	fillBackdrop(render, 1, 0, BB_3, 1, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	drawString(render, 1, "HELLO, WORLD!", 1, 1, BB_3, 1, SDL_TRUE);
+	drawBackdropString(render, 1, "HELLO, WORLD!", 1, 1, BB_3, 1, SDL_TRUE);
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
