@@ -231,6 +231,52 @@ void renderFunc(hRENDER render) {
 	drawBackdropString(render, 0, edgeBehaviourLabels[periodEdgeBehaviourChoiceIndex], 12, 22, 0, fancyPeriodPalette, SDL_FALSE);
 
 	setBackdropStroke(render, 0, 1, cursorY[optionIndex], (Uint8)'>', 0, 2, 0, 0, SDL_FALSE);
+
+	switchActorBrushList(render, 0, BL_ASCII);
+	setActorPaletteColor(render, 0, 0x0, 0x00, 0x00, 0x00, SDL_FALSE);
+	setActorPaletteColor(render, 0, 0x1, 0xFF, 0xFF, 0xFF, SDL_FALSE);
+	setActorPaletteColor(render, 0, 0x2, 0xFF, 0x00, 0x00, SDL_FALSE);
+
+	setActorPaletteColor(render, 1, 0x0, 0x00, 0x00, 0x00, SDL_FALSE);
+	setActorPaletteColor(render, 1, 0x1, 0xFF, 0xFF, 0xFF, SDL_FALSE);
+	setActorPaletteColor(render, 1, 0x2, 0x00, 0xFF, 0x00, SDL_FALSE);
+
+	setActorPaletteColor(render, 2, 0x0, 0x00, 0x00, 0x00, SDL_FALSE);
+	setActorPaletteColor(render, 2, 0x1, 0xFF, 0xFF, 0xFF, SDL_FALSE);
+	setActorPaletteColor(render, 2, 0x2, 0x00, 0x00, 0xFF, SDL_FALSE);
+
+	setActorPaletteColor(render, 3, 0x0, 0x00, 0x00, 0x00, SDL_FALSE);
+	setActorPaletteColor(render, 3, 0x1, 0xFF, 0xFF, 0xFF, SDL_FALSE);
+	setActorPaletteColor(render, 3, 0x2, 0xFF, 0xFF, 0x00, SDL_FALSE);
+
+	Sint32 x, y;
+	Uint8 actor = 0;
+
+	hCS cs = creat_CS();
+	setScreenLocus_CS(cs, 231, 239);
+	setWorldLocus_CS(cs, 32768, 32768);
+
+	worldToScreen_CS(cs, 0, 0, &x, &y);
+	setActorStroke(render, actor, 1, 0, 0, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorControl(render, actor, x, y, 1, 1, SDL_TRUE, 0);
+	actor++;
+
+	worldToScreen_CS(cs, 65536, 0, &x, &y);
+	setActorStroke(render, actor, 1, 0, 1, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorControl(render, actor, x, y, 1, 1, SDL_TRUE, 0);
+	actor++;
+
+	worldToScreen_CS(cs, 0, 65536, &x, &y);
+	setActorStroke(render, actor, 1, 0, 2, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorControl(render, actor, x, y, 1, 1, SDL_TRUE, 0);
+	actor++;
+
+	worldToScreen_CS(cs, 32768, 32768, &x, &y);
+	setActorStroke(render, actor, 1, 0, 3, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	setActorControl(render, actor, x, y, 1, 1, SDL_TRUE, 0);
+	actor++;
+
+	destr_CS(cs);
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
