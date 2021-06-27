@@ -16,6 +16,9 @@ void initFunc(hINIT init) {
 	loadBrushList(init, BL_ASCII, "..\\resources\\ascii.glyphset");
 }
 
+Uint8 backdropX = 0;
+Uint8 backdropY = 0;
+
 void updateFunc(hUPDATE update) {
 
 	controllerState[ 0] = isButtonIn(update, GP_BUTTON_DU) == SDL_TRUE;
@@ -30,6 +33,15 @@ void updateFunc(hUPDATE update) {
 	controllerState[ 9] = isButtonIn(update, GP_BUTTON_ST) == SDL_TRUE;
 	controllerState[10] = isButtonIn(update, GP_BUTTON_ZL) == SDL_TRUE;
 	controllerState[11] = isButtonIn(update, GP_BUTTON_ZR) == SDL_TRUE;
+
+	if (wasButtonPressed(update, GP_BUTTON_DL))
+		backdropX = backdropX == 7 ? 0 : backdropX + 1;
+	if (wasButtonPressed(update, GP_BUTTON_DR))
+		backdropX = backdropX == 0 ? 7 : backdropX - 1;
+	if (wasButtonPressed(update, GP_BUTTON_DU))
+		backdropY = backdropY == 7 ? 0 : backdropY + 1;
+	if (wasButtonPressed(update, GP_BUTTON_DD))
+		backdropY = backdropY == 0 ? 7 : backdropY - 1;
 }
 
 void renderFunc(hRENDER render) {
@@ -71,7 +83,7 @@ void renderFunc(hRENDER render) {
 	setActorPaletteColor(render, 7, 0xE, 0xFF, 0xFF, 0x55, SDL_FALSE); // Yellow
 	setActorPaletteColor(render, 7, 0xF, 0xFF, 0xFF, 0xFF, SDL_FALSE); // White
 
-	setBackdropControl(render, 0, 0, 0, SDL_TRUE, SDL_FALSE);
+	setBackdropControl(render, 0, backdropX, backdropY, SDL_TRUE, SDL_FALSE);
 
 	setActorControl(render, 0, 4, 9, 2, 2, SDL_TRUE, 0); setActorStroke(render, 0, 1, 0, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
 	setActorControl(render, 1, 25, 11, 2, 2, SDL_TRUE, 0); setActorStroke(render, 1, 1, 0, 7, SDL_TRUE, SDL_FALSE, SDL_FALSE);

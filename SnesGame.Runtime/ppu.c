@@ -74,7 +74,7 @@ SDL_bool _isBackdropTopmost_PPU(Uint8* control) {
 }
 
 void _unpackBackdropOffset_PPU(Uint8* control, Uint8* dX, Uint8* dY) {
-	*dX = (*control & 0x28) >> 3;
+	*dX = (*control & 0x38) >> 3;
 	*dY = (*control & 0x07);
 }
 
