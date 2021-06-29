@@ -61,6 +61,7 @@ hWB creat_WB(Uint16 width, Uint16 height, Uint8* data) {
 	result->width = width;
 	result->height = height;
 	result->data = SDL_malloc(width * height);
+	SDL_memcpy(result->data, data, width * height);
 	return result;
 }
 

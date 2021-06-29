@@ -44,7 +44,7 @@ void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 	}
 }
 
-extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFunc, pRenderCallback renderFunc) {
+extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFunc, pRenderCallback renderFunc, pDeinitCallback deinitFunc) {
 	int result = 0;
 	bb = creat_BB();
 	fill_BB(bb, 128, 128, 128);
@@ -188,5 +188,7 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 	destr_PPU(ppu);
 	destr_Mapper(romMapper);
 	destr_BB(bb);
+
+	deinitFunc();
 	return result;
 }
