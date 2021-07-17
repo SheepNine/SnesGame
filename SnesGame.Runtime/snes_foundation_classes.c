@@ -39,14 +39,19 @@ void setWorldLocus_CS(hCS cs, Sint32 x, Sint32 y) {
 	cs->worldLocusY = y;
 }
 
-void setScreenLocus_CS(hCS cs, Uint8 x, Uint8 y) {
+void setScreenLocus_CS(hCS cs, Sint32 x, Sint32 y) {
 	cs->screenLocusX = x;
 	cs->screenLocusY = y;
 }
 
 void worldToScreen_CS(hCS cs, Sint32 worldX, Sint32 worldY, Sint32* screenX, Sint32* screenY) {
-	*screenX = cs->screenLocusX + ((worldX - cs->worldLocusX + cs->worldLocusY - worldY + (1 << 11)) >> 12);
-	*screenY = cs->screenLocusY - ((worldX - cs->worldLocusX + worldY - cs->worldLocusY + (1 << 12)) >> 13);
+	*screenX = cs->screenLocusX + ((worldX - cs->worldLocusX) << 4) - ((worldY - cs->worldLocusY) << 4);
+	*screenY = cs->screenLocusY - ((worldX - cs->worldLocusX) << 3) - ((worldY - cs->worldLocusY) << 3);
+}
+
+void screenToWorld_CS(hCS cs, Sint32 screenX, Sint32 screenY, Sint32* worldX, Sint32* worldY) {
+	*worldX = cs->worldLocusX + ((screenX - cs->screenLocusX) >> 5) - ((screenY - cs->screenLocusY) >> 4);
+	*worldY = cs->worldLocusY - ((screenX - cs->screenLocusX) >> 5) - ((screenY - cs->screenLocusY) >> 4);
 }
 
 

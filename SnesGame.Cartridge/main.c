@@ -152,6 +152,51 @@ void renderFunc(hRENDER render) {
 void deinitFunc() {
 }
 
+#define FP(val) (val << 16)
+
+void csTestCase(hCS cs, Sint32 worldX, Sint32 worldY, Sint32 screenX, Sint32 screenY) {
+	Sint32 actualScreenX, actualScreenY;
+	worldToScreen_CS(cs, worldX, worldY, &actualScreenX, &actualScreenY);
+	SDL_assert(actualScreenX == screenX);
+	SDL_assert(actualScreenY == screenY);
+
+	Sint32 actualWorldX, actualWorldY;
+	screenToWorld_CS(cs, screenX, screenY, &actualWorldX, &actualWorldY);
+	SDL_assert(actualWorldX == worldX);
+	SDL_assert(actualWorldY == worldY);
+}
+
+void testCS() {
+	hCS cs = creat_CS();
+	setWorldLocus_CS(cs, FP(0), FP(0));
+	setScreenLocus_CS(cs, FP(124), FP(124));
+
+	csTestCase(cs, FP(0), FP(0), FP(124), FP(124));
+	csTestCase(cs, FP(1), FP(1), FP(124), FP(108));
+	csTestCase(cs, FP(1), -FP(1), FP(156), FP(124));
+
+	setWorldLocus_CS(cs, FP(3), FP(5));
+	setScreenLocus_CS(cs, FP(124), FP(124));
+
+	csTestCase(cs, FP(3), FP(5), FP(124), FP(124));
+	csTestCase(cs, FP(4), FP(6), FP(124), FP(108));
+	csTestCase(cs, FP(4), FP(4), FP(156), FP(124));
+
+	setWorldLocus_CS(cs, FP(0), FP(0));
+	setScreenLocus_CS(cs, FP(60), FP(30));
+
+	csTestCase(cs, FP(0), FP(0),  FP(60), FP(30));
+	csTestCase(cs, FP(1), FP(1),  FP(60), FP(14));
+	csTestCase(cs, FP(1), -FP(1), FP(92), FP(30));
+
+	setWorldLocus_CS(cs, FP(3), FP(5));
+	setScreenLocus_CS(cs, FP(60), FP(30));
+
+	csTestCase(cs, FP(3), FP(5), FP(60), FP(30));
+	csTestCase(cs, FP(4), FP(6), FP(60), FP(14));
+	csTestCase(cs, FP(4), FP(4), FP(92), FP(30));
+}
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
 	return libMain("Tendies", *initFunc, *updateFunc, *renderFunc, *deinitFunc);
 }

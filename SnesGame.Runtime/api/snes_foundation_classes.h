@@ -5,8 +5,9 @@ typedef struct CS* hCS;
 hCS creat_CS();
 void destr_CS(hCS cs);
 void setWorldLocus_CS(hCS cs, Sint32 x, Sint32 y);
-void setScreenLocus_CS(hCS cs, Uint8 x, Uint8 y);
+void setScreenLocus_CS(hCS cs, Sint32 x, Sint32 y);
 void worldToScreen_CS(hCS cs, Sint32 worldX, Sint32 worldY, Sint32* screenX, Sint32* screenY);
+void screenToWorld_CS(hCS cs, Sint32 screenX, Sint32 screenY, Sint32* worldX, Sint32* worldY);
 
 typedef struct WB* hWB;
 hWB creat_WB(Uint16 width, Uint16 height, Uint8* data);
