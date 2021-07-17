@@ -75,6 +75,14 @@ void destr_WB(hWB wb) {
 	SDL_free(wb);
 }
 
+Uint16 getWidth_WB(hWB wb) {
+	return wb->width;
+}
+
+Uint16 getHeight_WB(hWB wb) {
+	return wb->height;
+}
+
 
 void draw_WB(hRENDER render, Uint8 backdropIndex, SDL_bool topmost, hWB wb, Sint16 x, Sint16 y, Uint8 bankIndex, Uint8 paletteIndex, Uint8 mask0) {
 	Uint8 dX = (8 - x) & 0x7;
