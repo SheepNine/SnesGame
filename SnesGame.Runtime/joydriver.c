@@ -108,7 +108,36 @@ void XboxHat(hGP gp, SDL_JoyHatEvent* evt) {
 }
 
 void XboxAxis(hGP gp, SDL_JoyAxisEvent* evt) {
-	// TODO: Map controller
+	if (evt->axis == 0) // Horizontal, +ve right
+	{
+		if (evt->value >= 16384) {
+			engageButton_GP(gp, GP_BUTTON_DR);
+			disengageButton_GP(gp, GP_BUTTON_DL);
+		}
+		else if (evt->value <= -16384) {
+			disengageButton_GP(gp, GP_BUTTON_DR);
+			engageButton_GP(gp, GP_BUTTON_DL);
+		}
+		else {
+			disengageButton_GP(gp, GP_BUTTON_DR);
+			disengageButton_GP(gp, GP_BUTTON_DL);
+		}
+	}
+	else if (evt->axis == 1) // Vertical, +ve down
+	{
+		if (evt->value >= 16384) {
+			engageButton_GP(gp, GP_BUTTON_DD);
+			disengageButton_GP(gp, GP_BUTTON_DU);
+		}
+		else if (evt->value <= -16384) {
+			disengageButton_GP(gp, GP_BUTTON_DD);
+			engageButton_GP(gp, GP_BUTTON_DU);
+		}
+		else {
+			disengageButton_GP(gp, GP_BUTTON_DD);
+			disengageButton_GP(gp, GP_BUTTON_DU);
+		}
+	}
 }
 
 struct JD {
