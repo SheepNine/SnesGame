@@ -94,6 +94,18 @@ void setActorPaletteColor_PPU(hPPU ppu, Uint8 paletteIndex, Uint8 colorIndex, Ui
 	_setPaletteColor_PPU(ppu->actorPalettes, paletteIndex, colorIndex, r, g, b, t);
 }
 
+void setPaletteColor(Uint8* data, Uint8 colorIndex, Uint8 r, Uint8 g, Uint8 b, SDL_bool t) {
+	_setPaletteColor_PPU(data, 0, colorIndex, r, g, b, t);
+}
+
+void setBackdropPalette_PPU(hPPU ppu, Uint8 paletteIndex, Uint8* data) {
+	SDL_memcpy(&ppu->backdropPalettes[32 * paletteIndex], data, 32);
+}
+
+void setActorPalette_PPU(hPPU ppu, Uint8 paletteIndex, Uint8* data) {
+	SDL_memcpy(&ppu->actorPalettes[32 * paletteIndex], data, 32);
+}
+
 void setBackdropStroke_PPU(hPPU ppu, Uint8 backdropIndex, Uint8 x, Uint8 y, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0) {
 	_packStroke_PPU(ppu->backdropStrokes + 2 * (32 * (32 * backdropIndex + y) + x), brushIndex, bankIndex, paletteIndex, hFlip, vFlip, mask0);
 }

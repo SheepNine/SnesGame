@@ -22,6 +22,10 @@ void setBackdropPaletteColor(hRENDER render, Uint8 paletteIndex, Uint8 colorInde
 	setBackdropPaletteColor_PPU(render->ppu, paletteIndex, colorIndex, r, g, b, t);
 }
 
+void setBackdropPalette(hRENDER render, Uint8 paletteIndex, Uint8* data) {
+	setBackdropPalette_PPU(render->ppu, paletteIndex, data);
+}
+
 void setBackdropStroke(hRENDER render, Uint8 backdropIndex, Uint8 x, Uint8 y, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0) {
 	setBackdropStroke_PPU(render->ppu, backdropIndex, x, y, brushIndex, bankIndex, paletteIndex, hFlip, vFlip, mask0);
 }
@@ -36,6 +40,10 @@ void switchActorBrushList(hRENDER render, Uint8 bankIndex, Uint16 brushListIndex
 
 void setActorPaletteColor(hRENDER render, Uint8 paletteIndex, Uint8 colorIndex, Uint8 r, Uint8 g, Uint8 b, SDL_bool t) {
 	setActorPaletteColor_PPU(render->ppu, paletteIndex, colorIndex, r, g, b, t);
+}
+
+void setActorPalette(hRENDER render, Uint8 paletteIndex, Uint8* data) {
+	setActorPalette_PPU(render->ppu, paletteIndex, data);
 }
 
 void setActorStroke(hRENDER render, Uint8 actorIndex, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0) {

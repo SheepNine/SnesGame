@@ -187,18 +187,26 @@ void updateFunc(hUPDATE update) {
 Uint8 cursorY[10] = { 2, 4, 6, 9, 11, 13, 16, 18, 20, 22 };
 
 void renderFunc(hRENDER render) {
+	Uint8 whiteTextPalette[32];
+	Uint8 grayTextPalette[32];
+	Uint8 yellowTextPalette[32];
+
 	switchBackdropBrushList(render, 0, BL_ASCII);
-	setBackdropPaletteColor(render, 0, 0x0, 0x00, 0x00, 0x00, SDL_FALSE);
-	setBackdropPaletteColor(render, 0, 0x1, 0xFF, 0xFF, 0xFF, SDL_FALSE);
-	setBackdropPaletteColor(render, 0, 0x2, 0x80, 0x55, 0x55, SDL_FALSE);
+	setPaletteColor(whiteTextPalette, 0x0, 0x00, 0x00, 0x00, SDL_FALSE);
+	setPaletteColor(whiteTextPalette, 0x1, 0xFF, 0xFF, 0xFF, SDL_FALSE);
+	setPaletteColor(whiteTextPalette, 0x2, 0x80, 0x55, 0x55, SDL_FALSE);
 
-	setBackdropPaletteColor(render, 1, 0x0, 0x00, 0x00, 0x00, SDL_FALSE);
-	setBackdropPaletteColor(render, 1, 0x1, 0x55, 0x55, 0x55, SDL_FALSE);
-	setBackdropPaletteColor(render, 1, 0x2, 0x80, 0x55, 0x55, SDL_FALSE);
+	setPaletteColor(grayTextPalette, 0x0, 0x00, 0x00, 0x00, SDL_FALSE);
+	setPaletteColor(grayTextPalette, 0x1, 0x55, 0x55, 0x55, SDL_FALSE);
+	setPaletteColor(grayTextPalette, 0x2, 0x80, 0x55, 0x55, SDL_FALSE);
 
-	setBackdropPaletteColor(render, 2, 0x0, 0x00, 0x00, 0x00, SDL_FALSE);
-	setBackdropPaletteColor(render, 2, 0x1, 0xFF, 0xFF, 0x55, SDL_FALSE);
-	setBackdropPaletteColor(render, 2, 0x2, 0x80, 0x55, 0x55, SDL_FALSE);
+	setPaletteColor(yellowTextPalette, 0x0, 0x00, 0x00, 0x00, SDL_FALSE);
+	setPaletteColor(yellowTextPalette, 0x1, 0xFF, 0xFF, 0x55, SDL_FALSE);
+	setPaletteColor(yellowTextPalette, 0x2, 0x80, 0x55, 0x55, SDL_FALSE);
+
+	setBackdropPalette(render, 0, whiteTextPalette);
+	setBackdropPalette(render, 1, grayTextPalette);
+	setBackdropPalette(render, 2, yellowTextPalette);
 
 	setLayerClips(render, 0, 0, 0, 0, 0);
 	setBackdropControl(render, 0, 0, 0, SDL_TRUE, SDL_FALSE);
