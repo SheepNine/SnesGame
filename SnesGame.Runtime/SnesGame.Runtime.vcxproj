@@ -144,6 +144,7 @@
     <ClCompile Include="gamepad.c" />
     <ClCompile Include="init.c" />
     <ClCompile Include="joydriver.c" />
+    <ClCompile Include="keydriver.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mapper.c" />
     <ClCompile Include="perf.c" />
@@ -164,6 +165,7 @@
     <ClInclude Include="gamepad.h" />
     <ClInclude Include="init.h" />
     <ClInclude Include="joydriver.h" />
+    <ClInclude Include="keydriver.h" />
     <ClInclude Include="mapper.h" />
     <ClInclude Include="perf.h" />
     <ClInclude Include="ppu.h" />

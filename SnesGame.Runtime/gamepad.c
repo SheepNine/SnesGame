@@ -21,11 +21,11 @@ void advanceFrame_GP(hGP gp) {
 }
 
 void engageButton_GP(hGP gp, GP_BUTTON button) {
-	gp->current = gp->current | button;
+	gp->current = gp->current | (1 << button);
 }
 
 void disengageButton_GP(hGP gp, GP_BUTTON button) {
-	gp->current = gp->current & (~button);
+	gp->current = gp->current & (~(1 << button));
 }
 
 
@@ -39,9 +39,9 @@ void setButtonEngaged_GP(hGP gp, GP_BUTTON button, SDL_bool value) {
 }
 
 SDL_bool isEngaged_GP(hGP gp, GP_BUTTON button) {
-	return (gp->current & button) == 0 ? SDL_FALSE : SDL_TRUE;
+	return (gp->current & (1 << button)) == 0 ? SDL_FALSE : SDL_TRUE;
 }
 
 SDL_bool wasEngagedLastFrame_GP(hGP gp, GP_BUTTON button) {
-	return (gp->previous & button) == 0 ? SDL_FALSE : SDL_TRUE;
+	return (gp->previous & (1 << button)) == 0 ? SDL_FALSE : SDL_TRUE;
 }

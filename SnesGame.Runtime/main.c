@@ -6,6 +6,7 @@
 #include "perf.h"
 #include "sc.h"
 #include "joydriver.h"
+#include "keydriver.h"
 #include "gamepad.h"
 #include "api/snes_api.h"
 #include "init.h"
@@ -93,6 +94,7 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 
 			hJD jd = NULL;
 			hGP gp = creat_GP();
+			hKD kd = creat_KD(gp);
 
 			SDL_bool loop = SDL_TRUE;
 			SDL_Event event;
@@ -134,6 +136,12 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 							SDL_LogSetPriority(SDL_LOG_CATEGORY_CUSTOM, SDL_LOG_PRIORITY_WARN);
 						}
 					}
+					else {
+						handleKeyDown_KD(kd, &event.key);
+					}
+					break;
+				case SDL_KEYUP:
+					handleKeyUp_KD(kd, &event.key);
 					break;
 				case SDL_USEREVENT:
 					{
@@ -168,6 +176,9 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 
 			if (jd != NULL) {
 				destr_JD(jd);
+			}
+			if (kd != NULL) {
+				destr_KD(kd);
 			}
 			destr_GP(gp);
 

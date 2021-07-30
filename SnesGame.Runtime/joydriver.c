@@ -1,5 +1,4 @@
 #include "joydriver.h"
-#include "gamepad.h"
 
 typedef void (*JoyButtonEventHandler)(hGP gp, SDL_JoyButtonEvent* evt);
 typedef void (*JoyAxisEventHandler)(hGP gp, SDL_JoyAxisEvent* evt);
