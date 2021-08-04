@@ -94,17 +94,23 @@ void updateFunc(hUPDATE update) {
 	}
 	if (wasButtonPressed(update, GP_BUTTON_ST)) {
 		SDL_bool canPitchShift = periodChoice1Index != periodChoice2Index && periodShiftDirChoiceIndex != 0;
-		playSquareNote(update, 0,
-			lengthOptions[lengthChoiceIndex], 
+		SquareWaveParams params = {
+			lengthOptions[lengthChoiceIndex],
 			volumeOptions[volumeChoiceIndex],
-			shiftDirOptions[volumeShiftDirChoiceIndex],
-			shiftSpeedOptions[volumeShiftSpeedChoiceIndex],
-			edgeBehaviourOptions[volumeEdgeBehaviourChoiceIndex],
 			periodOptions[canPitchShift ? SDL_max(periodChoice1Index, periodChoice2Index) : periodChoice1Index],
 			periodOptions[canPitchShift ? SDL_min(periodChoice1Index, periodChoice2Index) : periodChoice1Index],
-			canPitchShift ? shiftDirOptions[periodShiftDirChoiceIndex] : SD_NONE,
-			shiftSpeedOptions[periodShiftSpeedChoiceIndex],
-			edgeBehaviourOptions[periodEdgeBehaviourChoiceIndex]);
+			{
+				shiftDirOptions[volumeShiftDirChoiceIndex],
+				shiftSpeedOptions[volumeShiftSpeedChoiceIndex],
+				edgeBehaviourOptions[volumeEdgeBehaviourChoiceIndex]
+			},
+			{
+				canPitchShift ? shiftDirOptions[periodShiftDirChoiceIndex] : SD_NONE,
+				shiftSpeedOptions[periodShiftSpeedChoiceIndex],
+				edgeBehaviourOptions[periodEdgeBehaviourChoiceIndex]
+			}
+		};
+		playSquareNote(update, 0, &params);
 	}
 
 	if (wasButtonPressed(update, GP_BUTTON_DU)) {

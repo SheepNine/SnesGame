@@ -52,7 +52,7 @@
 #define PITCH_A4 55 
 #define PITCH_ASHARP4 51 
 #define PITCH_B4 49 
-#define PITCH_C4 46 
+#define PITCH_C5 46 
 #define PITCH_CSHARP5 43
 #define PITCH_D5 41 
 #define PITCH_DSHARP5 39 
@@ -64,7 +64,7 @@
 #define PITCH_A5 27
 #define PITCH_ASHARP5 26
 #define PITCH_B5 24
-#define PITCH_C5 23
+#define PITCH_C6 23
 #define PITCH_CSHARP6 22
 #define PITCH_D6 20
 #define PITCH_DSHARP6 19
@@ -113,11 +113,30 @@ SDL_bool isButtonOut(hUPDATE update, GP_BUTTON button);
 SDL_bool wasButtonPressed(hUPDATE update, GP_BUTTON button);
 SDL_bool wasButtonReleased(hUPDATE update, GP_BUTTON button);
 
+typedef struct {
+	ShiftDir dir;
+	Uint8 speed;
+	EdgeBehaviour edgeBehaviour;
+} ShiftParams;
+
+typedef struct {
+	Uint16 length;
+	Uint8 volume;
+	Uint16 periodLow;
+	Uint16 periodHigh;
+	ShiftParams volumeShift;
+	ShiftParams periodShift;
+} SquareWaveParams;
+
+typedef struct {
+	Uint8 type;
+	union {
+		SquareWaveParams square;
+	} waveParams;
+} ChannelVoice;
+
 void silenceChannel(hUPDATE update, Uint8 channelIndex);
-void playSquareNote(hUPDATE update, Uint8 channelIndex,
-	Uint16 length,
-	Uint8 volume, enum ShiftDir volumeShift, Uint8 volumeShiftSpeed, enum EdgeBehaviour volumeEB,
-	Uint16 periodLow, Uint16 periodHigh, enum ShiftDir periodShift, Uint8 periodShiftSpeed, enum EdgeBehaviour periodEB);
+void playSquareNote(hUPDATE update, Uint8 channelIndex, SquareWaveParams* params);
 
 
 typedef struct RENDER* hRENDER;

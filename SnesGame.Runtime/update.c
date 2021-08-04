@@ -36,12 +36,11 @@ void silenceChannel(hUPDATE update, Uint8 channelIndex) {
 	silence_SC(update->soundChannels[channelIndex]);
 }
 
-void playSquareNote(hUPDATE update, Uint8 channelIndex,
-		Uint16 length,
-		Uint8 volume, enum ShiftDir volumeShift, Uint8 volumeShiftSpeed, enum EdgeBehaviour volumeEB,
-		Uint16 periodLow, Uint16 periodHigh, enum ShiftDir periodShift, Uint8 periodShiftSpeed, enum EdgeBehaviour periodEB) {
+void playSquareNote(hUPDATE update, Uint8 channelIndex, SquareWaveParams* params) {
 	playNote_SC(update->soundChannels[channelIndex],
-		length,
-		volume, volumeShift, volumeShiftSpeed, volumeEB,
-		periodLow, periodHigh, periodShift, periodShiftSpeed, periodEB);
+		params->length,
+		params->volume,
+		params->volumeShift.dir, params->volumeShift.speed, params->volumeShift.edgeBehaviour,
+		params->periodLow, params->periodHigh,
+		params->periodShift.dir, params->periodShift.speed, params->periodShift.edgeBehaviour);
 }
