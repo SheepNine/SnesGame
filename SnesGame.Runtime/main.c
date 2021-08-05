@@ -19,6 +19,11 @@ hBB bb;
 hMapper romMapper;
 hPPU ppu;
 
+ChannelVoice voiceBuffer[64];
+int voiceBufferHead = 0;
+int samplesInCurrentVoiceSet = 0;
+
+
 Uint32 heartbeatCallback(Uint32 interval, void* param) {
 	SDL_UserEvent userEvent;
 	userEvent.type = SDL_USEREVENT;
@@ -38,10 +43,44 @@ hSC soundChannels[8];
 
 void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 	Sint16* writePtr = (Sint16*)stream;
+
+	// If the audio playback is more than a whole sample ahead, just drop back
+	while (samplesInCurrentVoiceSet < -512) {
+		samplesInCurrentVoiceSet += 512;
+	}
+
 	for (int i = 0; i < have.samples; i++) {
+		while (samplesInCurrentVoiceSet <= 0 && voiceBufferHead > 0) {
+			for (int i = 0; i < 8; i++) {
+				switch (voiceBuffer[i].type) {
+				case CV_SILENCE:
+					silence_SC(soundChannels[i]);
+					break;
+				case CV_SQUARE: {
+					SquareWaveParams params = voiceBuffer[i].waveParams.square;
+					playNote_SC(soundChannels[i], params.length,
+						params.volume,
+						params.volumeShift.dir, params.volumeShift.speed, params.volumeShift.edgeBehaviour,
+						params.periodLow, params.periodHigh,
+						params.periodShift.dir, params.periodShift.speed, params.periodShift.edgeBehaviour);
+					break;
+				}
+				}
+			}
+
+			for (int i = 0; i < voiceBufferHead - 8; i++) { // SKETCHY: not copying all of them
+				voiceBuffer[i] = voiceBuffer[i + 8];
+			}
+
+			voiceBufferHead -= 8;
+			samplesInCurrentVoiceSet += 960;
+		}
+
 		writePtr[i] = 0;
 		for (int c = 0; c < 8; c++)
 			writePtr[i] += getNextSample_SC(soundChannels[c]);
+
+		samplesInCurrentVoiceSet--;
 	}
 }
 
@@ -69,7 +108,7 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 		want.freq = 48000;
 		want.format = AUDIO_S16;
 		want.channels = 1;
-		want.samples = 4096;
+		want.samples = 512;
 		want.callback = AnAudioCallback;
 		dev = SDL_OpenAudioDevice(NULL, SDL_FALSE, &want, &have, 0);
 
@@ -153,21 +192,17 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 						updateFunc(update);
 						destr_UPDATE(update);
 						advanceFrame_GP(gp);
-						for (int i = 0; i < 8; i++) {
-							switch (voices[i].type) {
-							case CV_SILENCE:
-								silence_SC(soundChannels[i]);
-								break;
-							case CV_SQUARE: {
-								SquareWaveParams params = voices[i].waveParams.square;
-								playNote_SC(soundChannels[i], params.length,
-									params.volume,
-									params.volumeShift.dir, params.volumeShift.speed, params.volumeShift.edgeBehaviour,
-									params.periodLow, params.periodHigh,
-									params.periodShift.dir, params.periodShift.speed, params.periodShift.edgeBehaviour);
-								break;
+
+						{
+							SDL_LockAudioDevice(dev);
+							if (voiceBufferHead < 64) {
+								ChannelVoice* writePtr = voiceBuffer + voiceBufferHead;
+								for (int i = 0; i < 8; i++) {
+									writePtr[i] = voices[i];
+								}
+								voiceBufferHead += 8;
 							}
-							}
+							SDL_UnlockAudioDevice(dev);
 						}
 					}
 					{
