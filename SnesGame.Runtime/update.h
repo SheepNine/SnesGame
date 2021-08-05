@@ -3,5 +3,5 @@
 #include "gamepad.h"
 #include "sc.h"
 
-hUPDATE creat_UPDATE(hGP gp, hSC* soundChannels);
+hUPDATE creat_UPDATE(hGP gp, ChannelVoice* voices);
 void destr_UPDATE(hUPDATE update);

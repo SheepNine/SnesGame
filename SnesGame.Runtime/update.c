@@ -2,13 +2,13 @@
 
 struct UPDATE {
 	hGP gp;
-	hSC* soundChannels;
+	ChannelVoice* voices;
 } UPDATE;
 
-hUPDATE creat_UPDATE(hGP gp, hSC* soundChannels) {
+hUPDATE creat_UPDATE(hGP gp, ChannelVoice* voices) {
 	hUPDATE result = (hUPDATE)SDL_malloc(sizeof(UPDATE));
 	result->gp = gp;
-	result->soundChannels = soundChannels;
+	result->voices = voices;
 	return result;
 }
 
@@ -33,14 +33,10 @@ SDL_bool wasButtonReleased(hUPDATE update, GP_BUTTON button) {
 }
 
 void silenceChannel(hUPDATE update, Uint8 channelIndex) {
-	silence_SC(update->soundChannels[channelIndex]);
+	update->voices[channelIndex].type = CV_SILENCE;
 }
 
 void playSquareNote(hUPDATE update, Uint8 channelIndex, SquareWaveParams* params) {
-	playNote_SC(update->soundChannels[channelIndex],
-		params->length,
-		params->volume,
-		params->volumeShift.dir, params->volumeShift.speed, params->volumeShift.edgeBehaviour,
-		params->periodLow, params->periodHigh,
-		params->periodShift.dir, params->periodShift.speed, params->periodShift.edgeBehaviour);
+	update->voices[channelIndex].type = CV_SQUARE;
+	update->voices[channelIndex].waveParams.square = *params;
 }

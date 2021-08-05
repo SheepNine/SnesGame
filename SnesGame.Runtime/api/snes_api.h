@@ -128,8 +128,14 @@ typedef struct {
 	ShiftParams periodShift;
 } SquareWaveParams;
 
+typedef enum {
+	CV_SUSTAIN,
+	CV_SILENCE,
+	CV_SQUARE
+} ChannelVoiceType;
+
 typedef struct {
-	Uint8 type;
+	ChannelVoiceType type;
 	union {
 		SquareWaveParams square;
 	} waveParams;

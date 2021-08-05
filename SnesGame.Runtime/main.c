@@ -145,10 +145,30 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 					break;
 				case SDL_USEREVENT:
 					{
-						hUPDATE update = creat_UPDATE(gp, soundChannels);
+						ChannelVoice voices[8];
+						for (int i = 0; i < 8; i++) {
+							voices[i].type = CV_SUSTAIN;
+						}
+						hUPDATE update = creat_UPDATE(gp, voices);
 						updateFunc(update);
 						destr_UPDATE(update);
 						advanceFrame_GP(gp);
+						for (int i = 0; i < 8; i++) {
+							switch (voices[i].type) {
+							case CV_SILENCE:
+								silence_SC(soundChannels[i]);
+								break;
+							case CV_SQUARE: {
+								SquareWaveParams params = voices[i].waveParams.square;
+								playNote_SC(soundChannels[i], params.length,
+									params.volume,
+									params.volumeShift.dir, params.volumeShift.speed, params.volumeShift.edgeBehaviour,
+									params.periodLow, params.periodHigh,
+									params.periodShift.dir, params.periodShift.speed, params.periodShift.edgeBehaviour);
+								break;
+							}
+							}
+						}
 					}
 					{
 						hRENDER render = creat_RENDER(ppu);
