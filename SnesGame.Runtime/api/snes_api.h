@@ -121,7 +121,8 @@ typedef struct {
 
 typedef struct {
 	Uint16 length;
-	Uint8 volume;
+	Uint8 volumeLow;
+	Uint8 volumeHigh;
 	Uint16 periodLow;
 	Uint16 periodHigh;
 	ShiftParams volumeShift;

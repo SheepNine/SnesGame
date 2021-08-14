@@ -59,7 +59,7 @@ void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 				case CV_SQUARE: {
 					SquareWaveParams params = voiceBuffer[i].waveParams.square;
 					playNote_SC(soundChannels[i], params.length,
-						params.volume,
+						params.volumeLow, params.volumeHigh,
 						params.volumeShift.dir, params.volumeShift.speed, params.volumeShift.edgeBehaviour,
 						params.periodLow, params.periodHigh,
 						params.periodShift.dir, params.periodShift.speed, params.periodShift.edgeBehaviour);

@@ -46,10 +46,12 @@ Uint16 lengthOptions[7] = { 2400, 4800, 6000, 12000, 24000, 48000, 65535 };
 Uint8 numLengthChoices = 7;
 
 Uint8 optionIndex = 0;
-Uint8 numOptions = 10;
+Uint8 numOptions = 11;
 
 Uint8 lengthChoiceIndex = 3;
-Uint8 volumeChoiceIndex = 7;
+
+Uint8 volumeChoice1Index = 7;
+Uint8 volumeChoice2Index = 7;
 Uint8 volumeShiftDirChoiceIndex = 0;
 Uint8 volumeShiftSpeedChoiceIndex = 0;
 Uint8 volumeEdgeBehaviourChoiceIndex = 0;
@@ -63,7 +65,7 @@ Uint8 periodEdgeBehaviourChoiceIndex = 0;
 char scratch[10];
 
 SDL_bool isVolumeShifting() {
-	return volumeShiftDirChoiceIndex != 0;
+	return volumeChoice1Index != volumeChoice2Index && volumeShiftDirChoiceIndex != 0;
 }
 
 SDL_bool isPeriodShifting() {
@@ -93,14 +95,16 @@ void updateFunc(hUPDATE update) {
 		silenceChannel(update, 0);
 	}
 	if (wasButtonPressed(update, GP_BUTTON_ST)) {
-		SDL_bool canPitchShift = periodChoice1Index != periodChoice2Index && periodShiftDirChoiceIndex != 0;
+		SDL_bool canPitchShift = isPeriodShifting();
+		SDL_bool canVolumeShift = isVolumeShifting();
 		SquareWaveParams params = {
 			lengthOptions[lengthChoiceIndex],
-			volumeOptions[volumeChoiceIndex],
+			volumeOptions[canVolumeShift ? SDL_min(volumeChoice1Index, volumeChoice2Index) : volumeChoice1Index],
+			volumeOptions[canVolumeShift ? SDL_max(volumeChoice1Index, volumeChoice2Index) : volumeChoice1Index],
 			periodOptions[canPitchShift ? SDL_max(periodChoice1Index, periodChoice2Index) : periodChoice1Index],
 			periodOptions[canPitchShift ? SDL_min(periodChoice1Index, periodChoice2Index) : periodChoice1Index],
 			{
-				shiftDirOptions[volumeShiftDirChoiceIndex],
+				canVolumeShift ? shiftDirOptions[volumeShiftDirChoiceIndex]: SD_NONE,
 				shiftSpeedOptions[volumeShiftSpeedChoiceIndex],
 				edgeBehaviourOptions[volumeEdgeBehaviourChoiceIndex]
 			},
@@ -126,30 +130,33 @@ void updateFunc(hUPDATE update) {
 			lengthChoiceIndex = increment(lengthChoiceIndex, numLengthChoices);
 			break;
 		case 1:
-			volumeChoiceIndex = increment(volumeChoiceIndex, numVolumeChoices);
+			volumeChoice1Index = increment(volumeChoice1Index, numVolumeChoices);
 			break;
 		case 2:
 			periodChoice1Index = increment(periodChoice1Index, numPeriodOptions);
 			break;
 		case 3:
-			volumeShiftDirChoiceIndex = increment(volumeShiftDirChoiceIndex, numShiftDirOptions);
+			volumeChoice2Index = increment(volumeChoice2Index, numVolumeChoices);
 			break;
 		case 4:
-			volumeShiftSpeedChoiceIndex = increment(volumeShiftSpeedChoiceIndex, numShiftSpeedOptions);
+			volumeShiftDirChoiceIndex = increment(volumeShiftDirChoiceIndex, numShiftDirOptions);
 			break;
 		case 5:
-			volumeEdgeBehaviourChoiceIndex = increment(volumeEdgeBehaviourChoiceIndex, numEdgeBehaviourOptions);
+			volumeShiftSpeedChoiceIndex = increment(volumeShiftSpeedChoiceIndex, numShiftSpeedOptions);
 			break;
 		case 6:
-			periodChoice2Index = increment(periodChoice2Index, numPeriodOptions);
+			volumeEdgeBehaviourChoiceIndex = increment(volumeEdgeBehaviourChoiceIndex, numEdgeBehaviourOptions);
 			break;
 		case 7:
-			periodShiftDirChoiceIndex = increment(periodShiftDirChoiceIndex, numShiftDirOptions);
+			periodChoice2Index = increment(periodChoice2Index, numPeriodOptions);
 			break;
 		case 8:
-			periodShiftSpeedChoiceIndex = increment(periodShiftSpeedChoiceIndex, numShiftSpeedOptions);
+			periodShiftDirChoiceIndex = increment(periodShiftDirChoiceIndex, numShiftDirOptions);
 			break;
 		case 9:
+			periodShiftSpeedChoiceIndex = increment(periodShiftSpeedChoiceIndex, numShiftSpeedOptions);
+			break;
+		case 10:
 			periodEdgeBehaviourChoiceIndex = increment(periodEdgeBehaviourChoiceIndex, numEdgeBehaviourOptions);
 			break;
 		}
@@ -160,37 +167,40 @@ void updateFunc(hUPDATE update) {
 			lengthChoiceIndex = decrement(lengthChoiceIndex, numLengthChoices);
 			break;
 		case 1:
-			volumeChoiceIndex = decrement(volumeChoiceIndex, numVolumeChoices);
+			volumeChoice1Index = decrement(volumeChoice1Index, numVolumeChoices);
 			break;
 		case 2:
 			periodChoice1Index = decrement(periodChoice1Index, numPeriodOptions);
 			break;
 		case 3:
-			volumeShiftDirChoiceIndex = decrement(volumeShiftDirChoiceIndex, numShiftDirOptions);
+			volumeChoice2Index = decrement(volumeChoice2Index, numVolumeChoices);
 			break;
 		case 4:
-			volumeShiftSpeedChoiceIndex = decrement(volumeShiftSpeedChoiceIndex, numShiftSpeedOptions);
+			volumeShiftDirChoiceIndex = decrement(volumeShiftDirChoiceIndex, numShiftDirOptions);
 			break;
 		case 5:
-			volumeEdgeBehaviourChoiceIndex = decrement(volumeEdgeBehaviourChoiceIndex, numEdgeBehaviourOptions);
+			volumeShiftSpeedChoiceIndex = decrement(volumeShiftSpeedChoiceIndex, numShiftSpeedOptions);
 			break;
 		case 6:
-			periodChoice2Index = decrement(periodChoice2Index, numPeriodOptions);
+			volumeEdgeBehaviourChoiceIndex = decrement(volumeEdgeBehaviourChoiceIndex, numEdgeBehaviourOptions);
 			break;
 		case 7:
-			periodShiftDirChoiceIndex = decrement(periodShiftDirChoiceIndex, numShiftDirOptions);
+			periodChoice2Index = decrement(periodChoice2Index, numPeriodOptions);
 			break;
 		case 8:
-			periodShiftSpeedChoiceIndex = decrement(periodShiftSpeedChoiceIndex, numShiftSpeedOptions);
+			periodShiftDirChoiceIndex = decrement(periodShiftDirChoiceIndex, numShiftDirOptions);
 			break;
 		case 9:
+			periodShiftSpeedChoiceIndex = decrement(periodShiftSpeedChoiceIndex, numShiftSpeedOptions);
+			break;
+		case 10:
 			periodEdgeBehaviourChoiceIndex = decrement(periodEdgeBehaviourChoiceIndex, numEdgeBehaviourOptions);
 			break;
 		}
 	}
 }
 
-Uint8 cursorY[10] = { 2, 4, 6, 9, 11, 13, 16, 18, 20, 22 };
+Uint8 cursorY[11] = { 2, 4, 6, 9, 11, 13, 15, 18, 20, 22, 24 };
 
 void renderFunc(hRENDER render) {
 	Uint8 whiteTextPalette[32];
@@ -224,25 +234,27 @@ void renderFunc(hRENDER render) {
 	drawBackdropString(render, 0, "LENGTH: ", 3, 2, 0, 0, SDL_FALSE);
 	drawBackdropString(render, 0, toString(lengthOptions[lengthChoiceIndex]), 12, 2, 0, 0, SDL_FALSE);
 	drawBackdropString(render, 0, "VOLUME: ", 3, 4, 0, 0, SDL_FALSE);
-	drawBackdropString(render, 0, toString(volumeOptions[volumeChoiceIndex]), 12, 4, 0, 0, SDL_FALSE);
+	drawBackdropString(render, 0, toString(volumeOptions[volumeChoice1Index]), 12, 4, 0, 0, SDL_FALSE);
 	drawBackdropString(render, 0, "PERIOD: ", 3, 6, 0, 0, SDL_FALSE);
 	drawBackdropString(render, 0, periodLabels[periodChoice1Index], 12, 6, 0, 0, SDL_FALSE);
 
-	drawBackdropString(render, 0, "VSHIFT: ", 3, 9, 0, fancyVolumePalette, SDL_FALSE);
-	drawBackdropString(render, 0, shiftDirLabels[volumeShiftDirChoiceIndex], 12, 9, 0, fancyVolumePalette, SDL_FALSE);
-	drawBackdropString(render, 0, "V SSPD: ", 3, 11, 0, fancyVolumePalette, SDL_FALSE);
-	drawBackdropString(render, 0, toString(shiftSpeedOptions[volumeShiftSpeedChoiceIndex]), 12, 11, 0, fancyVolumePalette, SDL_FALSE);
-	drawBackdropString(render, 0, "V EB  : ", 3, 13, 0, fancyVolumePalette, SDL_FALSE);
-	drawBackdropString(render, 0, edgeBehaviourLabels[volumeEdgeBehaviourChoiceIndex], 12, 13, 0, fancyVolumePalette, SDL_FALSE);
+	drawBackdropString(render, 0, "VOLUM2: ", 3, 9, 0, fancyVolumePalette, SDL_FALSE);
+	drawBackdropString(render, 0, toString(volumeOptions[volumeChoice2Index]), 12, 9, 0, fancyVolumePalette, SDL_FALSE);
+	drawBackdropString(render, 0, "VSHIFT: ", 3, 11, 0, fancyVolumePalette, SDL_FALSE);
+	drawBackdropString(render, 0, shiftDirLabels[volumeShiftDirChoiceIndex], 12, 11, 0, fancyVolumePalette, SDL_FALSE);
+	drawBackdropString(render, 0, "V SSPD: ", 3, 13, 0, fancyVolumePalette, SDL_FALSE);
+	drawBackdropString(render, 0, toString(shiftSpeedOptions[volumeShiftSpeedChoiceIndex]), 12, 13, 0, fancyVolumePalette, SDL_FALSE);
+	drawBackdropString(render, 0, "V EB  : ", 3, 15, 0, fancyVolumePalette, SDL_FALSE);
+	drawBackdropString(render, 0, edgeBehaviourLabels[volumeEdgeBehaviourChoiceIndex], 12, 15, 0, fancyVolumePalette, SDL_FALSE);
 
-	drawBackdropString(render, 0, "PRIOD2: ", 3, 16, 0, fancyPeriodPalette, SDL_FALSE);
-	drawBackdropString(render, 0, periodLabels[periodChoice2Index], 12, 16, 0, fancyPeriodPalette, SDL_FALSE);
-	drawBackdropString(render, 0, "PSHIFT: ", 3, 18, 0, fancyPeriodPalette, SDL_FALSE);
-	drawBackdropString(render, 0, shiftDirLabels[periodShiftDirChoiceIndex], 12, 18, 0, fancyPeriodPalette, SDL_FALSE);
-	drawBackdropString(render, 0, "P SSPD: ", 3, 20, 0, fancyPeriodPalette, SDL_FALSE);
-	drawBackdropString(render, 0, toString(shiftSpeedOptions[periodShiftSpeedChoiceIndex]), 12, 20, 0, fancyPeriodPalette, SDL_FALSE);
-	drawBackdropString(render, 0, "P EB  : ", 3, 22, 0, fancyPeriodPalette, SDL_FALSE);
-	drawBackdropString(render, 0, edgeBehaviourLabels[periodEdgeBehaviourChoiceIndex], 12, 22, 0, fancyPeriodPalette, SDL_FALSE);
+	drawBackdropString(render, 0, "PRIOD2: ", 3, 18, 0, fancyPeriodPalette, SDL_FALSE);
+	drawBackdropString(render, 0, periodLabels[periodChoice2Index], 12, 18, 0, fancyPeriodPalette, SDL_FALSE);
+	drawBackdropString(render, 0, "PSHIFT: ", 3, 20, 0, fancyPeriodPalette, SDL_FALSE);
+	drawBackdropString(render, 0, shiftDirLabels[periodShiftDirChoiceIndex], 12, 20, 0, fancyPeriodPalette, SDL_FALSE);
+	drawBackdropString(render, 0, "P SSPD: ", 3, 22, 0, fancyPeriodPalette, SDL_FALSE);
+	drawBackdropString(render, 0, toString(shiftSpeedOptions[periodShiftSpeedChoiceIndex]), 12, 22, 0, fancyPeriodPalette, SDL_FALSE);
+	drawBackdropString(render, 0, "P EB  : ", 3, 24, 0, fancyPeriodPalette, SDL_FALSE);
+	drawBackdropString(render, 0, edgeBehaviourLabels[periodEdgeBehaviourChoiceIndex], 12, 24, 0, fancyPeriodPalette, SDL_FALSE);
 
 	setBackdropStroke(render, 0, 1, cursorY[optionIndex], (Uint8)'>', 0, 2, 0, 0, SDL_FALSE);
 
