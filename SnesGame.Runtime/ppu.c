@@ -175,26 +175,27 @@ Uint8 _unpackActorSize_PPU(Uint8 size, Uint8* sizeX, Uint8* sizeY) {
 }
 
 void _packActorControl_PPU(Uint8* control, int x, int y, Uint8 sizeX, Uint8 sizeY, SDL_bool visible, Uint8 layer) {
-	SDL_assert(y < 256 && y > -256);
+	SDL_assert(SDL_abs(x) < 256);
+	SDL_assert(SDL_abs(y) < 256);
 	Uint8 yByte;
 	SDL_bool invertY;
 	if (y >= 0) {
-		yByte = y;
+		yByte = (Uint8)(y);
 		invertY = SDL_FALSE;
 	}
 	else {
-		yByte = -y;
+		yByte = (Uint8)(-y);
 		invertY = SDL_TRUE;
 	}
 
 	Uint8 xByte;
 	SDL_bool invertX;
 	if (x >= 0) {
-		xByte = x;
+		xByte = (Uint8)(x);
 		invertX = SDL_FALSE;
 	}
 	else {
-		xByte = -x;
+		xByte = (Uint8)(-x);
 		invertX = SDL_TRUE;
 	}
 
@@ -267,8 +268,10 @@ void _scanActor(Uint8* control, Uint8* stroke, hMapper mapper, Uint8* palettes, 
 		localY = getLine_SL(sl) - y;
 	}
 	if (localY >= 0 && localY < 8 * sizeY) {
+		// 0 <= localY <= 64
+		Uint8 brushSetRow = (Uint8)localY / 8;
 		Uint8 bar = localY % 8;
-		brushIndex += 16 * (localY / 8);
+		brushIndex += 16 * brushSetRow;
 
 		int destX;
 		int dX;
