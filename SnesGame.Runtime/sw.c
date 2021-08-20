@@ -58,7 +58,7 @@ void destr_SW(hSW sw) {
 	SDL_free(sw);
 }
 
-void setTargetVolume_SW(hSW sw, int volume) {
+void setTargetVolume_SW(hSW sw, Sint8 volume) {
 	SDL_assert(sw->waveletTimer == 16);
 	sw->prevVolume = sw->currVolume;
 	sw->currVolume = volume;

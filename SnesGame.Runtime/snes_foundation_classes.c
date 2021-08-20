@@ -7,8 +7,8 @@ void drawBackdropString(hRENDER render, Uint8 backdropIndex, char* string, Uint8
 }
 
 void fillBackdrop(hRENDER render, Uint8 backdropIndex, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0) {
-	for (int y = 0; y < 32; y++) {
-		for (int x = 0; x < 32; x++) {
+	for (Uint8 y = 0; y < 32; y++) {
+		for (Uint8 x = 0; x < 32; x++) {
 			setBackdropStroke(render, backdropIndex, x, y, brushIndex, bankIndex, paletteIndex, hFlip, vFlip, mask0);
 		}
 	}
@@ -92,10 +92,8 @@ void draw_WB(hRENDER render, Uint8 backdropIndex, SDL_bool topmost, hWB wb, Sint
 	Sint16 srcX = (-x) >> 3;
 	Sint16 srcY = (-y) >> 3;
 
-	for (Uint8 y = 0; y < 32; y++)
-	{
-		for (Uint8 x = 0; x < 32; x++)
-		{
+	for (Uint8 backdropY = 0; backdropY < 32; y++) {
+		for (Uint8 backdropX = 0; backdropX < 32; x++) {
 			Uint8 brushIndex;
 			if (srcX >= 0 && srcX < wb->width && srcY >= 0 && srcY < wb->height) {
 				brushIndex = wb->data[wb->width * srcY + srcX];
@@ -103,7 +101,7 @@ void draw_WB(hRENDER render, Uint8 backdropIndex, SDL_bool topmost, hWB wb, Sint
 			else {
 				brushIndex = 0;
 			}
-			setBackdropStroke(render, backdropIndex, x, y, brushIndex, bankIndex, paletteIndex, SDL_FALSE, SDL_FALSE, mask0);
+			setBackdropStroke(render, backdropIndex, backdropX, backdropY, brushIndex, bankIndex, paletteIndex, SDL_FALSE, SDL_FALSE, mask0);
 			srcX += 1;
 		}
 		srcX -= 32;

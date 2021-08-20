@@ -10,7 +10,8 @@ hRENDER creat_RENDER(hPPU ppu) {
 	return result;
 }
 
-void destr_RENDER(hRENDER render) {
+void destr_RENDER(hRENDER __) {
+	__;
 	// Proxy class; doesn't own any of its references
 }
 

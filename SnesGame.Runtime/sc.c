@@ -40,8 +40,8 @@ void destr_SC(hSC sc) {
 
 void playNote_SC(hSC sc,
 		Uint16 length,
-		Uint8 volumeLow, Uint8 volumeHigh, enum ShiftDir volumeShift, Uint8 volumeShiftSpeed, enum EdgeBehaviour volumeEB,
-		Uint16 periodLow, Uint16 periodHigh, enum ShiftDir periodShift, Uint8 periodShiftSpeed, enum EdgeBehaviour periodEB) {
+		Uint8 volumeLow, Uint8 volumeHigh, ShiftDir volumeShift, Uint8 volumeShiftSpeed, EdgeBehaviour volumeEB,
+		Uint16 periodLow, Uint16 periodHigh, ShiftDir periodShift, Uint8 periodShiftSpeed, EdgeBehaviour periodEB) {
 	SDL_assert(0 < volumeLow && volumeHigh <= 8); // use silence_SC for zero volume
 	SDL_assert(0 < volumeHigh && volumeHigh <= 8);
 	SDL_assert(volumeLow <= volumeHigh);

@@ -4,9 +4,17 @@ typedef void (*JoyButtonEventHandler)(hGP gp, SDL_JoyButtonEvent* evt);
 typedef void (*JoyAxisEventHandler)(hGP gp, SDL_JoyAxisEvent* evt);
 typedef void (*JoyHatEventHandler)(hGP gp, SDL_JoyHatEvent* evt);
 
-void NullButton(hGP gp, SDL_JoyButtonEvent* evt) { }
-void NullAxis(hGP gp, SDL_JoyAxisEvent* evt) { }
-void NullHat(hGP gp, SDL_JoyHatEvent* evt) { }
+void NullButton(hGP __1, SDL_JoyButtonEvent* __2) {
+	__1; __2;
+}
+
+void NullAxis(hGP __1, SDL_JoyAxisEvent* __2) {
+	__1; __2;
+}
+
+void NullHat(hGP __1, SDL_JoyHatEvent* __2) {
+	__1; __2;
+}
 
 void RetrolinkButtonDown(hGP gp, SDL_JoyButtonEvent* evt) {
 	switch (evt->button) {

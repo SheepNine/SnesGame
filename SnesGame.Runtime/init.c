@@ -10,7 +10,8 @@ hINIT creat_INIT(hMapper mapper) {
 	return result;
 }
 
-void destr_INIT(hINIT init) {
+void destr_INIT(hINIT __) {
+	__;
 	// Proxy class; doesn't own any of its references
 }
 

@@ -8,13 +8,13 @@ typedef struct PPU* hPPU;
 hPPU creat_PPU(hMapper romMapper);
 void destr_PPU(hPPU ppu);
 
-void switchBackdropBrushList_PPU(hPPU ppu, Uint8 bankIndex, int brushListIndex);
+void switchBackdropBrushList_PPU(hPPU ppu, Uint8 bankIndex, Uint16 brushListIndex);
 void setBackdropPaletteColor_PPU(hPPU ppu, Uint8 paletteIndex, Uint8 colorIndex, Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
 void setBackdropPalette_PPU(hPPU ppu, Uint8 paletteIndex, Uint8* data);
 void setBackdropStroke_PPU(hPPU ppu, Uint8 backdropIndex, Uint8 x, Uint8 y, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);
 void setBackdropControl_PPU(hPPU ppu, Uint8 backdropIndex, Uint8 dX, Uint8 dY, SDL_bool visible, SDL_bool topmost);
 
-void switchActorBrushList_PPU(hPPU ppu, Uint8 bankIndex, int brushListIndex);
+void switchActorBrushList_PPU(hPPU ppu, Uint8 bankIndex, Uint16 brushListIndex);
 void setActorPaletteColor_PPU(hPPU ppu, Uint8 paletteIndex, Uint8 colorIndex, Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
 void setActorPalette_PPU(hPPU ppu, Uint8 paletteIndex, Uint8* data);
 void setActorStroke_PPU(hPPU ppu, Uint8 actorIndex, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);

@@ -13,7 +13,7 @@ void blit_BB(hBB bb, SDL_Surface* surface);
 typedef struct SL* hSL;
 
 hSL creat_SL(hBB bb, Uint8 y);
-destr_SL(hSL sl);
+void destr_SL(hSL sl);
 
 Uint8 getLine_SL(hSL sl);
 

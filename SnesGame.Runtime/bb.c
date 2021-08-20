@@ -35,7 +35,6 @@ void blit_BB(hBB bb, SDL_Surface* surface) {
 	int ySkip = (surface->h - scale * __BB_DIM) / 2;
 
 	Uint32* dest = (Uint32*)surface->pixels + ySkip * surface->pitch / 4 + xSkip;
-	int i = 0;
 
 	Uint8* readR = bb->r;
 	Uint8* readG = bb->g;
@@ -129,7 +128,7 @@ hSL creat_SL(hBB bb, Uint8 line) {
 	return result;
 }
 
-destr_SL(hSL sl) {
+void destr_SL(hSL sl) {
 	SDL_free(sl->bbc);
 	SDL_free(sl);
 }

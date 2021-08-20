@@ -12,7 +12,8 @@ hUPDATE creat_UPDATE(hGP gp, ChannelVoice* voices) {
 	return result;
 }
 
-void destr_UPDATE(hUPDATE render) {
+void destr_UPDATE(hUPDATE __) {
+	__;
 	// Proxy class; doesn't own any of its references
 }
 

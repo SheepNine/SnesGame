@@ -24,7 +24,8 @@ int voiceBufferHead = 0;
 int samplesInCurrentVoiceSet = 0;
 
 
-Uint32 heartbeatCallback(Uint32 interval, void* param) {
+Uint32 heartbeatCallback(Uint32 interval, void* __) {
+	__;
 	SDL_UserEvent userEvent;
 	userEvent.type = SDL_USEREVENT;
 	userEvent.code = 0;
@@ -41,7 +42,8 @@ Uint32 heartbeatCallback(Uint32 interval, void* param) {
 SDL_AudioSpec have;
 hSC soundChannels[8];
 
-void AnAudioCallback(void* userdata, Uint8* stream, int len) {
+void AnAudioCallback(void* __1, Uint8* stream, int __2) {
+	__1; __2;
 	Sint16* writePtr = (Sint16*)stream;
 
 	// If the audio playback is more than a whole sample ahead, just drop back
@@ -49,7 +51,7 @@ void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 		samplesInCurrentVoiceSet += 512;
 	}
 
-	for (int i = 0; i < have.samples; i++) {
+	for (int sampleIndex = 0; sampleIndex < have.samples; sampleIndex++) {
 		while (samplesInCurrentVoiceSet <= 0 && voiceBufferHead > 0) {
 			for (int i = 0; i < 8; i++) {
 				switch (voiceBuffer[i].type) {
@@ -76,9 +78,9 @@ void AnAudioCallback(void* userdata, Uint8* stream, int len) {
 			samplesInCurrentVoiceSet += 960;
 		}
 
-		writePtr[i] = 0;
+		writePtr[sampleIndex] = 0;
 		for (int c = 0; c < 8; c++)
-			writePtr[i] += getNextSample_SC(soundChannels[c]);
+			writePtr[sampleIndex] += getNextSample_SC(soundChannels[c]);
 
 		samplesInCurrentVoiceSet--;
 	}
@@ -128,8 +130,6 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 
 			SDL_PauseAudioDevice(dev, 0);
 			SDL_AddTimer(20, heartbeatCallback, NULL);
-			int x = 0;
-			int y = 0;
 
 			hJD jd = NULL;
 			hGP gp = creat_GP();

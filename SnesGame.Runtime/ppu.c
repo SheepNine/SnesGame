@@ -32,12 +32,12 @@ void destr_PPU(hPPU ppu) {
 	SDL_free(ppu);
 }
 
-void switchBackdropBrushList_PPU(hPPU ppu, Uint8 bankIndex, int brushListIndex) {
+void switchBackdropBrushList_PPU(hPPU ppu, Uint8 bankIndex, Uint16 brushListIndex) {
 	SDL_assert(bankIndex < 4);
 	switchBackgroundBank_Mapper(ppu->romMapper, bankIndex, brushListIndex);
 }
 
-void switchActorBrushList_PPU(hPPU ppu, Uint8 bankIndex, int brushListIndex) {
+void switchActorBrushList_PPU(hPPU ppu, Uint8 bankIndex, Uint16 brushListIndex) {
 	SDL_assert(bankIndex < 4);
 	switchSpriteBank_Mapper(ppu->romMapper, bankIndex, brushListIndex);
 }
@@ -175,6 +175,7 @@ Uint8 _unpackActorSize_PPU(Uint8 size, Uint8* sizeX, Uint8* sizeY) {
 }
 
 void _packActorControl_PPU(Uint8* control, int x, int y, Uint8 sizeX, Uint8 sizeY, SDL_bool visible, Uint8 layer) {
+	SDL_assert(y < 256 && y > -256);
 	Uint8 yByte;
 	SDL_bool invertY;
 	if (y >= 0) {
@@ -312,7 +313,7 @@ void _scanBackdrop_PPU(hPPU ppu, Uint8 layerIndex, hSL sl, SDL_bool topmost) {
 void _scan_PPU(hPPU ppu, hSL sl) {
 	hBBC vClip = creat_BBC();
 	Uint8* clips = ppu->layerClips;
-	for (int layer = 0; layer < 4; layer++) {
+	for (Uint8 layer = 0; layer < 4; layer++) {
 		setClip_BBC(vClip, clips[2], clips[3]);
 		if (!isClipped_BBC(vClip, getLine_SL(sl))) {
 			setClip_SL(sl, clips[0], clips[1]);
@@ -326,7 +327,7 @@ void _scan_PPU(hPPU ppu, hSL sl) {
 }
 
 void scan_PPU(hPPU ppu, hBB bb) {
-	for (int i = 0; i < 248; i++) {
+	for (Uint8 i = 0; i < 248; i++) {
 		hSL sl = creat_SL(bb, i);
 		_scan_PPU(ppu, sl);
 		destr_SL(sl);
