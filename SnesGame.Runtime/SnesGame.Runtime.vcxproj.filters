@@ -60,6 +60,9 @@
     <ClCompile Include="keydriver.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="rec.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -105,6 +108,9 @@
       <Filter>Header Files\api</Filter>
     </ClInclude>
     <ClInclude Include="keydriver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rec.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

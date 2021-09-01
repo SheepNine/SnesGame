@@ -45,3 +45,7 @@ SDL_bool isEngaged_GP(hGP gp, GP_BUTTON button) {
 SDL_bool wasEngagedLastFrame_GP(hGP gp, GP_BUTTON button) {
 	return (gp->previous & (1 << button)) == 0 ? SDL_FALSE : SDL_TRUE;
 }
+
+Uint16 getCurrent_GP(hGP gp) {
+	return gp->current;
+}

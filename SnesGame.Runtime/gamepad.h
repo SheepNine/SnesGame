@@ -13,3 +13,5 @@ void disengageButton_GP(hGP gp, GP_BUTTON button);
 void setButtonEngaged_GP(hGP gp, GP_BUTTON button, SDL_bool value);
 SDL_bool isEngaged_GP(hGP gp, GP_BUTTON button);
 SDL_bool wasEngagedLastFrame_GP(hGP gp, GP_BUTTON button);
+
+Uint16 getCurrent_GP(hGP gp);

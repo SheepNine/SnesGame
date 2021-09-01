@@ -159,6 +159,7 @@
     <ClCompile Include="mapper.c" />
     <ClCompile Include="perf.c" />
     <ClCompile Include="ppu.c" />
+    <ClCompile Include="rec.c" />
     <ClCompile Include="render.c" />
     <ClCompile Include="sc.c" />
     <ClCompile Include="snes_foundation_classes.c" />
@@ -179,6 +180,7 @@
     <ClInclude Include="mapper.h" />
     <ClInclude Include="perf.h" />
     <ClInclude Include="ppu.h" />
+    <ClInclude Include="rec.h" />
     <ClInclude Include="render.h" />
     <ClInclude Include="sc.h" />
     <ClInclude Include="sw.h" />
