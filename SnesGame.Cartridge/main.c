@@ -198,5 +198,5 @@ void testCS() {
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
-	return libMain("Tendies", *initFunc, *updateFunc, *renderFunc, *deinitFunc);
+	return libMain("Tendies", *initFunc, *updateFunc, *renderFunc, *deinitFunc, NULL, NULL);
 }

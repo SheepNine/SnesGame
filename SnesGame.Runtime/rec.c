@@ -7,15 +7,12 @@ struct REC {
 	SDL_RWops* RW;
 } REC;
 
-hREC creat_REC(hGP gp, char* filename) {
+hREC creat_REC(hGP gp, SDL_RWops* dest) {
 	hREC result = (hREC)SDL_malloc(sizeof(REC));
 	result->gp = gp;
 	result->currentValue = 0;
 	result->currentCount = 0;
-	if (filename != NULL) {
-		result->RW = SDL_RWFromFile(filename, "w");
-		// TODO: add some sort of header
-	}
+	result->RW = dest;
 	return result;
 }
 
@@ -31,12 +28,14 @@ void emitRun_REC(hREC rec) {
 	if (rec->currentCount < 0x8) {
 		data[0] |= rec->currentCount << 4;
 		SDL_RWwrite(rec->RW, data, 1, 2);
+		// TODO: error handling
 	}
 	else {
 		data[0] |= 0x80;
 		data[0] |= 0x70 & (rec->currentCount << 4);
 		data[2] = (Uint8)(rec->currentCount >> 3);
 		SDL_RWwrite(rec->RW, data, 1, 3);
+		// TODO: error handling
 	}
 
 	rec->currentCount = 0;

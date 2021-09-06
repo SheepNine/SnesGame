@@ -309,5 +309,5 @@ void deinitFunc() {
 }
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR pCmdLine, int nCmdShow) {
-	return libMain("Tendies", *initFunc, *updateFunc, *renderFunc, *deinitFunc);
+	return libMain("SOUND TEST", *initFunc, *updateFunc, *renderFunc, *deinitFunc, NULL, NULL);
 }

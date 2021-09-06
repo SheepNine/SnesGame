@@ -163,4 +163,4 @@ void setLayerClips(hRENDER render, Uint8 layerIndex, Uint8 leftWidth, Uint8 righ
 
 typedef void (*pDeinitCallback)();
 
-extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateCallback, pRenderCallback renderCallback, pDeinitCallback deinitCallback);
+extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateCallback, pRenderCallback renderCallback, pDeinitCallback deinitCallback, SDL_RWops* recordStream, SDL_RWops* playbackStream);

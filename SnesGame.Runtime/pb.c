@@ -7,14 +7,13 @@ struct PB {
 	SDL_RWops* RW;
 } PB;
 
-hPB creat_PB(hGP gp, char* filename) {
+hPB creat_PB(hGP gp, SDL_RWops* source) {
 	hPB result = (hPB)SDL_malloc(sizeof(PB));
 	result->currentCount = 0;
 	result->currentValue = 0;
 	result->gp = gp;
-	if (filename != NULL) {
-		result->RW = SDL_RWFromFile(filename, "r");
-	}
+	result->RW = source;
+	// TODO: read/parse header
 	return result;
 }
 
@@ -29,10 +28,11 @@ void consume_PB(hPB pb) {
 	Uint8 data[2];
 
 	size_t count = SDL_RWread(pb->RW, data, 1, 2);
-	if (count == 0) {
+	if (count < 2) {
 		pb->currentCount = 1;
 		pb->currentValue = 0;
 		SDL_RWclose(pb->RW);
+		pb->RW = NULL;
 		return;
 	}
 
@@ -46,6 +46,7 @@ void consume_PB(hPB pb) {
 			pb->currentCount = 1;
 			pb->currentValue = 0;
 			SDL_RWclose(pb->RW);
+			pb->RW = NULL;
 			return;
 		}
 

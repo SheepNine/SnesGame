@@ -88,7 +88,7 @@ void AnAudioCallback(void* __1, Uint8* stream, int __2) {
 	}
 }
 
-extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFunc, pRenderCallback renderFunc, pDeinitCallback deinitFunc) {
+extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFunc, pRenderCallback renderFunc, pDeinitCallback deinitFunc, SDL_RWops* recordStream, SDL_RWops* playbackStream) {
 	int result = 0;
 	bb = creat_BB();
 	fill_BB(bb, 128, 128, 128);
@@ -136,8 +136,8 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 			hJD jd = NULL;
 			hGP gp = creat_GP();
 			hKD kd = creat_KD(gp);
-			hREC rec = creat_REC(gp, NULL);
-			hPB pb = creat_PB(gp, NULL);
+			hREC rec = creat_REC(gp, recordStream);
+			hPB pb = creat_PB(gp, playbackStream);
 
 			SDL_bool loop = SDL_TRUE;
 			SDL_Event event;

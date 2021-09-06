@@ -5,7 +5,7 @@
 
 typedef struct PB* hPB;
 
-hPB creat_PB(hGP gp, char* filename);
+hPB creat_PB(hGP gp, SDL_RWops* source);
 void destr_PB(hPB pb);
 
 void playback_PB(hPB pb);
