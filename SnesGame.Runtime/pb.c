@@ -50,8 +50,10 @@ void consume_PB(hPB pb) {
 			return;
 		}
 
-		pb->currentValue |= (data[0] << 3);
+		pb->currentCount |= (data[0] << 3);
 	}
+
+	//SDL_Log("Value %X, count %i", (unsigned int)pb->currentValue, (int)pb->currentCount);
 }
 
 void playback_PB(hPB pb) {

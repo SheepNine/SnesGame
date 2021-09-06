@@ -21,8 +21,10 @@ void emitRun_REC(hREC rec) {
 		return;
 	}
 
+	//SDL_Log("Value %X, count %i", (unsigned int)rec->currentValue, (int)rec->currentCount);
+
 	Uint8 data[3];
-	data[0] = (Uint8)(rec->currentValue >> 4);
+	data[0] = (Uint8)(rec->currentValue >> 8);
 	data[1] = rec->currentValue & 0xFF;
 
 	if (rec->currentCount < 0x8) {
