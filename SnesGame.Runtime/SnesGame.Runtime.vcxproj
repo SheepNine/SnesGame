@@ -157,6 +157,7 @@
     <ClCompile Include="keydriver.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mapper.c" />
+    <ClCompile Include="pb.c" />
     <ClCompile Include="perf.c" />
     <ClCompile Include="ppu.c" />
     <ClCompile Include="rec.c" />
@@ -178,6 +179,7 @@
     <ClInclude Include="joydriver.h" />
     <ClInclude Include="keydriver.h" />
     <ClInclude Include="mapper.h" />
+    <ClInclude Include="pb.h" />
     <ClInclude Include="perf.h" />
     <ClInclude Include="ppu.h" />
     <ClInclude Include="rec.h" />

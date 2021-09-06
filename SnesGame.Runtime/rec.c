@@ -3,7 +3,7 @@
 struct REC {
 	hGP gp;
 	Uint16 currentValue;
-	Uint8 currentCount;
+	Uint16 currentCount;
 	SDL_RWops* RW;
 } REC;
 
@@ -25,7 +25,7 @@ void emitRun_REC(hREC rec) {
 	}
 
 	Uint8 data[3];
-	data[0] = rec->currentValue >> 4;
+	data[0] = (Uint8)(rec->currentValue >> 4);
 	data[1] = rec->currentValue & 0xFF;
 
 	if (rec->currentCount < 0x8) {
@@ -35,7 +35,7 @@ void emitRun_REC(hREC rec) {
 	else {
 		data[0] |= 0x80;
 		data[0] |= 0x70 & (rec->currentCount << 4);
-		data[2] = (rec->currentCount >> 3);
+		data[2] = (Uint8)(rec->currentCount >> 3);
 		SDL_RWwrite(rec->RW, data, 1, 3);
 	}
 

@@ -15,3 +15,4 @@ SDL_bool isEngaged_GP(hGP gp, GP_BUTTON button);
 SDL_bool wasEngagedLastFrame_GP(hGP gp, GP_BUTTON button);
 
 Uint16 getCurrent_GP(hGP gp);
+void setCurrent_GP(hGP gp, Uint16 value);
