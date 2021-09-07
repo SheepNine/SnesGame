@@ -92,8 +92,8 @@ void draw_WB(hRENDER render, Uint8 backdropIndex, SDL_bool topmost, hWB wb, Sint
 	Sint16 srcX = (-x) >> 3;
 	Sint16 srcY = (-y) >> 3;
 
-	for (Uint8 backdropY = 0; backdropY < 32; y++) {
-		for (Uint8 backdropX = 0; backdropX < 32; x++) {
+	for (Uint8 backdropY = 0; backdropY < 32; backdropY++) {
+		for (Uint8 backdropX = 0; backdropX < 32; backdropX++) {
 			Uint8 brushIndex;
 			if (srcX >= 0 && srcX < wb->width && srcY >= 0 && srcY < wb->height) {
 				brushIndex = wb->data[wb->width * srcY + srcX];
