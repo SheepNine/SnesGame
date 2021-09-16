@@ -57,19 +57,19 @@ void blit_BB(hBB bb, SDL_Surface* surface) {
 				Uint8* yG = readG;
 				Uint8* yB = readB;
 				Uint32* writPtr = dest;
-				for (int x = 0; x < __BB_DIM * 3; x++) {
-					if (x == __BB_DIM * 3 - 1) {
+				for (int x = 0; x < __BB_DIM * scale; x++) {
+					if (x == __BB_DIM * scale - 1) {
 						yR = &zero;
 						yG = &zero;
 						yB = &zero;
 					}
 					Uint8 r, g, b;
-					if (x % 3 == 0) {
+					if (x % scale == 0) {
 						r = ((*yRPrev) * 1 + (*yR) * 2) / 3;
 						g = ((*yGPrev) * 1 + (*yG) * 2) / 3;
 						b = ((*yBPrev) * 1 + (*yB) * 2) / 3;
 					}
-					else if (x % 3 == 1) {
+					else if (x % scale == 1) {
 						r = *yR;
 						g = *yG;
 						b = *yB;
@@ -86,6 +86,72 @@ void blit_BB(hBB bb, SDL_Surface* surface) {
 						b = ((*yBPrev) * 2 + (*yB) * 1) / 3;
 					}
 					if (v == 1) {
+						*(writPtr++) = (r << 16) | (g << 8) | b;
+					}
+					else {
+						*(writPtr++) = ((r >> 1) << 16) | ((g >> 1) << 8) | (b >> 1);
+					}
+				}
+				dest += surface->pitch / 4;
+			}
+			readR += __BB_DIM;
+			readG += __BB_DIM;
+			readB += __BB_DIM;
+		}
+	}
+	else if (scale == 4 && bb->crtMode == SDL_TRUE) {
+		int xSkip = (surface->w - scale * __BB_DIM) / 2;
+		int ySkip = (surface->h - scale * __BB_DIM) / 2;
+
+		Uint32* dest = (Uint32*)surface->pixels + ySkip * surface->pitch / 4 + xSkip;
+
+		Uint8* readR = bb->r;
+		Uint8* readG = bb->g;
+		Uint8* readB = bb->b;
+
+		for (int y = 0; y < __BB_DIM; y++) {
+			for (int v = 0; v < scale; v++) {
+				Uint8 zero = 0;
+				Uint8* yRPrev = &zero;
+				Uint8* yGPrev = &zero;
+				Uint8* yBPrev = &zero;
+				Uint8* yR = readR;
+				Uint8* yG = readG;
+				Uint8* yB = readB;
+				Uint32* writPtr = dest;
+				for (int x = 0; x < __BB_DIM * scale; x++) {
+					if (x == __BB_DIM * scale - 1) {
+						yR = &zero;
+						yG = &zero;
+						yB = &zero;
+					}
+					Uint8 r, g, b;
+					if (x % scale == 0) {
+						r = ((*yRPrev) * 1 + (*yR) * 2) / 3;
+						g = ((*yGPrev) * 1 + (*yG) * 2) / 3;
+						b = ((*yBPrev) * 1 + (*yB) * 2) / 3;
+					}
+					else if (x % scale == 1) {
+						r = *yR;
+						g = *yG;
+						b = *yB;
+					} else if (x % scale == 2) {
+						r = *yR;
+						g = *yG;
+						b = *yB;
+						yRPrev = yR;
+						yGPrev = yG;
+						yBPrev = yB;
+						yR++;
+						yG++;
+						yB++;
+					}
+					else {
+						r = ((*yRPrev) * 2 + (*yR) * 1) / 3;
+						g = ((*yGPrev) * 2 + (*yG) * 1) / 3;
+						b = ((*yBPrev) * 2 + (*yB) * 1) / 3;
+					}
+					if (v == 1 || v == 2) {
 						*(writPtr++) = (r << 16) | (g << 8) | b;
 					}
 					else {
