@@ -179,6 +179,9 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 							SDL_LogSetPriority(SDL_LOG_CATEGORY_CUSTOM, SDL_LOG_PRIORITY_WARN);
 						}
 					}
+					else if (event.key.keysym.sym == SDLK_F2) {
+						toggleCrtMode_BB(bb);
+					}
 					else {
 						handleKeyDown_KD(kd, &event.key);
 					}

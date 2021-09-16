@@ -6,12 +6,14 @@ struct BB {
 	Uint8 r[__BB_DIM * __BB_DIM];
 	Uint8 g[__BB_DIM * __BB_DIM];
 	Uint8 b[__BB_DIM * __BB_DIM];
+	SDL_bool crtMode;
 } BB;
 
 
 hBB creat_BB() {
 	hBB result = (hBB)SDL_malloc(sizeof(BB));
 	fill_BB(result, 0, 0, 0);
+	result->crtMode = SDL_FALSE;
 	return result;
 }
 
@@ -25,41 +27,109 @@ void fill_BB(hBB bb, Uint8 r, Uint8 g, Uint8 b) {
 	SDL_memset(bb->b, b, __BB_DIM * __BB_DIM);
 }
 
+void toggleCrtMode_BB(hBB bb) {
+	bb->crtMode = (bb->crtMode == SDL_TRUE) ? SDL_FALSE : SDL_TRUE;
+}
+
 void blit_BB(hBB bb, SDL_Surface* surface) {
 	int scale = SDL_min(surface->w, surface->h) / __BB_DIM;
 	if (scale < 1) {
 		return;
 	}
 
-	int xSkip = (surface->w - scale * __BB_DIM) / 2;
-	int ySkip = (surface->h - scale * __BB_DIM) / 2;
+	if (scale == 3 && bb->crtMode == SDL_TRUE) {
+		int xSkip = (surface->w - scale * __BB_DIM) / 2;
+		int ySkip = (surface->h - scale * __BB_DIM) / 2;
 
-	Uint32* dest = (Uint32*)surface->pixels + ySkip * surface->pitch / 4 + xSkip;
+		Uint32* dest = (Uint32*)surface->pixels + ySkip * surface->pitch / 4 + xSkip;
 
-	Uint8* readR = bb->r;
-	Uint8* readG = bb->g;
-	Uint8* readB = bb->b;
+		Uint8* readR = bb->r;
+		Uint8* readG = bb->g;
+		Uint8* readB = bb->b;
 
-	for (int y = 0; y < __BB_DIM; y++) {
-		for (int v = 0; v < scale; v++) {
-			Uint8* yR = readR;
-			Uint8* yG = readG;
-			Uint8* yB = readB;
-			Uint32* writPtr = dest;
-			for (int x = 0; x < __BB_DIM; x++) {
-				Uint32 color = ((*yR) << 16) | ((*yG) << 8) | (*yB);
-				for (int u = 0; u < scale; u++) {
-					*(writPtr++) = color;
+		for (int y = 0; y < __BB_DIM; y++) {
+			for (int v = 0; v < scale; v++) {
+				Uint8 zero = 0;
+				Uint8* yRPrev = &zero;
+				Uint8* yGPrev = &zero;
+				Uint8* yBPrev = &zero;
+				Uint8* yR = readR;
+				Uint8* yG = readG;
+				Uint8* yB = readB;
+				Uint32* writPtr = dest;
+				for (int x = 0; x < __BB_DIM * 3; x++) {
+					if (x == __BB_DIM * 3 - 1) {
+						yR = &zero;
+						yG = &zero;
+						yB = &zero;
+					}
+					Uint8 r, g, b;
+					if (x % 3 == 0) {
+						r = ((*yRPrev) * 1 + (*yR) * 2) / 3;
+						g = ((*yGPrev) * 1 + (*yG) * 2) / 3;
+						b = ((*yBPrev) * 1 + (*yB) * 2) / 3;
+					}
+					else if (x % 3 == 1) {
+						r = *yR;
+						g = *yG;
+						b = *yB;
+						yRPrev = yR;
+						yGPrev = yG;
+						yBPrev = yB;
+						yR++;
+						yG++;
+						yB++;
+					}
+					else {
+						r = ((*yRPrev) * 2 + (*yR) * 1) / 3;
+						g = ((*yGPrev) * 2 + (*yG) * 1) / 3;
+						b = ((*yBPrev) * 2 + (*yB) * 1) / 3;
+					}
+					if (v == 1) {
+						*(writPtr++) = (r << 16) | (g << 8) | b;
+					}
+					else {
+						*(writPtr++) = ((r >> 1) << 16) | ((g >> 1) << 8) | (b >> 1);
+					}
 				}
-				yR++;
-				yG++;
-				yB++;
+				dest += surface->pitch / 4;
 			}
-			dest += surface->pitch / 4;
+			readR += __BB_DIM;
+			readG += __BB_DIM;
+			readB += __BB_DIM;
 		}
-		readR += __BB_DIM;
-		readG += __BB_DIM;
-		readB += __BB_DIM;
+	}
+	else {
+		int xSkip = (surface->w - scale * __BB_DIM) / 2;
+		int ySkip = (surface->h - scale * __BB_DIM) / 2;
+
+		Uint32* dest = (Uint32*)surface->pixels + ySkip * surface->pitch / 4 + xSkip;
+
+		Uint8* readR = bb->r;
+		Uint8* readG = bb->g;
+		Uint8* readB = bb->b;
+
+		for (int y = 0; y < __BB_DIM; y++) {
+			for (int v = 0; v < scale; v++) {
+				Uint8* yR = readR;
+				Uint8* yG = readG;
+				Uint8* yB = readB;
+				Uint32* writPtr = dest;
+				for (int x = 0; x < __BB_DIM; x++) {
+					Uint32 color = ((*yR) << 16) | ((*yG) << 8) | (*yB);
+					for (int u = 0; u < scale; u++) {
+						*(writPtr++) = color;
+					}
+					yR++;
+					yG++;
+					yB++;
+				}
+				dest += surface->pitch / 4;
+			}
+			readR += __BB_DIM;
+			readG += __BB_DIM;
+			readB += __BB_DIM;
+		}
 	}
 }
 
