@@ -171,7 +171,10 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 					handleJoyHatMotion_JD(jd, &event.jhat);
 					break;
 				case SDL_KEYDOWN:
-					if (event.key.keysym.sym == SDLK_F11) {
+					if (event.key.keysym.sym == SDLK_ESCAPE) {
+						loop = SDL_FALSE;
+					}
+					else if (event.key.keysym.sym == SDLK_F11) {
 						if (SDL_LogGetPriority(SDL_LOG_CATEGORY_CUSTOM) == SDL_LOG_PRIORITY_WARN) {
 							SDL_LogSetPriority(SDL_LOG_CATEGORY_CUSTOM, SDL_LOG_PRIORITY_DEBUG);
 						}
