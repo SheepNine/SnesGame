@@ -108,3 +108,20 @@ void draw_WB(hRENDER render, Uint8 backdropIndex, SDL_bool topmost, hWB wb, Sint
 		srcY += 1;
 	}
 }
+
+void appendToBackdrop_WB(hRENDER render, Uint8 backdropIndex, hWB wb, Sint16 tileX, Sint16 tileY, Uint8 bankIndex, Uint8 paletteIndex, Uint8 mask0) {
+	for (Uint8 y = 0; y < 32; y++) {
+		Sint16 srcY = (Sint16)y - tileY;
+		if (srcY < 0) continue;
+		if (srcY >= wb->height) break;
+
+		for (Uint8 x = 0; x < 32; x++) {
+			Sint16 srcX = (Sint16)x - tileX;
+			if (srcX < 0) continue;
+			if (srcX >= wb->width) break;
+
+			Uint8 brushIndex = wb->data[wb->width * srcY + srcX];
+			setBackdropStroke(render, backdropIndex, x, y, brushIndex, bankIndex, paletteIndex, SDL_FALSE, SDL_FALSE, mask0);
+		}
+	}
+}
