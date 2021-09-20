@@ -1,4 +1,5 @@
 #include "bb.h"
+#include "rand.h"
 
 #define __BB_DIM 248
 
@@ -31,6 +32,15 @@ void toggleCrtMode_BB(hBB bb) {
 	bb->crtMode = (bb->crtMode == SDL_TRUE) ? SDL_FALSE : SDL_TRUE;
 }
 
+void fuzz_BB(hBB bb) {
+	for (int i = 0; i < __BB_DIM * __BB_DIM; i++) {
+		Uint8 fuzz = snesRand() >> 13;
+		bb->r[i] = bb->r[i] & 0xF8 | (fuzz);
+		bb->g[i] = bb->g[i] & 0xF8 | (fuzz);
+		bb->b[i] = bb->b[i] & 0xF8 | (fuzz);
+	}
+}
+
 void blit_BB(hBB bb, SDL_Surface* surface) {
 	int scale = SDL_min(surface->w, surface->h) / __BB_DIM;
 	if (scale < 1) {
@@ -38,6 +48,7 @@ void blit_BB(hBB bb, SDL_Surface* surface) {
 	}
 
 	if (scale == 3 && bb->crtMode == SDL_TRUE) {
+		fuzz_BB(bb);
 		int xSkip = (surface->w - scale * __BB_DIM) / 2;
 		int ySkip = (surface->h - scale * __BB_DIM) / 2;
 
@@ -100,6 +111,7 @@ void blit_BB(hBB bb, SDL_Surface* surface) {
 		}
 	}
 	else if (scale == 4 && bb->crtMode == SDL_TRUE) {
+		fuzz_BB(bb);
 		int xSkip = (surface->w - scale * __BB_DIM) / 2;
 		int ySkip = (surface->h - scale * __BB_DIM) / 2;
 

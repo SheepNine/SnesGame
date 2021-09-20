@@ -160,6 +160,7 @@
     <ClCompile Include="pb.c" />
     <ClCompile Include="perf.c" />
     <ClCompile Include="ppu.c" />
+    <ClCompile Include="rand.c" />
     <ClCompile Include="rec.c" />
     <ClCompile Include="render.c" />
     <ClCompile Include="sc.c" />
@@ -182,6 +183,7 @@
     <ClInclude Include="pb.h" />
     <ClInclude Include="perf.h" />
     <ClInclude Include="ppu.h" />
+    <ClInclude Include="rand.h" />
     <ClInclude Include="rec.h" />
     <ClInclude Include="render.h" />
     <ClInclude Include="sc.h" />
