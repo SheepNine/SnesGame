@@ -152,7 +152,6 @@ void switchBackdropBrushList(hRENDER render, Uint8 bankIndex, Uint16 brushListIn
 void setBackdropPaletteColor(hRENDER render, Uint8 paletteIndex, Uint8 colorIndex, Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
 void setBackdropPalette(hRENDER render, Uint8 paletteIndex, Uint8* data);
 void setBackdropStroke(hRENDER render, Uint8 backdropIndex, Uint8 x, Uint8 y, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);
-void setBackdropControl(hRENDER render, Uint8 backdropIndex, Uint8 dX, Uint8 dY, SDL_bool visible, SDL_bool topmost);
 void switchActorBrushList(hRENDER render, Uint8 bankIndex, Uint16 brushListIndex);
 void setActorPaletteColor(hRENDER render, Uint8 paletteIndex, Uint8 colorIndex, Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
 void setActorPalette(hRENDER render, Uint8 paletteIndex, Uint8* data);
@@ -160,6 +159,9 @@ void setActorStroke(hRENDER render, Uint8 actorIndex, Uint8 brushIndex, Uint8 ba
 void setActorControl(hRENDER render, Uint8 actorIndex, Sint16 x, Sint16 y, Uint8 sizeX, Uint8 sizeY, SDL_bool visible, Uint8 layer);
 void setFullLayerClips(hRENDER render, Uint8 layerIndex, Uint8 leftWidth, Uint8 rightWidth, Uint8 topHeight, Uint8 bottomHeight, SDL_bool invertLeft, SDL_bool invertRight, SDL_bool invertTop, SDL_bool invertBottom);
 void setLayerClips(hRENDER render, Uint8 layerIndex, Uint8 leftWidth, Uint8 rightWidth, Uint8 topHeight, Uint8 bottomHeight);
+void showBackdrop(hRENDER render, Uint8 backdropIndex, Uint8 dX, Uint8 dY, SDL_bool topmost);
+void hideBackdrop(hRENDER render, Uint8 backdropIndex);
+void hideAllBackdrops(hRENDER render);
 
 typedef void (*pDeinitCallback)();
 

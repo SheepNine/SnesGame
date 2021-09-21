@@ -62,3 +62,17 @@ void setFullLayerClips(hRENDER render, Uint8 layerIndex, Uint8 leftWidth, Uint8 
 void setLayerClips(hRENDER render, Uint8 layerIndex, Uint8 leftWidth, Uint8 rightWidth, Uint8 topHeight, Uint8 bottomHeight) {
 	setLayerClips_PPU(render->ppu, layerIndex, leftWidth, rightWidth, topHeight, bottomHeight);
 }
+
+void showBackdrop(hRENDER render, Uint8 backdropIndex, Uint8 dX, Uint8 dY, SDL_bool topmost) {
+	setBackdropControl_PPU(render->ppu, backdropIndex, dX, dY, SDL_TRUE, topmost);
+}
+
+void hideBackdrop(hRENDER render, Uint8 backdropIndex) {
+	setBackdropControl_PPU(render->ppu, backdropIndex, 0, 0, SDL_FALSE, SDL_FALSE);
+}
+
+void hideAllBackdrops(hRENDER render) {
+	for (Uint8 i = 0; i < 4; i++) {
+		hideBackdrop(render, i);
+	}
+}

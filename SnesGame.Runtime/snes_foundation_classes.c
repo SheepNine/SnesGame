@@ -87,7 +87,7 @@ Uint16 getHeight_WB(hWB wb) {
 void draw_WB(hRENDER render, Uint8 backdropIndex, SDL_bool topmost, hWB wb, Sint16 x, Sint16 y, Uint8 bankIndex, Uint8 paletteIndex, Uint8 mask0) {
 	Uint8 dX = (8 - x) & 0x7;
 	Uint8 dY = (8 - y) & 0x7;
-	setBackdropControl(render, backdropIndex, dX, dY, SDL_TRUE, topmost);
+	showBackdrop(render, backdropIndex, dX, dY, topmost);
 
 	Sint16 srcX = (-x) >> 3;
 	Sint16 srcY = (-y) >> 3;

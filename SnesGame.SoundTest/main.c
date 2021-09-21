@@ -225,7 +225,7 @@ void renderFunc(hRENDER render) {
 	setBackdropPalette(render, 2, yellowTextPalette);
 
 	setLayerClips(render, 0, 0, 0, 0, 0);
-	setBackdropControl(render, 0, 0, 0, SDL_TRUE, SDL_FALSE);
+	showBackdrop(render, 0, 0, 0, SDL_FALSE);
 	fillBackdrop(render, 0, 0, 0, 0, SDL_FALSE, SDL_FALSE, SDL_FALSE);
 
 	Uint8 fancyVolumePalette = isVolumeShifting() ? 0 : 1;

@@ -83,7 +83,7 @@ void renderFunc(hRENDER render) {
 	setActorPaletteColor(render, 7, 0xE, 0xFF, 0xFF, 0x55, SDL_FALSE); // Yellow
 	setActorPaletteColor(render, 7, 0xF, 0xFF, 0xFF, 0xFF, SDL_FALSE); // White
 
-	setBackdropControl(render, 0, backdropX, backdropY, SDL_TRUE, SDL_FALSE);
+	showBackdrop(render, 0, backdropX, backdropY, SDL_FALSE);
 
 	setActorControl(render, 0, 4, 9, 2, 2, SDL_TRUE, 0); setActorStroke(render, 0, 1, 0, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
 	setActorControl(render, 1, 25, 11, 2, 2, SDL_TRUE, 0); setActorStroke(render, 1, 1, 0, 7, SDL_TRUE, SDL_FALSE, SDL_FALSE);
@@ -144,7 +144,7 @@ void renderFunc(hRENDER render) {
 
 	switchBackdropBrushList(render, BB_3, BL_ASCII);
 	setLayerClips(render, 1, 0, 0, 0, 0);
-	setBackdropControl(render, 1, 0, 0, SDL_TRUE, SDL_TRUE);
+	showBackdrop(render, 1, 0, 0, SDL_TRUE);
 	fillBackdrop(render, 1, 0, BB_3, 1, SDL_FALSE, SDL_FALSE, SDL_TRUE);
 	drawBackdropString(render, 1, "HELLO, WORLD!", 1, 1, BB_3, 1, SDL_TRUE);
 }
