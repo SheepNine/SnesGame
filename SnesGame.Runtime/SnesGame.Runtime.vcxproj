@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bb.c" />
+    <ClCompile Include="dialog.c" />
     <ClCompile Include="gamepad.c" />
     <ClCompile Include="init.c" />
     <ClCompile Include="joydriver.c" />

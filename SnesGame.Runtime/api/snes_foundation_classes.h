@@ -17,6 +17,17 @@ Uint16 getHeight_WB(hWB wb);
 void draw_WB(hRENDER render, Uint8 backdropIndex, SDL_bool topmost, hWB wb, Sint16 x, Sint16 y, Uint8 bankIndex, Uint8 paletteIndex, Uint8 mask0);
 void appendToBackdrop_WB(hRENDER render, Uint8 backdropIndex, hWB wb, Sint16 tileX, Sint16 tileY, Uint8 bankIndex, Uint8 paletteIndex, Uint8 mask0);
 
+typedef struct Dialog* hDialog;
+hDialog creatBare_Dialog(char* text, Uint8 height, SDL_bool tallText);
+hDialog creatPortrait_Dialog(char* text, hWB wb, SDL_bool portraitOnRight);
+void destr_Dialog(hDialog dialog);
+SDL_bool isFinished_Dialog(hDialog dialog);
+SDL_bool pageDone_Dialog(hDialog dialog);
+void poke_Dialog(hDialog dialog);
+void update_Dialog(hDialog dialog);
+void renderText_Dialog(hDialog dialog, hRENDER render, Uint8 layerIndex, Uint8 bankIndex, Uint8 paletteIndex);
+void renderBorder_Dialog(hDialog dialog, hRENDER render, Uint8 layerIndex, Uint8 bankIndex, Uint8 paletteIndex);
+
 void drawBackdropString(hRENDER render, Uint8 backdropIndex, char* string, Uint8 x, Uint8 y, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool mask0);
 void fillBackdrop(hRENDER render, Uint8 backdropIndex, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);
 
