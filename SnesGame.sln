@@ -16,6 +16,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C30DB910-1FCF-468F-B920-F6B3CE1D21F9}"
 	ProjectSection(SolutionItems) = preProject
 		ClientAPI.md = ClientAPI.md
+		coding_style.txt = coding_style.txt
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnesGame.SoundTest", "SnesGame.SoundTest\SnesGame.SoundTest.vcxproj", "{27536043-C09D-4371-A4D0-DB2F42E700CE}"
