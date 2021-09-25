@@ -76,3 +76,17 @@ void hideAllBackdrops(hRENDER render) {
 		hideBackdrop(render, i);
 	}
 }
+
+void showActor(hRENDER render, Uint8 actorIndex, int x, int y, Uint8 sizeX, Uint8 sizeY, Uint8 layer) {
+	setActorControl_PPU(render->ppu, actorIndex, x, y, sizeX, sizeY, SDL_TRUE, layer);
+}
+
+void hideActor(hRENDER render, Uint8 actorIndex) {
+	setActorControl_PPU(render->ppu, actorIndex, 0, 0, 1, 1, SDL_FALSE, 0);
+}
+
+void hideAllActors(hRENDER render) {
+	for (Uint8 i = 0; i < 128; i++) {
+		hideActor(render, i);
+	}
+}

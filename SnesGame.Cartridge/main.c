@@ -85,27 +85,27 @@ void renderFunc(hRENDER render) {
 
 	showBackdrop(render, 0, backdropX, backdropY, SDL_FALSE);
 
-	setActorControl(render, 0, 4, 9, 2, 2, SDL_TRUE, 0); setActorStroke(render, 0, 1, 0, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorControl(render, 1, 25, 11, 2, 2, SDL_TRUE, 0); setActorStroke(render, 1, 1, 0, 7, SDL_TRUE, SDL_FALSE, SDL_FALSE);
-	setActorControl(render, 2, 42, 14, 2, 2, SDL_TRUE, 0); setActorStroke(render, 2, 1, 0, 7, SDL_TRUE, SDL_TRUE, SDL_TRUE);
-	setActorControl(render, 3, 60, 20, 2, 2, SDL_TRUE, 0); setActorStroke(render, 3, 1, 0, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
-	setActorControl(render, 4, -5, -5, 2, 2, SDL_TRUE, 0); setActorStroke(render, 4, 1, 0, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
-	setActorControl(render, 5, -5, 243, 2, 2, SDL_TRUE, 0); setActorStroke(render, 5, 1, 0, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
-	setActorControl(render, 6, 243, 243, 2, 2, SDL_TRUE, 0); setActorStroke(render, 6, 1, 0, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
-	setActorControl(render, 7, 243, -5, 2, 2, SDL_TRUE, 0); setActorStroke(render, 7, 1, 0, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	showActor(render, 0, 4, 9, 2, 2, 0); setActorStroke(render, 0, 1, 0, 7, SDL_FALSE, SDL_FALSE, SDL_TRUE);
+	showActor(render, 1, 25, 11, 2, 2, 0); setActorStroke(render, 1, 1, 0, 7, SDL_TRUE, SDL_FALSE, SDL_FALSE);
+	showActor(render, 2, 42, 14, 2, 2, 0); setActorStroke(render, 2, 1, 0, 7, SDL_TRUE, SDL_TRUE, SDL_TRUE);
+	showActor(render, 3, 60, 20, 2, 2, 0); setActorStroke(render, 3, 1, 0, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	showActor(render, 4, -5, -5, 2, 2, 0); setActorStroke(render, 4, 1, 0, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	showActor(render, 5, -5, 243, 2, 2, 0); setActorStroke(render, 5, 1, 0, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	showActor(render, 6, 243, 243, 2, 2, 0); setActorStroke(render, 6, 1, 0, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
+	showActor(render, 7, 243, -5, 2, 2, 0); setActorStroke(render, 7, 1, 0, 7, SDL_FALSE, SDL_TRUE, SDL_TRUE);
 
-	setActorControl(render, 8, 8 + 64, 8 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl(render, 9, 16 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl(render, 10, 8 + 64, 24 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl(render, 11, 0 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl(render, 12, 72 + 64, 8 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl(render, 13, 80 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl(render, 14, 72 + 64, 24 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl(render, 15, 64 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl(render, 16, 32 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl(render, 17, 48 + 64, 16 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl(render, 18, 24 + 64, 0 + 64, 1, 1, SDL_TRUE, 0);
-	setActorControl(render, 19, 56 + 64, 0 + 64, 1, 1, SDL_TRUE, 0);
+	showActor(render, 8, 8 + 64, 8 + 64, 1, 1, 0);
+	showActor(render, 9, 16 + 64, 16 + 64, 1, 1, 0);
+	showActor(render, 10, 8 + 64, 24 + 64, 1, 1, 0);
+	showActor(render, 11, 0 + 64, 16 + 64, 1, 1, 0);
+	showActor(render, 12, 72 + 64, 8 + 64, 1, 1, 0);
+	showActor(render, 13, 80 + 64, 16 + 64, 1, 1, 0);
+	showActor(render, 14, 72 + 64, 24 + 64, 1, 1, 0);
+	showActor(render, 15, 64 + 64, 16 + 64, 1, 1, 0);
+	showActor(render, 16, 32 + 64, 16 + 64, 1, 1, 0);
+	showActor(render, 17, 48 + 64, 16 + 64, 1, 1, 0);
+	showActor(render, 18, 24 + 64, 0 + 64, 1, 1, 0);
+	showActor(render, 19, 56 + 64, 0 + 64, 1, 1, 0);
 
 	setLayerClips(render, 0, 1, 3, 4, 9);
 

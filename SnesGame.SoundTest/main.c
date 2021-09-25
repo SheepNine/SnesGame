@@ -283,23 +283,23 @@ void renderFunc(hRENDER render) {
 	setWorldLocus_CS(cs, 32768, 32768);
 
 	worldToScreen_CS(cs, 0, 0, &x, &y);
+	showActor(render, actor, x >> 16, y >> 16, 1, 1, 0);
 	setActorStroke(render, actor, 1, 0, 0, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorControl(render, actor, x >> 16, y >> 16, 1, 1, SDL_TRUE, 0);
 	actor++;
 
 	worldToScreen_CS(cs, 65536, 0, &x, &y);
+	showActor(render, actor, x >> 16, y >> 16, 1, 1, 0);
 	setActorStroke(render, actor, 1, 0, 1, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorControl(render, actor, x >> 16, y >> 16, 1, 1, SDL_TRUE, 0);
 	actor++;
 
 	worldToScreen_CS(cs, 0, 65536, &x, &y);
+	showActor(render, actor, x >> 16, y >> 16, 1, 1, 0);
 	setActorStroke(render, actor, 1, 0, 2, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorControl(render, actor, x >> 16, y >> 16, 1, 1, SDL_TRUE, 0);
 	actor++;
 
 	worldToScreen_CS(cs, 32768, 32768, &x, &y);
+	showActor(render, actor, x >> 16, y >> 16, 1, 1, 0);
 	setActorStroke(render, actor, 1, 0, 3, SDL_FALSE, SDL_FALSE, SDL_TRUE);
-	setActorControl(render, actor, x >> 16, y >> 16, 1, 1, SDL_TRUE, 0);
 	actor++;
 
 	destr_CS(cs);
