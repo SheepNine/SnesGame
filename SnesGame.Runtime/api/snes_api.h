@@ -112,6 +112,7 @@ SDL_bool isButtonIn(hUPDATE update, GP_BUTTON button);
 SDL_bool isButtonOut(hUPDATE update, GP_BUTTON button);
 SDL_bool wasButtonPressed(hUPDATE update, GP_BUTTON button);
 SDL_bool wasButtonReleased(hUPDATE update, GP_BUTTON button);
+Uint64 getFrameCounter(hUPDATE update);
 
 typedef struct {
 	ShiftDir dir;

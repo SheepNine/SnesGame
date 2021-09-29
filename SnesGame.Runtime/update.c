@@ -3,12 +3,14 @@
 struct UPDATE {
 	hGP gp;
 	ChannelVoice* voices;
+	Uint64 frameCounter;
 } UPDATE;
 
-hUPDATE creat_UPDATE(hGP gp, ChannelVoice* voices) {
+hUPDATE creat_UPDATE(hGP gp, ChannelVoice* voices, Uint64 frameCounter) {
 	hUPDATE result = (hUPDATE)SDL_malloc(sizeof(UPDATE));
 	result->gp = gp;
 	result->voices = voices;
+	result->frameCounter = frameCounter;
 	return result;
 }
 
@@ -40,4 +42,8 @@ void silenceChannel(hUPDATE update, Uint8 channelIndex) {
 void playSquareNote(hUPDATE update, Uint8 channelIndex, SquareWaveParams* params) {
 	update->voices[channelIndex].type = CV_SQUARE;
 	update->voices[channelIndex].waveParams.square = *params;
+}
+
+Uint64 getFrameCounter(hUPDATE update) {
+	return update->frameCounter;
 }

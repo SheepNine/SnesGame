@@ -133,6 +133,7 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 			SDL_PauseAudioDevice(dev, 0);
 			SDL_AddTimer(20, heartbeatCallback, NULL);
 
+			Uint64 frameCounter = 0;
 			hJD jd = NULL;
 			hGP gp = creat_GP();
 			hKD kd = creat_KD(gp);
@@ -200,7 +201,7 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 						}
 						playback_PB(pb);
 						record_REC(rec);
-						hUPDATE update = creat_UPDATE(gp, voices);
+						hUPDATE update = creat_UPDATE(gp, voices, frameCounter++);
 						updateFunc(update);
 						destr_UPDATE(update);
 						advanceFrame_GP(gp);
