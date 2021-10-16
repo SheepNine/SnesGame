@@ -199,3 +199,22 @@ Sint16 getNextSample_SC(hSC sc) {
 
 	return getNextSample_SW(sc->sw);
 }
+
+void SampleSquareWave(
+	Uint16 length,
+	Uint8 volumeLow, Uint8 volumeHigh, ShiftDir volumeShift, Uint8 volumeShiftSpeed, EdgeBehaviour volumeEB,
+	Uint16 periodLow, Uint16 periodHigh, ShiftDir periodShift, Uint8 periodShiftSpeed, EdgeBehaviour periodEB,
+	Sint16* buffer, Sint32 bufferSize) {
+
+	hSC sc = creat_SC();
+
+	playNote_SC(sc, length,
+		volumeLow, volumeHigh, volumeShift, volumeShiftSpeed, volumeEB,
+		periodLow, periodHigh, periodShift, periodShiftSpeed, periodEB);
+
+	for (Sint32 i = 0; i < bufferSize; i++) {
+		buffer[i] = getNextSample_SC(sc);
+	}
+
+	destr_SC(sc);
+}
