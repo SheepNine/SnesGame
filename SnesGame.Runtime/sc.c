@@ -103,8 +103,13 @@ void setupNextVolume(hSC sc) {
 				sc->volumeShift = SD_FALLING;
 				sc->volumeCurr -= 1;
 			}
-			else {
+			else if (sc->volumeEB == EB_SILENCE) {
 				sc->volumeCurr = 0;
+				sc->volumeShift = SD_NONE;
+			}
+			else if (sc->volumeEB == EB_STEADY) {
+				sc->volumeLow = sc->volumeCurr;
+				sc->volumeHigh = sc->volumeCurr;
 				sc->volumeShift = SD_NONE;
 			}
 		}
@@ -121,9 +126,14 @@ void setupNextVolume(hSC sc) {
 				sc->volumeShift = SD_RISING;
 				sc->volumeCurr += 1;
 			}
-			else {
+			else if (sc->volumeEB == EB_SILENCE) {
 				sc->volumeCurr = 0;
 				sc->volumeShift = 0;
+			}
+			else if (sc->volumeEB == EB_STEADY) {
+				sc->volumeLow = sc->volumeCurr;
+				sc->volumeHigh = sc->volumeCurr;
+				sc->volumeShift = SD_NONE;
 			}
 		}
 	}
@@ -148,8 +158,13 @@ void setupNextPeriod(hSC sc) {
 				sc->periodShift = SD_FALLING;
 				sc->periodCurr -= 1;
 			}
-			else {
+			else if (sc->periodEB == EB_SILENCE) {
 				sc->volumeCurr = 0;
+				sc->periodShift = SD_NONE;
+			}
+			else if (sc->periodEB == EB_STEADY) {
+				sc->periodLow = sc->periodCurr;
+				sc->periodHigh = sc->periodCurr;
 				sc->periodShift = SD_NONE;
 			}
 		}
@@ -167,8 +182,13 @@ void setupNextPeriod(hSC sc) {
 				sc->periodShift = SD_RISING;
 				sc->periodCurr += 1;
 			}
-			else {
+			else if(sc->periodEB == EB_SILENCE) {
 				sc->volumeCurr = 0;
+				sc->periodShift = SD_NONE;
+			}
+			else if (sc->periodEB == EB_STEADY) {
+				sc->periodLow = sc->periodCurr;
+				sc->periodHigh = sc->periodCurr;
 				sc->periodShift = SD_NONE;
 			}
 		}

@@ -97,7 +97,8 @@ typedef enum {
 typedef enum {
 	EB_SILENCE = 0,
 	EB_REVERSE = 1,
-	EB_LOOP = 2
+	EB_LOOP = 2,
+	EB_STEADY = 3,
 } EdgeBehaviour;
 
 typedef struct INIT* hINIT;
