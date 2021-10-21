@@ -168,6 +168,12 @@ The state of each logical button is captured just before the call to the update 
 
 TBD
 
+Nomenclature:
+
+Game music and sound effects are both stored as 'Recorings'. A recording consists of one or more 'tracks'.
+
+The Runtime will mix the tracks for all currently-playing music/sound effects using simple additive synthesis into a single signal, played monaurally.
+
 ## Utility Libraries
 
 ### Text rendering
