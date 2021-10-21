@@ -1,6 +1,8 @@
 #include "sc.h"
 #include "sw.h"
 
+#define UNLIMITED_LENGTH 0xFFFFFFFF
+
 struct SC {
 	Uint8 volumeLow;
 	Uint8 volumeHigh;
@@ -13,7 +15,7 @@ struct SC {
 	Uint8 periodShiftSpeed;
 	enum EdgeBehaviour periodEB;
 
-	Uint16 lengthCounter;
+	Uint32 lengthCounter;
 	Uint16 periodCounter;
 	Uint16 volumeShiftCounter;
 	Uint16 periodShiftCounter;
@@ -26,7 +28,7 @@ struct SC {
 
 hSC creat_SC() {
 	hSC result = (hSC)SDL_malloc(sizeof(SC));
-	result->lengthCounter = 65535;
+	result->lengthCounter = UNLIMITED_LENGTH;
 	result->volumeCurr = 0;
 	result->periodCounter = 0;
 	result->sw = creat_SW();
@@ -66,7 +68,11 @@ void playNote_SC(hSC sc,
 	sc->periodShiftSpeed = periodShiftSpeed;
 	sc->periodEB = periodEB;
 
-	sc->lengthCounter = length;
+	if (length == 0)
+		sc->lengthCounter = UNLIMITED_LENGTH;
+	else
+		sc->lengthCounter = (Uint32)length * 100;
+
 	sc->volumeShiftCounter = 0;
 	sc->periodShiftCounter = 0;
 	sc->periodCurr = periodShift == SD_FALLING ? periodHigh : periodLow;
@@ -74,7 +80,7 @@ void playNote_SC(hSC sc,
 }
 
 void silence_SC(hSC sc) {
-	sc->lengthCounter = 65535;
+	sc->lengthCounter = UNLIMITED_LENGTH;
 	sc->volumeCurr = 0;
 }
 
@@ -173,7 +179,7 @@ Sint16 getNextSample_SC(hSC sc) {
 	if (sc->lengthCounter == 0) {
 		sc->volumeCurr = 0;
 	}
-	else if (sc->lengthCounter != 65535) {
+	else if (sc->lengthCounter != UNLIMITED_LENGTH) {
 		sc->lengthCounter -= 1;
 	}
 
