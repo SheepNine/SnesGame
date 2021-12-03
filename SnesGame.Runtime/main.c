@@ -12,8 +12,8 @@
 #include "init.h"
 #include "render.h"
 #include "update.h"
-#include "rec.h"
-#include "pb.h"
+#include "dr.h"
+#include "dp.h"
 
 // --- BackBuffer ---
 
@@ -137,8 +137,8 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 			hJD jd = NULL;
 			hGP gp = creat_GP();
 			hKD kd = creat_KD(gp);
-			hREC rec = creat_REC(gp, recordStream);
-			hPB pb = creat_PB(gp, playbackStream);
+			hDR dr = creat_DR(gp, recordStream);
+			hDP dp = creat_DP(gp, playbackStream);
 
 			SDL_bool loop = SDL_TRUE;
 			SDL_Event event;
@@ -199,8 +199,8 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 						for (int i = 0; i < 8; i++) {
 							voices[i].type = CV_SUSTAIN;
 						}
-						playback_PB(pb);
-						record_REC(rec);
+						playback_DP(dp);
+						record_DR(dr);
 						hUPDATE update = creat_UPDATE(gp, voices, frameCounter++);
 						updateFunc(update);
 						destr_UPDATE(update);
@@ -248,8 +248,8 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 			if (kd != NULL) {
 				destr_KD(kd);
 			}
-			destr_REC(rec);
-			destr_PB(pb);
+			destr_DR(dr);
+			destr_DP(dp);
 			destr_GP(gp);
 
 			SDL_CloseAudioDevice(dev);

@@ -1,14 +1,14 @@
-#include "pb.h"
+#include "dp.h"
 
-struct PB {
+struct DP {
 	hGP gp;
 	Uint16 currentValue;
 	Uint16 currentCount;
 	SDL_RWops* RW;
-} PB;
+} DP;
 
-hPB creat_PB(hGP gp, SDL_RWops* source) {
-	hPB result = (hPB)SDL_malloc(sizeof(PB));
+hDP creat_DP(hGP gp, SDL_RWops* source) {
+	hDP result = (hDP)SDL_malloc(sizeof(DP));
 	result->currentCount = 0;
 	result->currentValue = 0;
 	result->gp = gp;
@@ -17,14 +17,14 @@ hPB creat_PB(hGP gp, SDL_RWops* source) {
 	return result;
 }
 
-void destr_PB(hPB pb) {
+void destr_DP(hDP pb) {
 	if (pb->RW != NULL) {
 		SDL_RWclose(pb->RW);
 	}
 	SDL_free(pb);
 }
 
-void consume_PB(hPB pb) {
+void consume_PB(hDP pb) {
 	Uint8 data[2];
 
 	size_t count = SDL_RWread(pb->RW, data, 1, 2);
@@ -56,7 +56,7 @@ void consume_PB(hPB pb) {
 	//SDL_Log("Value %X, count %i", (unsigned int)pb->currentValue, (int)pb->currentCount);
 }
 
-void playback_PB(hPB pb) {
+void playback_DP(hDP pb) {
 	if (pb->RW == NULL) {
 		return;
 	}

@@ -1,14 +1,14 @@
-#include "rec.h"
+#include "dr.h"
 
-struct REC {
+struct DR {
 	hGP gp;
 	Uint16 currentValue;
 	Uint16 currentCount;
 	SDL_RWops* RW;
-} REC;
+} DR;
 
-hREC creat_REC(hGP gp, SDL_RWops* dest) {
-	hREC result = (hREC)SDL_malloc(sizeof(REC));
+hDR creat_DR(hGP gp, SDL_RWops* dest) {
+	hDR result = (hDR)SDL_malloc(sizeof(DR));
 	result->gp = gp;
 	result->currentValue = 0;
 	result->currentCount = 0;
@@ -16,7 +16,7 @@ hREC creat_REC(hGP gp, SDL_RWops* dest) {
 	return result;
 }
 
-void emitRun_REC(hREC rec) {
+void emitRun_DR(hDR rec) {
 	if (rec->RW == NULL || rec->currentCount == 0) {
 		return;
 	}
@@ -43,18 +43,18 @@ void emitRun_REC(hREC rec) {
 	rec->currentCount = 0;
 }
 
-void destr_REC(hREC rec) {
-	emitRun_REC(rec);
+void destr_DR(hDR rec) {
+	emitRun_DR(rec);
 	if (rec->RW != NULL) {
 		SDL_RWclose(rec->RW);
 	}
 	SDL_free(rec);
 }
 
-void record_REC(hREC rec) {
+void record_DR(hDR rec) {
 	Uint16 nextValue = getCurrent_GP(rec->gp);
 	if (rec->currentCount == 0x7FF || rec->currentValue != nextValue) {
-		emitRun_REC(rec);
+		emitRun_DR(rec);
 	}
 	rec->currentValue = nextValue;
 	rec->currentCount += 1;

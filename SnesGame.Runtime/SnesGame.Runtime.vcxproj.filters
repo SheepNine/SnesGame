@@ -60,10 +60,10 @@
     <ClCompile Include="keydriver.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rec.c">
+    <ClCompile Include="dr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pb.c">
+    <ClCompile Include="dp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rand.c">
@@ -119,10 +119,10 @@
     <ClInclude Include="keydriver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rec.h">
+    <ClInclude Include="dr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pb.h">
+    <ClInclude Include="dp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rand.h">

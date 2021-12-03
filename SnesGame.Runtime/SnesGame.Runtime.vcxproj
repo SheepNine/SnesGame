@@ -158,11 +158,11 @@
     <ClCompile Include="keydriver.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mapper.c" />
-    <ClCompile Include="pb.c" />
+    <ClCompile Include="dp.c" />
     <ClCompile Include="perf.c" />
     <ClCompile Include="ppu.c" />
     <ClCompile Include="rand.c" />
-    <ClCompile Include="rec.c" />
+    <ClCompile Include="dr.c" />
     <ClCompile Include="render.c" />
     <ClCompile Include="sc.c" />
     <ClCompile Include="snes_foundation_classes.c" />
@@ -181,11 +181,11 @@
     <ClInclude Include="joydriver.h" />
     <ClInclude Include="keydriver.h" />
     <ClInclude Include="mapper.h" />
-    <ClInclude Include="pb.h" />
+    <ClInclude Include="dp.h" />
     <ClInclude Include="perf.h" />
     <ClInclude Include="ppu.h" />
     <ClInclude Include="rand.h" />
-    <ClInclude Include="rec.h" />
+    <ClInclude Include="dr.h" />
     <ClInclude Include="render.h" />
     <ClInclude Include="sc.h" />
     <ClInclude Include="sw.h" />
