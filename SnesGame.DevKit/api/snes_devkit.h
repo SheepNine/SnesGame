@@ -1,5 +1,5 @@
 #pragma once
-#include "snes_api.h"
+#include "snes_runtime.h"
 
 typedef struct CS* hCS;
 hCS creat_CS();

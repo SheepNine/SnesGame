@@ -8,7 +8,7 @@
 #include "joydriver.h"
 #include "keydriver.h"
 #include "gamepad.h"
-#include "api/snes_api.h"
+#include "api/snes_runtime.h"
 #include "init.h"
 #include "render.h"
 #include "update.h"

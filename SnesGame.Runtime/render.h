@@ -1,5 +1,5 @@
 #pragma once
-#include "api/snes_api.h"
+#include "api/snes_runtime.h"
 #include "ppu.h"
 
 hRENDER creat_RENDER(hPPU ppu);

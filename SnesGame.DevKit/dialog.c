@@ -1,4 +1,4 @@
-#include "api/snes_foundation_classes.h"
+#include "api/snes_devkit.h"
 // FUTURE: dialog anywhere on screen requires clipping lines have full screen range (0-248)
 // but they currently have a bit more than half-screen (0-127), so we will force the dialog
 // to be at the bottom for now

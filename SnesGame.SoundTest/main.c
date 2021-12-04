@@ -1,6 +1,6 @@
 #include <wtypes.h>
-#include "snes_api.h"
-#include "snes_foundation_classes.h"
+#include "snes_runtime.h"
+#include "snes_devkit.h"
 
 SDL_bool controllerState[12];
 

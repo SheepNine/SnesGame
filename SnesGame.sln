@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceCompiler", "ResourceCompiler\ResourceCompiler.csproj", "{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnesGame.Cartridge", "SnesGame.Cartridge\SnesGame.Cartridge.vcxproj", "{50680FE1-FD49-4037-82B2-6F004C9A02A8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{00D9E805-B743-4151-8587-3A7EE8724516} = {00D9E805-B743-4151-8587-3A7EE8724516}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C30DB910-1FCF-468F-B920-F6B3CE1D21F9}"
 	ProjectSection(SolutionItems) = preProject
@@ -20,6 +23,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnesGame.SoundTest", "SnesGame.SoundTest\SnesGame.SoundTest.vcxproj", "{27536043-C09D-4371-A4D0-DB2F42E700CE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{00D9E805-B743-4151-8587-3A7EE8724516} = {00D9E805-B743-4151-8587-3A7EE8724516}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnesGame.DevKit", "SnesGame.DevKit\SnesGame.DevKit.vcxproj", "{00D9E805-B743-4151-8587-3A7EE8724516}"
+	ProjectSection(ProjectDependencies) = postProject
+		{85052B18-2B03-4A8C-ABAE-D25EF6F6B00C} = {85052B18-2B03-4A8C-ABAE-D25EF6F6B00C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +88,14 @@ Global
 		{27536043-C09D-4371-A4D0-DB2F42E700CE}.Release|x64.Build.0 = Release|x64
 		{27536043-C09D-4371-A4D0-DB2F42E700CE}.Release|x86.ActiveCfg = Release|Win32
 		{27536043-C09D-4371-A4D0-DB2F42E700CE}.Release|x86.Build.0 = Release|Win32
+		{00D9E805-B743-4151-8587-3A7EE8724516}.Debug|x64.ActiveCfg = Debug|x64
+		{00D9E805-B743-4151-8587-3A7EE8724516}.Debug|x64.Build.0 = Debug|x64
+		{00D9E805-B743-4151-8587-3A7EE8724516}.Debug|x86.ActiveCfg = Debug|Win32
+		{00D9E805-B743-4151-8587-3A7EE8724516}.Debug|x86.Build.0 = Debug|Win32
+		{00D9E805-B743-4151-8587-3A7EE8724516}.Release|x64.ActiveCfg = Release|x64
+		{00D9E805-B743-4151-8587-3A7EE8724516}.Release|x64.Build.0 = Release|x64
+		{00D9E805-B743-4151-8587-3A7EE8724516}.Release|x86.ActiveCfg = Release|Win32
+		{00D9E805-B743-4151-8587-3A7EE8724516}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

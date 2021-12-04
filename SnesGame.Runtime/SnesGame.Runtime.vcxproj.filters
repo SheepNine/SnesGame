@@ -54,9 +54,6 @@
     <ClCompile Include="update.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="snes_foundation_classes.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="keydriver.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -67,9 +64,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rand.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="dialog.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,7 +95,7 @@
     <ClInclude Include="gamepad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="api\snes_api.h">
+    <ClInclude Include="api\snes_runtime.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
     <ClInclude Include="init.h">
@@ -112,9 +106,6 @@
     </ClInclude>
     <ClInclude Include="update.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="api\snes_foundation_classes.h">
-      <Filter>Header Files\api</Filter>
     </ClInclude>
     <ClInclude Include="keydriver.h">
       <Filter>Header Files</Filter>
