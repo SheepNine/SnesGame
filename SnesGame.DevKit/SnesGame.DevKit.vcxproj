@@ -22,9 +22,11 @@
     <ClInclude Include="api\snes_devkit.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="audio_foundation_classes.c" />
+    <ClCompile Include="coordinate_converter.c" />
+    <ClCompile Include="jukebox.c" />
     <ClCompile Include="dialog.c" />
-    <ClCompile Include="snes_foundation_classes.c" />
+    <ClCompile Include="wide_background.c" />
+    <ClCompile Include="utils.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

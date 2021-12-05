@@ -1,26 +1,5 @@
 #include "api/snes_devkit.h"
 
-typedef struct Record {
-	Uint8 audioTrackCount;
-	Uint8* opcodeStream;
-	Uint16* opcodeStreamOffsets;
-	Uint16* opcodeStreamLengths;
-} Record;
-
-hRecord creat_Record(Uint8 trackCount, Uint8* opcodeStream, Uint16* trackOffsets, Uint16* trackLengths) {
-	hRecord result = (hRecord)SDL_malloc(sizeof(Record));
-	result->audioTrackCount = trackCount;
-	result->opcodeStream = opcodeStream;
-	result->opcodeStreamOffsets = trackOffsets;
-	result->opcodeStreamLengths = trackLengths;
-	return result;
-}
-
-void destr_Record(hRecord rec) {
-	SDL_free(rec);
-}
-
-
 #define OPC_PLAY 0
 #define OPC_SILENCE 1
 
@@ -51,7 +30,25 @@ void destr_Record(hRecord rec) {
 #define MAX_SFX_CHANNELS 64
 #define NO_CHANNEL_ASSIGNED 255
 
+typedef struct Record {
+	Uint8 audioTrackCount;
+	Uint8* opcodeStream;
+	Uint16* opcodeStreamOffsets;
+	Uint16* opcodeStreamLengths;
+} Record;
 
+hRecord creat_Record(Uint8 trackCount, Uint8* opcodeStream, Uint16* trackOffsets, Uint16* trackLengths) {
+	hRecord result = (hRecord)SDL_malloc(sizeof(Record));
+	result->audioTrackCount = trackCount;
+	result->opcodeStream = opcodeStream;
+	result->opcodeStreamOffsets = trackOffsets;
+	result->opcodeStreamLengths = trackLengths;
+	return result;
+}
+
+void destr_Record(hRecord rec) {
+	SDL_free(rec);
+}
 
 typedef struct PlayingTrack* hPlayingTrack;
 typedef struct PlayingTrack {

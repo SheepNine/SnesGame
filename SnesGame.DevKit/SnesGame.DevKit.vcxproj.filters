@@ -26,10 +26,16 @@
     <ClCompile Include="dialog.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="snes_foundation_classes.c">
+    <ClCompile Include="wide_background.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="audio_foundation_classes.c">
+    <ClCompile Include="jukebox.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="coordinate_converter.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
