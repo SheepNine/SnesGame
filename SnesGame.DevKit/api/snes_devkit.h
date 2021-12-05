@@ -28,6 +28,20 @@ void update_Dialog(hDialog dialog);
 void renderText_Dialog(hDialog dialog, hRENDER render, Uint8 layerIndex, Uint8 bankIndex, Uint8 paletteIndex);
 void renderBorder_Dialog(hDialog dialog, hRENDER render, Uint8 layerIndex, Uint8 bankIndex, Uint8 paletteIndex);
 
+typedef struct Record* hRecord;
+hRecord creat_Record(Uint8 trackCount, Uint8* opcodeStream, Uint16* trackOffsets, Uint16* trackLengths);
+void destr_Record(hRecord rec);
+
+typedef struct Jukebox* hJukebox;
+hJukebox creat_Jukebox();
+void update_Jukebox(hJukebox jukebox, hUPDATE update);
+void silence_Jukebox(hJukebox jukebox, hUPDATE update);
+void destr_Jukebox(hJukebox jukebox);
+void playSfx_Jukebox(hJukebox jukebox, hRecord recording);
+void playBgm_Jukebox(hJukebox jukebox, hRecord recording);
+void stopBgm_Jukebox(hJukebox jukebox);
+void startBgm_Jukebox(hJukebox jukebox);
+
 void drawBackdropString(hRENDER render, Uint8 backdropIndex, char* string, Uint8 x, Uint8 y, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool mask0);
 void fillBackdrop(hRENDER render, Uint8 backdropIndex, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);
 

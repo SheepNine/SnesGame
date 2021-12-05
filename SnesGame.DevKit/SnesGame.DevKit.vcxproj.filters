@@ -29,6 +29,9 @@
     <ClCompile Include="snes_foundation_classes.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="audio_foundation_classes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

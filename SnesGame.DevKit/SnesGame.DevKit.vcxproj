@@ -22,6 +22,7 @@
     <ClInclude Include="api\snes_devkit.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="audio_foundation_classes.c" />
     <ClCompile Include="dialog.c" />
     <ClCompile Include="snes_foundation_classes.c" />
   </ItemGroup>
