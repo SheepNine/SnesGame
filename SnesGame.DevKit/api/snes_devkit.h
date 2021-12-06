@@ -3,6 +3,7 @@
 
 typedef struct CC* hCC;
 hCC creat_CC();
+hCC clone_CC(hCC other);
 void destr_CC(hCC cs);
 void setWorldLocus_CC(hCC cs, Sint32 x, Sint32 y);
 void setScreenLocus_CC(hCC cs, Sint32 x, Sint32 y);
@@ -46,3 +47,12 @@ void drawBackdropString(hRENDER render, Uint8 backdropIndex, char* string, Uint8
 void fillBackdrop(hRENDER render, Uint8 backdropIndex, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);
 
 void setPaletteColor(Uint8* data, Uint8 colorIndex, Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
+
+typedef Uint8 (*hSBRC)(hRENDER render, Uint8 actorIndex, Sint32 screenX, Sint32 screenY, void* renderContext);
+
+typedef struct SB* hSB;
+hSB creat_SB(hCC cc);
+void destr_SB(hSB sb);
+
+void addSprite_SB(hSB sb, Sint32 worldX, Sint32 worldY, hSBRC renderCallback, void* renderContext);
+Uint8 render_SB(hSB sb, hRENDER render, Uint8 actorIndex);

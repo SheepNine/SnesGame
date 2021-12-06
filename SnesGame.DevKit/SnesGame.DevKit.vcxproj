@@ -25,6 +25,7 @@
     <ClCompile Include="coordinate_converter.c" />
     <ClCompile Include="jukebox.c" />
     <ClCompile Include="dialog.c" />
+    <ClCompile Include="sprite_batch.c" />
     <ClCompile Include="wide_background.c" />
     <ClCompile Include="utils.c" />
   </ItemGroup>

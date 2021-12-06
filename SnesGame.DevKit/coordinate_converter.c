@@ -16,6 +16,15 @@ hCC creat_CC() {
 	return result;
 }
 
+hCC clone_CC(hCC other) {
+	hCC result = (hCC)SDL_malloc(sizeof(CC));
+	result->worldLocusX = other->worldLocusX;
+	result->worldLocusY = other->worldLocusY;
+	result->screenLocusX = other->screenLocusX;
+	result->screenLocusY = other->screenLocusY;
+	return result;
+}
+
 void destr_CC(hCC cc) {
 	SDL_free(cc);
 }
