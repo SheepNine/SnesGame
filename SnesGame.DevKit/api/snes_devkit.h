@@ -56,3 +56,5 @@ void destr_SB(hSB sb);
 
 void addSprite_SB(hSB sb, Sint32 worldX, Sint32 worldY, hSBRC renderCallback, void* renderContext);
 Uint8 render_SB(hSB sb, hRENDER render, Uint8 actorIndex);
+void addSingleBrushSprite_SB(hSB sb, Sint32 worldX, Sint32 worldY, Uint8 layer, Uint8 brushIndex, Uint8 bankIndex,
+	Uint8 paletteIndex, Sint8 centerX, Sint8 centerY, Uint8 sizeX, Uint8 sizeY, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);
