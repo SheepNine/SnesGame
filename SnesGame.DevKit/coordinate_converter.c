@@ -8,7 +8,7 @@ struct CC {
 } CC;
 
 hCC creat_CC() {
-	hCC result = (hCC)SDL_malloc(sizeof(hCC));
+	hCC result = (hCC)SDL_malloc(sizeof(CC));
 	result->worldLocusX = 0;
 	result->worldLocusY = 0;
 	result->screenLocusX = 124;
