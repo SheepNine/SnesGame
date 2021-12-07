@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Glyph.cs" />
     <Compile Include="GlyphCompiler.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
@@ -41,12 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Drawing" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ReferenceImplementations\ReferenceImplementations.csproj">
-      <Project>{fb63164b-3711-4c52-a8c5-2e4587ea79f7}</Project>
-      <Name>ReferenceImplementations</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

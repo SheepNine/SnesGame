@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace ReferenceImplementations
+namespace ResourceCompiler
 {
     public class Glyph
     {
