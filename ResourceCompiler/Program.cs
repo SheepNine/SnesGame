@@ -4,7 +4,8 @@
     {
         static void Main(string[] args)
         {
-            GlyphCompiler.Compile(@"..\..\..\Resources\default.png");
+            foreach (var file in System.IO.Directory.GetFiles(@"..\..\..\Resources", "*.png"))
+                GlyphCompiler.Compile(file);
         }
     }
 }
