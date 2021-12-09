@@ -131,21 +131,31 @@ typedef struct {
 	ShiftParams periodShift;
 } SquareWaveParams;
 
+typedef struct {
+	Uint16 initialRegister;
+	Uint16 tapBit;
+	Uint16 maxLength;
+	Uint8 period;
+} NoiseParams;
+
 typedef enum {
 	CV_SUSTAIN,
 	CV_SILENCE,
-	CV_SQUARE
+	CV_SQUARE,
+	CV_NOISE
 } ChannelVoiceType;
 
 typedef struct {
 	ChannelVoiceType type;
 	union {
 		SquareWaveParams square;
+		NoiseParams noise;
 	} waveParams;
 } ChannelVoice;
 
 void silenceChannel(hUPDATE update, Uint8 channelIndex);
 void playSquareNote(hUPDATE update, Uint8 channelIndex, SquareWaveParams* params);
+void playNoise(hUPDATE update, Uint8 channelIndex, NoiseParams* params);
 
 
 typedef struct RENDER* hRENDER;

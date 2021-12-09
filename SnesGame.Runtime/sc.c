@@ -23,6 +23,10 @@ struct SC {
 	Uint8 volumeCurr;
 	SDL_bool upperWave;
 	hSW sw;
+
+	Uint16 noiseShiftRegister;
+	Uint16 noiseShiftTap;
+	Uint8 noisePeriod;
 } SC;
 
 
@@ -55,7 +59,6 @@ void playNote_SC(hSC sc,
 	SDL_assert(periodLow == periodHigh || periodShift != SD_NONE);
 	SDL_assert(periodLow != periodHigh || periodShift == SD_NONE);
 
-
 	sc->volumeLow = volumeLow;
 	sc->volumeHigh = volumeHigh;
 	sc->volumeShift = volumeShift;
@@ -77,11 +80,28 @@ void playNote_SC(hSC sc,
 	sc->periodShiftCounter = 0;
 	sc->periodCurr = periodShift == SD_FALLING ? periodHigh : periodLow;
 	sc->volumeCurr = volumeShift == SD_FALLING ? volumeHigh : volumeLow;
+
+	sc->noiseShiftRegister = 0;
+	sc->noiseShiftTap = 0;
+}
+
+void playNoise_SC(hSC sc, Uint16 initialRegister, Uint16 tapBit, Uint16 maxLength, Uint8 period) {
+	SDL_assert(initialRegister != 0 && (initialRegister & 0x8000) == 0);
+	SDL_assert(tapBit == 0x2 || tapBit == 0x40);
+	sc->noiseShiftRegister = initialRegister;
+	sc->noiseShiftTap = tapBit;
+	sc->lengthCounter = maxLength;
+	sc->noisePeriod = period;
+	sc->periodCounter = period;
+	halt_SW(sc->sw);
 }
 
 void silence_SC(hSC sc) {
 	sc->lengthCounter = UNLIMITED_LENGTH;
 	sc->volumeCurr = 0;
+
+	sc->noiseShiftRegister = 0;
+	sc->noiseShiftTap = 0;
 }
 
 void setupNextVolume(hSC sc) {
@@ -196,32 +216,56 @@ void setupNextPeriod(hSC sc) {
 }
 
 Sint16 getNextSample_SC(hSC sc) {
-	if (sc->lengthCounter == 0) {
-		sc->volumeCurr = 0;
-	}
-	else if (sc->lengthCounter != UNLIMITED_LENGTH) {
-		sc->lengthCounter -= 1;
-	}
+	if (sc->noiseShiftRegister == 0) {
+		if (sc->lengthCounter == 0) {
+			sc->volumeCurr = 0;
+		}
+		else if (sc->lengthCounter != UNLIMITED_LENGTH) {
+			sc->lengthCounter -= 1;
+		}
 
-	if (sc->periodCounter > 0) {
-		sc->periodCounter -= 1;
-	}
-	else {
-		if (sc->volumeCurr == 0) {
-			if (!isSilent_SW(sc->sw)) {
-				setTargetVolume_SW(sc->sw, 0);
-				sc->periodCounter = 16;
-			}
+		if (sc->periodCounter > 0) {
+			sc->periodCounter -= 1;
 		}
 		else {
-			setTargetVolume_SW(sc->sw, sc->upperWave ? sc->volumeCurr : -sc->volumeCurr);
-			sc->periodCounter = sc->periodCurr;
-			sc->upperWave = sc->upperWave ? SDL_FALSE : SDL_TRUE;
+			if (sc->volumeCurr == 0) {
+				if (!isSilent_SW(sc->sw)) {
+					setTargetVolume_SW(sc->sw, 0);
+					sc->periodCounter = 16;
+				}
+			}
+			else {
+				setTargetVolume_SW(sc->sw, sc->upperWave ? sc->volumeCurr : -sc->volumeCurr);
+				sc->periodCounter = sc->periodCurr;
+				sc->upperWave = sc->upperWave ? SDL_FALSE : SDL_TRUE;
 
-			setupNextVolume(sc);
-			setupNextPeriod(sc);
+				setupNextVolume(sc);
+				setupNextPeriod(sc);
+			}
 		}
-	}
 
-	return getNextSample_SW(sc->sw);
+		return getNextSample_SW(sc->sw);
+	}
+	else {
+		if (sc->lengthCounter == 0) {
+			sc->noiseShiftRegister = 0;
+			sc->noiseShiftTap = 0;
+			return 0;
+		}
+		sc->lengthCounter -= 1;
+
+		if (sc->periodCounter != 0) {
+			sc->periodCounter -= 1;
+		}
+		else {
+			sc->periodCounter = sc->noisePeriod;
+			Uint16 tap1 = sc->noiseShiftRegister & sc->noiseShiftTap;
+			Uint16 tap2 = sc->noiseShiftRegister & 0x0001;
+			if ((tap1 == 0) != (tap2 == 0)) {
+				sc->noiseShiftRegister |= 0x8000;
+			}
+			sc->noiseShiftRegister >>= 1;
+		}
+		return (sc->noiseShiftRegister - 0x4000) >> 3;
+	}
 }

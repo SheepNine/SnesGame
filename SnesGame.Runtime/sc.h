@@ -16,6 +16,8 @@ INTEROP_EXTERN void playNote_SC(hSC sc,
 	Uint8 volumeLow, Uint8 volumeHigh, ShiftDir volumeShift, Uint8 volumeShiftSpeed, EdgeBehaviour volumeEB,
 	Uint16 periodLow, Uint16 periodHigh, ShiftDir periodShift, Uint8 periodShiftSpeed, EdgeBehaviour periodEB);
 
+INTEROP_EXTERN void playNoise_SC(hSC sc, Uint16 initialRegister, Uint16 tapBit, Uint16 maxLength, Uint8 period);
+
 INTEROP_EXTERN void silence_SC(hSC sc);
 
 INTEROP_EXTERN Sint16 getNextSample_SC(hSC sc);

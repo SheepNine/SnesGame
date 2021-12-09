@@ -47,15 +47,19 @@ struct SW {
 
 hSW creat_SW() {
 	hSW result = (hSW)SDL_malloc(sizeof(SW));
-	result->output = 0;
-	result->currVolume = 0;
-	result->prevVolume = 0;
-	result->waveletTimer = 16;
+	halt_SW(result);
 	return result;
 }
 
 void destr_SW(hSW sw) {
 	SDL_free(sw);
+}
+
+void halt_SW(hSW sw) {
+	sw->output = 0;
+	sw->currVolume = 0;
+	sw->prevVolume = 0;
+	sw->waveletTimer = 16;
 }
 
 void setTargetVolume_SW(hSW sw, Sint8 volume) {

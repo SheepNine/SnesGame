@@ -69,6 +69,11 @@ void AnAudioCallback(void* __1, Uint8* stream, int __2) {
 						params.periodShift.dir, params.periodShift.speed, params.periodShift.edgeBehaviour);
 					break;
 				}
+				case CV_NOISE: {
+					NoiseParams params = voiceBuffer[i].waveParams.noise;
+					playNoise_SC(soundChannels[i], params.initialRegister, params.tapBit, params.maxLength, params.period);
+					break;
+				}
 				}
 			}
 

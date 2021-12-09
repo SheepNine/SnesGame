@@ -198,6 +198,11 @@ void updateFunc(hUPDATE update) {
 			break;
 		}
 	}
+
+	if (wasButtonPressed(update, GP_BUTTON_ZL)) {
+		NoiseParams params = { 0x0001, 0x02, 500, 0x0 };
+		playNoise(update, 6, &params);
+	}
 }
 
 Uint8 cursorY[11] = { 2, 4, 6, 9, 11, 13, 15, 18, 20, 22, 24 };

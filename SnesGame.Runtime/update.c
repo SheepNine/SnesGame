@@ -44,6 +44,11 @@ void playSquareNote(hUPDATE update, Uint8 channelIndex, SquareWaveParams* params
 	update->voices[channelIndex].waveParams.square = *params;
 }
 
+void playNoise(hUPDATE update, Uint8 channelIndex, NoiseParams* params) {
+	update->voices[channelIndex].type = CV_NOISE;
+	update->voices[channelIndex].waveParams.noise = *params;
+}
+
 Uint64 getFrameCounter(hUPDATE update) {
 	return update->frameCounter;
 }
