@@ -27,6 +27,18 @@
 #define OPC_SINGLE_PERIOD_BOTH 22
 #define OPC_SINGLE_PERIOD_RANGE 23
 
+#define OPC_PLAY_NOISE 24
+
+#define OPC_DEFAULT_NOISE_REGISTER 25
+#define OPC_DEFAULT_NOISE_REPEAT 26
+#define OPC_DEFAULT_NOISE_TAP 27
+#define OPC_DEFAULT_NOISE_LENGTH 28
+
+#define OPC_SINGLE_NOISE_REGISTER 29
+#define OPC_SINGLE_NOISE_REPEAT 30
+#define OPC_SINGLE_NOISE_TAP 31
+#define OPC_SINGLE_NOISE_LENGTH 32
+
 #define MAX_SFX_CHANNELS 64
 #define NO_CHANNEL_ASSIGNED 255
 
@@ -60,6 +72,8 @@ typedef struct PlayingTrack {
 	SDL_bool isBgmChannel;
 	SquareWaveParams singleNoteParams;
 	SquareWaveParams defaultParams;
+	NoiseParams singleNoteNoiseParams;
+	NoiseParams defaultNoiseParams;
 } PlayingTrack;
 
 typedef struct Jukebox {
@@ -110,6 +124,13 @@ void update_Jukebox(hJukebox jukebox, hUPDATE update) {
 						playSquareNote(update, track->assignedChannel, &track->singleNoteParams);
 					}
 					track->singleNoteParams = track->defaultParams;
+					track->framesUntilNextNote = track->opcodeStream[track->opcodeStreamPos++];
+					break;
+				case OPC_PLAY_NOISE:
+					if (track->assignedChannel != NO_CHANNEL_ASSIGNED && (track->isBgmChannel == SDL_FALSE || jukebox->sfxAcquired[track->assignedChannel] == SDL_FALSE)) {
+						playNoise(update, track->assignedChannel, &track->singleNoteNoiseParams);
+					}
+					track->singleNoteNoiseParams = track->defaultNoiseParams;
 					track->framesUntilNextNote = track->opcodeStream[track->opcodeStreamPos++];
 					break;
 				case OPC_SILENCE:
@@ -192,6 +213,27 @@ void update_Jukebox(hJukebox jukebox, hUPDATE update) {
 					}
 					track->defaultParams.periodShift.dir = track->singleNoteParams.periodShift.dir;
 					break;
+				case OPC_DEFAULT_NOISE_LENGTH:
+					track->singleNoteNoiseParams.maxLength = track->opcodeStream[track->opcodeStreamPos++] << 8;
+					track->singleNoteNoiseParams.maxLength += track->opcodeStream[track->opcodeStreamPos++];
+					track->defaultNoiseParams.maxLength = track->singleNoteNoiseParams.maxLength;
+					break;
+				case OPC_DEFAULT_NOISE_REGISTER:
+					track->singleNoteNoiseParams.initialRegister = track->opcodeStream[track->opcodeStreamPos++] << 8;
+					track->singleNoteNoiseParams.initialRegister += track->opcodeStream[track->opcodeStreamPos++];
+					track->defaultNoiseParams.initialRegister = track->singleNoteNoiseParams.initialRegister;
+					break;
+				case OPC_DEFAULT_NOISE_TAP:
+					track->singleNoteNoiseParams.tapBit = track->opcodeStream[track->opcodeStreamPos++] << 8;
+					track->singleNoteNoiseParams.tapBit += track->opcodeStream[track->opcodeStreamPos++];
+					track->defaultNoiseParams.tapBit = track->singleNoteNoiseParams.tapBit;
+					break;
+				case OPC_DEFAULT_NOISE_REPEAT:
+					track->singleNoteNoiseParams.period = track->opcodeStream[track->opcodeStreamPos++];
+					track->defaultNoiseParams.period = track->singleNoteNoiseParams.period;
+					break;
+
+
 				case OPC_SINGLE_PERIOD_BOTH:
 					track->singleNoteParams.periodLow = track->opcodeStream[track->opcodeStreamPos++] << 8;
 					track->singleNoteParams.periodLow += track->opcodeStream[track->opcodeStreamPos++];
@@ -250,6 +292,21 @@ void update_Jukebox(hJukebox jukebox, hUPDATE update) {
 					case 1: track->singleNoteParams.periodShift.dir = SD_RISING; break;
 					case 2: track->singleNoteParams.periodShift.dir = SD_FALLING; break;
 					}
+					break;
+				case OPC_SINGLE_NOISE_LENGTH:
+					track->singleNoteNoiseParams.maxLength = track->opcodeStream[track->opcodeStreamPos++] << 8;
+					track->singleNoteNoiseParams.maxLength += track->opcodeStream[track->opcodeStreamPos++];
+					break;
+				case OPC_SINGLE_NOISE_REGISTER:
+					track->singleNoteNoiseParams.initialRegister = track->opcodeStream[track->opcodeStreamPos++] << 8;
+					track->singleNoteNoiseParams.initialRegister += track->opcodeStream[track->opcodeStreamPos++];
+					break;
+				case OPC_SINGLE_NOISE_TAP:
+					track->singleNoteNoiseParams.tapBit = track->opcodeStream[track->opcodeStreamPos++] << 8;
+					track->singleNoteNoiseParams.tapBit += track->opcodeStream[track->opcodeStreamPos++];
+					break;
+				case OPC_SINGLE_NOISE_REPEAT:
+					track->singleNoteNoiseParams.period = track->opcodeStream[track->opcodeStreamPos++];
 					break;
 				}
 				if (track->framesUntilNextNote > 0) break;
@@ -322,6 +379,13 @@ void playSfx_JukeboxInternal(hJukebox jukebox, hRecord clip, SDL_bool isBgm) {
 		newPlayingTrack->defaultParams.volumeShift.speed = 0;
 
 		newPlayingTrack->singleNoteParams = newPlayingTrack->defaultParams;
+
+		newPlayingTrack->defaultNoiseParams.maxLength = 1200;
+		newPlayingTrack->defaultNoiseParams.initialRegister = 1;
+		newPlayingTrack->defaultNoiseParams.period = 0;
+		newPlayingTrack->defaultNoiseParams.tapBit = 0x2;
+
+		newPlayingTrack->singleNoteNoiseParams = newPlayingTrack->defaultNoiseParams;
 
 		jukebox->playingSfxTracks[i] = newPlayingTrack;
 		clipChannel += 1;
