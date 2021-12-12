@@ -90,7 +90,10 @@ void playNoise_SC(hSC sc, Uint16 initialRegister, Uint16 tapBit, Uint16 maxLengt
 	SDL_assert(tapBit == 0x2 || tapBit == 0x40);
 	sc->noiseShiftRegister = initialRegister;
 	sc->noiseShiftTap = tapBit;
-	sc->lengthCounter = maxLength;
+	if (maxLength == 0)
+		sc->lengthCounter = UNLIMITED_LENGTH;
+	else
+		sc->lengthCounter = maxLength;
 	sc->noisePeriod = period;
 	sc->periodCounter = period;
 	halt_SW(sc->sw);
@@ -252,7 +255,9 @@ Sint16 getNextSample_SC(hSC sc) {
 			sc->noiseShiftTap = 0;
 			return 0;
 		}
-		sc->lengthCounter -= 1;
+		else if (sc->lengthCounter != UNLIMITED_LENGTH) {
+			sc->lengthCounter -= 1;
+		}
 
 		if (sc->periodCounter != 0) {
 			sc->periodCounter -= 1;
