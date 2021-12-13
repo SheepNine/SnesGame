@@ -126,6 +126,10 @@ typedef struct RenderSingleBrushContext {
 
 Uint8 renderSingleBrush(hRENDER render, Uint8 actorIndex, Sint32 screenX, Sint32 screenY, void* rawContext) {
 	RenderSingleBrushContext* context = rawContext;
+	if (screenX - context->centerX < -7 || screenY - context->centerY < -7 ||
+		screenX - context->centerX > 248 || screenY - context->centerY > 248) {
+		return actorIndex;
+	}
 	showActor(render, actorIndex, screenX - context->centerX, screenY - context->centerY, context->sizeX, context->sizeY, context->layer);
 	setActorStroke(render, actorIndex, context->brushIndex, context->bankIndex, context->paletteIndex, context->hFlip, context->vFlip, context->mask0);
 	SDL_free(rawContext);
