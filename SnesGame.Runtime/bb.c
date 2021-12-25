@@ -96,11 +96,11 @@ void blit_BB(hBB bb, SDL_Surface* surface) {
 						g = ((*yGPrev) * 2 + (*yG) * 1) / 3;
 						b = ((*yBPrev) * 2 + (*yB) * 1) / 3;
 					}
-					if (v == 1) {
-						*(writPtr++) = (r << 16) | (g << 8) | b;
+					if (v == 2) {
+						*(writPtr++) = ((r >> 1) << 16) | ((g >> 1) << 8) | (b >> 1);
 					}
 					else {
-						*(writPtr++) = ((r >> 1) << 16) | ((g >> 1) << 8) | (b >> 1);
+						*(writPtr++) = (r << 16) | (g << 8) | b;
 					}
 				}
 				dest += surface->pitch / 4;
@@ -163,11 +163,11 @@ void blit_BB(hBB bb, SDL_Surface* surface) {
 						g = ((*yGPrev) * 2 + (*yG) * 1) / 3;
 						b = ((*yBPrev) * 2 + (*yB) * 1) / 3;
 					}
-					if (v == 1 || v == 2) {
-						*(writPtr++) = (r << 16) | (g << 8) | b;
+					if (v == 3) {
+						*(writPtr++) = ((r >> 1) << 16) | ((g >> 1) << 8) | (b >> 1);
 					}
 					else {
-						*(writPtr++) = ((r >> 1) << 16) | ((g >> 1) << 8) | (b >> 1);
+						*(writPtr++) = (r << 16) | (g << 8) | b;
 					}
 				}
 				dest += surface->pitch / 4;
