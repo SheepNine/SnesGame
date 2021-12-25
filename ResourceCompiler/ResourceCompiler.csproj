@@ -36,6 +36,7 @@
     <Compile Include="Glyph.cs" />
     <Compile Include="GlyphCompiler.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="StageBrushlistArranger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
