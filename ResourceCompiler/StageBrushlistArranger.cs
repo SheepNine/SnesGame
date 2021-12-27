@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 
 namespace ResourceCompiler
 {
     class StageBrushlistArranger
     {
-        private static void Arrange()
+        public static void Arrange(string inputFile)
         {
-            using (var sourceImage = (Bitmap)Bitmap.FromFile(@"C:\Users\marsh\Desktop\Sample.png"))
+            using (var sourceImage = (Bitmap)Bitmap.FromFile(inputFile))
             using (var floor = new Bitmap(64, 32))
             using (var destImage = new Bitmap(128, 129))
             {
@@ -16,7 +17,7 @@ namespace ResourceCompiler
                 ClearImage(destImage, Color.CornflowerBlue);
 
                 StripeFloor(sourceImage, floor, 0, 0, 0, 0);
-                ConstructFloorTiles(floor, destImage, 32, 0);
+                ConstructFloorTiles(floor, destImage, 16, 0);
 
 
                 for (var i = 0; i < 48; i++)
@@ -38,7 +39,7 @@ namespace ResourceCompiler
                     g.DrawImage(floor, 48, 88, new Rectangle(48, 8, 16, 8), GraphicsUnit.Pixel);
                 }
 
-                destImage.Save(@"C:\Users\marsh\Desktop\SampleOut.png", ImageFormat.Png);
+                destImage.Save(Path.ChangeExtension(inputFile, "out.png"), ImageFormat.Png);
             }
         }
 
