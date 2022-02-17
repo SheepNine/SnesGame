@@ -226,7 +226,7 @@ SDL_bool _isActorVisible_PPU(Uint8* control) {
 }
 
 Uint8 _unpackActorLayerIndex_PPU(Uint8* control) {
-	return (control[2] & 0x3) >> 4;
+	return (control[2] & 0x30) >> 4;
 }
 
 
