@@ -96,7 +96,6 @@ void AnAudioCallback(void* __1, Uint8* stream, int __2) {
 extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFunc, pRenderCallback renderFunc, pDeinitCallback deinitFunc, SDL_RWops* recordStream, SDL_RWops* playbackStream) {
 	int result = 0;
 	bb = creat_BB();
-	fill_BB(bb, 128, 128, 128);
 	romMapper = creat_Mapper(1);
 	ppu = creat_PPU(romMapper);
 	for (int i = 0; i < 8; i++)
@@ -188,9 +187,15 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 							SDL_LogSetPriority(SDL_LOG_CATEGORY_CUSTOM, SDL_LOG_PRIORITY_WARN);
 						}
 					}
-					else if (event.key.keysym.sym == SDLK_F2) {
-						toggleCrtMode_BB(bb);
-					}
+					else if (event.key.keysym.sym == SDLK_F1) { debugToggleBackdrop_PPU(ppu, 0); }
+					else if (event.key.keysym.sym == SDLK_F2) { debugToggleBackdrop_PPU(ppu, 1); }
+					else if (event.key.keysym.sym == SDLK_F3) { debugToggleBackdrop_PPU(ppu, 2); }
+					else if (event.key.keysym.sym == SDLK_F4) { debugToggleBackdrop_PPU(ppu, 3); }
+					else if (event.key.keysym.sym == SDLK_F5) { debugToggleActor_PPU(ppu, 0); }
+					else if (event.key.keysym.sym == SDLK_F6) { debugToggleActor_PPU(ppu, 1); }
+					else if (event.key.keysym.sym == SDLK_F7) { debugToggleActor_PPU(ppu, 2); }
+					else if (event.key.keysym.sym == SDLK_F8) { debugToggleActor_PPU(ppu, 3); }
+					else if (event.key.keysym.sym == SDLK_F9) { toggleCrtMode_BB(bb); }
 					else {
 						handleKeyDown_KD(kd, &event.key);
 					}
@@ -229,6 +234,7 @@ extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateFu
 						destr_RENDER(render);
 					}
 					hPerf perf = creat_Perf(SDL_LOG_CATEGORY_CUSTOM);
+					fill_BB(bb, 0x9B, 0x6A, 0x12);
 					scan_PPU(ppu, bb);
 					logInterval_Perf(perf, "Scan");
 					SDL_Surface* surface = SDL_GetWindowSurface(window);

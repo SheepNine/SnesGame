@@ -13,6 +13,9 @@ struct PPU {
 	Uint8 actorControls[372];
 
 	Uint8 layerClips[16];
+
+	SDL_bool debugBackdropEnable[4];
+	SDL_bool debugActorEnable[4];
 } PPU;
 
 hPPU creat_PPU(hMapper romMapper) {
@@ -25,11 +28,23 @@ hPPU creat_PPU(hMapper romMapper) {
 	SDL_memset(result->actorStrokes, 0, 248);
 	SDL_memset(result->actorControls, 0, 372);
 	SDL_memset(result->layerClips, 0, 16);
+	for (int i = 0; i < 4; i++) {
+		result->debugBackdropEnable[i] = SDL_TRUE;
+		result->debugActorEnable[i] = SDL_TRUE;
+	}
 	return result;
 }
 
 void destr_PPU(hPPU ppu) {
 	SDL_free(ppu);
+}
+
+void debugToggleBackdrop_PPU(hPPU ppu, Uint8 layerIndex) {
+	ppu->debugBackdropEnable[layerIndex] = (ppu->debugBackdropEnable[layerIndex] == SDL_TRUE) ? SDL_FALSE : SDL_TRUE;
+}
+
+void debugToggleActor_PPU(hPPU ppu, Uint8 layerIndex) {
+	ppu->debugActorEnable[layerIndex] = (ppu->debugActorEnable[layerIndex] == SDL_TRUE) ? SDL_FALSE : SDL_TRUE;
 }
 
 void switchBackdropBrushList_PPU(hPPU ppu, Uint8 bankIndex, Uint16 brushListIndex) {
@@ -320,9 +335,12 @@ void _scan_PPU(hPPU ppu, hSL sl) {
 		setClip_BBC(vClip, clips[2], clips[3]);
 		if (!isClipped_BBC(vClip, getLine_SL(sl))) {
 			setClip_SL(sl, clips[0], clips[1]);
-			_scanBackdrop_PPU(ppu, layer, sl, SDL_FALSE);
-			_scanActors_PPU(ppu, layer, sl);
-			_scanBackdrop_PPU(ppu, layer, sl, SDL_TRUE);
+			if (ppu->debugBackdropEnable[layer] == SDL_TRUE)
+				_scanBackdrop_PPU(ppu, layer, sl, SDL_FALSE);
+			if (ppu->debugActorEnable[layer] == SDL_TRUE)
+				_scanActors_PPU(ppu, layer, sl);
+			if (ppu->debugBackdropEnable[layer] == SDL_TRUE)
+				_scanBackdrop_PPU(ppu, layer, sl, SDL_TRUE);
 		}
 		clips += 4;
 	}

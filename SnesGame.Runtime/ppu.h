@@ -8,6 +8,9 @@ typedef struct PPU* hPPU;
 hPPU creat_PPU(hMapper romMapper);
 void destr_PPU(hPPU ppu);
 
+void debugToggleBackdrop_PPU(hPPU ppu, Uint8 layerIndex);
+void debugToggleActor_PPU(hPPU ppu, Uint8 layerIndex);
+
 void switchBackdropBrushList_PPU(hPPU ppu, Uint8 bankIndex, Uint16 brushListIndex);
 void setBackdropPaletteColor_PPU(hPPU ppu, Uint8 paletteIndex, Uint8 colorIndex, Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
 void setBackdropPalette_PPU(hPPU ppu, Uint8 paletteIndex, Uint8* data);
