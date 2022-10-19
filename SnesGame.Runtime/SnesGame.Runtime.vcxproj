@@ -160,7 +160,6 @@
     <ClCompile Include="dr.c" />
     <ClCompile Include="render.c" />
     <ClCompile Include="sc.c" />
-    <ClCompile Include="sw.c" />
     <ClCompile Include="update.c" />
   </ItemGroup>
   <ItemGroup>
@@ -182,7 +181,6 @@
     <ClInclude Include="dr.h" />
     <ClInclude Include="render.h" />
     <ClInclude Include="sc.h" />
-    <ClInclude Include="sw.h" />
     <ClInclude Include="update.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
