@@ -98,7 +98,7 @@ Sint16 getNextSample_SW(hSW sw) {
 }
 
 SDL_bool isSilent_SW(hSW sw) {
-	return sw->output == 0;
+	return sw->output == 0 ? SDL_TRUE : SDL_FALSE;
 }
 
 // -------------------- SC.c
@@ -108,14 +108,14 @@ SDL_bool isSilent_SW(hSW sw) {
 struct SC {
 	Uint8 volumeLow;
 	Uint8 volumeHigh;
-	enum ShiftDir volumeShift;
-	enum EdgeBehaviour volumeEB;
+	ShiftDir volumeShift;
+	EdgeBehaviour volumeEB;
 	Uint8 volumeShiftSpeed;
 	Uint16 periodLow;
 	Uint16 periodHigh;
-	enum ShiftDir periodShift;
+	ShiftDir periodShift;
 	Uint8 periodShiftSpeed;
-	enum EdgeBehaviour periodEB;
+	EdgeBehaviour periodEB;
 
 	Uint32 lengthCounter;
 	Uint16 periodCounter;
@@ -253,7 +253,7 @@ void setupNextVolume(hSC sc) {
 			}
 			else if (sc->volumeEB == EB_SILENCE) {
 				sc->volumeCurr = 0;
-				sc->volumeShift = 0;
+				sc->volumeShift = SD_NONE;
 			}
 			else if (sc->volumeEB == EB_STEADY) {
 				sc->volumeLow = sc->volumeCurr;
