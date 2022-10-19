@@ -63,6 +63,8 @@ struct SW {
 
 hSW creat_SW() {
 	hSW result = (hSW)SDL_malloc(sizeof(SW));
+	if (result == NULL) return NULL;
+
 	halt_SW(result);
 	return result;
 }
@@ -134,6 +136,8 @@ struct SC {
 
 hSC creat_SC() {
 	hSC result = (hSC)SDL_malloc(sizeof(SC));
+	if (result == NULL) return NULL;
+
 	result->lengthCounter = UNLIMITED_LENGTH;
 	result->volumeCurr = 0;
 	result->periodCounter = 0;
