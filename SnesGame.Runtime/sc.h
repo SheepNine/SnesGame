@@ -1,6 +1,6 @@
 #pragma once
 #include "SDL.h"
-#include "api/snes_runtime.h"
+#include "api/snes_runtime_enums.h"
 
 #ifndef INTEROP_EXTERN
 #define INTEROP_EXTERN

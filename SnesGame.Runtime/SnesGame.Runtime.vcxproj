@@ -168,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api\snes_runtime.h" />
+    <ClInclude Include="api\snes_runtime_enums.h" />
     <ClInclude Include="bb.h" />
     <ClInclude Include="gamepad.h" />
     <ClInclude Include="init.h" />

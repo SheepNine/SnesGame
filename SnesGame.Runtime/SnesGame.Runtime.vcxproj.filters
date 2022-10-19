@@ -119,5 +119,8 @@
     <ClInclude Include="rand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="api\snes_runtime_enums.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
