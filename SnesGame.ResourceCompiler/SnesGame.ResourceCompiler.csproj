@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <OutputPath>..\artifacts\$(MSBuildProjectName)\bin\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\artifacts\$(MSBuildProjectName)\bin\$(Configuration)\</IntermediateOutputPath>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <Platforms>x86;x64</Platforms>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SnesGame.CLR\SnesGame.CLR.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="UnaryHeap.Mosaic">
+      <HintPath>..\dependencies\UnaryHeap\UnaryHeap.Mosaic.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

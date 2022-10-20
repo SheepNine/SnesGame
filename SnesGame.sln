@@ -30,6 +30,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnesGame.DevKit", "SnesGame
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnesGame.CLR", "SnesGame.CLR\SnesGame.CLR.csproj", "{721AD6B2-B9DF-4E60-A01F-FEBC7E517A5C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnesGame.ResourceCompiler", "SnesGame.ResourceCompiler\SnesGame.ResourceCompiler.csproj", "{40076AC9-2D47-4978-A304-A9F4C53A738B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -86,6 +88,14 @@ Global
 		{721AD6B2-B9DF-4E60-A01F-FEBC7E517A5C}.Release|x64.Build.0 = Release|x64
 		{721AD6B2-B9DF-4E60-A01F-FEBC7E517A5C}.Release|x86.ActiveCfg = Release|x86
 		{721AD6B2-B9DF-4E60-A01F-FEBC7E517A5C}.Release|x86.Build.0 = Release|x86
+		{40076AC9-2D47-4978-A304-A9F4C53A738B}.Debug|x64.ActiveCfg = Debug|x64
+		{40076AC9-2D47-4978-A304-A9F4C53A738B}.Debug|x64.Build.0 = Debug|x64
+		{40076AC9-2D47-4978-A304-A9F4C53A738B}.Debug|x86.ActiveCfg = Debug|x86
+		{40076AC9-2D47-4978-A304-A9F4C53A738B}.Debug|x86.Build.0 = Debug|x86
+		{40076AC9-2D47-4978-A304-A9F4C53A738B}.Release|x64.ActiveCfg = Release|x64
+		{40076AC9-2D47-4978-A304-A9F4C53A738B}.Release|x64.Build.0 = Release|x64
+		{40076AC9-2D47-4978-A304-A9F4C53A738B}.Release|x86.ActiveCfg = Release|x86
+		{40076AC9-2D47-4978-A304-A9F4C53A738B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
