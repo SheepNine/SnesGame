@@ -1,0 +1,1470 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UnaryHeap.DataType</name>
+    </assembly>
+    <members>
+        <member name="T:UnaryHeap.DataType.IAffineMapper1D">
+            <summary>
+            Intermediate builder object for a one-dimensional affine mapping.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.IAffineMapper1D.Onto(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Specifies the coordinates of the points to be mapped in the destination
+            coordinate system.
+            </summary>
+            <param name="dst1">The output coordinates of the first point.</param>
+            <param name="dst2">The output coordinates of the second point.</param>
+            <returns>A Matrix2D that will send src1 to dst1 and src2 to dst2.</returns>
+            <exception cref="T:System.ArgumentNullException">dst1 or dst2 are null.</exception>
+        </member>
+        <member name="T:UnaryHeap.DataType.IAffineMapper2D">
+            <summary>
+            Intermediate builder object for a two-dimensional affine mapping.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.IAffineMapper2D.Onto(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Specifies the coordinates of the points to be mapped in the destination
+            coordinate system.
+            </summary>
+            <param name="dst1">The output coordinates of the first point.</param>
+            <param name="dst2">The output coordinates of the second point.</param>
+            <param name="dst3">The output coordinates of the second point.</param>
+            <returns>A Matrix2D that will send src1 to dst1,
+            src2 to dst2 and src3 to dst3.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            dst1, dst2 or dst3 are null.</exception>
+        </member>
+        <member name="T:UnaryHeap.DataType.AffineMapping">
+            <summary>
+            Utility class for computing linear maps from one coordinate system to another.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.AffineMapping.From(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Specifies the coordinates of the points to be mapped in the source
+            coordinate system.
+            </summary>
+            <param name="src1">The output coordinates of the first point.</param>
+            <param name="src2">The output coordinates of the second point.</param>
+            <returns>An IAffineMapper1D object that is used to specify the coordinates
+            of the input points in the destination coordinate system..</returns>
+            <exception cref="T:System.ArgumentNullException">dst1 or dst2 are null.</exception>
+            <exception cref="T:System.ArgumentException">The input points are
+            linearly dependent.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.AffineMapping.From(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Specifies the coordinates of the points to be mapped in the source
+            coordinate system.
+            </summary>
+            <param name="src1">The output coordinates of the first point.</param>
+            <param name="src2">The output coordinates of the second point.</param>
+            <param name="src3">The output coordinates of the third point.</param>
+            <returns>An IAffineMapper2D object that is used to specify the coordinates
+            of the input points in the destination coordinate system..</returns>
+            <exception cref="T:System.ArgumentNullException">
+            dst1, dst2 or dst3 are null.</exception>
+            <exception cref="T:System.ArgumentException">The input points are
+            linearly dependent.</exception>
+        </member>
+        <member name="T:UnaryHeap.DataType.Circle2D">
+            <summary>
+            Represents a rational circle.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Circle2D.#ctor(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Initializes a new instance of the Circle2D class with a zero quadrance.
+            </summary>
+            <param name="center">The center of the circle.</param>
+        </member>
+        <member name="M:UnaryHeap.DataType.Circle2D.#ctor(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initializes a new instance of the Circle2D class with a zero quadrance.
+            </summary>
+            <param name="center">The center of the circle.</param>
+            <param name="quadrance">The quadrance of the circle.</param>
+        </member>
+        <member name="M:UnaryHeap.DataType.Circle2D.Circumcircle(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Computes the circle containing a given triple of points.
+            </summary>
+            <param name="a">The first point.</param>
+            <param name="b">The second point.</param>
+            <param name="c">The third point.</param>
+            <returns>The circle containing all three points,
+            or null, if the points ar colinear.</returns>
+            <exception cref="T:System.ArgumentNullException">a, b, or c are null.</exception>
+        </member>
+        <member name="P:UnaryHeap.DataType.Circle2D.Center">
+            <summary>
+            Gets the center of this Circle2D.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Circle2D.Quadrance">
+            <summary>
+            Gets the quadrance of this Circle2D.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.DataType.Hyperplane2D">
+            <summary>
+            Represents a hyperplane in two-dimensional space (i.e. a line).
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Hyperplane2D.A">
+            <summary>
+            The line's X coefficient.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Hyperplane2D.B">
+            <summary>
+            The line's Y coefficient.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Hyperplane2D.C">
+            <summary>
+            The line's constant term.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane2D.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initializes a new instance of the Hyperplane2D class.
+            </summary>
+            <param name="a">The X coefficient of the line.</param>
+            <param name="b">The Y coefficient of the line.</param>
+            <param name="c">The constant term of the line.</param>
+            <exception cref="T:System.ArgumentNullException">a, b, or c are null.</exception>
+            <exception cref="T:System.ArgumentException">a and b are both equal to zero.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane2D.#ctor(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Initializes a new instance of the Hyperplane2D class from two points.
+            </summary>
+            <param name="p1">The first point of the line.</param>
+            <param name="p2">The second point of the line.</param>
+            <remarks>If p1 is (0,0) and p2 is (1, 0), then the 'front' halfspace
+            of the resulting Hyperplane2D will be the +Y space. This is by analogy to
+            the 3D case, where (0,0,0), (1,0,0), (0,1,0) would yield +Z as the front
+            halfspace.</remarks>
+            <exception cref="T:System.ArgumentNullException">p1 or p2 are null.</exception>
+            <exception cref="T:System.ArgumentException">p1 equals p2.</exception>
+        </member>
+        <member name="P:UnaryHeap.DataType.Hyperplane2D.Coplane">
+            <summary>
+            Gets a copy of the current Hyperplane2D, with the front and half
+            halfspaces swapped.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane2D.DetermineHalfspaceOf(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Determines where the given point lies in relation to this Hyperplane2D.
+            </summary>
+            <param name="p">The point to classify.</param>
+            <returns>A positive value, if p is in the front halfspace of this Hyperplane2D.
+            A negative value, if p is in the back halfspace of this Hyperplane2D.
+            Zero, if p is incident to this Hyperplane2D.</returns>
+            <exception cref="T:System.ArgumentNullException">p is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane2D.FindIntersection(UnaryHeap.DataType.Hyperplane2D)">
+            <summary>
+            Determines the point at which two Hyperplane2Ds intersect.
+            </summary>
+            <param name="other">The plane to intersect with this plane.</param>
+            <returns>The point of intersection, or null if there is not a unique
+            intersection point (Hyperplanes are coincident or parallel).</returns>
+            <exception cref="T:System.ArgumentNullException">other is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane2D.Quadrance(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Computes the squared distance of a Point2D and the current Hyperplane2D
+            instance.
+            </summary>
+            <param name="p">The point for which to compute the quadrance.</param>
+            <returns>The squared distance between p and the closest point to p on
+            the current Hyperplane2D instance.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane2D.Equals(UnaryHeap.DataType.Hyperplane2D)">
+            <summary>
+            Indicates whether the current Hyperplane2D is equal to another Hyperplane2D.
+            </summary>
+            <param name="other">The Hyperplane to compare with this Hyperplane.</param>
+            <returns>true if the current Hyperplane is equal to the other parameter;
+            otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane2D.Equals(System.Object)">
+            <summary>
+            Indicates whether the current Hyperplane2D is equal to another object.
+            </summary>
+            <param name="obj">The object to compare with this Hyperplane.</param>
+            <returns>true if the current Hyperplane is equal to the obj parameter;
+            otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane2D.GetHashCode">
+            <summary>
+            Serves as a hash function for the Hyperplane2D type.
+            </summary>
+            <returns>A hash code for the current Hyperplane2D object.</returns>
+        </member>
+        <member name="T:UnaryHeap.DataType.ILinearMapper2D">
+            <summary>
+            Intermediate builder object for a two-dimensional linear mapping.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.ILinearMapper2D.Onto(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Specifies the coordinates of the points to be mapped in the destination
+            coordinate system.
+            </summary>
+            <param name="dst1">The output coordinates of the first point.</param>
+            <param name="dst2">The output coordinates of the second point.</param>
+            <returns>A Matrix2D that will send src1 to dst1 and src2 to dst2.</returns>
+            <exception cref="T:System.ArgumentNullException">dst1 or dst2 are null.</exception>
+        </member>
+        <member name="T:UnaryHeap.DataType.ILinearMapper3D">
+            <summary>
+            Intermediate builder object for a three-dimensional linear mapping.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.ILinearMapper3D.Onto(UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D)">
+            <summary>
+            Specifies the coordinates of the points to be mapped in the destination
+            coordinate system.
+            </summary>
+            <param name="dst1">The output coordinates of the first point.</param>
+            <param name="dst2">The output coordinates of the second point.</param>
+            <param name="dst3">The output coordinates of the third point.</param>
+            <returns>A Matrix2D that will send src1 to dst1,
+            src2 to dst2 and src3 to dst3.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            dst1, dst2, or dst3 are null.</exception>
+        </member>
+        <member name="T:UnaryHeap.DataType.LinearMapping">
+            <summary>
+            Utility class for computing linear maps from one coordinate system to another.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.LinearMapping.From(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Specifies the coordinates of the points to be mapped in the source
+            coordinate system.
+            </summary>
+            <param name="src1">The output coordinates of the first point.</param>
+            <param name="src2">The output coordinates of the second point.</param>
+            <returns>An ILinearMapper2D object that is used to specify the coordinates
+            of the input points in the destination coordinate system..</returns>
+            <exception cref="T:System.ArgumentNullException">dst1 or dst2 are null.</exception>
+            <exception cref="T:System.ArgumentException">The input points are
+            linearly dependent.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.LinearMapping.From(UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D)">
+            <summary>
+            Specifies the coordinates of the points to be mapped in the source
+            coordinate system.
+            </summary>
+            <param name="src1">The output coordinates of the first point.</param>
+            <param name="src2">The output coordinates of the second point.</param>
+            <param name="src3">The output coordinates of the second point.</param>
+            <returns>An ILinearMapper3D object that is used to specify the coordinates
+            of the input points in the destination coordinate system..</returns>
+            <exception cref="T:System.ArgumentNullException">
+            dst1, dst2 or dst3 are null.</exception>
+            <exception cref="T:System.ArgumentException">The input points are
+            linearly dependent.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix.SubtractRow(System.Int32,UnaryHeap.DataType.Rational[],UnaryHeap.DataType.Rational[])">
+            <summary>
+            left -= right;
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix.SubtractRow(System.Int32,UnaryHeap.DataType.Rational[],UnaryHeap.DataType.Rational[],UnaryHeap.DataType.Rational)">
+            <summary>
+            left -= c * right;
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.DataType.Matrix2D">
+            <summary>
+            Represents a two-dimensional matrix.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.DataType.Matrix2D.Identity">
+            <summary>
+            Returns the two-dimensional identity matrix.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.DataType.Matrix2D.XReflection">
+            <summary>
+            Returns the two-dimensional matrix that inverts the Y-coordinate of input points.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.DataType.Matrix2D.YReflection">
+            <summary>
+            Returns the two-dimensional matrix that inverts the X-coordinate of input points.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix2D.XShear(UnaryHeap.DataType.Rational)">
+            <summary>
+            Produces a two-dimensional matrix that shears the X-coordinate of input points.
+            </summary>
+            <param name="factor">
+            The multiplicative factor applied to the point's Y-coordinate.</param>
+            <returns>A two-dimensional matrix that shears the X-coordinate
+            of input points.</returns>
+            <exception cref="T:System.ArgumentNullException">factor is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix2D.YShear(UnaryHeap.DataType.Rational)">
+            <summary>
+            Produces a two-dimensional matrix that shears the Y-coordinate of input points.
+            </summary>
+            <param name="factor">
+            The multiplicative factor applied to the point's X-coordinate.</param>
+            <returns>A two-dimensional matrix that shears the Y-coordinate
+            of input points.</returns>
+            <exception cref="T:System.ArgumentNullException">factor is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix2D.Scale(UnaryHeap.DataType.Rational)">
+            <summary>
+            Produces a two-dimensional matrix that scales the coordinates of input points
+            by a constant factor.
+            </summary>
+            <param name="factor">The constant factor applied to the
+            coordinates of input points.</param>
+            <returns>A two-dimensional matrix that scales the coordinates of input points
+            by a constant factor.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix2D.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initializes a new instance of the Matrix2D class.
+            </summary>
+            <param name="elem00">The coefficient in the first row
+            and first column of the matrix.</param>
+            <param name="elem01">The coefficient in the first row
+            and second column of the matrix.</param>
+            <param name="elem10">The coefficient in the second row
+            and first column of the matrix.</param>
+            <param name="elem11">The coefficient in the second row
+            and second column of the matrix.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Any of elem00, elem01, elem10 or elem11 are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix2D.op_Multiply(UnaryHeap.DataType.Matrix2D,UnaryHeap.DataType.Matrix2D)">
+            <summary>
+            Computes the product of two matrices.
+            </summary>
+            <param name="left">The 'left' matrix of the computation.</param>
+            <param name="right">The 'right' matrix of the computation.</param>
+            <returns>A Matrix2D whose coefficients are computed by taking the dot products
+            of rows from left and columns from right.</returns>
+            <exception cref="T:System.ArgumentNullException">left or right are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix2D.Multiply(UnaryHeap.DataType.Matrix2D,UnaryHeap.DataType.Matrix2D)">
+            <summary>
+            Computes the product of two matrices.
+            </summary>
+            <param name="left">The 'left' matrix of the computation.</param>
+            <param name="right">The 'right' matrix of the computation.</param>
+            <returns>A Matrix2D whose coefficients are computed by taking the dot products
+            of rows from left and columns from right.</returns>
+            <exception cref="T:System.ArgumentNullException">left or right are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix2D.op_Multiply(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Matrix2D)">
+            <summary>
+            Computes the scalar multiple of a matrix.
+            </summary>
+            <param name="c">The scalar multiple.</param>
+            <param name="m">The matrix.</param>
+            <returns>A Matrix2D whose coefficients are the product of the elemtns of
+            m and the scalar c.</returns>
+            <exception cref="T:System.ArgumentNullException">c or m are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix2D.Scale(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Matrix2D)">
+            <summary>
+            Computes the scalar multiple of a matrix.
+            </summary>
+            <param name="c">The scalar multiple.</param>
+            <param name="m">The matrix.</param>
+            <returns>A Matrix2D whose coefficients are the product of the elemtns of
+            m and the scalar c.</returns>
+            <exception cref="T:System.ArgumentNullException">c or m are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix2D.op_Multiply(UnaryHeap.DataType.Matrix2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Computes the linear transformation of a point.
+            </summary>
+            <param name="m">The matrix corresponding to the transformation.</param>
+            <param name="p">The point to transform.</param>
+            <returns>A Point2D whose coefficients are the dot product of p and
+            rows of m.</returns>
+            <exception cref="T:System.ArgumentNullException">m or p are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix2D.Transform(UnaryHeap.DataType.Matrix2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Computes the linear transformation of a point.
+            </summary>
+            <param name="m">The matrix corresponding to the transformation.</param>
+            <param name="p">The point to transform.</param>
+            <returns>A Point2D whose coefficients are the dot product of p and
+            rows of m.</returns>
+            <exception cref="T:System.ArgumentNullException">m or p are null.</exception>
+        </member>
+        <member name="P:UnaryHeap.DataType.Matrix2D.Item(System.Int32,System.Int32)">
+            <summary>
+            Gets a coefficient in the matrix.
+            </summary>
+            <param name="row">The row of the coefficient to retrieve.</param>
+            <param name="col">The column of the coefficient to retrieve.</param>
+            <returns>The coefficient at the specified row and column.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">row or col are less than zero
+            or greater than one.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix2D.ComputeInverse">
+            <summary>
+            Computes the inverse of this Matrix2D.
+            </summary>
+            <returns>The Matrix2D that, when multiplied by this Matrix2D, yields the
+            Matrix2D.Identity.</returns>
+            <exception cref="T:System.InvalidOperationException">This matrix is singular
+            (i.e. its determinant is zero).</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix2D.ToString">
+            <summary>
+            Returns a string that represents the current object.
+            </summary>
+            <returns>A string that represents the current object.</returns>
+        </member>
+        <member name="T:UnaryHeap.DataType.Matrix3D">
+            <summary>
+            Represents a three-dimensional matrix.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.DataType.Matrix3D.Identity">
+            <summary>
+            Returns the two-dimensional identity matrix.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix3D.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initializes a new instance of the Matrix3D class
+            </summary>
+            <param name="elem00">The coefficient in the first row and first column</param>
+            <param name="elem01">The coefficient in the first row and second column</param>
+            <param name="elem02">The coefficient in the first row and third column</param>
+            <param name="elem10">The coefficient in the second row and first column</param>
+            <param name="elem11">The coefficient in the second row and second column</param>
+            <param name="elem12">The coefficient in the second row and third column</param>
+            <param name="elem20">The coefficient in the third row and first column</param>
+            <param name="elem21">The coefficient in the third row and second column</param>
+            <param name="elem22">The coefficient in the third row and third column</param>
+            <exception cref="T:System.ArgumentNullException">
+            Any of the parameters are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix3D.op_Multiply(UnaryHeap.DataType.Matrix3D,UnaryHeap.DataType.Matrix3D)">
+            <summary>
+            Computes the product of two matrices.
+            </summary>
+            <param name="left">The 'left' matrix of the computation.</param>
+            <param name="right">The 'right' matrix of the computation.</param>
+            <returns>A Matrix3D whose coefficients are computed by taking the dot products
+            of rows from left and columns from right.</returns>
+            <exception cref="T:System.ArgumentNullException">left or right are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix3D.Multiply(UnaryHeap.DataType.Matrix3D,UnaryHeap.DataType.Matrix3D)">
+            <summary>
+            Computes the product of two matrices.
+            </summary>
+            <param name="left">The 'left' matrix of the computation.</param>
+            <param name="right">The 'right' matrix of the computation.</param>
+            <returns>A Matrix3D whose coefficients are computed by taking the dot products
+            of rows from left and columns from right.</returns>
+            <exception cref="T:System.ArgumentNullException">left or right are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix3D.op_Multiply(UnaryHeap.DataType.Matrix3D,UnaryHeap.DataType.Point3D)">
+            <summary>
+            Computes the linear transformation of a point.
+            </summary>
+            <param name="m">The matrix corresponding to the transformation.</param>
+            <param name="p">The point to transform.</param>
+            <returns>A Point3D whose coefficients are the dot product of p and
+            rows of m.</returns>
+            <exception cref="T:System.ArgumentNullException">m or p are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix3D.Transform(UnaryHeap.DataType.Matrix3D,UnaryHeap.DataType.Point3D)">
+            <summary>
+            Computes the linear transformation of a point.
+            </summary>
+            <param name="m">The matrix corresponding to the transformation.</param>
+            <param name="p">The point to transform.</param>
+            <returns>A Point3D whose coefficients are the dot product of p and
+            rows of m.</returns>
+            <exception cref="T:System.ArgumentNullException">m or p are null.</exception>
+        </member>
+        <member name="P:UnaryHeap.DataType.Matrix3D.Item(System.Int32,System.Int32)">
+            <summary>
+            Gets a coefficient in the matrix.
+            </summary>
+            <param name="row">The row of the coefficient to retrieve.</param>
+            <param name="col">The column of the coefficient to retrieve.</param>
+            <returns>The coefficient at the specified row and column.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">row or col are less than zero
+            or greater than two.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix3D.ComputeInverse">
+            <summary>
+            Computes the inverse of this Matrix3D.
+            </summary>
+            <returns>The Matrix3D that, when multiplied by this Matrix3D, yields the
+            Matrix3D.Identity.</returns>
+            <exception cref="T:System.InvalidOperationException">This matrix is singular
+            (i.e. its determinant is zero).</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix3D.ToString">
+            <summary>
+            Returns a string that represents the current object.
+            </summary>
+            <returns>A string that represents the current object.</returns>
+        </member>
+        <member name="T:UnaryHeap.DataType.Orthotope2D">
+            <summary>
+            Represents a two-dimensional closed interval; ie, a rectangle.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope2D.#ctor(UnaryHeap.DataType.Range,UnaryHeap.DataType.Range)">
+            <summary>
+            Intializes a new instance of the Orthotope2D class.
+            </summary>
+            <param name="x">The x-interval of the new instance.</param>
+            <param name="y">The x-interval of the new instance.</param>
+            <exception cref="T:System.ArgumentNullException">x or y are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope2D.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Intializes a new instance of the Orthotope2D class.
+            </summary>
+            <param name="minX">The smallest value in the x interval.</param>
+            <param name="minY">The smallest value in the y interval.</param>
+            <param name="maxX">The largest value in the x interval.</param>
+            <param name="maxY">The largest value in the y interval.</param>
+            <exception cref="T:System.ArgumentNullException">
+            minX, minY, maxX or maxY are null.</exception>
+            <exception cref="T:System.ArgumentException">
+            minX is greater than maxX, or minY is greater than maxY.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope2D.FromPoints(System.Collections.Generic.IEnumerable{UnaryHeap.DataType.Point2D})">
+            <summary>
+            Initializes a new instance of the Orthotope2D class as the bounding box
+            of a set of points.
+            </summary>
+            <param name="points">The points from which to compute the bounding box.</param>
+            <returns>A new Orthotope2D object with the smallest range containing
+            all of the input points.</returns>
+            <exception cref="T:System.ArgumentNullException">points is null.</exception>
+            <exception cref="T:System.ArgumentException">
+            points is empty, or contains a null value.</exception>
+        </member>
+        <member name="P:UnaryHeap.DataType.Orthotope2D.X">
+            <summary>
+            Gets the x-axis interval.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Orthotope2D.Y">
+            <summary>
+            Gets the y-axis interval.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Orthotope2D.Center">
+            <summary>
+            Gets the Point2D of the center of the current Orthotope2D.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope2D.Contains(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Determines whether the specified Point2D value lies within the
+            current Orthotope2D.
+            </summary>
+            <param name="value">The value to check for membership.</param>
+            <returns>True, if value.X lies within the X range and value.Y
+            lies within the Y range.</returns>
+            <exception cref="T:System.ArgumentNullException">value is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope2D.GetPadded(UnaryHeap.DataType.Rational)">
+            <summary>
+            Gets a new Orthotope2D object whose endpoints wre offset from the
+            current Orthotope2D instance.
+            </summary>
+            <param name="thickness">The amount by which to offset.</param>
+            <returns>A new Orthotope2D object with each axis padded by
+            the specified amount.</returns>
+            <exception cref="T:System.ArgumentNullException">thickness is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            thickness is negative and more than half of X.Size or Y.Size.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope2D.GetScaled(UnaryHeap.DataType.Rational)">
+            <summary>
+            Gets a new Orthotope2D object whose size is a multiple of the
+            current Orthotope2D instance.
+            </summary>
+            <param name="factor">The amount by which to scale.</param>
+            <returns>A new Orthotope2D object with each axis scaled by
+            the specified amount.</returns>
+            <exception cref="T:System.ArgumentNullException">factor is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            factor is negative.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope2D.CenteredAt(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Gets a new Orthotope2D object with the same area whose center
+            is equal to the center specified.
+            </summary>
+            <param name="center">The center of the new Orthotope2D.</param>
+            <returns>A new Orthotope2D object with the same area whose center
+            is equal to the center specified.</returns>
+            <exception cref="T:System.ArgumentNullException">center is null.
+            </exception>
+        </member>
+        <member name="T:UnaryHeap.DataType.Parabola">
+            <summary>
+            Represents a parabola in a two-dimensional coordinate system
+            with a vertical axis of symmetry.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Parabola.A">
+            <summary>
+            Gets the 2nd-order coefficient of this Parabola.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Parabola.B">
+            <summary>
+            Gets the 1st-order coefficient of this Parabola.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Parabola.C">
+            <summary>
+            Gets the 0th-order coefficient of this Parabola.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Parabola.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initializes a new instance of the Parabola class.
+            </summary>
+            <param name="a">The 2nd-order coefficient. This must be non-zero.</param>
+            <param name="b">The 1st-order coefficient.</param>
+            <param name="c">The 0th-order coefficient.</param>
+            <exception cref="T:System.ArgumentNullException">a, b, or c are null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">a is zero.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Parabola.FromFocusDirectrix(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initalizes a new instance of the Parabola class with the specified
+            focus and directrix.
+            </summary>
+            <param name="focus">The focus point.</param>
+            <param name="directrixY">The y-value of the horizontal directrix.</param>
+            <returns>A parabola with the specified focus and directrix.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            focus or directrix are null.</exception>
+            <exception cref="T:System.ArgumentException">
+            The focus Y coordinate is equal to directrixY.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Parabola.Difference(UnaryHeap.DataType.Parabola,UnaryHeap.DataType.Parabola)">
+            <summary>
+            Calculates the parabola formed by the difference between two other parabolas.
+            </summary>
+            <param name="left">The value to subtract from (the minuend).</param>
+            <param name="right">The value to subtract (the subtrahend).</param>
+            <returns>The result of subtracting right from left.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            left or right are null references.</exception>
+            <exception cref="T:System.ArgumentException">
+            Left and right have the same 2nd-order coefficient.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Parabola.Evaulate(UnaryHeap.DataType.Rational)">
+            <summary>
+            Calculates the Y-value of the parabola at the specified X value.
+            </summary>
+            <param name="x">The X value at which to evaluate the parabola.</param>
+            <returns>The Y-value of the parabola at the specified value.</returns>
+            <exception cref="T:System.ArgumentNullException">x is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Parabola.EvaluateDerivative(UnaryHeap.DataType.Rational)">
+            <summary>
+            Calculates the derivative of the parabola at the specified X value.
+            </summary>
+            <param name="x">The X value at which to evaluate the parabola's derivative.</param>
+            <returns>The derivative of the parabola at the specified value.</returns>
+            <exception cref="T:System.ArgumentNullException">x is null.</exception>
+        </member>
+        <member name="P:UnaryHeap.DataType.Parabola.Focus">
+            <summary>
+            Gets the focus of this Parabola.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Parabola.DirectrixY">
+            <summary>
+            Gets the Y-value of the (horizontal) directrix of this Parabola.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.DataType.Point2D">
+            <summary>
+            Represents a point in two-dimensional space.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2D.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initializes a new instance of the Point2D class.
+            </summary>
+            <param name="x">The x-coordinate of the new point.</param>
+            <param name="y">The y-coordinate of the new point.</param>
+            <exception cref="T:System.ArgumentNullException">x or y are null references.</exception>
+        </member>
+        <member name="P:UnaryHeap.DataType.Point2D.Origin">
+            <summary>
+            Gets a value that represents the point (0, 0).
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2D.Circumcenter(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Computes the circumcenter of a given triple of points.
+            </summary>
+            <param name="a">The first point.</param>
+            <param name="b">The second point.</param>
+            <param name="c">The third point.</param>
+            <returns>The circumcenter of a,b, and c, or null, if
+            the points are colinear.</returns>
+            <exception cref="T:System.ArgumentNullException">a, b, or c are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2D.GenerateRandomPoints(System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Generates a set of points randomly distributed in a square area.
+            </summary>
+            <param name="numPoints">The number of points to generate.</param>
+            <param name="seed">The random number seed, or null to use the default seed.</param>
+            <returns>A set of points randomly distributed in a square area.</returns>
+        </member>
+        <member name="P:UnaryHeap.DataType.Point2D.X">
+            <summary>
+            Gets the x-cooridante of the current Point2D object.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Point2D.Y">
+            <summary>
+            Gets the y-cooridante of the current Point2D object.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2D.Equals(System.Object)">
+            <summary>
+            Determines whether the specified System.Object object is equal to the current
+            Point2D object.
+            </summary>
+            <param name="obj">The object to compare.</param>
+            <returns>true if the obj parameter is a Point2D object or a type capable of implicit
+            conversion to a Point2D value, and its value is equal to the value of the current
+            Point2D object; otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2D.Equals(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Determines whether the specified Point2D object is equal to the current
+            Point2D object.
+            </summary>
+            <param name="other">The object to compare.</param>
+            <returns>true if the value of the obj parameter is equal to the value
+            of the current Point2D object; otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2D.GetHashCode">
+            <summary>
+            Serves as a hash function for the Point2D type.
+            </summary>
+            <returns>A hash code for the current Point2D object.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2D.Parse(System.String)">
+            <summary>
+            Converts the string representation of a numeric value to its equivalent
+            Point2D object.
+            </summary>
+            <param name="value">The value to be converted.</param>
+            <returns>A Point2D object with the current value.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            value is a null reference.</exception>
+            <exception cref="T:System.FormatException">
+            Input string is not in a correct format.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2D.ToString">
+            <summary>
+            Converts the numeric value of the current Point2D object to its equivalent
+            string representation.
+            </summary>
+            <returns>The string representation of the current Point2D value.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2D.Deserialize(System.IO.Stream)">
+            <summary>
+            Reads the binary representation of a Point2D object from a stream.
+            </summary>
+            <param name="input">The stream from which to read the binary representation.</param>
+            <returns>The Point2D value read.</returns>
+            <exception cref="T:System.ArgumentNullException">input is a null reference.</exception>
+            <exception cref="T:System.FormatException">
+            data in intput stream could not be converted to a Point2D object.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2D.Serialize(System.IO.Stream)">
+            <summary>
+            Writes a binary representation of the current Point2D value to a stream.
+            </summary>
+            <param name="output">The stream to which to write the binary representation.</param>
+            <exception cref="T:System.ArgumentNullException">output is a null reference.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2D.Quadrance(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Computes the squared distance between two points.
+            </summary>
+            <param name="p1">The first point.</param>
+            <param name="p2">The second point.</param>
+            <returns>The squared distance between the two points.</returns>
+        </member>
+        <member name="T:UnaryHeap.DataType.Point2DComparer">
+            <summary>
+            Defines a class that can be used to order Point2D objects.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.DataType.Point2DComparer.Default">
+            <summary>
+            A singleton instance of Point2DComparer using the default sort orders.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2DComparer.#ctor">
+            <summary>
+            Initializes a new instance of the Point2DComparer class that sorts first in Y,
+            then in X, both in ascending order.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2DComparer.#ctor(System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the Point2DComparer class with the
+            specified sort ordering.
+            </summary>
+            <param name="sortFirstByX">If true, points will be sorted by their X
+            coordinate value, and the Y coordinate will be used as a tiebreaker.
+            If false, points will be sorted by their Y coordinate value,
+            and the X coordinate will be used as a tiebreaker.</param>
+            <param name="sortXDescending">If true, the X coordinates will be sorted in
+            descending order instead of ascending order.</param>
+            <param name="sortYDescending">If true, the Y coordinates will be sorted in
+            descending order instead of ascending order.</param>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point2DComparer.Compare(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Compares two Point2D objects and returns a value indicating whether one is less than,
+            equal to, or greater than the other.
+            </summary>
+            <param name="x">The first object to compare.</param>
+            <param name="y">The second object to compare.</param>
+            <returns>A negative integer, if x is less than y. Zero, if x equals y.
+            A positive integer, if x is greater than y.</returns>
+        </member>
+        <member name="T:UnaryHeap.DataType.Point3D">
+            <summary>
+            Represents a point in three-dimensional space.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point3D.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initializes a new instance of the Point3D class.
+            </summary>
+            <param name="x">The x-coordinate of the new point.</param>
+            <param name="y">The y-coordinate of the new point.</param>
+            <param name="z">The z-coordinate of the new point.</param>
+            <exception cref="T:System.ArgumentNullException">
+            x, y or z are null references.</exception>
+        </member>
+        <member name="P:UnaryHeap.DataType.Point3D.Origin">
+            <summary>
+            Gets a value that represents the point (0, 0, 0).
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Point3D.X">
+            <summary>
+            Gets the x-cooridante of the current Point3D object.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Point3D.Y">
+            <summary>
+            Gets the y-cooridante of the current Point3D object.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Point3D.Z">
+            <summary>
+            Gets the z-cooridante of the current Point3D object.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point3D.Equals(System.Object)">
+            <summary>
+            Determines whether the specified System.Object object is equal to
+            the current Point3D object.
+            </summary>
+            <param name="obj">The object to compare.</param>
+            <returns>true if the obj parameter is a Point3D object or a type capable of implicit
+            conversion to a Point3D value, and its value is equal to the value of the current
+            Point3D object; otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point3D.Equals(UnaryHeap.DataType.Point3D)">
+            <summary>
+            Determines whether the specified Point3D object is equal to the
+            current Point3D object.
+            </summary>
+            <param name="other">The object to compare.</param>
+            <returns>true if the value of the obj parameter is equal to the value of
+            the current Point3D object; otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point3D.GetHashCode">
+            <summary>
+            Serves as a hash function for the Point3D type.
+            </summary>
+            <returns>A hash code for the current Point3D object.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point3D.Parse(System.String)">
+            <summary>
+            Converts the string representation of a numeric value to its
+            equivalent Point3D object.
+            </summary>
+            <param name="value">The value to be converted.</param>
+            <returns>A Point3D object with the current value.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            value is a null reference.</exception>
+            <exception cref="T:System.FormatException">
+            Input string is not in a correct format.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point3D.ToString">
+            <summary>
+            Converts the numeric value of the current Point3D object to its equivalent
+            string representation.
+            </summary>
+            <returns>The string representation of the current Point3D value.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point3D.Deserialize(System.IO.Stream)">
+            <summary>
+            Reads the binary representation of a Point3D object from a stream.
+            </summary>
+            <param name="input">The stream from which to read the binary representation.</param>
+            <returns>The Point3D value read.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            input is a null reference.</exception>
+            <exception cref="T:System.FormatException">
+            data in intput stream could not be converted to a Point3D object.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point3D.Serialize(System.IO.Stream)">
+            <summary>
+            Writes a binary representation of the current Point3D value to a stream.
+            </summary>
+            <param name="output">The stream to which to write the binary representation.</param>
+            <exception cref="T:System.ArgumentNullException">
+            output is a null reference.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point3D.Quadrance(UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D)">
+            <summary>
+            Computes the squared distance between two points.
+            </summary>
+            <param name="p1">The first point.</param>
+            <param name="p2">The second point.</param>
+            <returns>The squared distance between the two points.</returns>
+        </member>
+        <member name="T:UnaryHeap.DataType.Range">
+            <summary>
+            Represents a closed interval.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Range.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initializes a new instance of the Range class.
+            </summary>
+            <param name="min">The smallest value in the interval.</param>
+            <param name="max">The largest value in the interval.</param>
+            <exception cref="T:System.ArgumentNullException">min or max are null.</exception>
+            <exception cref="T:System.ArgumentException">min is greater than max.</exception>
+        </member>
+        <member name="P:UnaryHeap.DataType.Range.Min">
+            <summary>
+            Gets the smallest value in the interval.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Range.Max">
+            <summary>
+            Gets the largest value in the interval.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Range.Midpoint">
+            <summary>
+            Gets the rational value halfway between Min and Max.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Range.Size">
+            <summary>
+            Gets the difference between Max and Min.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Range.Contains(UnaryHeap.DataType.Rational)">
+            <summary>
+            Determines whether the specified Rational value lies within the
+            current Range.
+            </summary>
+            <param name="value">The value to check for membership.</param>
+            <returns>True, if value is not less than Min or greater than Max;
+            otherwise, false.</returns>
+            <exception cref="T:System.ArgumentNullException">value is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Range.GetPadded(UnaryHeap.DataType.Rational)">
+            <summary>
+            Gets a new UnaryHeap.Utitiles.Range object whose endpoints are offset by a
+            constant value from the current Range object.
+            </summary>
+            <param name="thickness">The amount to offset.</param>
+            <returns>A new Range from Min - thickness to Max + thickness.</returns>
+            <exception cref="T:System.ArgumentNullException">thickness is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            thickness is negative and more than half of Size.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Range.GetScaled(UnaryHeap.DataType.Rational)">
+            <summary>
+            Gets a new UnaryHeap.Utitiles.Range object whose size is a multiple of
+            the current UnaryHeap.Utitiles.Range instance.
+            </summary>
+            <param name="factor">The amount by which to scale the range of the current
+            UnaryHeap.Utitiles.Range instance.</param>
+            <returns>A new UnaryHeap.Utitiles.Range object with the same Midpoint as
+            the current UnaryHeap.Utitiles.Range instance, and with a Size equal to the current
+            UnaryHeap.Utitiles.Range instance's size multiplied by factor.</returns>
+            <exception cref="T:System.ArgumentNullException">factor is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">factor is negative.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Range.CenteredAt(UnaryHeap.DataType.Rational)">
+            <summary>
+            Geta a new Range object with the same area centered at the point specified.
+            </summary>
+            <param name="center">The MidPoint of the new Range object.</param>
+            <returns>A new Range object with the same area centered at the point specified.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">center is null.</exception>
+        </member>
+        <member name="T:UnaryHeap.DataType.Rational">
+            <summary>
+            Represents an arbitrarily large signed rational number.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.#ctor(System.Numerics.BigInteger)">
+            <summary>
+            Initializes a new instance of the Rational class from the given integeral value.
+            </summary>
+            <param name="integer">The value to initialize the new instance to.</param>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.#ctor(System.Numerics.BigInteger,System.Numerics.BigInteger)">
+            <summary>
+            Initializes a new instance of the Rational class from the given integral
+            numerator and denominator.
+            </summary>
+            <param name="numerator">The numerator of the new instance.</param>
+            <param name="denominator">The denominator of the new instance.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            Denominator is zero.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.Int32)~UnaryHeap.DataType.Rational">
+            <summary>
+            Defines an implicit conversion of a System.Int32 object to a Rational value.
+            </summary>
+            <param name="integer">The value to convert to a Rational.</param>
+            <returns> An object that contains the value of the value parameter.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.UInt32)~UnaryHeap.DataType.Rational">
+            <summary>
+            Defines an implicit conversion of a System.UInt32 object to a Rational value.
+            </summary>
+            <param name="integer">The value to convert to a Rational.</param>
+            <returns> An object that contains the value of the value parameter.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.Int64)~UnaryHeap.DataType.Rational">
+            <summary>
+            Defines an implicit conversion of a System.Int64 object to a Rational value.
+            </summary>
+            <param name="integer">The value to convert to a Rational.</param>
+            <returns> An object that contains the value of the value parameter.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.UInt64)~UnaryHeap.DataType.Rational">
+            <summary>
+            Defines an implicit conversion of a System.UInt64 object to a Rational value.
+            </summary>
+            <param name="integer">The value to convert to a Rational.</param>
+            <returns> An object that contains the value of the value parameter.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.Int16)~UnaryHeap.DataType.Rational">
+            <summary>
+            Defines an implicit conversion of a System.Int16 object to a Rational value.
+            </summary>
+            <param name="integer">The value to convert to a Rational.</param>
+            <returns> An object that contains the value of the value parameter.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.UInt16)~UnaryHeap.DataType.Rational">
+            <summary>
+            Defines an implicit conversion of a System.UInt16 object to a Rational value.
+            </summary>
+            <param name="integer">The value to convert to a Rational.</param>
+            <returns> An object that contains the value of the value parameter.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.SByte)~UnaryHeap.DataType.Rational">
+            <summary>
+            Defines an implicit conversion of a System.SByte object to a Rational value.
+            </summary>
+            <param name="integer">The value to convert to a Rational.</param>
+            <returns> An object that contains the value of the value parameter.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.Byte)~UnaryHeap.DataType.Rational">
+            <summary>
+            Defines an implicit conversion of a System.Byte object to a Rational value.
+            </summary>
+            <param name="integer">The value to convert to a Rational.</param>
+            <returns> An object that contains the value of the value parameter.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.Numerics.BigInteger)~UnaryHeap.DataType.Rational">
+            <summary>
+            Defines an implicit conversion of a System.Numerics.BigInteger object to
+            a Rational value.
+            </summary>
+            <param name="integer">The value to convert to a Rational.</param>
+            <returns> An object that contains the value of the value parameter.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Explicit(UnaryHeap.DataType.Rational)~System.Double">
+            <summary>
+            Defines an explicit conversion of a Rational object to a System.Double value.
+            </summary>
+            <param name="value">The value to convert to a System.Double.</param>
+            <returns>A double that contains the value of the value parameter.</returns>
+        </member>
+        <member name="P:UnaryHeap.DataType.Rational.One">
+            <summary>
+            Gets a value that represents the number one.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Rational.Zero">
+            <summary>
+            Gets a value that represents the number zero.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Rational.MinusOne">
+            <summary>
+            Gets a value that represents the number negative one.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Rational.Numerator">
+            <summary>
+            Gets the numerator of the current Rational object.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Rational.Denominator">
+            <summary>
+            Gets the denominator of the current Rational object.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Rational.Sign">
+            <summary>
+            Gets a number that indicates the sign (negative, positive, or zero) of the current
+            Rational object.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Rational.AbsoluteValue">
+            <summary>
+            Gets the absolute value of the current Rational object.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Rational.Floor">
+            <summary>
+            Gets the largest whole number less than or equal to the current Rational object.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Rational.Ceiling">
+            <summary>
+            Gets the smallest whole number greater than or equal to the current Rational object.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Rational.Squared">
+            <summary>
+            Gets the value of the current Rational object raised to the second power.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Rational.Rounded">
+            <summary>
+            Gets the closest whole number to the current Rational object. If the current object
+            is halfway between two whole numbers, the even number is returned.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Rational.Inverse">
+            <summary>
+            Gets the multiplicative inverse of the current Rational object.
+            </summary>
+            <exception cref="T:System.DivideByZeroException">
+            The current object equals Rational.Zero.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.Add(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Adds the values of two specified Rational objects.
+            </summary>
+            <param name="left">The first value to add.</param>
+            <param name="right">The second value to add.</param>
+            <returns>The sum of left and right.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            left or right are null references.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Addition(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Adds the values of two specified Rational objects.
+            </summary>
+            <param name="left">The first value to add.</param>
+            <param name="right">The second value to add.</param>
+            <returns>The sum of left and right.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            left or right are null references.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.Subtract(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Subtracts a Rational value from another Rational value.
+            </summary>
+            <param name="left">The value to subtract from (the minuend).</param>
+            <param name="right">The value to subtract (the subtrahend).</param>
+            <returns>The result of subtracting right from left.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            left or right are null references.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Subtraction(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Subtracts a Rational value from another Rational value.
+            </summary>
+            <param name="left">The value to subtract from (the minuend).</param>
+            <param name="right">The value to subtract (the subtrahend).</param>
+            <returns>The result of subtracting right from left.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            left or right are null references.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.Multiply(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Multiplies two specified Rational values.
+            </summary>
+            <param name="left">The first value to multiply.</param>
+            <param name="right">The second value to multiply.</param>
+            <returns>The product of left and right.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            left or right are null references.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Multiply(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Multiplies two specified Rational values.
+            </summary>
+            <param name="left">The first value to multiply.</param>
+            <param name="right">The second value to multiply.</param>
+            <returns>The product of left and right.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            left or right are null references.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.Divide(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Divides a specified Rational value by another specified Rational value by
+            using integer division.
+            </summary>
+            <param name="dividend">The value to be divided.</param>
+            <param name="divisor">The value to divide by.</param>
+            <returns>The integral result of the division.</returns>
+            <exception cref="T:System.DivideByZeroException">divisor is zero.</exception>
+            <exception cref="T:System.ArgumentNullException">
+            dividend or divisor are null references.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Division(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Divides a specified Rational value by another specified Rational
+            value by using integer division.
+            </summary>
+            <param name="dividend">The value to be divided.</param>
+            <param name="divisor">The value to divide by.</param>
+            <returns>The integral result of the division.</returns>
+            <exception cref="T:System.DivideByZeroException">divisor is zero.</exception>
+            <exception cref="T:System.ArgumentNullException">
+            dividend or divisor are null references.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.Negate(UnaryHeap.DataType.Rational)">
+            <summary>
+            Negates a specified Rational value.
+            </summary>
+            <param name="value">The value to negate.</param>
+            <returns>The result of the value parameter multiplied by negative one.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            value is a null reference.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_UnaryNegation(UnaryHeap.DataType.Rational)">
+            <summary>
+            Negates a specified Rational value.
+            </summary>
+            <param name="value">The value to negate.</param>
+            <returns>The result of the value parameter multiplied by negative one.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            value is a null reference.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.Min(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Returns the smaller of two Rational values.
+            </summary>
+            <param name="left">The first value to compare.</param>
+            <param name="right">The second value to compare.</param>
+            <returns>The left or right parameter, whichever is smaller.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            left or right are null references.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.Max(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Returns the larger of two Rational values.
+            </summary>
+            <param name="left">The first value to compare.</param>
+            <param name="right">The second value to compare.</param>
+            <returns>The left or right parameter, whichever is larger.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            left or right are null references.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.Equals(System.Object)">
+            <summary>
+            Determines whether the specified System.Object object is equal to the
+            current Rational object.
+            </summary>
+            <param name="obj">The object to compare.</param>
+            <returns>true if the obj parameter is a Rational object or a type capable of
+            implicit conversion to a Rational value, and its value is equal to the value of
+            the current Rational object; otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.Equals(UnaryHeap.DataType.Rational)">
+            <summary>
+            Determines whether the specified Rational object is equal to the
+            current Rational object.
+            </summary>
+            <param name="other">The object to compare.</param>
+            <returns>true if the value of the obj parameter is equal to the value
+            of the current Rational object; otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.GetHashCode">
+            <summary>
+            Serves as a hash function for the Rational type.
+            </summary>
+            <returns>A hash code for the current Rational object.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_GreaterThan(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Indicates whether a Rational object is greater than another Rational object.
+            </summary>
+            <param name="left">The first value to compare.</param>
+            <param name="right">The second value to compare.</param>
+            <returns>true if left is greater than right; otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_LessThanOrEqual(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Indicates whether a Rational object is less than or equal to
+            another Rational object.
+            </summary>
+            <param name="left">The first value to compare.</param>
+            <param name="right">The second value to compare.</param>
+            <returns>true if left is less than or equal to right; otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_LessThan(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Indicates whether a Rational object is less than another Rational object.
+            </summary>
+            <param name="left">The first value to compare.</param>
+            <param name="right">The second value to compare.</param>
+            <returns>true if left is less than right; otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_GreaterThanOrEqual(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Indicates whether a Rational object is greater than or equal to
+            another Rational object.
+            </summary>
+            <param name="left">The first value to compare.</param>
+            <param name="right">The second value to compare.</param>
+            <returns>true if left is greater than or equal to right;
+            otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Equality(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Indicates whether the values of two Rational objects are equal.
+            </summary>
+            <param name="left">The first value to compare.</param>
+            <param name="right">The second value to compare.</param>
+            <returns>true if the left and right parameters have the same value;
+            otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.op_Inequality(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Indicates whether the values of two Rational objects are not equal.
+            </summary>
+            <param name="left">The first value to compare.</param>
+            <param name="right">The second value to compare.</param>
+            <returns>false if the left and right parameters have the same value;
+            otherwise, true.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.CompareTo(UnaryHeap.DataType.Rational)">
+            <summary>
+            Compares the current Rational object to a second Rational object
+            and returns an integer that indicates whether the value of this object is
+            less than, equal to, or greater than the value of the specified object.
+            </summary>
+            <param name="other">The object to compare.</param>
+            <returns>Zero, if the two objects have the same value.
+            Negative one, if the value of this object is less than the value of other.
+            One, if the value of this object is greater than the value of other.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.CompareTo(System.Object)">
+            <summary>
+            Compares the current Rational object to a System.Object object
+            and returns an integer that indicates whether the value of this object is
+            less than, equal to, or greater than the value of the specified object.
+            </summary>
+            <param name="obj">The object to compare.</param>
+            <returns>Zero, if the two objects have the same value.
+            Negative one, if the value of this object is less than the value of other.
+            One, if the value of this object is greater than the value of other.</returns>
+            <exception cref="T:System.ArgumentException">obj is not a Rational.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.Parse(System.String)">
+            <summary>
+            Converts the string representation of a numeric value to its
+            equivalent Rational object.
+            </summary>
+            <param name="value">The value to be converted.</param>
+            <returns>A Rational object with the current value.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            value is a null reference.</exception>
+            <exception cref="T:System.FormatException">
+            Input string is not in a correct format.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.ToString">
+            <summary>
+            Converts the numeric value of the current Rational object to its equivalent
+            string representation as a mixed fraction.
+            </summary>
+            <returns>The string representation of the current Rational value.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.Deserialize(System.IO.Stream)">
+            <summary>
+            Reads the binary representation of a Rational object from a stream.
+            </summary>
+            <param name="input">
+            The stream from which to read the binary representation.</param>
+            <returns>The Rational value read.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            input is a null reference.</exception>
+            <exception cref="T:System.FormatException">
+            data in intput stream could not be converted to a Rational object.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Rational.Serialize(System.IO.Stream)">
+            <summary>
+            Writes a binary representation of the current Rational value to a stream.
+            </summary>
+            <param name="output">
+            The stream to which to write the binary representation.</param>
+            <exception cref="T:System.ArgumentNullException">
+            output is a null reference.</exception>
+            <exception cref="T:System.NotSupportedException">
+            numerator or denominator are more than System.Int32.MaxValue
+            bytes in size.</exception>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <AssemblyVersion>6.0.0.0</AssemblyVersion>
+    <FileVersion>6.0.0.0</FileVersion>
+    <OutputPath>..\..\..\artifacts\bin\$(MSBuildProjectName)\$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>..\..\..\artifacts\bin\$(MSBuildProjectName)\$(Configuration)\</IntermediateOutputPath>
+    <ApplicationIcon>graphpaper.ico</ApplicationIcon>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>GraphPaper.Program</StartupObject>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <Platforms>x86;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="UnaryHeap.DataType">
+      <HintPath>..\dependencies\UnaryHeap\UnaryHeap.DataType.dll</HintPath>
+    </Reference>
+    <Reference Include="UnaryHeap.Graph">
+      <HintPath>..\dependencies\UnaryHeap\UnaryHeap.Graph.dll</HintPath>
+    </Reference>
+    <Reference Include="UnaryHeap.GUI">
+      <HintPath>..\dependencies\UnaryHeap\UnaryHeap.GUI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
