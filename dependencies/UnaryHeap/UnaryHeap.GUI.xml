@@ -1,0 +1,654 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UnaryHeap.GUI</name>
+    </assembly>
+    <members>
+        <member name="F:UnaryHeap.GUI.CrashReport.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.CrashReport.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:UnaryHeap.GUI.CrashReport.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.GUI.ErrorReporting">
+            <summary>
+            Contains utility methods for generating exception reports.
+            
+            A Windows Forms app can use methods in this class to hook their
+            unhandled exception events, and to fork itself in a special error
+            reporting mode.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.ErrorReporting.ErrorHandlingMain(System.String[],System.Func{System.String[],System.Int32})">
+            <summary>
+            Runs the application as an error reporter, if the command-line parameters
+            are correct. Otherwise, runs the application normally.
+            </summary>
+            <param name="args">The program arguments.</param>
+            <param name="programMain">The program main method,
+            to be run in normal scenarios</param>
+            <returns>The error code returned from programMain.</returns>
+        </member>
+        <member name="M:UnaryHeap.GUI.ErrorReporting.HookUnhandledExceptionEvents(System.Int32)">
+            <summary>
+            Add hooks to the runtime to lauch the crash rport and exit
+            if an unhandled exception occurs.
+            </summary>
+            <param name="exitCode">The exit code to return from the process
+            if an unhandled exception occurs.</param>
+        </member>
+        <member name="M:UnaryHeap.GUI.ErrorReporting.ExitAfterLaunchingCrashReport(System.Exception,System.Int32)">
+            <summary>
+            Launch a crash report and terminate the current process.
+            </summary>
+            <param name="ex">The exception to report.</param>
+            <param name="exitCode">The exit code to return from the process.</param>
+        </member>
+        <member name="T:UnaryHeap.GUI.GestureInterpreter">
+            <summary>
+            Utility class to translate from hardware-level events to user-level actions.
+            </summary>
+        </member>
+        <member name="E:UnaryHeap.GUI.GestureInterpreter.StateChanged">
+            <summary>
+            Occurs when the gesture state of the GestureInterpreter has changed.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.GestureInterpreter.OnStateChanged">
+            <summary>
+            Raises the StateChanged event.
+            </summary>
+        </member>
+        <member name="E:UnaryHeap.GUI.GestureInterpreter.DragGestured">
+            <summary>
+            Occurs when a drag gesture is input on the target control.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.GestureInterpreter.OnDragGestured(System.Drawing.Point,System.Drawing.Point,System.Windows.Forms.MouseButtons,System.Windows.Forms.Keys)">
+            <summary>
+            Raises the DragGestured event.
+            </summary>
+            <param name="startPoint"></param>
+            <param name="endPoint"></param>
+            <param name="button"></param>
+            <param name="modifiers"></param>
+        </member>
+        <member name="E:UnaryHeap.GUI.GestureInterpreter.ClickGestured">
+            <summary>
+            Occurs when a click gesture is input on the target control.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.GestureInterpreter.OnClickGestured(System.Drawing.Point,System.Windows.Forms.MouseButtons,System.Windows.Forms.Keys)">
+            <summary>
+            Raises the ClickGestured event.
+            </summary>
+            <param name="point"></param>
+            <param name="button"></param>
+            <param name="modifiers"></param>
+        </member>
+        <member name="P:UnaryHeap.GUI.GestureInterpreter.Target">
+            <summary>
+            The control for which the GestureInterpreter will interpret input events.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.GestureInterpreter.CurrentPosition">
+            <summary>
+            Gets the current coordinates of the mouse cursor, relative to the Target control.
+            Only valid when CurrentState is not Idle.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.GestureInterpreter.DragStartPosition">
+            <summary>
+            Gets the coordinates of the mouse cursor when the drag gesture was initiated.
+            Only valid when CurrentState is Dragging.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.GestureInterpreter.ClickButton">
+            <summary>
+            Gets the mouse button that is currently clicked. Only valid when CurrentState
+            is either Clicking or Dragging.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.GestureInterpreter.ModifierKeys">
+            <summary>
+            Gets the modifier keys that were pressed at the time that the current click was
+            initiated. Only valid when CurrentState is either Clicking or Dragging.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.GestureInterpreter.CurrentState">
+            <summary>
+            Gets the current gesture state of the Target control.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.GUI.GestureState">
+            <summary>
+            Represents the current input state of a GestureInterpreter.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.GUI.GestureState.Idle">
+            <summary>
+            The mouse is not currently over the GestureInterpreter.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.GUI.GestureState.Hover">
+            <summary>
+            The mouse is over the GestureInterpreter, but no buttons are being held.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.GUI.GestureState.Clicking">
+            <summary>
+            The mouse is over the GestureInterpreter and the
+            user has pressed a mouse button.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.GUI.GestureState.Dragging">
+            <summary>
+            The mouse is over the GestureInterpreter and has pressed a mouse button
+            and then moved the mouse.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.GUI.ClickGestureEventArgs">
+            <summary>
+            Provides data for the GestureInterpreter.ClickGestured event.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.ClickGestureEventArgs.ClickPoint">
+            <summary>
+            The coordinates of the mouse when the user clicked the target control.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.ClickGestureEventArgs.Button">
+            <summary>
+            Which button the user clicked.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.ClickGestureEventArgs.ModifierKeys">
+            <summary>
+            The modifier keys, if any, that were held when the user clicked.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.ClickGestureEventArgs.#ctor(System.Drawing.Point,System.Windows.Forms.MouseButtons,System.Windows.Forms.Keys)">
+            <summary>
+            Initializes a new instance of the ClickGestureEventArgs class.
+            </summary>
+            <param name="clickPoint">
+            The coordinates of the mouse when the user clicked the target control.
+            </param>
+            <param name="button">
+            Which button the user clicked.
+            </param>
+            <param name="modifierKeys">
+            The modifier keys, if any, that were held when the user clicked.
+            </param>
+        </member>
+        <member name="T:UnaryHeap.GUI.DragGestureEventArgs">
+            <summary>
+            Provides data for the GestureInterpreter.DragGestured event.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.DragGestureEventArgs.StartPoint">
+            <summary>
+            The coordinates of the mouse when the user pressed the mouse button.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.DragGestureEventArgs.EndPoint">
+            <summary>
+            The coordinates of the mouse when the user released the mouse button.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.DragGestureEventArgs.Button">
+            <summary>
+            Which button the user pressed to initiate the drag operation.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.DragGestureEventArgs.ModifierKeys">
+            <summary>
+            The modifier keys, if any, that were held when the user
+            initiated the drag operation.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.DragGestureEventArgs.#ctor(System.Drawing.Point,System.Drawing.Point,System.Windows.Forms.MouseButtons,System.Windows.Forms.Keys)">
+            <summary>
+            Initializes a new instance of the DragGestureEventArgs class.
+            </summary>
+            <param name="startPoint">
+            The coordinates of the mouse when the user pressed the mouse button.</param>
+            <param name="endPoint">
+            The coordinates of the mouse when the user released the mouse button.</param>
+            <param name="button">
+            Which button the user pressed to initiate the drag operation.</param>
+            <param name="modifierKeys">
+            The modifier keys, if any, that were held when the user
+            initiated the drag operation.</param>
+        </member>
+        <member name="T:UnaryHeap.GUI.ModelEditorStateMachine`3">
+            <summary>
+            Encapuslates the lifecycle of a document model being edited. Provides
+            undo and redo capability and prompting the user when they may be
+            discarding unsaved changes.
+            </summary>
+            <typeparam name="TModelCreateArgs">The type containing a set of arguments
+            used to create new instances of TModel.</typeparam>
+            <typeparam name="TModel">The type of the data model being
+            edited.</typeparam>
+            <typeparam name="TReadOnlyModel">A type representing a read-only
+            view of a TModel instance.</typeparam>
+        </member>
+        <member name="E:UnaryHeap.GUI.ModelEditorStateMachine`3.ModelChanged">
+            <summary>
+            Occurs when the current model is changed by an undo, redo,
+            or change operation.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.OnModelChanged">
+            <summary>
+            Raises the ModelChanged event.
+            </summary>
+        </member>
+        <member name="E:UnaryHeap.GUI.ModelEditorStateMachine`3.ModelReplaced">
+            <summary>
+            Occurs when the current model is replaced by a now or load
+            model operation.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.OnModelReplaced">
+            <summary>
+            Raises the ModelReplaced event.
+            </summary>
+        </member>
+        <member name="E:UnaryHeap.GUI.ModelEditorStateMachine`3.CurrentFileNameChanged">
+            <summary>
+            Occurs when the current filename changes. This can occur when a new document
+            is created, a document is opened, or the user saves a document with a new
+            file name.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.OnCurrentFileNameChanged">
+            <summary>
+            Raises the CurrentFileNameChanged event.
+            </summary>
+        </member>
+        <member name="E:UnaryHeap.GUI.ModelEditorStateMachine`3.IsModifiedChanged">
+            <summary>
+            Occurs when the IsModified flag is set by an undo, redo or change
+            operation, or cleared by a new model, loadl model, or save operation.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.OnIsModifiedChanged">
+            <summary>
+            Raises the IsModifiedChanged event.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.#ctor(UnaryHeap.GUI.IPromptStrategy{`0})">
+            <summary>
+            Initializes a new instance of the ModelEditorStateMachine class.
+            </summary>
+            <param name="prompts">A strategy object providing the implementations of
+            user interactions.</param>
+        </member>
+        <member name="P:UnaryHeap.GUI.ModelEditorStateMachine`3.CurrentModelState">
+            <summary>
+            Gets a read-only view of the current state of the document model.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.ModelEditorStateMachine`3.IsModelModified">
+            <summary>
+            Indicates whether the user has made changes to the current document model
+            that have not yet been saved to disk.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.ModelEditorStateMachine`3.CurrentFileName">
+            <summary>
+            Gets the current filename of the document model being edited, or null
+            if the current document was newly-created and has not yet been saved
+            to disk.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.ModelEditorStateMachine`3.CanUndo">
+            <summary>
+            Gets whether there are any changes made since the document was created
+            or loaded.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.ModelEditorStateMachine`3.CanRedo">
+            <summary>
+            Gets whether there are any changes that have been undone that can be
+            redone.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.Do(System.Action{`1})">
+            <summary>
+            Make a change to the current model document.
+            </summary>
+            <param name="action">A function which will modify the current model.</param>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.Undo">
+            <summary>
+            Undoes a change to the model document.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">There are no changes
+            remaining to undo.</exception>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.Redo">
+            <summary>
+            Redoes a previously undone change ot the model document.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">There are no undone
+            changes remaining to undo.</exception>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.NewModel(`0)">
+            <summary>
+            Creates a new document for editing.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.LoadModel">
+            <summary>
+            Prompts the user for a document to load and then loads
+            that document.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.LoadModel(System.String)">
+            <summary>
+            Loads the specified document.
+            </summary>
+            <param name="fileName">The file name of the document to load.</param>
+            <exception cref="T:System.ArgumentNullException">fileName is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.Save">
+            <summary>
+            Saves the current document to its filename.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.SaveAs">
+            <summary>
+            Prompts the user for a file name and saves the current document to
+            that file name.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.CanClose">
+            <summary>
+            Determines whether it is safe to close the program.
+            </summary>
+            <returns>true if there are no unsaved changes, or the user agrees to save or
+            discard the changes; false otherwise.</returns>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.Wrap(`1)">
+            <summary>
+            Called by the base class to produce a read-only wrapper for the current 
+            document model.
+            </summary>
+            <param name="instance">The current document model.</param>
+            <returns>A read-only model instance.</returns>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.Clone(`1)">
+            <summary>
+            Called by the base class to make a copy of the current model state that
+            can be returned to by an undo operation.
+            </summary>
+            <param name="instance">The current document model.</param>
+            <returns>A copy of instance.</returns>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.CreateEmptyModel(`0)">
+            <summary>
+            Called by the base class to create a new model document.
+            </summary>
+            <param name="args">The arguments required to create an instance of TModel.</param>
+            <returns>A new blank document.</returns>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.ReadModelFromDisk(System.String)">
+            <summary>
+            Called by the base class to create a model document from an existing file on disk.
+            </summary>
+            <param name="fileName">The file name to read.</param>
+            <returns></returns>
+        </member>
+        <member name="M:UnaryHeap.GUI.ModelEditorStateMachine`3.WriteModelToDisk(`1,System.String)">
+            <summary>
+            Called by the base classs to save the current model state to disk.
+            </summary>
+            <param name="instance">The current document model.</param>
+            <param name="fileName">Where to save the current model to.</param>
+        </member>
+        <member name="T:UnaryHeap.GUI.IPromptStrategy`1">
+            <summary>
+            Represents a strategy for user interaction for use in the ModelEditorStateMachine class.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.IPromptStrategy`1.RequestNewModelParameters">
+            <summary>
+            Prompts the user for arguments needed to create a new TModel.
+            </summary>
+            <returns>The arguments chosen by the user, or null if the user
+            cancels the operation.</returns>
+        </member>
+        <member name="M:UnaryHeap.GUI.IPromptStrategy`1.RequestFileNameToLoad">
+            <summary>
+            Prompts the user for a file name of a file to open.
+            </summary>
+            <returns>The filename chosen by the user, or null if the user cancels
+            the operation.</returns>
+        </member>
+        <member name="M:UnaryHeap.GUI.IPromptStrategy`1.RequestFileNameToSaveAs">
+            <summary>
+            Prompts the user for a file name to which to save the current document.
+            </summary>
+            <returns>The filename chosen by the user, or null if the user cancels
+            the operation.</returns>
+        </member>
+        <member name="M:UnaryHeap.GUI.IPromptStrategy`1.ConfirmDiscardOfChanges(System.String)">
+            <summary>
+            Prompts the user that the operation they are performing will result in
+            data loss and asks what they want to do about it.
+            </summary>
+            <param name="currentFileName">The file to open, or null if the current
+            document was newly-created and has not yet been saved.</param>
+            <returns>The user's desired action.</returns>
+        </member>
+        <member name="T:UnaryHeap.GUI.BoilerplatePromptStrategy`1">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.BoilerplatePromptStrategy`1.Filter">
+            <summary>
+            The value to use for the 'Filter' property of the OpenFileDialog and
+            SafeFileDialog used by this prompt strategy.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.BoilerplatePromptStrategy`1.Extension">
+            <summary>
+            The value to use for the 'DefaultExt' property of the OpenFileDialog and
+            SafeFileDialog used by this prompt strategy.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.BoilerplatePromptStrategy`1.RequestFileNameToLoad">
+            <summary>
+            Prompts the user for a file name of a file to open.
+            </summary>
+            <returns>The filename chosen by the user, or null if the user cancels
+            the operation.
+            </returns>
+        </member>
+        <member name="M:UnaryHeap.GUI.BoilerplatePromptStrategy`1.RequestFileNameToSaveAs">
+            <summary>
+            Prompts the user for a file name to which to save the current document.
+            </summary>
+            <returns>The filename chosen by the user, or null if the user cancels
+            the operation.</returns>
+        </member>
+        <member name="M:UnaryHeap.GUI.BoilerplatePromptStrategy`1.ConfirmDiscardOfChanges(System.String)">
+            <summary>
+            Prompts the user that the operation they are performing will result in
+            data loss and asks what they want to do about it.
+            </summary>
+            <param name="currentFileName">The file to open, or null if the current
+            document was newly-created and has not yet been saved.</param>
+            <returns>The user's desired action.</returns>
+        </member>
+        <member name="M:UnaryHeap.GUI.BoilerplatePromptStrategy`1.RequestNewModelParameters">
+            <summary>
+            Prompts the user for arguments needed to create a new TModel.
+            </summary>
+            <returns>The arguments chosen by the user, or null if the user
+            cancels the operation.</returns>
+        </member>
+        <member name="T:UnaryHeap.GUI.DiscardConfirmResult">
+            <summary>
+            Represents the return value from the IPromptStrategy.ConfirmDiscardOfChanges
+            method.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.GUI.DiscardConfirmResult.SaveModel">
+            <summary>
+            The current model should be saved (prompting for a filename if required),
+            and then the original operation should continue.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.GUI.DiscardConfirmResult.DiscardModel">
+            <summary>
+            The current model changes should be discarded, and then the original
+            operation should continue.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.GUI.DiscardConfirmResult.CancelOperation">
+            <summary>
+            The original operation should be cancelled. The current model will remain
+            open.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.GUI.WysiwygFeedbackStrategyContext">
+            <summary>
+            Provides the ability to interchange WYSIWIG feedback using the strategy pattern.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.WysiwygFeedbackStrategyContext.#ctor(UnaryHeap.GUI.WysiwygPanel)">
+            <summary>
+            Initializes a new instance of the WysiwygFeedbackStrategyContext class.
+            </summary>
+            <param name="panel">The WysiwygPanel that will be displaying the feedback.</param>
+            <exception cref="T:System.ArgumentNullException">
+            panel is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.GUI.WysiwygFeedbackStrategyContext.ClearFeedback">
+            <summary>
+            Removes any feedback currently being displayed.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.WysiwygFeedbackStrategyContext.SetFeedback(UnaryHeap.GUI.IWysiwygFeedbackStrategy)">
+            <summary>
+            Sets the feedback to be displayed.
+            </summary>
+            <param name="newFeedback">The feedback to display, or null
+            to display no feedback.</param>
+        </member>
+        <member name="T:UnaryHeap.GUI.IWysiwygFeedbackStrategy">
+            <summary>
+            Represents a feedback strategy for use in the WysiwygFeedbackStrategyContext class.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.IWysiwygFeedbackStrategy.Render(System.Drawing.Graphics,System.Drawing.Rectangle)">
+            <summary>
+            Renders this feedback.
+            </summary>
+            <param name="g">The graphics context to which to render the feedback.</param>
+            <param name="clipRectangle">The clipping bounds to use while rendering.</param>
+        </member>
+        <member name="T:UnaryHeap.GUI.NullWysiwygFeedbackStrategy">
+            <summary>
+            Represents blank feedback for use in the WysiwygFeedbackStrategyContext class.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.NullWysiwygFeedbackStrategy.Render(System.Drawing.Graphics,System.Drawing.Rectangle)">
+            <summary>
+            Renders this feedback.
+            </summary>
+            <param name="g">The graphics context to which to render the feedback.</param>
+            <param name="clipRectangle">The clipping bounds to use while rendering.</param>
+        </member>
+        <member name="M:UnaryHeap.GUI.NullWysiwygFeedbackStrategy.Equals(UnaryHeap.GUI.IWysiwygFeedbackStrategy)">
+            <summary>Indicates whether the current object is equal to another object
+            of the same type.</summary>
+            <param name="other">An object to compare with this object.</param>
+            <returns>true if the current object is equal to the other parameter;
+            otherwise, false.</returns>
+        </member>
+        <member name="T:UnaryHeap.GUI.WysiwygPanel">
+            <summary>
+            Represents a display window that is optimized for efficient rendering of content
+            (potentially expensive to render but infrequently changed) and feedback (inexpensive
+            to render but frequently changed due to user input).
+            </summary>
+        </member>
+        <member name="E:UnaryHeap.GUI.WysiwygPanel.PaintContent">
+            <summary>
+            Occurs when the content of the control is redrawn.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.WysiwygPanel.OnPaintContent(System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Raises the PaintContent event.
+            </summary>
+            <param name="e">The event data.</param>
+        </member>
+        <member name="E:UnaryHeap.GUI.WysiwygPanel.PaintFeedback">
+            <summary>
+            Occurs when the feedback of the control is redrawn.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.WysiwygPanel.OnPaintFeedback(System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Raises the PaintFeedback event.
+            </summary>
+            <param name="e">The event data.</param>
+        </member>
+        <member name="M:UnaryHeap.GUI.WysiwygPanel.#ctor">
+            <summary>
+            Initializes a new instance of the WysiwigPanel class.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.WysiwygPanel.DebugFrameCounterVisible">
+            <summary>
+            When this property is true, the current frame count will be rendered 
+            in the top-left corner of the control so that inefficient multiple renderings 
+            can be detected.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.WysiwygPanel.InvalidateFeedback">
+            <summary>
+            Invalidates the entire surface of the control and causes only the
+            feedback to be redrawn. The content will not be redrawn.
+            </summary>
+            <seealso cref="M:UnaryHeap.GUI.WysiwygPanel.InvalidateContent"/>
+        </member>
+        <member name="M:UnaryHeap.GUI.WysiwygPanel.InvalidateContent">
+            <summary>
+            Invalidates the entire surface of the control and causes both the
+            content and the feedback to be redrawn.
+            </summary>
+            <seealso cref="M:UnaryHeap.GUI.WysiwygPanel.InvalidateFeedback"/>
+        </member>
+        <member name="M:UnaryHeap.GUI.WysiwygPanel.OnSizeChanged(System.EventArgs)">
+            <summary>
+            Raises the SizeChanged event.
+            </summary>
+            <param name="e">The event data.</param>
+        </member>
+        <member name="M:UnaryHeap.GUI.WysiwygPanel.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Raises the Paint event.
+            </summary>
+            <param name="e">The event data.</param>
+        </member>
+    </members>
+</doc>

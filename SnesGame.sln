@@ -5,8 +5,6 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnesGame.Runtime", "SnesGame.Runtime\SnesGame.Runtime.vcxproj", "{85052B18-2B03-4A8C-ABAE-D25EF6F6B00C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResourceCompiler", "ResourceCompiler\ResourceCompiler.csproj", "{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnesGame.Cartridge", "SnesGame.Cartridge\SnesGame.Cartridge.vcxproj", "{50680FE1-FD49-4037-82B2-6F004C9A02A8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{00D9E805-B743-4151-8587-3A7EE8724516} = {00D9E805-B743-4151-8587-3A7EE8724516}
@@ -34,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnesGame.ResourceCompiler",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnesGame.CLR.Mixer", "SnesGame.CLR.Mixer\SnesGame.CLR.Mixer.vcxproj", "{7CEBC225-5D00-4967-9C30-DEE103F37120}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Patchwork", "Patchwork\Patchwork.csproj", "{0C3BD3FF-E124-4868-88E4-8D5FEF63AE37}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -50,14 +50,6 @@ Global
 		{85052B18-2B03-4A8C-ABAE-D25EF6F6B00C}.Release|x64.Build.0 = Release|x64
 		{85052B18-2B03-4A8C-ABAE-D25EF6F6B00C}.Release|x86.ActiveCfg = Release|Win32
 		{85052B18-2B03-4A8C-ABAE-D25EF6F6B00C}.Release|x86.Build.0 = Release|Win32
-		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Debug|x64.Build.0 = Debug|Any CPU
-		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Debug|x86.Build.0 = Debug|Any CPU
-		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Release|x64.ActiveCfg = Release|Any CPU
-		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Release|x64.Build.0 = Release|Any CPU
-		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Release|x86.ActiveCfg = Release|Any CPU
-		{8A7CA63D-8D81-4BE1-9141-CD0BAB9D0C01}.Release|x86.Build.0 = Release|Any CPU
 		{50680FE1-FD49-4037-82B2-6F004C9A02A8}.Debug|x64.ActiveCfg = Debug|x64
 		{50680FE1-FD49-4037-82B2-6F004C9A02A8}.Debug|x64.Build.0 = Debug|x64
 		{50680FE1-FD49-4037-82B2-6F004C9A02A8}.Debug|x86.ActiveCfg = Debug|Win32
@@ -106,6 +98,14 @@ Global
 		{7CEBC225-5D00-4967-9C30-DEE103F37120}.Release|x64.Build.0 = Release|x64
 		{7CEBC225-5D00-4967-9C30-DEE103F37120}.Release|x86.ActiveCfg = Release|Win32
 		{7CEBC225-5D00-4967-9C30-DEE103F37120}.Release|x86.Build.0 = Release|Win32
+		{0C3BD3FF-E124-4868-88E4-8D5FEF63AE37}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0C3BD3FF-E124-4868-88E4-8D5FEF63AE37}.Debug|x64.Build.0 = Debug|Any CPU
+		{0C3BD3FF-E124-4868-88E4-8D5FEF63AE37}.Debug|x86.ActiveCfg = Debug|x86
+		{0C3BD3FF-E124-4868-88E4-8D5FEF63AE37}.Debug|x86.Build.0 = Debug|x86
+		{0C3BD3FF-E124-4868-88E4-8D5FEF63AE37}.Release|x64.ActiveCfg = Release|Any CPU
+		{0C3BD3FF-E124-4868-88E4-8D5FEF63AE37}.Release|x64.Build.0 = Release|Any CPU
+		{0C3BD3FF-E124-4868-88E4-8D5FEF63AE37}.Release|x86.ActiveCfg = Release|Any CPU
+		{0C3BD3FF-E124-4868-88E4-8D5FEF63AE37}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
