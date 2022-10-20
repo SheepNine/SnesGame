@@ -17,6 +17,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="UnaryHeap.DataType">
       <HintPath>..\dependencies\UnaryHeap\UnaryHeap.DataType.dll</HintPath>
     </Reference>
