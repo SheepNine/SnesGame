@@ -31,7 +31,7 @@ namespace SnesGame.ResourceCompiler
             return entries[tag].ContainsKey(id);
         }
 
-        public T GetEntry<T>(string tag, string id) where T: ManifestEntry
+        public T GetEntry<T>(string tag, string id) where T : ManifestEntry
         {
             return entries[tag][id] as T;
         }

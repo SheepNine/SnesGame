@@ -125,7 +125,7 @@ namespace Patchwork
         {
             viewModel.CopyRenderedArrangement();
         }
-        
+
         private void expandRightToolStripMenuItem_Click(object sender, EventArgs e)
         {
             viewModel.ExpandRight();

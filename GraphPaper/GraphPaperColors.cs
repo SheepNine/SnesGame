@@ -15,7 +15,7 @@ namespace GraphPaper
         public static Color SelectedVertex { get { return Color.FromArgb(255, 192, 0); } }
         public static Color ErrorStatusText { get { return Color.FromArgb(255, 128, 128); } }
         public static Color StatusText { get { return Color.FromArgb(255, 255, 255); } }
-        public static Color CreateObject {  get { return Color.FromArgb(128, 128, 128); } }
+        public static Color CreateObject { get { return Color.FromArgb(128, 128, 128); } }
         public static Color SelectionArea { get { return Color.FromArgb(224, 224, 255); } }
     }
 }

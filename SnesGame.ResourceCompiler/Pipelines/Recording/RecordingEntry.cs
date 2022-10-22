@@ -1,5 +1,4 @@
-﻿using SnesGame.ResourceCompiler;
-using System.IO;
+﻿using System.IO;
 
 namespace SnesGame.ResourceCompiler.Pipelines.Recording
 {

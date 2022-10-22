@@ -190,7 +190,7 @@ namespace SnesGame.CLR
         }
 
         public void RemoveSection(int position, int size)
-        { 
+        {
             if (position < 0)
                 throw new ArgumentOutOfRangeException("position");
             if (size < 1)

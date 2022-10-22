@@ -15,7 +15,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.WideBackground
 
         public IEnumerable<ManifestEntry> ParseEntries(XmlDocument doc, string baseDirectory, string outputDirectory)
         {
-            return doc.SelectNodes("/AssetManifest/WideBackgrounds/WideBackground").Cast<XmlElement>().Select(node => new {
+            return doc.SelectNodes("/AssetManifest/WideBackgrounds/WideBackground").Cast<XmlElement>().Select(node => new
+            {
                 id = node.GetAttribute("id"),
                 source = node.GetAttribute("source"),
                 layerCount = int.Parse(node.GetAttribute("layerCount"))

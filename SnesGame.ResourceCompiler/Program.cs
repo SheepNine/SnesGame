@@ -1,7 +1,7 @@
 ﻿using SnesGame.ResourceCompiler.Pipelines.Brushlist;
 using SnesGame.ResourceCompiler.Pipelines.Palette;
-using SnesGame.ResourceCompiler.Pipelines.WideBackground;
 using SnesGame.ResourceCompiler.Pipelines.Recording;
+using SnesGame.ResourceCompiler.Pipelines.WideBackground;
 using System;
 using System.IO;
 

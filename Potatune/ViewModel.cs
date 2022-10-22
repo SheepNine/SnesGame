@@ -163,7 +163,7 @@ namespace Potatune
                             if (note is Noise)
                             {
                                 var snote = note as Noise;
-                                var str1 = string.Format("{0}:{1}", snote.TapMask == 0x02? "Long" : "Short", snote.Speed + 1);
+                                var str1 = string.Format("{0}:{1}", snote.TapMask == 0x02 ? "Long" : "Short", snote.Speed + 1);
                                 g.DrawString(str1, font, Brushes.Silver, 0, 0);
                                 g.DrawString(snote.MaxLength.ToString(), font, Brushes.Silver, 0, 40);
                                 g.DrawString(string.Format("0x{0:X4}", snote.InitialRegister), font, Brushes.Silver, 0, 80);

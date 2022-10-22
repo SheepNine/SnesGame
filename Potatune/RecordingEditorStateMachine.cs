@@ -1,5 +1,5 @@
-﻿using System.IO;
-using SnesGame.CLR;
+﻿using SnesGame.CLR;
+using System.IO;
 using UnaryHeap.GUI;
 
 namespace Potatune

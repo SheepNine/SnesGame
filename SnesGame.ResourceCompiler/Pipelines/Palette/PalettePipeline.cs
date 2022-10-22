@@ -17,7 +17,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.Palette
         {
             return doc
                 .SelectNodes("/AssetManifest/Palettes/Palette").Cast<XmlElement>()
-                .Select(node => new {
+                .Select(node => new
+                {
                     id = node.GetAttribute("id"),
                     source = node.GetAttribute("source")
                 })
@@ -28,6 +29,6 @@ namespace SnesGame.ResourceCompiler.Pipelines.Palette
         {
             manifest.WritePaletteHeaderFile();
             manifest.WritePaletteCodeFile();
-        }        
+        }
     }
 }
