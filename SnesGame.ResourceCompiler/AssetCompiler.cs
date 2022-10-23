@@ -5,7 +5,8 @@ namespace SnesGame.ResourceCompiler
 {
     public static class AssetCompiler
     {
-        public static void Compile(string manifestFilename, string outputDirectory, params Pipeline[] pipelines)
+        public static void Compile(string manifestFilename, string outputDirectory,
+            params Pipeline[] pipelines)
         {
             if (!File.Exists(manifestFilename))
                 throw new FileNotFoundException("Manifest not found", manifestFilename);

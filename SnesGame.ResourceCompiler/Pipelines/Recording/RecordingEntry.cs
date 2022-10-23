@@ -12,7 +12,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.Recording
         {
             SourcePath = sourcePath;
             if (!File.Exists(sourcePath))
-                throw new FileNotFoundException(string.Format("Source for recording '{0}' not found", id), sourcePath);
+                throw new FileNotFoundException(
+                    string.Format("Source for recording '{0}' not found", id), sourcePath);
         }
     }
 }

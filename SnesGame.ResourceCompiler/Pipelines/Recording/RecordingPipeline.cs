@@ -13,13 +13,16 @@ namespace SnesGame.ResourceCompiler.Pipelines.Recording
 
         public string EntryTag { get { return RecordingEntry.Tag; } }
 
-        public IEnumerable<ManifestEntry> ParseEntries(XmlDocument doc, string baseDirectory, string outputDirectory)
+        public IEnumerable<ManifestEntry> ParseEntries(XmlDocument doc, string baseDirectory,
+            string outputDirectory)
         {
-            return doc.SelectNodes("/AssetManifest/Recordings/Recording").Cast<XmlElement>().Select(node => new
-            {
-                id = node.GetAttribute("id"),
-                source = node.GetAttribute("source")
-            }).Select(data => new RecordingEntry(data.id, Path.Combine(baseDirectory, data.source)));
+            return doc.SelectNodes("/AssetManifest/Recordings/Recording")
+                .Cast<XmlElement>().Select(node => new
+                {
+                    id = node.GetAttribute("id"),
+                    source = node.GetAttribute("source")
+                }).Select(data => new RecordingEntry(data.id,
+                Path.Combine(baseDirectory, data.source)));
         }
 
         public void CompileEntries(Manifest manifest)

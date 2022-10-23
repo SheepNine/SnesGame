@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\SnesGame.Runtime\sc.c" />
     <ClCompile Include="mixer.cpp" />
-    <ClInclude Include="..\SnesGame\SnesGame.Runtime\sc.h" />
+    <ClInclude Include="..\SnesGame.Runtime\sc.h" />
     <ClInclude Include="SDL.h" />
   </ItemGroup>
   <ItemGroup>

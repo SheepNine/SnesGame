@@ -14,7 +14,8 @@ namespace SnesGame.ResourceCompiler
         {
             if (args.Length != 2)
             {
-                Console.WriteLine("Usage: AssetPipeline.exe <manifest file> <output root directory>");
+                Console.WriteLine(
+                    "Usage: AssetPipeline.exe <manifest file> <output root directory>");
                 return;
             }
 

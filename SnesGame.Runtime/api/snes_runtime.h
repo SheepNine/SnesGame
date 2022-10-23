@@ -87,36 +87,41 @@ SDL_bool wasButtonPressed(hUPDATE update, GP_BUTTON button);
 SDL_bool wasButtonReleased(hUPDATE update, GP_BUTTON button);
 Uint64 getFrameCounter(hUPDATE update);
 
-typedef struct {
-	ShiftDir dir;
-	Uint8 speed;
-	EdgeBehaviour edgeBehaviour;
+typedef struct
+{
+    ShiftDir dir;
+    Uint8 speed;
+    EdgeBehaviour edgeBehaviour;
 } ShiftParams;
 
-typedef struct {
-	Uint16 length;
-	Uint8 volumeLow;
-	Uint8 volumeHigh;
-	Uint16 periodLow;
-	Uint16 periodHigh;
-	ShiftParams volumeShift;
-	ShiftParams periodShift;
+typedef struct
+{
+    Uint16 length;
+    Uint8 volumeLow;
+    Uint8 volumeHigh;
+    Uint16 periodLow;
+    Uint16 periodHigh;
+    ShiftParams volumeShift;
+    ShiftParams periodShift;
 } SquareWaveParams;
 
-typedef struct {
-	Uint16 initialRegister;
-	Uint16 tapBit;
-	Uint16 maxLength;
-	Uint8 period;
+typedef struct
+{
+    Uint16 initialRegister;
+    Uint16 tapBit;
+    Uint16 maxLength;
+    Uint8 period;
 } NoiseParams;
 
 
-typedef struct {
-	ChannelVoiceType type;
-	union {
-		SquareWaveParams square;
-		NoiseParams noise;
-	} waveParams;
+typedef struct
+{
+    ChannelVoiceType type;
+    union
+    {
+        SquareWaveParams square;
+        NoiseParams noise;
+    } waveParams;
 } ChannelVoice;
 
 void silenceChannel(hUPDATE update, Uint8 channelIndex);
@@ -127,22 +132,32 @@ void playNoise(hUPDATE update, Uint8 channelIndex, NoiseParams* params);
 typedef struct RENDER* hRENDER;
 typedef void (*pRenderCallback)(hRENDER);
 void switchBackdropBrushList(hRENDER render, Uint8 bankIndex, Uint16 brushListIndex);
-void setBackdropPaletteColor(hRENDER render, Uint8 paletteIndex, Uint8 colorIndex, Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
+void setBackdropPaletteColor(hRENDER render, Uint8 paletteIndex, Uint8 colorIndex,
+    Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
 void setBackdropPalette(hRENDER render, Uint8 paletteIndex, Uint8* data);
-void setBackdropStroke(hRENDER render, Uint8 backdropIndex, Uint8 x, Uint8 y, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);
+void setBackdropStroke(hRENDER render, Uint8 backdropIndex, Uint8 x, Uint8 y, Uint8 brushIndex,
+    Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);
 void switchActorBrushList(hRENDER render, Uint8 bankIndex, Uint16 brushListIndex);
-void setActorPaletteColor(hRENDER render, Uint8 paletteIndex, Uint8 colorIndex, Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
+void setActorPaletteColor(hRENDER render, Uint8 paletteIndex, Uint8 colorIndex,
+    Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
 void setActorPalette(hRENDER render, Uint8 paletteIndex, Uint8* data);
-void setActorStroke(hRENDER render, Uint8 actorIndex, Uint8 brushIndex, Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);
-void setFullLayerClips(hRENDER render, Uint8 layerIndex, Uint8 leftWidth, Uint8 rightWidth, Uint8 topHeight, Uint8 bottomHeight, SDL_bool invertLeft, SDL_bool invertRight, SDL_bool invertTop, SDL_bool invertBottom);
-void setLayerClips(hRENDER render, Uint8 layerIndex, Uint8 leftWidth, Uint8 rightWidth, Uint8 topHeight, Uint8 bottomHeight);
+void setActorStroke(hRENDER render, Uint8 actorIndex, Uint8 brushIndex,
+    Uint8 bankIndex, Uint8 paletteIndex, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);
+void setFullLayerClips(hRENDER render, Uint8 layerIndex,
+    Uint8 leftWidth, Uint8 rightWidth, Uint8 topHeight, Uint8 bottomHeight,
+    SDL_bool invertLeft, SDL_bool invertRight, SDL_bool invertTop, SDL_bool invertBottom);
+void setLayerClips(hRENDER render, Uint8 layerIndex,
+    Uint8 leftWidth, Uint8 rightWidth, Uint8 topHeight, Uint8 bottomHeight);
 void showBackdrop(hRENDER render, Uint8 backdropIndex, Uint8 dX, Uint8 dY, SDL_bool topmost);
 void hideBackdrop(hRENDER render, Uint8 backdropIndex);
 void hideAllBackdrops(hRENDER render);
-void showActor(hRENDER render, Uint8 actorIndex, int x, int y, Uint8 sizeX, Uint8 sizeY, Uint8 layer);
+void showActor(hRENDER render, Uint8 actorIndex, int x, int y,
+    Uint8 sizeX, Uint8 sizeY, Uint8 layer);
 void hideActor(hRENDER render, Uint8 actorIndex);
 void hideAllActors(hRENDER render);
 
 typedef void (*pDeinitCallback)();
 
-extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateCallback, pRenderCallback renderCallback, pDeinitCallback deinitCallback, SDL_RWops* recordStream, SDL_RWops* playbackStream);
+extern int libMain(char* title, pInitCallback initFunc, pUpdateCallback updateCallback,
+    pRenderCallback renderCallback, pDeinitCallback deinitCallback,
+    SDL_RWops* recordStream, SDL_RWops* playbackStream);

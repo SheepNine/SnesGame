@@ -48,7 +48,7 @@ void fillBackdrop(hRENDER render, Uint8 backdropIndex, Uint8 brushIndex, Uint8 b
 
 void setPaletteColor(Uint8* data, Uint8 colorIndex, Uint8 r, Uint8 g, Uint8 b, SDL_bool t);
 
-typedef Uint8 (*hSBRC)(hRENDER render, Uint8 actorIndex, Sint32 screenX, Sint32 screenY, void* renderContext);
+typedef Uint8(*hSBRC)(hRENDER render, Uint8 actorIndex, Sint32 screenX, Sint32 screenY, void* renderContext);
 
 typedef struct SB* hSB;
 hSB creat_SB(hCC cc);
@@ -57,4 +57,4 @@ void destr_SB(hSB sb);
 void addSprite_SB(hSB sb, Sint32 worldX, Sint32 worldY, hSBRC renderCallback, void* renderContext);
 Uint8 render_SB(hSB sb, hRENDER render, Uint8 actorIndex);
 void addSingleBrushSprite_SB(hSB sb, Sint32 worldX, Sint32 worldY, Uint8 layer, Uint8 brushIndex, Uint8 bankIndex,
-	Uint8 paletteIndex, Sint8 centerX, Sint8 centerY, Uint8 sizeX, Uint8 sizeY, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);
+    Uint8 paletteIndex, Sint8 centerX, Sint8 centerY, Uint8 sizeX, Uint8 sizeY, SDL_bool hFlip, SDL_bool vFlip, SDL_bool mask0);

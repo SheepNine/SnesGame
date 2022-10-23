@@ -8,7 +8,8 @@ namespace SnesGame.ResourceCompiler.Pipelines
     public static class PipelineUtils
     {
 
-        public static void WriteFileIfStale(IEnumerable<string> inputFilenames, string outputFilename, Action<TextWriter> writeMethod)
+        public static void WriteFileIfStale(IEnumerable<string> inputFilenames,
+            string outputFilename, Action<TextWriter> writeMethod)
         {
             Console.Write(Path.GetFileName(outputFilename));
 
@@ -46,7 +47,8 @@ namespace SnesGame.ResourceCompiler.Pipelines
         {
             var sourceInfo = new FileInfo(sourceFile);
             var outputInfo = new FileInfo(outputFile);
-            return outputInfo.Exists && outputInfo.LastWriteTimeUtc >= sourceInfo.LastWriteTimeUtc;
+            return outputInfo.Exists
+                && outputInfo.LastWriteTimeUtc >= sourceInfo.LastWriteTimeUtc;
         }
     }
 }

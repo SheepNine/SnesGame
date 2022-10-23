@@ -19,7 +19,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
             SourcePath = sourcePath;
 
             if (!File.Exists(sourcePath))
-                throw new FileNotFoundException(string.Format("Source for brushlist '{0}' not found", id), sourcePath);
+                throw new FileNotFoundException(
+                    string.Format("Source for brushlist '{0}' not found", id), sourcePath);
         }
 
         public Bitmap LoadSourceAsBitmap()
@@ -30,7 +31,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
             }
             catch (Exception ex)
             {
-                throw new InvalidDataException(string.Format("Error loading bitmap of brushlist '{0}'", ID), ex);
+                throw new InvalidDataException(
+                    string.Format("Error loading bitmap of brushlist '{0}'", ID), ex);
             }
         }
 
@@ -59,7 +61,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
 
                         foreach (var y in Enumerable.Range(0, 128))
                             foreach (var x in Enumerable.Range(0, 128))
-                                croppedBitmap.SetPixel(x, y, paletteSwap[croppedBitmap.GetPixel(x, y)]);
+                                croppedBitmap.SetPixel(x, y,
+                                    paletteSwap[croppedBitmap.GetPixel(x, y)]);
 
                         return new ImageTileset(croppedBitmap, 8);
                     }
@@ -67,7 +70,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
             }
             catch (Exception ex)
             {
-                throw new InvalidDataException(string.Format("Error loading tileset of brushlist '{0}'", ID), ex);
+                throw new InvalidDataException(
+                    string.Format("Error loading tileset of brushlist '{0}'", ID), ex);
             }
         }
     }

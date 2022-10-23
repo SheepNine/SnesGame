@@ -16,7 +16,8 @@ namespace Potatune
         string CurrentFileName { get; }
         bool IsModified { get; }
 
-        void HookupToView(WysiwygPanel editorPanel, GestureInterpreter editorGestures, HScrollBar editorScrollBar);
+        void HookupToView(WysiwygPanel editorPanel,
+            GestureInterpreter editorGestures, HScrollBar editorScrollBar);
 
         void NewTune();
         void OpenTune();
@@ -90,7 +91,8 @@ namespace Potatune
             remove { stateMachine.IsModifiedChanged -= value; }
         }
 
-        public void HookupToView(WysiwygPanel editorPanel, GestureInterpreter editorGestures, HScrollBar editorScrollBar)
+        public void HookupToView(WysiwygPanel editorPanel,
+            GestureInterpreter editorGestures, HScrollBar editorScrollBar)
         {
             this.editorPanel = editorPanel;
             this.editorGestures = editorGestures;
@@ -129,49 +131,7 @@ namespace Potatune
                 {
                     var rowState = g.Save();
                     g.TranslateTransform(0, NOTE_WIDTH * track);
-                    for (int i = 0; i < notesVisible; i++)
-                    {
-                        var position = editorScrollBar.Value + skip * i;
-                        if (position >= model.Length)
-                            break;
-
-                        var state = g.Save();
-                        g.TranslateTransform(NOTE_WIDTH * i, 0);
-
-                        var note = model[track, position];
-
-                        var brush = Brushes.Gray;
-                        if (note is SquareNote)
-                            brush = Brushes.Blue;
-                        if (note is Noise)
-                            brush = Brushes.Green;
-                        g.FillRectangle(brush, 0, 0, NOTE_WIDTH, NOTE_WIDTH);
-                        g.DrawRectangle(Pens.CornflowerBlue, 0, 0, NOTE_WIDTH - 1, NOTE_WIDTH - 1);
-
-                        if (note != null)
-                        {
-                            if (note is SquareNote)
-                            {
-                                var snote = note as SquareNote;
-                                // Period
-                                g.DrawString(SquarePeriodString(snote), font, Brushes.Silver, 0, 0);
-                                // Volume
-                                g.DrawString(SquareVolumeString(snote), font, Brushes.Silver, 0, 40);
-                                // Length
-                                g.DrawString(SquareLengthString(snote), font, Brushes.Silver, 0, 80);
-                            }
-                            if (note is Noise)
-                            {
-                                var snote = note as Noise;
-                                var str1 = string.Format("{0}:{1}", snote.TapMask == 0x02 ? "Long" : "Short", snote.Speed + 1);
-                                g.DrawString(str1, font, Brushes.Silver, 0, 0);
-                                g.DrawString(snote.MaxLength.ToString(), font, Brushes.Silver, 0, 40);
-                                g.DrawString(string.Format("0x{0:X4}", snote.InitialRegister), font, Brushes.Silver, 0, 80);
-                            }
-                        }
-
-                        g.Restore(state);
-                    }
+                    editorPanel_PaintRow(font, notesVisible, model, g, track);
 
                     g.Restore(rowState);
                 }
@@ -191,7 +151,8 @@ namespace Potatune
                     {
                         if ((position) % increments[inc] == 0)
                         {
-                            g.FillRectangle(Brushes.AntiqueWhite, -1, 0, 2, NOTE_WIDTH * model.NumTracks + 16 * (inc + 1));
+                            g.FillRectangle(Brushes.AntiqueWhite,
+                                -1, 0, 2, NOTE_WIDTH * model.NumTracks + 16 * (inc + 1));
                             g.DrawString(LengthEditor.NotePositionToString(position), font,
                                 Brushes.AntiqueWhite, 1, NOTE_WIDTH * model.NumTracks + 12 * inc);
                             g.DrawString((position / increments[inc]).ToString(), font,
@@ -204,17 +165,74 @@ namespace Potatune
                     if (position >= playbackStart && position <= playbackEnd)
                     {
                         using (var brush = new SolidBrush(Color.FromArgb(16, Color.Orange)))
-                            g.FillRectangle(brush, 0, 0, NOTE_WIDTH, NOTE_WIDTH * model.NumTracks);
-                        g.FillRectangle(Brushes.Orange, 0, 0, NOTE_WIDTH, 2);
-                        g.FillRectangle(Brushes.Orange, 0, model.NumTracks * NOTE_WIDTH - 2, NOTE_WIDTH, 2);
+                            g.FillRectangle(brush,
+                                0, 0, NOTE_WIDTH, NOTE_WIDTH * model.NumTracks);
+                        g.FillRectangle(Brushes.Orange,
+                            0, 0, NOTE_WIDTH, 2);
+                        g.FillRectangle(Brushes.Orange,
+                            0, model.NumTracks * NOTE_WIDTH - 2, NOTE_WIDTH, 2);
                     }
                     if (position == playbackStart)
-                        g.FillRectangle(Brushes.Orange, 0, 0, 2, NOTE_WIDTH * model.NumTracks);
+                        g.FillRectangle(Brushes.Orange,
+                            0, 0, 2, NOTE_WIDTH * model.NumTracks);
                     if (position == playbackEnd)
-                        g.FillRectangle(Brushes.Orange, NOTE_WIDTH - 2, 0, 2, NOTE_WIDTH * model.NumTracks);
+                        g.FillRectangle(Brushes.Orange,
+                            NOTE_WIDTH - 2, 0, 2, NOTE_WIDTH * model.NumTracks);
 
                     g.Restore(state);
                 }
+            }
+        }
+
+        private void editorPanel_PaintRow(Font font, int notesVisible,
+            ReadOnlyRecording model, Graphics g, int track)
+        {
+            for (int i = 0; i < notesVisible; i++)
+            {
+                var position = editorScrollBar.Value + skip * i;
+                if (position >= model.Length)
+                    break;
+
+                var state = g.Save();
+                g.TranslateTransform(NOTE_WIDTH * i, 0);
+
+                var note = model[track, position];
+
+                var brush = Brushes.Gray;
+                if (note is SquareNote)
+                    brush = Brushes.Blue;
+                if (note is Noise)
+                    brush = Brushes.Green;
+                g.FillRectangle(brush, 0, 0, NOTE_WIDTH, NOTE_WIDTH);
+                g.DrawRectangle(Pens.CornflowerBlue, 0, 0, NOTE_WIDTH - 1, NOTE_WIDTH - 1);
+
+                if (note != null)
+                {
+                    if (note is SquareNote)
+                    {
+                        var snote = note as SquareNote;
+                        // Period
+                        g.DrawString(SquarePeriodString(snote), font, Brushes.Silver, 0, 0);
+                        // Volume
+                        g.DrawString(SquareVolumeString(snote), font, Brushes.Silver, 0, 40);
+                        // Length
+                        g.DrawString(SquareLengthString(snote), font, Brushes.Silver, 0, 80);
+                    }
+                    if (note is Noise)
+                    {
+                        var snote = note as Noise;
+                        var str1 = string.Format("{0}:{1}",
+                            snote.TapMask == 0x02 ? "Long" : "Short", snote.Speed + 1);
+                        g.DrawString(str1,
+                            font, Brushes.Silver, 0, 0);
+                        g.DrawString(snote.MaxLength.ToString(),
+                            font, Brushes.Silver, 0, 40);
+                        g.DrawString(string.Format("0x{0:X4}", snote.InitialRegister),
+                            font, Brushes.Silver, 0, 80);
+                    }
+                }
+
+                g.Restore(state);
             }
         }
 
@@ -224,8 +242,12 @@ namespace Potatune
                 return SquareNoteEditor.PeriodString(snote.PeriodMin);
 
             return string.Format("{0}-{1}@{2}\n{3}",
-                SquareNoteEditor.PeriodString(snote.PeriodShiftParameters.Direction == ShiftDirection.Rising ? snote.PeriodMax : snote.PeriodMin),
-                SquareNoteEditor.PeriodString(snote.PeriodShiftParameters.Direction == ShiftDirection.Rising ? snote.PeriodMin : snote.PeriodMax),
+                SquareNoteEditor.PeriodString(
+                    snote.PeriodShiftParameters.Direction == ShiftDirection.Rising
+                        ? snote.PeriodMax : snote.PeriodMin),
+                SquareNoteEditor.PeriodString(
+                    snote.PeriodShiftParameters.Direction == ShiftDirection.Rising
+                        ? snote.PeriodMin : snote.PeriodMax),
                 snote.PeriodShiftParameters.Speed + 1,
                 EdgeBehaviourString(snote.PeriodShiftParameters.EdgeBehaviour));
         }
@@ -236,8 +258,10 @@ namespace Potatune
                 return snote.VolumeMin.ToString();
 
             return string.Format("{0}-{1}@{2}\n{3}",
-                snote.VolumeShiftParameters.Direction == ShiftDirection.Rising ? snote.VolumeMin : snote.VolumeMax,
-                snote.VolumeShiftParameters.Direction == ShiftDirection.Rising ? snote.VolumeMax : snote.VolumeMin,
+                snote.VolumeShiftParameters.Direction == ShiftDirection.Rising
+                    ? snote.VolumeMin : snote.VolumeMax,
+                snote.VolumeShiftParameters.Direction == ShiftDirection.Rising
+                    ? snote.VolumeMax : snote.VolumeMin,
                 snote.VolumeShiftParameters.Speed + 1,
                 EdgeBehaviourString(snote.VolumeShiftParameters.EdgeBehaviour));
         }
@@ -416,7 +440,8 @@ namespace Potatune
 
         public void PlaySelectedRange()
         {
-            var buffer = Mixer.SampleAudio(stateMachine.CurrentModelState, playbackStart, playbackEnd);
+            var buffer = Mixer.SampleAudio(stateMachine.CurrentModelState,
+                playbackStart, playbackEnd);
 
             var stream = new MemoryStream();
             stream.WriteWaveFile(48000, buffer);
@@ -481,7 +506,8 @@ namespace Potatune
         int trackPosition;
         int boxSize;
 
-        public NoteBoxHighlightFeedback(int track, int screenPosition, int trackPosition, int boxSize)
+        public NoteBoxHighlightFeedback(int track, int screenPosition,
+            int trackPosition, int boxSize)
         {
             this.track = track;
             this.screenPosition = screenPosition;
@@ -510,8 +536,10 @@ namespace Potatune
 
             using (var font = new Font(FontFamily.GenericMonospace, 10))
             {
-                g.DrawString(LengthEditor.NotePositionToString(trackPosition), font, Brushes.Cyan, 0, 0);
-                g.DrawString(trackPosition.ToString(), font, Brushes.Cyan, 0, 16);
+                g.DrawString(LengthEditor.NotePositionToString(trackPosition),
+                    font, Brushes.Cyan, 0, 0);
+                g.DrawString(trackPosition.ToString(),
+                    font, Brushes.Cyan, 0, 16);
             }
 
             g.Restore(state);

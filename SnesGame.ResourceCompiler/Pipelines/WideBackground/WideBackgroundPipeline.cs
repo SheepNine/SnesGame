@@ -13,14 +13,17 @@ namespace SnesGame.ResourceCompiler.Pipelines.WideBackground
 
         public string EntryTag { get { return WideBackgroundEntry.Tag; } }
 
-        public IEnumerable<ManifestEntry> ParseEntries(XmlDocument doc, string baseDirectory, string outputDirectory)
+        public IEnumerable<ManifestEntry> ParseEntries(XmlDocument doc,
+            string baseDirectory, string outputDirectory)
         {
-            return doc.SelectNodes("/AssetManifest/WideBackgrounds/WideBackground").Cast<XmlElement>().Select(node => new
-            {
-                id = node.GetAttribute("id"),
-                source = node.GetAttribute("source"),
-                layerCount = int.Parse(node.GetAttribute("layerCount"))
-            }).Select(data => new WideBackgroundEntry(data.id, Path.Combine(baseDirectory, data.source), data.layerCount));
+            return doc.SelectNodes("/AssetManifest/WideBackgrounds/WideBackground")
+                .Cast<XmlElement>().Select(node => new
+                {
+                    id = node.GetAttribute("id"),
+                    source = node.GetAttribute("source"),
+                    layerCount = int.Parse(node.GetAttribute("layerCount"))
+                }).Select(data => new WideBackgroundEntry(data.id,
+                Path.Combine(baseDirectory, data.source), data.layerCount));
         }
 
         public void CompileEntries(Manifest manifest)

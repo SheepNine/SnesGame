@@ -17,7 +17,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.WideBackground
             LayerCount = layerCount;
 
             if (!File.Exists(sourcePath))
-                throw new FileNotFoundException(string.Format("Source for wide background '{0}' not found", id), sourcePath);
+                throw new FileNotFoundException(
+                    string.Format("Source for wide background '{0}' not found", id), sourcePath);
         }
 
         public TileArrangement LoadSourceTileArrangement()
@@ -29,7 +30,9 @@ namespace SnesGame.ResourceCompiler.Pipelines.WideBackground
             }
             catch (Exception ex)
             {
-                throw new InvalidDataException(string.Format("Error loading tile arrangement of wide background '{0}'", ID), ex);
+                throw new InvalidDataException(
+                    string.Format("Error loading tile arrangement of wide background '{0}'", ID),
+                    ex);
             }
         }
     }

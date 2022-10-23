@@ -12,61 +12,66 @@ namespace SnesGame.ResourceCompiler.Pipelines.Recording
             PipelineUtils.WriteFileIfStale(
                 manifest.GetRecordings().Select(wb => wb.SourcePath),
                 Path.Combine(manifest.OutputDirectory, "recordings.c"),
-                writer =>
+                writer => WriteRecordingCodeFile(manifest, writer));
+        }
+
+        static void WriteRecordingCodeFile(Manifest manifest, TextWriter w)
+        {
+            w.WriteLine("#include \"recordings.h\"");
+            w.WriteLine();
+
+            foreach (var recording in manifest.GetRecordings())
+            {
+                RecordingOpcodeStream data;
+                using (var stream = File.OpenRead(recording.SourcePath))
+                    data = RecordingOpcodeStream.FromRecording(
+                        CLR.Recording.Deserialize(stream));
+
+                w.WriteLine("#define count_{0} {1}", recording.ID, data.TrackCount);
+
+                w.Write("Uint16 offsets_{0}[count_{0}] = {{ ", recording.ID);
+                foreach (var offset in data.Offsets)
+                    w.Write("{0}, ", offset);
+                w.WriteLine("}};", recording.ID);
+
+                w.Write("Uint16 lengths_{0}[count_{0}] = {{ ", recording.ID);
+                foreach (var length in data.Lengths)
+                    w.Write("{0}, ", length);
+                w.WriteLine("}};", recording.ID);
+
+                w.Write("Uint8 stream_{0}[{1}] = {{",
+                    recording.ID, data.OpcodeCount);
+                var i = 31;
+                foreach (var opcode in data.Opcodes)
                 {
-                    writer.WriteLine("#include \"recordings.h\"");
-                    writer.WriteLine();
-
-                    foreach (var recording in manifest.GetRecordings())
+                    i += 1;
+                    if (i == 32)
                     {
-                        RecordingOpcodeStream data;
-                        using (var stream = File.OpenRead(recording.SourcePath))
-                            data = RecordingOpcodeStream.FromRecording(SnesGame.CLR.Recording.Deserialize(stream));
-
-                        writer.WriteLine("#define count_{0} {1}", recording.ID, data.TrackCount);
-
-                        writer.Write("Uint16 offsets_{0}[count_{0}] = {{ ", recording.ID);
-                        foreach (var offset in data.Offsets)
-                            writer.Write("{0}, ", offset);
-                        writer.WriteLine("}};", recording.ID);
-
-                        writer.Write("Uint16 lengths_{0}[count_{0}] = {{ ", recording.ID);
-                        foreach (var length in data.Lengths)
-                            writer.Write("{0}, ", length);
-                        writer.WriteLine("}};", recording.ID);
-
-                        writer.Write("Uint8 stream_{0}[{1}] = {{", recording.ID, data.OpcodeCount);
-                        var i = 31;
-                        foreach (var opcode in data.Opcodes)
-                        {
-                            i += 1;
-                            if (i == 32)
-                            {
-                                writer.WriteLine();
-                                writer.Write("\t");
-                                i = 0;
-                            }
-                            writer.Write("0x{0:X2},", opcode);
-                        }
-                        writer.WriteLine();
-                        writer.WriteLine("}};", recording.ID);
-                        writer.WriteLine();
+                        w.WriteLine();
+                        w.Write("\t");
+                        i = 0;
                     }
+                    w.Write("0x{0:X2},", opcode);
+                }
+                w.WriteLine();
+                w.WriteLine("}};", recording.ID);
+                w.WriteLine();
+            }
 
-                    writer.WriteLine("hRecord loadRecording(Uint16 recId) {");
-                    writer.WriteLine("\tswitch (recId) {");
+            w.WriteLine("hRecord loadRecording(Uint16 recId) {");
+            w.WriteLine("\tswitch (recId) {");
 
-                    foreach (var recording in manifest.GetRecordings())
-                    {
-                        writer.WriteLine("\t\tcase REC_{0}:", recording.ID);
-                        writer.WriteLine("\t\t\treturn creat_Record(count_{0}, stream_{0}, offsets_{0}, lengths_{0});", recording.ID);
-                    }
+            foreach (var recording in manifest.GetRecordings())
+            {
+                w.WriteLine("\t\tcase REC_{0}:", recording.ID);
+                w.Write("\t\t\treturn creat_Record(count_{0}, stream_{0},", recording.ID);
+                w.WriteLine(" offsets_{0}, lengths_{0});", recording.ID);
+            }
 
-                    writer.WriteLine("\t\tdefault:");
-                    writer.WriteLine("\t\t\treturn NULL;");
-                    writer.WriteLine("\t}");
-                    writer.WriteLine("}");
-                });
+            w.WriteLine("\t\tdefault:");
+            w.WriteLine("\t\t\treturn NULL;");
+            w.WriteLine("\t}");
+            w.WriteLine("}");
         }
 
         class RecordingOpcodeStream
@@ -378,8 +383,12 @@ namespace SnesGame.ResourceCompiler.Pipelines.Recording
                 {
                     result.StartTrack();
 
-                    var noteIndices = Enumerable.Range(0, source.Length).Where(i => source[trackIndex, i] != null).ToArray();
-                    var noteLengths = Enumerable.Range(0, noteIndices.Length).Select(i => (i == noteIndices.Length - 1 ? source.Length : noteIndices[i + 1]) - noteIndices[i]).ToArray();
+                    var noteIndices = Enumerable.Range(0, source.Length)
+                        .Where(i => source[trackIndex, i] != null).ToArray();
+                    var noteLengths = Enumerable.Range(0, noteIndices.Length).Select(i =>
+                        (i == noteIndices.Length - 1
+                            ? source.Length : noteIndices[i + 1]) - noteIndices[i])
+                        .ToArray();
 
                     // Range check missing!
                     if (noteIndices[0] > 0)

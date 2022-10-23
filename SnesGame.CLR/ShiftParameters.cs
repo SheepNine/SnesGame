@@ -2,6 +2,10 @@
 {
     public class ShiftParameters
     {
+        private static readonly ShiftParameters none =
+            new ShiftParameters(ShiftDirection.None, 0, EdgeBehaviour.SilenceChannel);
+        public static ShiftParameters None { get { return none; } }
+
         public ShiftDirection Direction { get; private set; }
         public byte Speed { get; private set; }
         public EdgeBehaviour EdgeBehaviour { get; private set; }
@@ -19,11 +23,6 @@
                 Speed = speed;
                 EdgeBehaviour = edgeBehaviour;
             }
-        }
-
-        public static ShiftParameters None
-        {
-            get { return new ShiftParameters(ShiftDirection.None, 0, EdgeBehaviour.SilenceChannel); }
         }
     }
 }

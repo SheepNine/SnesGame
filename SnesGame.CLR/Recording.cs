@@ -53,7 +53,10 @@ namespace SnesGame.CLR
         public void Serialize(Stream destination)
         {
             using (var textWriter = new StreamWriter(destination))
-            using (var jsonWriter = new JsonTextWriter(textWriter) { Formatting = Formatting.None })
+            using (var jsonWriter = new JsonTextWriter(textWriter)
+            {
+                Formatting = Formatting.None
+            })
                 Serialize(jsonWriter);
         }
 

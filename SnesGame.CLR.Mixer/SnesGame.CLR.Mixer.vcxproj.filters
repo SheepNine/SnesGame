@@ -26,7 +26,7 @@
     <ClInclude Include="SDL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SnesGame\SnesGame.Runtime\sc.h">
+    <ClInclude Include="..\SnesGame.Runtime\sc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

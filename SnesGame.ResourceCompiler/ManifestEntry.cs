@@ -10,9 +10,11 @@ namespace SnesGame.ResourceCompiler
         public ManifestEntry(string tag, string id)
         {
             if (string.IsNullOrEmpty(id))
-                throw new InvalidDataException(string.Format("A {0} is missing an 'id' attribute", tag));
+                throw new InvalidDataException(
+                    string.Format("A {0} is missing an 'id' attribute", tag));
             if (!Regex.IsMatch(id, "[A-Z][A-Z0-9_]+"))
-                throw new InvalidDataException(string.Format("A {0} has invalid 'id' attribute '{1}'", tag, id));
+                throw new InvalidDataException(
+                    string.Format("A {0} has invalid 'id' attribute '{1}'", tag, id));
 
             ID = id;
         }

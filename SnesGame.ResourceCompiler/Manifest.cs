@@ -11,7 +11,8 @@ namespace SnesGame.ResourceCompiler
 
         private IDictionary<string, IDictionary<string, ManifestEntry>> entries;
 
-        public Manifest(string manifestFilename, IEnumerable<Pipeline> pipelines, string outputDirectory)
+        public Manifest(string manifestFilename, IEnumerable<Pipeline> pipelines,
+            string outputDirectory)
         {
             OutputDirectory = outputDirectory;
             entries = new SortedDictionary<string, IDictionary<string, ManifestEntry>>();
@@ -21,7 +22,8 @@ namespace SnesGame.ResourceCompiler
                 var doc = new XmlDocument();
                 doc.Load(stream);
                 foreach (var pipeline in pipelines)
-                    entries[pipeline.EntryTag] = pipeline.ParseEntries(doc, baseDirectory, outputDirectory)
+                    entries[pipeline.EntryTag] = pipeline.ParseEntries(
+                        doc, baseDirectory, outputDirectory)
                         .ToDictionary(entry => entry.ID);
             }
         }

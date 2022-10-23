@@ -46,115 +46,117 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
                 writer.WriteLine("}");
             });
         }
+    }
 
-        class BrushListBytes
+    class BrushListBytes
+    {
+        private BrushBytes[] brushes = new BrushBytes[256];
+
+        public BrushListBytes(BrushlistEntry manifestBrushlist)
         {
-            private BrushBytes[] brushes = new BrushBytes[256];
-
-            public BrushListBytes(BrushlistEntry manifestBrushlist)
+            using (var bitmap = manifestBrushlist.LoadSourceAsBitmap())
             {
-                using (var bitmap = manifestBrushlist.LoadSourceAsBitmap())
+                var paletteMap = new Dictionary<Color, int>();
+                foreach (var i in Enumerable.Range(0, 16))
                 {
-                    var paletteMap = new Dictionary<Color, int>();
-                    foreach (var i in Enumerable.Range(0, 16))
-                    {
-                        var color = bitmap.GetPixel(8 * i, 128);
-                        if (!paletteMap.ContainsKey(color))
-                            paletteMap[color] = paletteMap.Count;
-                    }
-
-                    foreach (var glyphIndex in Enumerable.Range(0, 256))
-                    {
-                        var glyphOffsetX = (glyphIndex % 16) * 8;
-                        var glyphOffsetY = (glyphIndex / 16) * 8;
-
-                        var brush = new BrushBytes();
-                        brushes[glyphIndex] = brush;
-                        foreach (var y in Enumerable.Range(0, 8))
-                            foreach (var x in Enumerable.Range(0, 8))
-                            {
-                                var sourceColor = bitmap.GetPixel(glyphOffsetX + x, glyphOffsetY + y);
-                                if (!paletteMap.ContainsKey(sourceColor))
-                                {
-                                    throw new InvalidDataException(string.Format("Brush list {0} has unexpected color {1}", manifestBrushlist.ID, sourceColor));
-                                }
-                                brush.SetIndex(x, y, paletteMap[sourceColor]);
-                            }
-                    }
+                    var color = bitmap.GetPixel(8 * i, 128);
+                    if (!paletteMap.ContainsKey(color))
+                        paletteMap[color] = paletteMap.Count;
                 }
-            }
 
-            public IEnumerable<BrushBytes> Brushes
-            {
-                get { return brushes; }
+                foreach (var glyphIndex in Enumerable.Range(0, 256))
+                {
+                    var glyphOffsetX = (glyphIndex % 16) * 8;
+                    var glyphOffsetY = (glyphIndex / 16) * 8;
+
+                    var brush = new BrushBytes();
+                    brushes[glyphIndex] = brush;
+                    foreach (var y in Enumerable.Range(0, 8))
+                        foreach (var x in Enumerable.Range(0, 8))
+                        {
+                            var sourceColor = bitmap.GetPixel(glyphOffsetX + x, glyphOffsetY + y);
+                            if (!paletteMap.ContainsKey(sourceColor))
+                            {
+                                throw new InvalidDataException(string.Format(
+                                    "Brush list {0} has unexpected color {1}",
+                                    manifestBrushlist.ID, sourceColor));
+                            }
+                            brush.SetIndex(x, y, paletteMap[sourceColor]);
+                        }
+                }
             }
         }
 
-        class BrushBytes
+        public IEnumerable<BrushBytes> Brushes
         {
-            private byte[] data;
+            get { return brushes; }
+        }
+    }
 
-            public BrushBytes()
+    class BrushBytes
+    {
+        private byte[] data;
+
+        public BrushBytes()
+        {
+            data = Enumerable.Repeat((byte)0, 32).ToArray();
+        }
+
+        public int GetIndex(int x, int y)
+        {
+            if (x < 0 || x >= 8)
+                throw new ArgumentOutOfRangeException("x");
+            if (y < 0 || y >= 8)
+                throw new ArgumentOutOfRangeException("y");
+
+            var mask = (byte)(0x1 << x);
+            var result = (byte)0;
+            if ((data[4 * y + 0] & mask) != 0)
+                result |= 0x1;
+            if ((data[4 * y + 1] & mask) != 0)
+                result |= 0x2;
+            if ((data[4 * y + 2] & mask) != 0)
+                result |= 0x4;
+            if ((data[4 * y + 3] & mask) != 0)
+                result |= 0x8;
+
+            return result;
+        }
+
+        public void SetIndex(int x, int y, int value)
+        {
+            if (x < 0 || x >= 8)
+                throw new ArgumentOutOfRangeException("x");
+            if (y < 0 || y >= 8)
+                throw new ArgumentOutOfRangeException("y");
+            if (value < 0 || value > 0xF)
+                throw new ArgumentOutOfRangeException("value");
+
+            var mask = (byte)(0x1 << x);
+
+            if ((value & 0x1) != 0)
+                data[4 * y + 0] |= mask;
+            else
+                data[4 * y + 0] &= (byte)~mask;
+            if ((value & 0x2) != 0)
+                data[4 * y + 1] |= mask;
+            else
+                data[4 * y + 1] &= (byte)~mask;
+            if ((value & 0x4) != 0)
+                data[4 * y + 2] |= mask;
+            else
+                data[4 * y + 2] &= (byte)~mask;
+            if ((value & 0x8) != 0)
+                data[4 * y + 3] |= mask;
+            else
+                data[4 * y + 3] &= (byte)~mask;
+        }
+
+        public IEnumerable<byte> Bytes
+        {
+            get
             {
-                data = Enumerable.Repeat((byte)0, 32).ToArray();
-            }
-
-            public int GetIndex(int x, int y)
-            {
-                if (x < 0 || x >= 8)
-                    throw new ArgumentOutOfRangeException("x");
-                if (y < 0 || y >= 8)
-                    throw new ArgumentOutOfRangeException("y");
-
-                var mask = (byte)(0x1 << x);
-                var result = (byte)0;
-                if ((data[4 * y + 0] & mask) != 0)
-                    result |= 0x1;
-                if ((data[4 * y + 1] & mask) != 0)
-                    result |= 0x2;
-                if ((data[4 * y + 2] & mask) != 0)
-                    result |= 0x4;
-                if ((data[4 * y + 3] & mask) != 0)
-                    result |= 0x8;
-
-                return result;
-            }
-
-            public void SetIndex(int x, int y, int value)
-            {
-                if (x < 0 || x >= 8)
-                    throw new ArgumentOutOfRangeException("x");
-                if (y < 0 || y >= 8)
-                    throw new ArgumentOutOfRangeException("y");
-                if (value < 0 || value > 0xF)
-                    throw new ArgumentOutOfRangeException("value");
-
-                var mask = (byte)(0x1 << x);
-
-                if ((value & 0x1) != 0)
-                    data[4 * y + 0] |= mask;
-                else
-                    data[4 * y + 0] &= (byte)~mask;
-                if ((value & 0x2) != 0)
-                    data[4 * y + 1] |= mask;
-                else
-                    data[4 * y + 1] &= (byte)~mask;
-                if ((value & 0x4) != 0)
-                    data[4 * y + 2] |= mask;
-                else
-                    data[4 * y + 2] &= (byte)~mask;
-                if ((value & 0x8) != 0)
-                    data[4 * y + 3] |= mask;
-                else
-                    data[4 * y + 3] &= (byte)~mask;
-            }
-
-            public IEnumerable<byte> Bytes
-            {
-                get
-                {
-                    return data;
-                }
+                return data;
             }
         }
     }

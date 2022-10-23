@@ -29,7 +29,8 @@ namespace Potatune
         }
     }
 
-    class RecordingEditorStateMachine : ModelEditorStateMachine<RecordingCreateArgs, Recording, ReadOnlyRecording>
+    class RecordingEditorStateMachine : ModelEditorStateMachine<
+        RecordingCreateArgs, Recording, ReadOnlyRecording>
     {
         public RecordingEditorStateMachine()
             : base(new Prompts())

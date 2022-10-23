@@ -4,8 +4,8 @@
 
 typedef enum
 {
-	SDL_FALSE = 0,
-	SDL_TRUE = 1
+    SDL_FALSE = 0,
+    SDL_TRUE = 1
 } SDL_bool;
 
 typedef   signed __int8  Sint8;

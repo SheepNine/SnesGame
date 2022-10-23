@@ -15,7 +15,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.Palette
             SourcePath = sourcePath;
 
             if (!File.Exists(sourcePath))
-                throw new FileNotFoundException(string.Format("Source for palette '{0}' not found", id), sourcePath);
+                throw new FileNotFoundException(
+                    string.Format("Source for palette '{0}' not found", id), sourcePath);
         }
 
         public Color[] LoadPaletteColors()
@@ -24,14 +25,17 @@ namespace SnesGame.ResourceCompiler.Pipelines.Palette
             {
                 if (bitmap.Width == 128 && bitmap.Height == 129)
                 {
-                    return Enumerable.Range(0, 16).Select(i => bitmap.GetPixel(8 * i, 128)).ToArray();
+                    return Enumerable.Range(0, 16)
+                        .Select(i => bitmap.GetPixel(8 * i, 128)).ToArray();
                 }
                 if (bitmap.Width == 32 && bitmap.Height == 32)
                 {
-                    return Enumerable.Range(0, 16).Select(i => bitmap.GetPixel(8 * (i % 4), 8 * (i / 4))).ToArray();
+                    return Enumerable.Range(0, 16)
+                        .Select(i => bitmap.GetPixel(8 * (i % 4), 8 * (i / 4))).ToArray();
                 }
             }
-            throw new InvalidDataException(string.Format("Unrecognized format for palette '{0}'", ID));
+            throw new InvalidDataException(
+                string.Format("Unrecognized format for palette '{0}'", ID));
         }
     }
 }

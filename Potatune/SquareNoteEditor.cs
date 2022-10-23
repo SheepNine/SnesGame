@@ -18,8 +18,10 @@ namespace Potatune
 
             Note = new Noise(0x1, 0x2, 1200, 0);
             Note = new SquareNote(38,
-                8, 8, new ShiftParameters(ShiftDirection.None, 0, EdgeBehaviour.SilenceChannel),
-                183, 183, new ShiftParameters(ShiftDirection.None, 0, EdgeBehaviour.SilenceChannel));
+                8, 8, new ShiftParameters(
+                    ShiftDirection.None, 0, EdgeBehaviour.SilenceChannel),
+                183, 183, new ShiftParameters(
+                    ShiftDirection.None, 0, EdgeBehaviour.SilenceChannel));
         }
 
         private void lengthComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -91,50 +93,67 @@ namespace Potatune
             get
             {
                 ushort maxLength;
-                if (!MaxLength.HasValue) throw new InvalidOperationException("Length invalid");
+                if (!MaxLength.HasValue)
+                    throw new InvalidOperationException("Length invalid");
                 maxLength = MaxLength.Value;
 
                 byte volumeMin, volumeMax;
-                if (!VolumeMin.HasValue) throw new InvalidOperationException("Volume invalid");
+                if (!VolumeMin.HasValue)
+                    throw new InvalidOperationException("Volume invalid");
                 volumeMin = VolumeMin.Value;
 
                 ushort periodMin, periodMax;
-                if (!PeriodMin.HasValue) throw new InvalidOperationException("Period invalid");
+                if (!PeriodMin.HasValue)
+                    throw new InvalidOperationException("Period invalid");
                 periodMin = PeriodMin.Value;
 
                 ShiftParameters volumeShiftParameters;
                 if (VolumeShiftDirection == ShiftDirection.None)
                 {
                     volumeMax = volumeMin;
-                    volumeShiftParameters = new ShiftParameters(VolumeShiftDirection, 0, EdgeBehaviour.SilenceChannel);
+                    volumeShiftParameters = new ShiftParameters(
+                        VolumeShiftDirection, 0, EdgeBehaviour.SilenceChannel);
                 }
                 else
                 {
-                    if (!VolumeMax.HasValue) throw new InvalidOperationException("Volume2 invalid");
-                    if (!VolumeSpeed.HasValue) throw new InvalidOperationException("Volume speed invalid");
+                    if (!VolumeMax.HasValue)
+                        throw new InvalidOperationException("Volume2 invalid");
+                    if (!VolumeSpeed.HasValue)
+                        throw new InvalidOperationException("Volume speed invalid");
                     volumeMax = VolumeMax.Value;
-                    if (volumeMin == volumeMax) throw new InvalidOperationException("Volume range flat");
-                    volumeShiftParameters = new ShiftParameters(VolumeShiftDirection, VolumeSpeed.Value, VolumeEdgeBehaviour);
+                    if (volumeMin == volumeMax)
+                        throw new InvalidOperationException("Volume range flat");
+                    volumeShiftParameters = new ShiftParameters(
+                        VolumeShiftDirection, VolumeSpeed.Value, VolumeEdgeBehaviour);
                 }
 
                 ShiftParameters periodShiftParameters;
                 if (PeriodShiftDirection == ShiftDirection.None)
                 {
                     periodMax = periodMin;
-                    periodShiftParameters = new ShiftParameters(PeriodShiftDirection, 0, EdgeBehaviour.SilenceChannel);
+                    periodShiftParameters = new ShiftParameters(
+                        PeriodShiftDirection, 0, EdgeBehaviour.SilenceChannel);
                 }
                 else
                 {
-                    if (!PeriodMax.HasValue) throw new InvalidOperationException("Period2 invalid");
-                    if (!PeriodSpeed.HasValue) throw new InvalidOperationException("Period speed invalid");
+                    if (!PeriodMax.HasValue)
+                        throw new InvalidOperationException("Period2 invalid");
+                    if (!PeriodSpeed.HasValue)
+                        throw new InvalidOperationException("Period speed invalid");
                     periodMax = PeriodMax.Value;
-                    if (periodMin == periodMax) throw new InvalidOperationException("Period range flat");
-                    periodShiftParameters = new ShiftParameters(PeriodShiftDirection, PeriodSpeed.Value, PeriodEdgeBehaviour);
+                    if (periodMin == periodMax)
+                        throw new InvalidOperationException("Period range flat");
+                    periodShiftParameters = new ShiftParameters(
+                        PeriodShiftDirection, PeriodSpeed.Value, PeriodEdgeBehaviour);
                 }
 
                 return new SquareNote(maxLength,
-                    Math.Min(volumeMin, volumeMax), Math.Max(volumeMin, volumeMax), volumeShiftParameters,
-                    Math.Min(periodMin, periodMax), Math.Max(periodMin, periodMax), periodShiftParameters);
+                    Math.Min(volumeMin, volumeMax),
+                    Math.Max(volumeMin, volumeMax),
+                    volumeShiftParameters,
+                    Math.Min(periodMin, periodMax),
+                    Math.Max(periodMin, periodMax),
+                    periodShiftParameters);
             }
             set
             {
@@ -176,10 +195,14 @@ namespace Potatune
         {
             get
             {
-                if (!NoiseInitialRegister.HasValue) throw new InvalidOperationException("NoiseInitialRegister invalid");
-                if (!NoiseMaxLength.HasValue) throw new InvalidOperationException("NoiseMaxLength invalid");
-                if (!NoiseRepeat.HasValue) throw new InvalidOperationException("NoiseSpeed invalid");
-                if (!NoiseTapMask.HasValue) throw new InvalidOperationException("NoiseTapMask invalid");
+                if (!NoiseInitialRegister.HasValue)
+                    throw new InvalidOperationException("NoiseInitialRegister invalid");
+                if (!NoiseMaxLength.HasValue)
+                    throw new InvalidOperationException("NoiseMaxLength invalid");
+                if (!NoiseRepeat.HasValue)
+                    throw new InvalidOperationException("NoiseSpeed invalid");
+                if (!NoiseTapMask.HasValue)
+                    throw new InvalidOperationException("NoiseTapMask invalid");
 
                 return new Noise(NoiseInitialRegister.Value, NoiseTapMask.Value,
                     NoiseMaxLength.Value, NoiseRepeat.Value);
@@ -198,7 +221,8 @@ namespace Potatune
             get
             {
                 ushort entered;
-                if (!ushort.TryParse(noiseRegisterValue.Text, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out entered))
+                if (!ushort.TryParse(noiseRegisterValue.Text, NumberStyles.HexNumber,
+                        CultureInfo.InvariantCulture, out entered))
                     return null;
                 return entered;
             }
