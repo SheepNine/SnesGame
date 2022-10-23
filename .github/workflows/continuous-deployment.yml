@@ -29,5 +29,8 @@ jobs:
     - name: Nuget Restore
       run: nuget restore SnesGame.sln
 
-    - name: Build the Code
-      run: msbuild /p:Configuration=Release
+    - name: Build 32-bit
+      run: msbuild /p:Configuration=Release /p:Platform=x86
+      
+    - name: Build 64-bit
+      run: msbuild /p:Configuration=Release /p:Platform=x64

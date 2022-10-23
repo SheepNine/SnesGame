@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
-    <OutputPath>..\artifacts\$(MSBuildProjectName)\bin\$(Configuration)\</OutputPath>
-    <IntermediateOutputPath>..\artifacts\$(MSBuildProjectName)\bin\$(Configuration)\</IntermediateOutputPath>
+    <OutputPath>..\artifacts\$(MSBuildProjectName)\bin\$(Configuration)\$(Platform)\</OutputPath>
+    <IntermediateOutputPath>..\artifacts\$(MSBuildProjectName)\bin\$(Configuration)\$(Platform)\</IntermediateOutputPath>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <OutputType>WinExe</OutputType>
