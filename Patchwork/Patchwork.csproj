@@ -5,14 +5,13 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
     <FileVersion>6.0.0.0</FileVersion>
-    <OutputPath>..\..\..\artifacts\bin\$(MSBuildProjectName)\$(Configuration)\$(Platform)\</OutputPath>
-    <IntermediateOutputPath>..\..\..\artifacts\bin\$(MSBuildProjectName)\$(Configuration)\$(Platform)\</IntermediateOutputPath>
+    <OutputPath>..\artifacts\$(MSBuildProjectName)\bin\$(Configuration)\$(Platform)\</OutputPath>
+    <IntermediateOutputPath>..\artifacts\$(MSBuildProjectName)\bin\$(Configuration)\$(Platform)\</IntermediateOutputPath>
     <ApplicationIcon>patchwork.ico</ApplicationIcon>
     <OutputType>WinExe</OutputType>
     <StartupObject>Patchwork.Program</StartupObject>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <Platforms>x86;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

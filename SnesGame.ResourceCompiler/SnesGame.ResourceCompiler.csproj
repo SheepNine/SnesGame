@@ -7,7 +7,6 @@
     <IntermediateOutputPath>..\artifacts\$(MSBuildProjectName)\bin\$(Configuration)\$(Platform)\</IntermediateOutputPath>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <Platforms>x86;x64</Platforms>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
 

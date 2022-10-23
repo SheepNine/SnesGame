@@ -34,3 +34,13 @@ jobs:
       
     - name: Build 64-bit
       run: msbuild /p:Configuration=Release /p:Platform=x64
+      
+    - name: Create Package
+      run: dependencies\UnaryHeap\PackageTool.exe ArtifactManifest.xml
+      
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        path: artifacts/packages/SnesGame.zip
+        retention-days: 7

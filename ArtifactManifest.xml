@@ -1,0 +1,47 @@
+<ArchiveManifest OutputFileName="artifacts\packages\SnesGame.zip">
+  <Entry ArchiveName="SnesGame\include\snes_runtime.h" SourceFileName="SnesGame.Runtime\api\snes_runtime.h" />
+  <Entry ArchiveName="SnesGame\include\snes_runtime_enums.h" SourceFileName="SnesGame.Runtime\api\snes_runtime_enums.h" />
+  <Entry ArchiveName="SnesGame\include\snes_devkit.h" SourceFileName="SnesGame.DevKit\api\snes_devkit.h" />
+  
+  <Entry ArchiveName="SnesGame\lib\Win32\SnesGame.Runtime.lib" SourceFileName="artifacts\SnesGame.Runtime\bin\Release\Win32\SnesGame.Runtime.lib" />
+  <Entry ArchiveName="SnesGame\lib\Win32\SnesGame.Runtime.pdb" SourceFileName="artifacts\SnesGame.Runtime\bin\Release\Win32\SnesGame.Runtime.pdb" />
+  <Entry ArchiveName="SnesGame\lib\Win32\SnesGame.DevKit.lib" SourceFileName="artifacts\SnesGame.DevKit\bin\Release\Win32\SnesGame.DevKit.lib" />
+  <Entry ArchiveName="SnesGame\lib\Win32\SnesGame.DevKit.pdb" SourceFileName="artifacts\SnesGame.DevKit\bin\Release\Win32\SnesGame.DevKit.pdb" />
+  
+  <Entry ArchiveName="SnesGame\lib\x64\SnesGame.Runtime.lib" SourceFileName="artifacts\SnesGame.Runtime\bin\Release\x64\SnesGame.Runtime.lib" />
+  <Entry ArchiveName="SnesGame\lib\x64\SnesGame.Runtime.pdb" SourceFileName="artifacts\SnesGame.Runtime\bin\Release\x64\SnesGame.Runtime.pdb" />
+  <Entry ArchiveName="SnesGame\lib\x64\SnesGame.DevKit.lib" SourceFileName="artifacts\SnesGame.DevKit\bin\Release\x64\SnesGame.DevKit.lib" />
+  <Entry ArchiveName="SnesGame\lib\x64\SnesGame.DevKit.pdb" SourceFileName="artifacts\SnesGame.DevKit\bin\Release\x64\SnesGame.DevKit.pdb" />
+  
+  <Entry ArchiveName="SnesGame\docs\UsageGuide.md" SourceFileName="UsageGuide.md" />
+  
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\GraphPaper.exe" SourceFileName="artifacts\GraphPaper\bin\Release\AnyCPU\net6.0-windows\GraphPaper.exe" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\GraphPaper.dll" SourceFileName="artifacts\GraphPaper\bin\Release\AnyCPU\net6.0-windows\GraphPaper.dll" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\GraphPaper.runtimeconfig.json" SourceFileName="artifacts\GraphPaper\bin\Release\AnyCPU\net6.0-windows\GraphPaper.runtimeconfig.json" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\Patchwork.exe" SourceFileName="artifacts\Patchwork\bin\Release\AnyCPU\net6.0-windows\Patchwork.exe" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\Patchwork.dll" SourceFileName="artifacts\Patchwork\bin\Release\AnyCPU\net6.0-windows\Patchwork.dll" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\Patchwork.runtimeconfig.json" SourceFileName="artifacts\Patchwork\bin\Release\AnyCPU\net6.0-windows\Patchwork.runtimeconfig.json" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\SnesGame.ResourceCompiler.exe" SourceFileName="artifacts\SnesGame.ResourceCompiler\bin\Release\AnyCPU\net6.0-windows\SnesGame.ResourceCompiler.exe" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\SnesGame.ResourceCompiler.dll" SourceFileName="artifacts\SnesGame.ResourceCompiler\bin\Release\AnyCPU\net6.0-windows\SnesGame.ResourceCompiler.dll" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\SnesGame.ResourceCompiler.runtimeconfig.json" SourceFileName="artifacts\SnesGame.ResourceCompiler\bin\Release\AnyCPU\net6.0-windows\SnesGame.ResourceCompiler.runtimeconfig.json" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\SnesGame.CLR.dll" SourceFileName="artifacts\SnesGame.CLR\bin\Release\AnyCPU\net6.0-windows\SnesGame.CLR.dll" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\Newtonsoft.Json.dll" SourceFileName="artifacts\GraphPaper\bin\Release\AnyCPU\net6.0-windows\Newtonsoft.Json.dll" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\UnaryHeap.DataType.dll" SourceFileName="dependencies\UnaryHeap\UnaryHeap.DataType.dll" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\UnaryHeap.Graph.dll" SourceFileName="dependencies\UnaryHeap\UnaryHeap.Graph.dll" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\UnaryHeap.GUI.dll" SourceFileName="dependencies\UnaryHeap\UnaryHeap.GUI.dll" />
+  <Entry ArchiveName="SnesGame\tools\AnyCpu\UnaryHeap.Mosaic.dll" SourceFileName="dependencies\UnaryHeap\UnaryHeap.Mosaic.dll" />
+    
+  <Entry ArchiveName="SnesGame\tools\x86\Potatune.exe" SourceFileName="artifacts\Potatune\bin\Release\x86\net6.0-windows\Potatune.exe" />
+  <Entry ArchiveName="SnesGame\tools\x86\Potatune.dll" SourceFileName="artifacts\Potatune\bin\Release\x86\net6.0-windows\Potatune.dll" />
+  <Entry ArchiveName="SnesGame\tools\x86\Potatune.runtimeconfig.json" SourceFileName="artifacts\Potatune\bin\Release\x86\net6.0-windows\Potatune.runtimeconfig.json" />
+  <Entry ArchiveName="SnesGame\tools\x86\UnaryHeap.GUI.dll" SourceFileName="dependencies\UnaryHeap\UnaryHeap.GUI.dll" />
+  <Entry ArchiveName="SnesGame\tools\x86\SnesGame.CLR.dll" SourceFileName="artifacts\SnesGame.CLR\bin\Release\AnyCPU\net6.0-windows\SnesGame.CLR.dll" />
+  <Entry ArchiveName="SnesGame\tools\x86\SnesGame.CLR.Mixer.dll" SourceFileName="artifacts\SnesGame.CLR.Mixer\bin\Release\Win32\SnesGame.CLR.Mixer.dll" />
+  
+  <Entry ArchiveName="SnesGame\tools\x64\Potatune.exe" SourceFileName="artifacts\Potatune\bin\Release\x64\net6.0-windows\Potatune.exe" />
+  <Entry ArchiveName="SnesGame\tools\x64\Potatune.dll" SourceFileName="artifacts\Potatune\bin\Release\x64\net6.0-windows\Potatune.dll" />
+  <Entry ArchiveName="SnesGame\tools\x64\Potatune.runtimeconfig.json" SourceFileName="artifacts\Potatune\bin\Release\x64\net6.0-windows\Potatune.runtimeconfig.json" />
+  <Entry ArchiveName="SnesGame\tools\x64\UnaryHeap.GUI.dll" SourceFileName="dependencies\UnaryHeap\UnaryHeap.GUI.dll" />
+  <Entry ArchiveName="SnesGame\tools\x64\SnesGame.CLR.dll" SourceFileName="artifacts\SnesGame.CLR\bin\Release\AnyCPU\net6.0-windows\SnesGame.CLR.dll" />
+  <Entry ArchiveName="SnesGame\tools\x64\SnesGame.CLR.Mixer.dll" SourceFileName="artifacts\SnesGame.CLR.Mixer\bin\Release\x64\SnesGame.CLR.Mixer.dll" />
+</ArchiveManifest>
