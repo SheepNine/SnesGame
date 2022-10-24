@@ -1053,7 +1053,7 @@
             <summary>
             Initializes a new instance of the Rational class from the given integeral value.
             </summary>
-            <param name="integer">The value to initialize the new instance to.</param>
+            <param name="value">The value to initialize the new instance to.</param>
         </member>
         <member name="M:UnaryHeap.DataType.Rational.#ctor(System.Numerics.BigInteger,System.Numerics.BigInteger)">
             <summary>
@@ -1069,56 +1069,56 @@
             <summary>
             Defines an implicit conversion of a System.Int32 object to a Rational value.
             </summary>
-            <param name="integer">The value to convert to a Rational.</param>
+            <param name="value">The value to convert to a Rational.</param>
             <returns> An object that contains the value of the value parameter.</returns>
         </member>
         <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.UInt32)~UnaryHeap.DataType.Rational">
             <summary>
             Defines an implicit conversion of a System.UInt32 object to a Rational value.
             </summary>
-            <param name="integer">The value to convert to a Rational.</param>
+            <param name="value">The value to convert to a Rational.</param>
             <returns> An object that contains the value of the value parameter.</returns>
         </member>
         <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.Int64)~UnaryHeap.DataType.Rational">
             <summary>
             Defines an implicit conversion of a System.Int64 object to a Rational value.
             </summary>
-            <param name="integer">The value to convert to a Rational.</param>
+            <param name="value">The value to convert to a Rational.</param>
             <returns> An object that contains the value of the value parameter.</returns>
         </member>
         <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.UInt64)~UnaryHeap.DataType.Rational">
             <summary>
             Defines an implicit conversion of a System.UInt64 object to a Rational value.
             </summary>
-            <param name="integer">The value to convert to a Rational.</param>
+            <param name="value">The value to convert to a Rational.</param>
             <returns> An object that contains the value of the value parameter.</returns>
         </member>
         <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.Int16)~UnaryHeap.DataType.Rational">
             <summary>
             Defines an implicit conversion of a System.Int16 object to a Rational value.
             </summary>
-            <param name="integer">The value to convert to a Rational.</param>
+            <param name="value">The value to convert to a Rational.</param>
             <returns> An object that contains the value of the value parameter.</returns>
         </member>
         <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.UInt16)~UnaryHeap.DataType.Rational">
             <summary>
             Defines an implicit conversion of a System.UInt16 object to a Rational value.
             </summary>
-            <param name="integer">The value to convert to a Rational.</param>
+            <param name="value">The value to convert to a Rational.</param>
             <returns> An object that contains the value of the value parameter.</returns>
         </member>
         <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.SByte)~UnaryHeap.DataType.Rational">
             <summary>
             Defines an implicit conversion of a System.SByte object to a Rational value.
             </summary>
-            <param name="integer">The value to convert to a Rational.</param>
+            <param name="value">The value to convert to a Rational.</param>
             <returns> An object that contains the value of the value parameter.</returns>
         </member>
         <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.Byte)~UnaryHeap.DataType.Rational">
             <summary>
             Defines an implicit conversion of a System.Byte object to a Rational value.
             </summary>
-            <param name="integer">The value to convert to a Rational.</param>
+            <param name="value">The value to convert to a Rational.</param>
             <returns> An object that contains the value of the value parameter.</returns>
         </member>
         <member name="M:UnaryHeap.DataType.Rational.op_Implicit(System.Numerics.BigInteger)~UnaryHeap.DataType.Rational">
@@ -1126,7 +1126,7 @@
             Defines an implicit conversion of a System.Numerics.BigInteger object to
             a Rational value.
             </summary>
-            <param name="integer">The value to convert to a Rational.</param>
+            <param name="value">The value to convert to a Rational.</param>
             <returns> An object that contains the value of the value parameter.</returns>
         </member>
         <member name="M:UnaryHeap.DataType.Rational.op_Explicit(UnaryHeap.DataType.Rational)~System.Double">
