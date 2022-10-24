@@ -1,0 +1,5 @@
+<Project>
+    <PropertyGroup>
+        <MSBUildProjectExtensionsPath>..\artifacts\ext\$(MSBuildProjectName)\</MSBUildProjectExtensionsPath>
+    </PropertyGroup>
+</Project>

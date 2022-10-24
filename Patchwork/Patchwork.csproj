@@ -5,8 +5,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyVersion>6.0.0.0</AssemblyVersion>
     <FileVersion>6.0.0.0</FileVersion>
-    <OutputPath>..\artifacts\$(MSBuildProjectName)\bin\$(Configuration)\$(Platform)\</OutputPath>
-    <IntermediateOutputPath>..\artifacts\$(MSBuildProjectName)\bin\$(Configuration)\$(Platform)\</IntermediateOutputPath>
+    <OutputPath>..\artifacts\bin\$(MSBuildProjectName)\$(Configuration)\$(Platform)\</OutputPath>
+    <IntermediateOutputPath>..\artifacts\obj\$(MSBuildProjectName)\$(Configuration)\$(Platform)\</IntermediateOutputPath>
     <ApplicationIcon>patchwork.ico</ApplicationIcon>
     <OutputType>WinExe</OutputType>
     <StartupObject>Patchwork.Program</StartupObject>

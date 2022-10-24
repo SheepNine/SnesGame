@@ -88,23 +88,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)\artifacts\SnesGame.CLR.Mixer\bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)\artifacts\SnesGame.CLR.Mixer\obj\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)\artifacts\bin\SnesGame.CLR.Mixer\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)\artifacts\obj\SnesGame.CLR.Mixer\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)\artifacts\SnesGame.CLR.Mixer\bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)\artifacts\SnesGame.CLR.Mixer\obj\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)\artifacts\bin\SnesGame.CLR.Mixer\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)\artifacts\obj\SnesGame.CLR.Mixer\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)\artifacts\SnesGame.CLR.Mixer\bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)\artifacts\SnesGame.CLR.Mixer\obj\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)\artifacts\bin\SnesGame.CLR.Mixer\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)\artifacts\obj\SnesGame.CLR.Mixer\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)\artifacts\SnesGame.CLR.Mixer\bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)\artifacts\SnesGame.CLR.Mixer\obj\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(SolutionDir)\artifacts\bin\SnesGame.CLR.Mixer\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)\artifacts\obj\SnesGame.CLR.Mixer\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

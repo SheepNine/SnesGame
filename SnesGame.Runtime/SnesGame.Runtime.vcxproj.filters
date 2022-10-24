@@ -65,9 +65,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="bb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -116,5 +113,8 @@
     <ClInclude Include="api\snes_runtime_enums.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
