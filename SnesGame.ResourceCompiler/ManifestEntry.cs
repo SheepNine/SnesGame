@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace SnesGame.ResourceCompiler
@@ -11,10 +12,12 @@ namespace SnesGame.ResourceCompiler
         {
             if (string.IsNullOrEmpty(id))
                 throw new InvalidDataException(
-                    string.Format("A {0} is missing an 'id' attribute", tag));
+                    string.Format(CultureInfo.InvariantCulture,
+                    "A {0} is missing an 'id' attribute", tag));
             if (!Regex.IsMatch(id, "[A-Z][A-Z0-9_]+"))
                 throw new InvalidDataException(
-                    string.Format("A {0} has invalid 'id' attribute '{1}'", tag, id));
+                    string.Format(CultureInfo.InvariantCulture, 
+                    "A {0} has invalid 'id' attribute '{1}'", tag, id));
 
             ID = id;
         }

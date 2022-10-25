@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -102,9 +103,11 @@ namespace GraphPaper
             foreach (var datum in data)
             {
                 if (null == datum.Value)
-                    result.AppendLine(string.Format("{0}: <varies>", datum.Key));
+                    result.AppendLine(string.Format(CultureInfo.InvariantCulture,
+                        "{0}: <varies>", datum.Key));
                 else
-                    result.AppendLine(string.Format("{0}: {1}", datum.Key, datum.Value));
+                    result.AppendLine(string.Format(CultureInfo.InvariantCulture,
+                        "{0}: {1}", datum.Key, datum.Value));
             }
 
             return result.ToString();

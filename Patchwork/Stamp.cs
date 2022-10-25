@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using UnaryHeap.Mosaic;
 
 namespace Patchwork
@@ -81,7 +82,7 @@ namespace Patchwork
                 dTileX[i] = x;
                 dTileY[i] = y;
             }
-            var title = string.Format("{0}x{1}", sizeX, sizeY);
+            var title = string.Format(CultureInfo.InvariantCulture, "{0}x{1}", sizeX, sizeY);
             return new Stamp(dX, dY, dTileX, dTileY, title);
         }
 
@@ -102,7 +103,7 @@ namespace Patchwork
                 dTileX[i] = 0;
                 dTileY[i] = 0;
             }
-            var title = string.Format("{0}x{1} Fill", sizeX, sizeY);
+            var title = string.Format(CultureInfo.InvariantCulture, "{0}x{1} Fill", sizeX, sizeY);
             return new Stamp(dX, dY, dTileX, dTileY, title);
         }
 

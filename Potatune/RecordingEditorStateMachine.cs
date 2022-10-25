@@ -30,7 +30,7 @@ namespace Potatune
     }
 
     class RecordingEditorStateMachine : ModelEditorStateMachine<
-        RecordingCreateArgs, Recording, ReadOnlyRecording>
+        RecordingCreateArgs, Recording, IReadOnlyRecording>
     {
         public RecordingEditorStateMachine()
             : base(new Prompts())
@@ -53,7 +53,7 @@ namespace Potatune
                 return Recording.Deserialize(stream);
         }
 
-        protected override ReadOnlyRecording Wrap(Recording instance)
+        protected override IReadOnlyRecording Wrap(Recording instance)
         {
             return instance;
         }

@@ -160,7 +160,7 @@ namespace GraphPaper
             return result;
         }
 
-        bool CanSelectEdge(Tuple<Point2D, Point2D> edge, Point2D point)
+        static bool CanSelectEdge(Tuple<Point2D, Point2D> edge, Point2D point)
         {
             var vX = edge.Item2.X - edge.Item1.X;
             var vY = edge.Item2.Y - edge.Item1.Y;
@@ -174,7 +174,7 @@ namespace GraphPaper
             return result;
         }
 
-        Rational EdgeQuadrance(Tuple<Point2D, Point2D> e, Point2D p)
+        static Rational EdgeQuadrance(Tuple<Point2D, Point2D> e, Point2D p)
         {
             return new Hyperplane2D(e.Item1, e.Item2).Quadrance(p);
         }

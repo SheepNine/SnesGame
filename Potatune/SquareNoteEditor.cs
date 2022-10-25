@@ -56,7 +56,7 @@ namespace Potatune
             periodEdgeComboBox.Visible = isVariable;
         }
 
-        public Note Note
+        public INote Note
         {
             get
             {
@@ -228,7 +228,7 @@ namespace Potatune
             }
             set
             {
-                noiseRegisterValue.Text = value.Value.ToString("X");
+                noiseRegisterValue.Text = value.Value.ToString("X", CultureInfo.InvariantCulture);
             }
         }
 
@@ -284,7 +284,7 @@ namespace Potatune
             }
             set
             {
-                if (!value.HasValue) throw new ArgumentNullException("value");
+                if (!value.HasValue) throw new ArgumentNullException(nameof(value));
                 if (value.Value == 0)
                 {
                     lengthComboBox.SelectedItem = "Unlimited";
@@ -292,7 +292,8 @@ namespace Potatune
                 else
                 {
                     lengthComboBox.SelectedItem = "Limited";
-                    lengthTextBox.Text = ((int)value.Value * 100).ToString();
+                    lengthTextBox.Text = ((int)value.Value * 100)
+                        .ToString(CultureInfo.InvariantCulture);
                 }
             }
         }
@@ -319,10 +320,10 @@ namespace Potatune
             return entered;
         }
 
-        private void WriteVolumeValue(TextBox control, byte? value)
+        private static void WriteVolumeValue(TextBox control, byte? value)
         {
-            if (!value.HasValue) throw new ArgumentNullException("value");
-            control.Text = value.Value.ToString();
+            if (!value.HasValue) throw new ArgumentNullException(nameof(value));
+            control.Text = value.Value.ToString(CultureInfo.InvariantCulture);
         }
 
         private ushort? PeriodMin
@@ -337,7 +338,7 @@ namespace Potatune
             set { WritePeriodValue(periodMaxTextBox, value); }
         }
 
-        private ushort? ReadPeriodValue(string text)
+        private static ushort? ReadPeriodValue(string text)
         {
             switch (text)
             {
@@ -425,7 +426,7 @@ namespace Potatune
         }
         public static string PeriodString(ushort? value)
         {
-            if (!value.HasValue) throw new ArgumentNullException("value");
+            if (!value.HasValue) throw new ArgumentNullException(nameof(value));
             switch (value.Value)
             {
                 case 873: return "A0";
@@ -498,11 +499,11 @@ namespace Potatune
                 case 18: return "E6";
                 case 17: return "F6";
                 case 16: return "F#6";
-                default: return value.Value.ToString();
+                default: return value.Value.ToString(CultureInfo.InvariantCulture);
             }
         }
 
-        private void WritePeriodValue(TextBox control, ushort? value)
+        private static void WritePeriodValue(TextBox control, ushort? value)
         {
             control.Text = PeriodString(value);
         }
@@ -519,7 +520,7 @@ namespace Potatune
             set { WriteSpeedValue(periodSpeedTextBox, value); }
         }
 
-        private byte? ReadSpeedValue(string text)
+        private static byte? ReadSpeedValue(string text)
         {
             ushort entered;
             if (!ushort.TryParse(text, out entered))
@@ -530,10 +531,10 @@ namespace Potatune
             return (byte)entered;
         }
 
-        private void WriteSpeedValue(TextBox control, byte? value)
+        private static void WriteSpeedValue(TextBox control, byte? value)
         {
-            if (!value.HasValue) throw new ArgumentNullException("value");
-            control.Text = ((int)value.Value + 1).ToString();
+            if (!value.HasValue) throw new ArgumentNullException(nameof(value));
+            control.Text = ((int)value.Value + 1).ToString(CultureInfo.InvariantCulture);
         }
 
         private EdgeBehaviour VolumeEdgeBehaviour
@@ -548,7 +549,7 @@ namespace Potatune
             set { WriteEdgeBehaviourValue(periodEdgeComboBox, value); }
         }
 
-        private EdgeBehaviour ReadEdgeBehaviourValue(string text)
+        private static EdgeBehaviour ReadEdgeBehaviourValue(string text)
         {
             switch (text)
             {
@@ -563,7 +564,7 @@ namespace Potatune
             }
         }
 
-        private void WriteEdgeBehaviourValue(ComboBox control, EdgeBehaviour value)
+        private static void WriteEdgeBehaviourValue(ComboBox control, EdgeBehaviour value)
         {
             switch (value)
             {
@@ -594,7 +595,7 @@ namespace Potatune
             set { WriteShiftDirectionValue(periodDirComboBox, value); }
         }
 
-        private ShiftDirection ReadShiftDirectionValue(string text)
+        private static ShiftDirection ReadShiftDirectionValue(string text)
         {
             switch (text)
             {
@@ -607,7 +608,7 @@ namespace Potatune
             }
         }
 
-        private void WriteShiftDirectionValue(ComboBox control, ShiftDirection value)
+        private static void WriteShiftDirectionValue(ComboBox control, ShiftDirection value)
         {
             switch (value)
             {
@@ -640,7 +641,7 @@ namespace Potatune
 
         private void playButton_Click(object sender, EventArgs e)
         {
-            Note note;
+            INote note;
             try
             {
                 note = Note;

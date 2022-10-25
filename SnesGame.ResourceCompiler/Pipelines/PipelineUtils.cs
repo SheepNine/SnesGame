@@ -13,7 +13,7 @@ namespace SnesGame.ResourceCompiler.Pipelines
         {
             Console.Write(Path.GetFileName(outputFilename));
 
-            if (inputFilenames.Count() == 0)
+            if (!inputFilenames.Any())
             {
                 Console.WriteLine(" has no inputs; skipping");
                 return;

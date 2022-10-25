@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace Potatune
@@ -22,11 +23,11 @@ namespace Potatune
             set
             {
                 if (!value.HasValue)
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 if (value.Value <= 0)
-                    throw new ArgumentException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
 
-                lengthTextBox.Text = value.Value.ToString();
+                lengthTextBox.Text = value.Value.ToString(CultureInfo.InvariantCulture);
             }
         }
 
@@ -44,15 +45,15 @@ namespace Potatune
             var minutes = position / 3000;
             var secondTics = position % 3000;
 
-            var mString = minutes.ToString();
+            var mString = minutes.ToString(CultureInfo.InvariantCulture);
             if (mString.Length == 1)
                 mString = "0" + mString;
 
-            var sString = (secondTics / 50.0).ToString("F2");
+            var sString = (secondTics / 50.0).ToString("F2", CultureInfo.InvariantCulture);
             if (sString.Length == 4)
                 sString = "0" + sString;
 
-            return string.Format("{0}:{1}", mString, sString);
+            return string.Format(CultureInfo.InvariantCulture, "{0}:{1}", mString, sString);
         }
     }
 }

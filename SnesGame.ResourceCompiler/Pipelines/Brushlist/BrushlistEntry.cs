@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using UnaryHeap.Mosaic;
@@ -20,7 +21,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
 
             if (!File.Exists(sourcePath))
                 throw new FileNotFoundException(
-                    string.Format("Source for brushlist '{0}' not found", id), sourcePath);
+                    string.Format(CultureInfo.InvariantCulture,
+                        "Source for brushlist '{0}' not found", id), sourcePath);
         }
 
         public Bitmap LoadSourceAsBitmap()
@@ -31,8 +33,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
             }
             catch (Exception ex)
             {
-                throw new InvalidDataException(
-                    string.Format("Error loading bitmap of brushlist '{0}'", ID), ex);
+                throw new InvalidDataException(string.Format(CultureInfo.InvariantCulture,
+                    "Error loading bitmap of brushlist '{0}'", ID), ex);
             }
         }
 
@@ -70,8 +72,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
             }
             catch (Exception ex)
             {
-                throw new InvalidDataException(
-                    string.Format("Error loading tileset of brushlist '{0}'", ID), ex);
+                throw new InvalidDataException(string.Format(CultureInfo.InvariantCulture,
+                    "Error loading tileset of brushlist '{0}'", ID), ex);
             }
         }
     }

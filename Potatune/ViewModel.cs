@@ -1,6 +1,7 @@
 ﻿using SnesGame.CLR;
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Media;
@@ -57,6 +58,8 @@ namespace Potatune
 
         public void Dispose()
         {
+            player.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         public void Run()
@@ -155,7 +158,10 @@ namespace Potatune
                                 -1, 0, 2, NOTE_WIDTH * model.NumTracks + 16 * (inc + 1));
                             g.DrawString(LengthEditor.NotePositionToString(position), font,
                                 Brushes.AntiqueWhite, 1, NOTE_WIDTH * model.NumTracks + 12 * inc);
-                            g.DrawString((position / increments[inc]).ToString(), font,
+                            g.DrawString(
+                                (position / increments[inc]).ToString(
+                                    CultureInfo.InvariantCulture),
+                                font,
                                 Brushes.AntiqueWhite, 0, NOTE_WIDTH * model.NumTracks + 12 * inc,
                                 new StringFormat() { Alignment = StringAlignment.Far });
                             break;
@@ -185,7 +191,7 @@ namespace Potatune
         }
 
         private void editorPanel_PaintRow(Font font, int notesVisible,
-            ReadOnlyRecording model, Graphics g, int track)
+            IReadOnlyRecording model, Graphics g, int track)
         {
             for (int i = 0; i < notesVisible; i++)
             {
@@ -221,13 +227,14 @@ namespace Potatune
                     if (note is Noise)
                     {
                         var snote = note as Noise;
-                        var str1 = string.Format("{0}:{1}",
+                        var str1 = string.Format(CultureInfo.InvariantCulture, "{0}:{1}",
                             snote.TapMask == 0x02 ? "Long" : "Short", snote.Speed + 1);
                         g.DrawString(str1,
                             font, Brushes.Silver, 0, 0);
-                        g.DrawString(snote.MaxLength.ToString(),
+                        g.DrawString(snote.MaxLength.ToString(CultureInfo.InvariantCulture),
                             font, Brushes.Silver, 0, 40);
-                        g.DrawString(string.Format("0x{0:X4}", snote.InitialRegister),
+                        g.DrawString(string.Format(CultureInfo.InvariantCulture,
+                            "0x{0:X4}", snote.InitialRegister),
                             font, Brushes.Silver, 0, 80);
                     }
                 }
@@ -236,12 +243,12 @@ namespace Potatune
             }
         }
 
-        private string SquarePeriodString(SquareNote snote)
+        private static string SquarePeriodString(SquareNote snote)
         {
             if (snote.PeriodShiftParameters.Direction == ShiftDirection.None)
                 return SquareNoteEditor.PeriodString(snote.PeriodMin);
 
-            return string.Format("{0}-{1}@{2}\n{3}",
+            return string.Format(CultureInfo.InvariantCulture, "{0}-{1}@{2}\n{3}",
                 SquareNoteEditor.PeriodString(
                     snote.PeriodShiftParameters.Direction == ShiftDirection.Rising
                         ? snote.PeriodMax : snote.PeriodMin),
@@ -252,12 +259,12 @@ namespace Potatune
                 EdgeBehaviourString(snote.PeriodShiftParameters.EdgeBehaviour));
         }
 
-        private string SquareVolumeString(SquareNote snote)
+        private static string SquareVolumeString(SquareNote snote)
         {
             if (snote.VolumeShiftParameters.Direction == ShiftDirection.None)
-                return snote.VolumeMin.ToString();
+                return snote.VolumeMin.ToString(CultureInfo.InvariantCulture);
 
-            return string.Format("{0}-{1}@{2}\n{3}",
+            return string.Format(CultureInfo.InvariantCulture, "{0}-{1}@{2}\n{3}",
                 snote.VolumeShiftParameters.Direction == ShiftDirection.Rising
                     ? snote.VolumeMin : snote.VolumeMax,
                 snote.VolumeShiftParameters.Direction == ShiftDirection.Rising
@@ -266,7 +273,7 @@ namespace Potatune
                 EdgeBehaviourString(snote.VolumeShiftParameters.EdgeBehaviour));
         }
 
-        private string EdgeBehaviourString(EdgeBehaviour value)
+        private static string EdgeBehaviourString(EdgeBehaviour value)
         {
             switch (value)
             {
@@ -283,17 +290,18 @@ namespace Potatune
             }
         }
 
-        private string SquareLengthString(SquareNote snote)
+        private static string SquareLengthString(SquareNote snote)
         {
             if (snote.MaxLength == 0)
                 return "";
 
-            return string.Format("{0:F2}s", ((snote.MaxLength * 100) / 48000.0));
+            return string.Format(CultureInfo.InvariantCulture,
+                "{0:F2}s", ((snote.MaxLength * 100) / 48000.0));
         }
 
-        private string Timestamp(int position)
+        private static string Timestamp(int position)
         {
-            return (position / 50f).ToString();
+            return (position / 50f).ToString(CultureInfo.InvariantCulture);
         }
 
         private void editorGestures_StateChanged(object sender, EventArgs e)
@@ -538,7 +546,7 @@ namespace Potatune
             {
                 g.DrawString(LengthEditor.NotePositionToString(trackPosition),
                     font, Brushes.Cyan, 0, 0);
-                g.DrawString(trackPosition.ToString(),
+                g.DrawString(trackPosition.ToString(CultureInfo.InvariantCulture),
                     font, Brushes.Cyan, 0, 16);
             }
 

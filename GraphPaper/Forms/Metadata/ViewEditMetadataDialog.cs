@@ -68,7 +68,7 @@ namespace GraphPaper
                 return;
 
             foreach (var control in controls)
-                if (control.Key.Equals(addKeyTextBox.Text))
+                if (control.Key.Equals(addKeyTextBox.Text, StringComparison.Ordinal))
                     return;
 
             AddRow(addKeyTextBox.Text, string.Empty);

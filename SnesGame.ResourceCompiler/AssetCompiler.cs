@@ -6,7 +6,7 @@ namespace SnesGame.ResourceCompiler
     public static class AssetCompiler
     {
         public static void Compile(string manifestFilename, string outputDirectory,
-            params Pipeline[] pipelines)
+            params IPipeline[] pipelines)
         {
             if (!File.Exists(manifestFilename))
                 throw new FileNotFoundException("Manifest not found", manifestFilename);
@@ -17,7 +17,7 @@ namespace SnesGame.ResourceCompiler
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Failed to create output directory", ex);
+                throw new IOException("Failed to create output directory", ex);
             }
 
             var manifest = new Manifest(manifestFilename, pipelines, outputDirectory);

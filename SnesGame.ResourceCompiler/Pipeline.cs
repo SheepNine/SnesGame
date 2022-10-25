@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace SnesGame.ResourceCompiler
 {
-    public interface Pipeline
+    public interface IPipeline
     {
         string EntryTag { get; }
         IEnumerable<ManifestEntry> ParseEntries(XmlDocument doc,

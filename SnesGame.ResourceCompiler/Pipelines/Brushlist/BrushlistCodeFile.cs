@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -78,6 +79,7 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
                             if (!paletteMap.ContainsKey(sourceColor))
                             {
                                 throw new InvalidDataException(string.Format(
+                                    CultureInfo.InvariantCulture,
                                     "Brush list {0} has unexpected color {1}",
                                     manifestBrushlist.ID, sourceColor));
                             }
@@ -105,9 +107,9 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
         public int GetIndex(int x, int y)
         {
             if (x < 0 || x >= 8)
-                throw new ArgumentOutOfRangeException("x");
+                throw new ArgumentOutOfRangeException(nameof(x));
             if (y < 0 || y >= 8)
-                throw new ArgumentOutOfRangeException("y");
+                throw new ArgumentOutOfRangeException(nameof(y));
 
             var mask = (byte)(0x1 << x);
             var result = (byte)0;
@@ -126,11 +128,11 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
         public void SetIndex(int x, int y, int value)
         {
             if (x < 0 || x >= 8)
-                throw new ArgumentOutOfRangeException("x");
+                throw new ArgumentOutOfRangeException(nameof(x));
             if (y < 0 || y >= 8)
-                throw new ArgumentOutOfRangeException("y");
+                throw new ArgumentOutOfRangeException(nameof(y));
             if (value < 0 || value > 0xF)
-                throw new ArgumentOutOfRangeException("value");
+                throw new ArgumentOutOfRangeException(nameof(value));
 
             var mask = (byte)(0x1 << x);
 

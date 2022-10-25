@@ -5,11 +5,11 @@ using System.Xml;
 
 namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
 {
-    public class BrushlistPipeline : Pipeline
+    public class BrushlistPipeline : IPipeline
     {
         private BrushlistPipeline() { }
-        private static readonly Pipeline instance = new BrushlistPipeline();
-        public static Pipeline Instance { get { return instance; } }
+        private static readonly IPipeline instance = new BrushlistPipeline();
+        public static IPipeline Instance { get { return instance; } }
 
         public string EntryTag { get { return BrushlistEntry.Tag; } }
 

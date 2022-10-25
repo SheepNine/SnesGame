@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using UnaryHeap.DataType;
 
 namespace GraphPaper
@@ -63,7 +64,8 @@ namespace GraphPaper
             using (var pen = new Pen(GraphPaperColors.HotTrackingPen, 2.0f))
                 screen.DrawCircle(pen, feedbackPoint, 4.0f);
 
-            var display = string.Format("\r\nX: {0}\r\nY: {1}",
+            var display = string.Format(CultureInfo.InvariantCulture,
+                "\r\nX: {0}\r\nY: {1}",
                 (double)feedbackPoint.X, (double)feedbackPoint.Y);
 
             using (var font = new Font(FontFamily.GenericSansSerif, 16.0f))
@@ -95,7 +97,8 @@ namespace GraphPaper
             using (var brush = new SolidBrush(GraphPaperColors.CreateObject))
                 screen.FillCircle(brush, vertexPoint, 5.0f);
 
-            var display = string.Format("Add Vertex\r\nX: {0}\r\nY: {1}\r\n",
+            var display = string.Format(CultureInfo.InvariantCulture, 
+                "Add Vertex\r\nX: {0}\r\nY: {1}\r\n",
                 (double)vertexPoint.X, (double)vertexPoint.Y);
 
             using (var font = new Font(FontFamily.GenericSansSerif, 16.0f))
@@ -139,7 +142,7 @@ namespace GraphPaper
                 screen.DrawTick(pen, startPoint, endPoint);
             }
 
-            var display = string.Format(
+            var display = string.Format(CultureInfo.InvariantCulture,
                 "Add Edge\r\nX1: {0}\r\nY1: {1}\r\nX2: {2}\r\nY2: {3}",
                 (double)startPoint.X, (double)startPoint.Y,
                 (double)endPoint.X, (double)endPoint.Y);
@@ -175,7 +178,7 @@ namespace GraphPaper
             using (var brush = new SolidBrush(GraphPaperColors.CreateObject))
                 screen.FillCircle(brush, splitPoint, 5.0f);
 
-            var display = string.Format(
+            var display = string.Format(CultureInfo.InvariantCulture,
                 "Split Edge\r\nX: {0}\r\nY: {1}",
                 (double)splitPoint.X, (double)splitPoint.Y);
 
@@ -200,7 +203,7 @@ namespace GraphPaper
             if (null == castObj)
                 return false;
 
-            return this.message.Equals(castObj.message);
+            return this.message.Equals(castObj.message, StringComparison.Ordinal);
         }
 
         public void Render(Screen screen)
@@ -226,7 +229,7 @@ namespace GraphPaper
             if (null == castObj)
                 return false;
 
-            return this.message.Equals(castObj.message);
+            return this.message.Equals(castObj.message, StringComparison.Ordinal);
         }
 
         public void Render(Screen screen)
@@ -269,7 +272,7 @@ namespace GraphPaper
                 screen.DrawRectangle(pen, bounds);
             }
 
-            var display = string.Format(
+            var display = string.Format(CultureInfo.InvariantCulture,
                 "Adjust View Extents\r\nX: {0:F2} to {1:F2}\r\nY: {2:F2} to {3:F2}",
                 (double)bounds.X.Min, (double)bounds.X.Max,
                 (double)bounds.Y.Min, (double)bounds.Y.Max);
@@ -310,7 +313,7 @@ namespace GraphPaper
             using (var pen = new Pen(GraphPaperColors.SelectionArea, 2.0f))
                 screen.DrawRectangle(pen, bounds);
 
-            var display = string.Format(
+            var display = string.Format(CultureInfo.InvariantCulture,
                 "Select Objects\r\nX: {0:F2} to {1:F2}\r\nY: {2:F2} to {3:F2}",
                 (double)bounds.X.Min, (double)bounds.X.Max,
                 (double)bounds.Y.Min, (double)bounds.Y.Max);
@@ -351,7 +354,7 @@ namespace GraphPaper
             using (var pen = new Pen(GraphPaperColors.SelectionArea, 2.0f))
                 screen.DrawRectangle(pen, bounds);
 
-            var display = string.Format(
+            var display = string.Format(CultureInfo.InvariantCulture,
                 "Append Objects to Selection\r\nX: {0:F2} to {1:F2}\r\nY: {2:F2} to {3:F2}",
                 (double)bounds.X.Min, (double)bounds.X.Max,
                 (double)bounds.Y.Min, (double)bounds.Y.Max);
@@ -392,7 +395,8 @@ namespace GraphPaper
                 screen.DrawRectangle(pen, extents);
             }
 
-            var display = string.Format("Center View\r\nX: {0:F2}\r\nY: {1:F2}\r\n",
+            var display = string.Format(CultureInfo.InvariantCulture, 
+                "Center View\r\nX: {0:F2}\r\nY: {1:F2}\r\n",
                 (double)newCenterPoint.X, (double)newCenterPoint.Y);
 
             using (var font = new Font(FontFamily.GenericSansSerif, 16.0f))

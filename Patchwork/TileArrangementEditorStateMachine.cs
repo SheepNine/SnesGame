@@ -41,15 +41,15 @@ namespace Patchwork
             return new TileArrangement(args.TileCountX, args.TileCountY);
         }
 
-        protected override TileArrangement ReadModelFromDisk(string filename)
+        protected override TileArrangement ReadModelFromDisk(string fileName)
         {
-            using (var stream = File.OpenRead(filename))
+            using (var stream = File.OpenRead(fileName))
                 return TileArrangement.Deserialize(stream);
         }
 
-        protected override void WriteModelToDisk(TileArrangement instance, string filename)
+        protected override void WriteModelToDisk(TileArrangement instance, string fileName)
         {
-            using (var stream = File.Create(filename))
+            using (var stream = File.Create(fileName))
                 instance.Serialize(stream);
         }
     }

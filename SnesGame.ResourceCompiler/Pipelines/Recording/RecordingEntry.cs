@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 
 namespace SnesGame.ResourceCompiler.Pipelines.Recording
 {
@@ -13,7 +14,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.Recording
             SourcePath = sourcePath;
             if (!File.Exists(sourcePath))
                 throw new FileNotFoundException(
-                    string.Format("Source for recording '{0}' not found", id), sourcePath);
+                    string.Format(CultureInfo.InvariantCulture,
+                        "Source for recording '{0}' not found", id), sourcePath);
         }
     }
 }

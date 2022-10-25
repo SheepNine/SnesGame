@@ -9,6 +9,7 @@
     <WarningsAsErrors />
     <OutputType>WinExe</OutputType>
     <Platforms>x86;x64</Platforms>
+    <AnalysisMode>Recommended</AnalysisMode>
   </PropertyGroup>
 
   <ItemGroup>

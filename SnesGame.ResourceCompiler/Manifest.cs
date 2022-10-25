@@ -11,7 +11,7 @@ namespace SnesGame.ResourceCompiler
 
         private IDictionary<string, IDictionary<string, ManifestEntry>> entries;
 
-        public Manifest(string manifestFilename, IEnumerable<Pipeline> pipelines,
+        public Manifest(string manifestFilename, IEnumerable<IPipeline> pipelines,
             string outputDirectory)
         {
             OutputDirectory = outputDirectory;

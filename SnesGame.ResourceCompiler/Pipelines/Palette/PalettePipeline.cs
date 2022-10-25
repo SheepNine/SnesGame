@@ -5,11 +5,11 @@ using System.Xml;
 
 namespace SnesGame.ResourceCompiler.Pipelines.Palette
 {
-    public class PalettePipeline : Pipeline
+    public class PalettePipeline : IPipeline
     {
         private PalettePipeline() { }
-        private static readonly Pipeline instance = new PalettePipeline();
-        public static Pipeline Instance { get { return instance; } }
+        private static readonly IPipeline instance = new PalettePipeline();
+        public static IPipeline Instance { get { return instance; } }
 
         public string EntryTag { get { return PaletteEntry.Tag; } }
 

@@ -9,16 +9,16 @@ namespace SnesGame.CLR
 {
     class Track
     {
-        private List<Note> notes;
+        private List<INote> notes;
         private List<int> notePositions;
 
         public Track()
         {
-            notes = new List<Note>();
+            notes = new List<INote>();
             notePositions = new List<int>();
         }
 
-        public Note this[int position]
+        public INote this[int position]
         {
             get
             {
@@ -64,7 +64,7 @@ namespace SnesGame.CLR
             return result;
         }
 
-        private void SerializeNote(JsonWriter writer, Note note)
+        private static void SerializeNote(JsonWriter writer, INote note)
         {
             if (note is SquareNote)
             {
@@ -110,7 +110,7 @@ namespace SnesGame.CLR
             }
         }
 
-        private static Note DeserializeNote(JObject data)
+        private static INote DeserializeNote(JObject data)
         {
             switch ((string)data["type"])
             {
@@ -159,12 +159,12 @@ namespace SnesGame.CLR
             }
         }
 
-        public void AddNote(int notePosition, Note note)
+        public void AddNote(int notePosition, INote note)
         {
             if (note == null)
-                throw new ArgumentNullException("note");
+                throw new ArgumentNullException(nameof(note));
             if (notePosition < 0)
-                throw new ArgumentOutOfRangeException("notePosition");
+                throw new ArgumentOutOfRangeException(nameof(notePosition));
             if (notePositions.Contains(notePosition))
                 throw new InvalidOperationException(
                     "A note is already present at the specified position");
@@ -185,10 +185,10 @@ namespace SnesGame.CLR
             notePositions.RemoveAt(removalIndex);
         }
 
-        public void EditNote(int notePosition, Note note)
+        public void EditNote(int notePosition, INote note)
         {
             if (note == null)
-                throw new ArgumentNullException("note");
+                throw new ArgumentNullException(nameof(note));
 
             var updateIndex = notePositions.IndexOf(notePosition);
             if (updateIndex == -1)
@@ -204,7 +204,7 @@ namespace SnesGame.CLR
                 throw new InvalidOperationException(
                     "No note is present at the specified position");
             if (newPosition < 0)
-                throw new ArgumentOutOfRangeException("newPosition");
+                throw new ArgumentOutOfRangeException(nameof(newPosition));
             if (notePositions.Contains(newPosition))
                 throw new InvalidOperationException(
                     "A note is already present at the specified position");
@@ -217,9 +217,9 @@ namespace SnesGame.CLR
         public void RemoveSection(int position, int size)
         {
             if (position < 0)
-                throw new ArgumentOutOfRangeException("position");
+                throw new ArgumentOutOfRangeException(nameof(position));
             if (size < 1)
-                throw new ArgumentOutOfRangeException("size");
+                throw new ArgumentOutOfRangeException(nameof(size));
 
             foreach (var i in Enumerable.Range(0, notes.Count).Reverse())
             {

@@ -7,14 +7,14 @@ using System.Linq;
 
 namespace SnesGame.CLR
 {
-    public interface ReadOnlyRecording
+    public interface IReadOnlyRecording
     {
         int Length { get; }
         int NumTracks { get; }
-        Note this[int trackIndex, int noteIndex] { get; }
+        INote this[int trackIndex, int noteIndex] { get; }
     }
 
-    public class Recording : ReadOnlyRecording
+    public class Recording : IReadOnlyRecording
     {
         public static readonly int MaxTracks = 8;
         private int length;
@@ -37,7 +37,7 @@ namespace SnesGame.CLR
             get { return tracks.Count; }
         }
 
-        public Note this[int trackIndex, int noteIndex]
+        public INote this[int trackIndex, int noteIndex]
         {
             get { return tracks[trackIndex][noteIndex]; }
         }
@@ -112,14 +112,14 @@ namespace SnesGame.CLR
         public void RemoveTrack(int trackIndex)
         {
             if (trackIndex < 0 || trackIndex >= tracks.Count)
-                throw new ArgumentOutOfRangeException("trackIndex");
+                throw new ArgumentOutOfRangeException(nameof(trackIndex));
 
             tracks.RemoveAt(trackIndex);
         }
 
         public void SetLength(int newLength)
         {
-            if (newLength < 1) throw new ArgumentOutOfRangeException("length");
+            if (newLength < 1) throw new ArgumentOutOfRangeException(nameof(newLength));
             if (newLength == length) return;
             if (newLength < length)
             {
@@ -130,12 +130,12 @@ namespace SnesGame.CLR
             length = newLength;
         }
 
-        public void AddNote(int trackIndex, int notePosition, Note note)
+        public void AddNote(int trackIndex, int notePosition, INote note)
         {
             if (trackIndex < 0 || trackIndex >= tracks.Count)
-                throw new ArgumentOutOfRangeException("trackIndex");
+                throw new ArgumentOutOfRangeException(nameof(trackIndex));
             if (notePosition >= length)
-                throw new ArgumentOutOfRangeException("notePosition");
+                throw new ArgumentOutOfRangeException(nameof(notePosition));
 
             tracks[trackIndex].AddNote(notePosition, note);
         }
@@ -143,19 +143,19 @@ namespace SnesGame.CLR
         public void RemoveNote(int trackIndex, int notePosition)
         {
             if (trackIndex < 0 || trackIndex >= tracks.Count)
-                throw new ArgumentOutOfRangeException("trackIndex");
+                throw new ArgumentOutOfRangeException(nameof(trackIndex));
             if (notePosition >= length)
-                throw new ArgumentOutOfRangeException("notePosition");
+                throw new ArgumentOutOfRangeException(nameof(notePosition));
 
             tracks[trackIndex].RemoveNote(notePosition);
         }
 
-        public void EditNote(int trackIndex, int notePosition, Note note)
+        public void EditNote(int trackIndex, int notePosition, INote note)
         {
             if (trackIndex < 0 || trackIndex >= tracks.Count)
-                throw new ArgumentOutOfRangeException("trackIndex");
+                throw new ArgumentOutOfRangeException(nameof(trackIndex));
             if (notePosition >= length)
-                throw new ArgumentOutOfRangeException("notePosition");
+                throw new ArgumentOutOfRangeException(nameof(notePosition));
 
             tracks[trackIndex].EditNote(notePosition, note);
         }
@@ -163,9 +163,9 @@ namespace SnesGame.CLR
         public void MoveNote(int trackIndex, int oldPosition, int newPosition)
         {
             if (trackIndex < 0 || trackIndex >= tracks.Count)
-                throw new ArgumentOutOfRangeException("trackIndex");
+                throw new ArgumentOutOfRangeException(nameof(trackIndex));
             if (newPosition >= length)
-                throw new ArgumentOutOfRangeException("notePosition");
+                throw new ArgumentOutOfRangeException(nameof(newPosition));
 
             tracks[trackIndex].MoveNote(oldPosition, newPosition);
         }

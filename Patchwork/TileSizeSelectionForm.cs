@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace Patchwork
@@ -18,7 +19,8 @@ namespace Patchwork
             foreach (var tileSizeOption in tileSizeOptions)
             {
                 tileSizeOptionsComboBox.Items.Add(
-                    string.Format("{0} pixels ({1}x{2} tiles)",
+                    string.Format(CultureInfo.InvariantCulture,
+                        "{0} pixels ({1}x{2} tiles)",
                         tileSizeOption, bitmap.Width / tileSizeOption,
                         bitmap.Height / tileSizeOption));
             }

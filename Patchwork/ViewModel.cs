@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -29,7 +30,7 @@ namespace Patchwork
         void SyncMruList(ToolStripMenuItem openRecentToolStripMenuItem);
         void SaveArrangement();
         void SaveArrangementAs();
-        void Export(string fileName, ImageFormat png);
+        void Export(string fileName, ImageFormat format);
 
         void Undo();
         void Redo();
@@ -113,7 +114,7 @@ namespace Patchwork
             editorPanel.InvalidateContent();
         }
 
-        Bitmap CreateBackgroundFill(int squareSize)
+        static Bitmap CreateBackgroundFill(int squareSize)
         {
             var result = new Bitmap(2 * squareSize, 2 * squareSize);
 
@@ -134,6 +135,7 @@ namespace Patchwork
         {
             tileset.Dispose();
             backgroundFill.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         public void Run(ISettingsLocker locker)
@@ -167,7 +169,7 @@ namespace Patchwork
                 tileset = new ImageTileset(bitmap, tileSize);
         }
 
-        Bitmap CreateInitialTileset(int size)
+        static Bitmap CreateInitialTileset(int size)
         {
             Bitmap result = new Bitmap(size, size);
             using (var g = Graphics.FromImage(result))
@@ -181,7 +183,7 @@ namespace Patchwork
 
         void UndoRedo_CurrentFileNameChanged(object sender, EventArgs e)
         {
-            if (false == string.Equals(stateMachine.CurrentFileName, null))
+            if (stateMachine.CurrentFileName != null)
                 mruList.AddToList(stateMachine.CurrentFileName);
         }
 
@@ -295,7 +297,8 @@ namespace Patchwork
                 }
                 else
                 {
-                    cursorPositionLabel.Text = string.Format("{0}, {1}", tileX, tileY);
+                    cursorPositionLabel.Text = string.Format(CultureInfo.InvariantCulture,
+                        "{0}, {1}", tileX, tileY);
                     editorFeedback.SetFeedback(new RectFeedback(
                         tileX * tileset.TileSize * scale + editorOffset.X,
                         tileY * tileset.TileSize * scale + editorOffset.Y,
@@ -520,7 +523,7 @@ namespace Patchwork
             stateMachine.SaveAs();
         }
 
-        public void Export(string filename, ImageFormat format)
+        public void Export(string fileName, ImageFormat format)
         {
             using (var outputBitmap = new Bitmap(
                 stateMachine.CurrentModelState.TileCountX * tileset.TileSize * scale,
@@ -529,7 +532,7 @@ namespace Patchwork
                 using (var g = Graphics.FromImage(outputBitmap))
                     stateMachine.CurrentModelState.Render(g, tileset, scale);
 
-                outputBitmap.Save(filename, format);
+                outputBitmap.Save(fileName, format);
             }
         }
 
@@ -642,12 +645,12 @@ namespace Patchwork
             editorPanel.InvalidateContent();
         }
 
-        public void AddTileset(string newTilesetFilename, int tileSize)
+        public void AddTileset(string fileName, int tileSize)
         {
             if (tileSize != tileset.TileSize)
                 editorOffset = new Point(0, 0);
 
-            tilesetFilenames.Add(newTilesetFilename);
+            tilesetFilenames.Add(fileName);
 
             if (tilesetFilenames.Count == 1)
                 MakeDummyTileset(tileSize);

@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml;
 
 namespace SnesGame.ResourceCompiler.Pipelines.WideBackground
 {
-    public class WideBackgroundPipeline : Pipeline
+    public class WideBackgroundPipeline : IPipeline
     {
         private WideBackgroundPipeline() { }
-        private static readonly Pipeline instance = new WideBackgroundPipeline();
-        public static Pipeline Instance { get { return instance; } }
+        private static readonly IPipeline instance = new WideBackgroundPipeline();
+        public static IPipeline Instance { get { return instance; } }
 
         public string EntryTag { get { return WideBackgroundEntry.Tag; } }
 
@@ -21,7 +22,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.WideBackground
                 {
                     id = node.GetAttribute("id"),
                     source = node.GetAttribute("source"),
-                    layerCount = int.Parse(node.GetAttribute("layerCount"))
+                    layerCount = int.Parse(node.GetAttribute("layerCount"),
+                        CultureInfo.InvariantCulture)
                 }).Select(data => new WideBackgroundEntry(data.id,
                 Path.Combine(baseDirectory, data.source), data.layerCount));
         }

@@ -13,7 +13,7 @@ namespace SnesGame
         public ref class Mixer
         {
         private:
-            static void WriteNoteToChannel(Note^ note, hSC sc)
+            static void WriteNoteToChannel(INote^ note, hSC sc)
             {
 
                 SilentNote^ silentNote = dynamic_cast<SilentNote^>(note);
@@ -47,7 +47,7 @@ namespace SnesGame
             }
 
         public:
-            static array<Int16>^ SampleAudio(Note^ note, Sint32 length)
+            static array<Int16>^ SampleAudio(INote^ note, Sint32 length)
             {
                 array<Int16>^ result = gcnew array<Int16>(length);
                 hSC sc = creat_SC();
@@ -60,7 +60,7 @@ namespace SnesGame
                 return result;
             }
 
-            static array<Int16>^ SampleAudio(array<Note^>^ notes)
+            static array<Int16>^ SampleAudio(array<INote^>^ notes)
             {
                 int numNotes = notes->GetLength(0);
                 array<Int16>^ result = gcnew array<Int16>(numNotes * 48000 / 50);
@@ -69,7 +69,7 @@ namespace SnesGame
                 Sint32 writeIndex = 0;
                 for (Sint32 n = 0; n < numNotes; n++)
                 {
-                    Note^ note = notes[n];
+                    INote^ note = notes[n];
                     if (note != nullptr)
                     {
                         WriteNoteToChannel(note, sc);
@@ -84,7 +84,7 @@ namespace SnesGame
                 return result;
             }
 
-            static array<Int16>^ SampleAudio(array<Note^, 2>^ notes)
+            static array<Int16>^ SampleAudio(array<INote^, 2>^ notes)
             {
                 int numTracks = notes->GetLength(0);
                 int numNotes = notes->GetLength(1);
@@ -96,7 +96,7 @@ namespace SnesGame
                     Sint32 writeIndex = 0;
                     for (Sint32 n = 0; n < numNotes; n++)
                     {
-                        Note^ note = notes[t, n];
+                        INote^ note = notes[t, n];
                         if (note != nullptr)
                         {
                             WriteNoteToChannel(note, sc);
@@ -116,14 +116,14 @@ namespace SnesGame
                 return result;
             }
 
-            static array<Int16>^ SampleAudio(ReadOnlyRecording^ recording,
+            static array<Int16>^ SampleAudio(IReadOnlyRecording^ recording,
                 int startIndex, int endIndex)
             {
                 if (startIndex > endIndex)
                     throw gcnew ArgumentException("parameters out of order");
 
                 int playCount = endIndex - startIndex + 1;
-                array<Note^, 2>^ notes = gcnew array<Note^, 2>(recording->NumTracks, playCount);
+                array<INote^, 2>^ notes = gcnew array<INote^, 2>(recording->NumTracks, playCount);
 
                 for (int n = 0; n < playCount; n++)
                     for (int t = 0; t < recording->NumTracks; t++)

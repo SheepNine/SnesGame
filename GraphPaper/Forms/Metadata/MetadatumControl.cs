@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
 using UnaryHeap.Graph;
 
@@ -29,7 +30,7 @@ namespace GraphPaper
             set
             {
                 key = value;
-                keyLabel.Text = string.Format("{0}:", value);
+                keyLabel.Text = string.Format(CultureInfo.InvariantCulture, "{0}:", value);
                 valueTextBox.ReadOnly = Graph2D.IsReservedMetadataKey(key);
             }
         }

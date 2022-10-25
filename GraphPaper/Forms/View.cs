@@ -47,7 +47,7 @@ namespace GraphPaper
             var builder = new StringBuilder();
 
             if (viewModel.IsModified)
-                builder.Append("*");
+                builder.Append('*');
 
             if (null != viewModel.CurrentFileName)
             {

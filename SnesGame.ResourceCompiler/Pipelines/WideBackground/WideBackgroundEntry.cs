@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using UnaryHeap.Mosaic;
 
@@ -18,7 +19,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.WideBackground
 
             if (!File.Exists(sourcePath))
                 throw new FileNotFoundException(
-                    string.Format("Source for wide background '{0}' not found", id), sourcePath);
+                    string.Format(CultureInfo.InvariantCulture,
+                        "Source for wide background '{0}' not found", id), sourcePath);
         }
 
         public TileArrangement LoadSourceTileArrangement()
@@ -30,9 +32,8 @@ namespace SnesGame.ResourceCompiler.Pipelines.WideBackground
             }
             catch (Exception ex)
             {
-                throw new InvalidDataException(
-                    string.Format("Error loading tile arrangement of wide background '{0}'", ID),
-                    ex);
+                throw new InvalidDataException(string.Format(CultureInfo.InvariantCulture,
+                    "Error loading tile arrangement of wide background '{0}'", ID), ex);
             }
         }
     }

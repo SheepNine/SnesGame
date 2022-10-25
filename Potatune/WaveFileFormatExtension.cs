@@ -25,11 +25,11 @@ namespace Potatune
             this Stream destination, int samplesPerSecond, short[] pcmData)
         {
             if (null == destination)
-                throw new ArgumentNullException("destination");
+                throw new ArgumentNullException(nameof(destination));
             if (48000 < samplesPerSecond || 0 >= samplesPerSecond)
-                throw new ArgumentOutOfRangeException("samplesPerSecond");
+                throw new ArgumentOutOfRangeException(nameof(samplesPerSecond));
             if (null == pcmData)
-                throw new ArgumentNullException("pcmData");
+                throw new ArgumentNullException(nameof(pcmData));
 
             var writer = new BinaryWriter(destination);
 

@@ -2,7 +2,7 @@
 
 namespace SnesGame.CLR
 {
-    public class Noise : Note
+    public class Noise : INote
     {
         public ushort InitialRegister { get; private set; }
         public ushort TapMask { get; private set; }
@@ -12,9 +12,9 @@ namespace SnesGame.CLR
         public Noise(ushort initialRegister, ushort tapMask, ushort maxLength, byte speed)
         {
             if (initialRegister == 0)
-                throw new ArgumentOutOfRangeException("initialRegister");
+                throw new ArgumentOutOfRangeException(nameof(initialRegister));
             if (tapMask != 0x2 && tapMask != 0x40)
-                throw new ArgumentOutOfRangeException("tapMask");
+                throw new ArgumentOutOfRangeException(nameof(tapMask));
 
             InitialRegister = initialRegister;
             TapMask = tapMask;

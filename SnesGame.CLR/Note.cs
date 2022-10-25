@@ -1,6 +1,6 @@
 ﻿namespace SnesGame.CLR
 {
-    public interface Note
+    public interface INote
     {
     }
 }

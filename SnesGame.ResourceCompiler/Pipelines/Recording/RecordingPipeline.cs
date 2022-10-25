@@ -5,11 +5,11 @@ using System.Xml;
 
 namespace SnesGame.ResourceCompiler.Pipelines.Recording
 {
-    public class RecordingPipeline : Pipeline
+    public class RecordingPipeline : IPipeline
     {
         private RecordingPipeline() { }
-        private static readonly Pipeline instance = new RecordingPipeline();
-        public static Pipeline Instance { get { return instance; } }
+        private static readonly IPipeline instance = new RecordingPipeline();
+        public static IPipeline Instance { get { return instance; } }
 
         public string EntryTag { get { return RecordingEntry.Tag; } }
 
