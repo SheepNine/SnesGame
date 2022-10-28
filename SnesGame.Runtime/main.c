@@ -25,6 +25,38 @@ ChannelVoice voiceBuffer[64];
 int voiceBufferHead = 0;
 int samplesInCurrentVoiceSet = 0;
 
+SDL_sem* renderSemaphore;
+SDL_bool endRenderThread = SDL_FALSE;
+SDL_bool renderInProgress = SDL_FALSE;
+SDL_Window* window;
+
+int renderLoop(void* _1)
+{
+    _1;
+    while (1)
+    {
+        SDL_SemWait(renderSemaphore);
+        if (endRenderThread)
+        {
+            SDL_SemPost(renderSemaphore);
+            return 0;
+        }
+
+        renderInProgress = SDL_TRUE;
+        {
+            SDL_Surface* surface = SDL_GetWindowSurface(window);
+            if (surface != NULL)
+            {
+                SDL_LockSurface(surface);
+                blit_BB(bb, surface);
+                SDL_UnlockSurface(surface);
+                SDL_UpdateWindowSurface(window);
+            }
+        }
+        renderInProgress = SDL_FALSE;
+    }
+}
+
 
 Uint32 heartbeatCallback(Uint32 interval, void* __)
 {
@@ -126,6 +158,8 @@ extern int libMain(char* title,
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK | SDL_INIT_AUDIO) == 0)
     {
         SDL_LogSetPriority(SDL_LOG_CATEGORY_CUSTOM, SDL_LOG_PRIORITY_WARN);
+        renderSemaphore = SDL_CreateSemaphore(0);
+        SDL_CreateThread(*renderLoop, "Render thread", NULL);
 
         SDL_AudioDeviceID dev;
         SDL_AudioSpec want;
@@ -142,7 +176,7 @@ extern int libMain(char* title,
             return 1;
         }
 
-        SDL_Window* window = SDL_CreateWindow(
+        window = SDL_CreateWindow(
             title,
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
@@ -264,23 +298,18 @@ extern int libMain(char* title,
                     renderFunc(render);
                     destr_RENDER(render);
                 }
-                hPerf perf = creat_Perf(SDL_LOG_CATEGORY_CUSTOM);
-                fill_BB(bb, 0x9B, 0x6A, 0x12);
-                scan_PPU(ppu, bb);
-                logInterval_Perf(perf, "Scan");
-                SDL_Surface* surface = SDL_GetWindowSurface(window);
-                if (surface != NULL)
+
+                if (renderInProgress == SDL_FALSE)
                 {
-                    SDL_LockSurface(surface);
-                    logInterval_Perf(perf, "Pre-blit");
-                    blit_BB(bb, surface);
-                    logInterval_Perf(perf, "Blit");
-                    SDL_UnlockSurface(surface);
-                    SDL_UpdateWindowSurface(window);
+                    fill_BB(bb, 0x9B, 0x6A, 0x12);
+                    scan_PPU(ppu, bb);
+                    SDL_SemPost(renderSemaphore);
                 }
-                logInterval_Perf(perf, "Post-blit");
-                logTarget_Perf(perf, "update and render", 18000);
-                destr_Perf(perf);
+                else
+                {
+                    SDL_LogWarn(SDL_LOG_CATEGORY_CUSTOM, "Dropped a frame\r\n");
+                }
+
                 break;
                 }
             }
@@ -305,6 +334,10 @@ extern int libMain(char* title,
             fprintf(stderr, "Unable to initialize SDL: %s\n", SDL_GetError());
             result = 2;
         }
+
+        endRenderThread = SDL_TRUE;
+        SDL_SemPost(renderSemaphore);
+        SDL_SemWait(renderSemaphore);
         SDL_Quit();
     }
     else
