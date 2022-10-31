@@ -335,22 +335,22 @@ void renderFunc(hRENDER render) {
     setScreenLocus_CC(cc, 231 << 16, 239 << 16);
     setWorldLocus_CC(cc, 32768, 32768);
 
-    worldToScreen_CC(cc, 0, 0, &x, &y);
+    worldToScreen_CC(cc, 0, 0, &x, &y, SDL_TRUE);
     showActor(render, actor, x >> 16, y >> 16, 1, 1, 0);
     setActorStroke(render, actor, 1, 0, 0, SDL_FALSE, SDL_FALSE, SDL_TRUE);
     actor++;
 
-    worldToScreen_CC(cc, 65536, 0, &x, &y);
+    worldToScreen_CC(cc, 65536, 0, &x, &y, SDL_TRUE);
     showActor(render, actor, x >> 16, y >> 16, 1, 1, 0);
     setActorStroke(render, actor, 1, 0, 1, SDL_FALSE, SDL_FALSE, SDL_TRUE);
     actor++;
 
-    worldToScreen_CC(cc, 0, 65536, &x, &y);
+    worldToScreen_CC(cc, 0, 65536, &x, &y, SDL_TRUE);
     showActor(render, actor, x >> 16, y >> 16, 1, 1, 0);
     setActorStroke(render, actor, 1, 0, 2, SDL_FALSE, SDL_FALSE, SDL_TRUE);
     actor++;
 
-    worldToScreen_CC(cc, 32768, 32768, &x, &y);
+    worldToScreen_CC(cc, 32768, 32768, &x, &y, SDL_TRUE);
     showActor(render, actor, x >> 16, y >> 16, 1, 1, 0);
     setActorStroke(render, actor, 1, 0, 3, SDL_FALSE, SDL_FALSE, SDL_TRUE);
     actor++;

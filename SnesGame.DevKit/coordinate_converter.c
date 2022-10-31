@@ -45,8 +45,20 @@ void setScreenLocus_CC(hCC cc, Sint32 x, Sint32 y)
     cc->screenLocusY = y;
 }
 
-void worldToScreen_CC(hCC cc, Sint32 worldX, Sint32 worldY, Sint32* screenX, Sint32* screenY)
+#define DEJITTER_WIDTH 0x2000
+void worldToScreen_CC(hCC cc, Sint32 worldX, Sint32 worldY, Sint32* screenX, Sint32* screenY,
+    SDL_bool dejitter)
 {
+    if (dejitter == SDL_TRUE)
+    {
+        Sint32 stride = (worldX - worldY) & (DEJITTER_WIDTH - 1);
+        if (stride >= (DEJITTER_WIDTH >> 1))
+            stride = DEJITTER_WIDTH - stride;
+        stride >>= 1;
+        worldX -= stride;
+        worldY -= stride;
+    }
+
     *screenX = cc->screenLocusX
         + ((worldX - cc->worldLocusX) << 4) - ((worldY - cc->worldLocusY) << 4);
     *screenY = cc->screenLocusY

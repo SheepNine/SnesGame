@@ -7,7 +7,8 @@ hCC clone_CC(hCC other);
 void destr_CC(hCC cs);
 void setWorldLocus_CC(hCC cs, Sint32 x, Sint32 y);
 void setScreenLocus_CC(hCC cs, Sint32 x, Sint32 y);
-void worldToScreen_CC(hCC cs, Sint32 worldX, Sint32 worldY, Sint32* screenX, Sint32* screenY);
+void worldToScreen_CC(hCC cs, Sint32 worldX, Sint32 worldY, Sint32* screenX, Sint32* screenY,
+    SDL_bool dejitter);
 void screenToWorld_CC(hCC cs, Sint32 screenX, Sint32 screenY, Sint32* worldX, Sint32* worldY);
 
 typedef struct WB* hWB;

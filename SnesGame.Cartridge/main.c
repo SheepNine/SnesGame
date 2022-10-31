@@ -1,6 +1,8 @@
 #include <wtypes.h>
 #include "snes_runtime.h"
 #include "snes_devkit.h"
+#include "palettes.h"
+#include "brushlists.h"
 
 SDL_bool controllerState[12];
 
@@ -12,9 +14,7 @@ SDL_bool controllerState[12];
 
 void initFunc(hINIT init)
 {
-    allocBrushLists(init, 2);
-    loadBrushList(init, BL_DEFAULT, "..\\resources\\default.glyphset");
-    loadBrushList(init, BL_ASCII, "..\\resources\\ascii.glyphset");
+    loadBrushListResources(init);
 }
 
 Uint8 backdropX = 0;
@@ -186,7 +186,7 @@ void deinitFunc()
 void csTestCase(hCC cc, Sint32 worldX, Sint32 worldY, Sint32 screenX, Sint32 screenY)
 {
     Sint32 actualScreenX, actualScreenY;
-    worldToScreen_CC(cc, worldX, worldY, &actualScreenX, &actualScreenY);
+    worldToScreen_CC(cc, worldX, worldY, &actualScreenX, &actualScreenY, SDL_FALSE);
     SDL_assert(actualScreenX == screenX);
     SDL_assert(actualScreenY == screenY);
 

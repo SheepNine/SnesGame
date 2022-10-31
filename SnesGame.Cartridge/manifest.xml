@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<AssetManifest>
+  <BrushLists>
+    <BrushList id="DEFAULT" source="..\Resources\default.png" />
+    <BrushList id="ASCII" source="..\Resources\ascii.png" />
+  </BrushLists>
+  <Stages>
+  </Stages>
+  <WideBackgrounds>
+  </WideBackgrounds>
+  <Palettes>
+    <Palette id="DEFAULT" source="..\Resources\default.png" />
+    <Palette id="ASCII" source="..\Resources\ascii.png" />
+  </Palettes>
+  <Recordings>
+  </Recordings>
+</AssetManifest>

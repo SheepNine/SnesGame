@@ -38,7 +38,8 @@ void addSprite_SB(hSB sb, Sint32 worldX, Sint32 worldY, hSBRC renderCallback, vo
     Sprite* sprite = &sb->sprites[sb->numSprites];
     sprite->worldX = worldX;
     sprite->worldY = worldY;
-    worldToScreen_CC(sb->cc, sprite->worldX, sprite->worldY, &sprite->screenX, &sprite->screenY);
+    worldToScreen_CC(sb->cc, sprite->worldX, sprite->worldY, &sprite->screenX, &sprite->screenY,
+        SDL_TRUE);
     sprite->renderCallback = renderCallback;
     sprite->renderContext = renderContext;
 
@@ -113,7 +114,7 @@ Uint8 render_SB(hSB sb, hRENDER render, Uint8 actorIndex)
     for (int i = 0; i < sb->numSprites; i++)
     {
         Sprite* sprite = &sb->sprites[i];
-        worldToScreen_CC(sb->cc, sprite->worldX, sprite->worldY, &screenX, &screenY);
+        worldToScreen_CC(sb->cc, sprite->worldX, sprite->worldY, &screenX, &screenY, SDL_TRUE);
         screenX >>= 16;
         screenY >>= 16;
         actorIndex = sprite->renderCallback(render, actorIndex,

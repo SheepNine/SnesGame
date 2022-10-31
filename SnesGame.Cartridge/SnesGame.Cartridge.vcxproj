@@ -96,7 +96,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)SnesGame.Runtime\api;$(SolutionDir)SnesGame.DevKit\api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SnesGame.Runtime\api;$(SolutionDir)SnesGame.DevKit\api;$(ProjectDir)\..\artifacts\generated\SnesGame.Cartridge%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -106,6 +106,9 @@
     <Manifest>
       <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
+    <PreBuildEvent>
+      <Command>$(ProjectDir)\..\artifacts\bin\SnesGame.ResourceCompiler\$(Configuration)\AnyCPU\net6.0-windows\SnesGame.ResourceCompiler.exe $(ProjectDir)\manifest.xml $(ProjectDir)\..\artifacts\generated\SnesGame.Cartridge</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -113,7 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)SnesGame.Runtime\api;$(SolutionDir)SnesGame.DevKit\api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SnesGame.Runtime\api;$(SolutionDir)SnesGame.DevKit\api;$(ProjectDir)\..\artifacts\generated\SnesGame.Cartridge%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -123,6 +126,9 @@
     <Manifest>
       <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
+    <PreBuildEvent>
+      <Command>$(ProjectDir)\..\artifacts\bin\SnesGame.ResourceCompiler\$(Configuration)\AnyCPU\net6.0-windows\SnesGame.ResourceCompiler.exe $(ProjectDir)\manifest.xml $(ProjectDir)\..\artifacts\generated\SnesGame.Cartridge</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -133,7 +139,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <AdditionalIncludeDirectories>$(SolutionDir)SnesGame.Runtime\api;$(SolutionDir)SnesGame.DevKit\api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SnesGame.Runtime\api;$(SolutionDir)SnesGame.DevKit\api;$(ProjectDir)\..\artifacts\generated\SnesGame.Cartridge%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -145,6 +151,9 @@
     <Manifest>
       <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
+    <PreBuildEvent>
+      <Command>$(ProjectDir)\..\artifacts\bin\SnesGame.ResourceCompiler\$(Configuration)\AnyCPU\net6.0-windows\SnesGame.ResourceCompiler.exe $(ProjectDir)\manifest.xml $(ProjectDir)\..\artifacts\generated\SnesGame.Cartridge</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -154,7 +163,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)SnesGame.Runtime\api;$(SolutionDir)SnesGame.DevKit\api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SnesGame.Runtime\api;$(SolutionDir)SnesGame.DevKit\api;$(ProjectDir)\..\artifacts\generated\SnesGame.Cartridge%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
@@ -166,8 +175,13 @@
     <Manifest>
       <EnableDpiAwareness>true</EnableDpiAwareness>
     </Manifest>
+    <PreBuildEvent>
+      <Command>$(ProjectDir)\..\artifacts\bin\SnesGame.ResourceCompiler\$(Configuration)\AnyCPU\net6.0-windows\SnesGame.ResourceCompiler.exe $(ProjectDir)\manifest.xml $(ProjectDir)\..\artifacts\generated\SnesGame.Cartridge</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\artifacts\generated\SnesGame.Cartridge\brushlists.c" />
+    <ClCompile Include="..\artifacts\generated\SnesGame.Cartridge\palettes.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +194,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\artifacts\generated\SnesGame.Cartridge\brushlists.h" />
+    <ClInclude Include="..\artifacts\generated\SnesGame.Cartridge\palettes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
