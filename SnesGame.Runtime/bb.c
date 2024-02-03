@@ -245,6 +245,16 @@ void blit_BB(hBB bb, SDL_Surface* surface)
             readB += __BB_DIM;
         }
     }
+
+    Uint32 color = 0xFF5555;
+    for (int x = 0; x < surface->w; x++) {
+        ((Uint32*)surface->pixels)[x + (surface->h / 2) * surface->pitch / 4] = color;
+        ((Uint32*)surface->pixels)[x + (-1 + surface->h / 2) * surface->pitch / 4] = color;
+    }
+    for (int y = 0; y < surface->h; y++) {
+        ((Uint32*)surface->pixels)[(surface->w / 2) + (y) * surface->pitch / 4] = color;
+        ((Uint32*)surface->pixels)[(-1 + surface->w / 2) + (y) * surface->pitch / 4] = color;
+    }
 }
 
 

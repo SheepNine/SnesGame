@@ -243,7 +243,7 @@ namespace Potatune
             }
             set
             {
-                noiseLength.Text = value.ToString();
+                noiseLength.Text = (value??0).ToString(CultureInfo.InvariantCulture);
             }
         }
 
