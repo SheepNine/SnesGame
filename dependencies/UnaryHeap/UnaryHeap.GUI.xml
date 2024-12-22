@@ -612,6 +612,21 @@
             </summary>
             <param name="e">The event data.</param>
         </member>
+        <member name="E:UnaryHeap.GUI.WysiwygPanel.RenderOccurred">
+            <summary>
+            Occurrs when the panel renders itself.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.WysiwygPanel.OnRenderOccurred(System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Raises the RenderOccurred event.
+            </summary>
+            <param name="contentPaintTime">How long it took to paint the content.</param>
+            <param name="contentCopyTime">
+            How long it took to copy the content to the frame buffer.
+            </param>
+            <param name="feedbackPaintTime">How long it took to paint the feedback.</param>
+        </member>
         <member name="M:UnaryHeap.GUI.WysiwygPanel.#ctor">
             <summary>
             Initializes a new instance of the WysiwigPanel class.
@@ -649,6 +664,36 @@
             Raises the Paint event.
             </summary>
             <param name="e">The event data.</param>
+        </member>
+        <member name="T:UnaryHeap.GUI.RenderPerformanceEventArgs">
+            <summary>
+            Provides data for the WysiwigPanel.RenderOccurred event.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.RenderPerformanceEventArgs.ContentPaintTime">
+            <summary>
+            How long it took to paint the content.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.RenderPerformanceEventArgs.ContentCopyTime">
+            <summary>
+            How long it took to copy the content to the frame buffer.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.GUI.RenderPerformanceEventArgs.FeedbackPaintTime">
+            <summary>
+            How long it took to paint the feedback.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.GUI.RenderPerformanceEventArgs.#ctor(System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Initializes a new instance of the RenderPerformanceEventArgs class.
+            </summary>
+            <param name="contentPaintTime">How long it took to paint the content.</param>
+            <param name="contentCopyTime">
+            How long it took to copy the content to the frame buffer.
+            </param>
+            <param name="feedbackPaintTime">How long it took to paint the feedback.</param>
         </member>
     </members>
 </doc>

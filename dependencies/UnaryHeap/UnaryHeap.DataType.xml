@@ -31,11 +31,30 @@
             </summary>
             <param name="dst1">The output coordinates of the first point.</param>
             <param name="dst2">The output coordinates of the second point.</param>
-            <param name="dst3">The output coordinates of the second point.</param>
-            <returns>A Matrix2D that will send src1 to dst1,
+            <param name="dst3">The output coordinates of the third point.</param>
+            <returns>A Matrix3D that will send src1 to dst1,
             src2 to dst2 and src3 to dst3.</returns>
             <exception cref="T:System.ArgumentNullException">
             dst1, dst2 or dst3 are null.</exception>
+        </member>
+        <member name="T:UnaryHeap.DataType.IAffineMapper3D">
+            <summary>
+            Intermediate builder object for a three-dimensional affine mapping.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.IAffineMapper3D.Onto(UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D)">
+            <summary>
+            Specifies the coordinates of the points to be mapped in the destination
+            coordinate system.
+            </summary>
+            <param name="dst1">The output coordinates of the first point.</param>
+            <param name="dst2">The output coordinates of the second point.</param>
+            <param name="dst3">The output coordinates of the third point.</param>
+            <param name="dst4">The output coordinates of the fourth point.</param>
+            <returns>A Matrix4D that will send src1 to dst1,
+            src2 to dst2, src3 to dst3 and src4 to dst4.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            dst1, dst2, dst3 or dst4 are null.</exception>
         </member>
         <member name="T:UnaryHeap.DataType.AffineMapping">
             <summary>
@@ -67,6 +86,22 @@
             of the input points in the destination coordinate system..</returns>
             <exception cref="T:System.ArgumentNullException">
             dst1, dst2 or dst3 are null.</exception>
+            <exception cref="T:System.ArgumentException">The input points are
+            linearly dependent.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.AffineMapping.From(UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D)">
+            <summary>
+            Specifies the coordinates of the points to be mapped in the source
+            coordinate system.
+            </summary>
+            <param name="src1">The output coordinates of the first point.</param>
+            <param name="src2">The output coordinates of the second point.</param>
+            <param name="src3">The output coordinates of the third point.</param>
+            <param name="src4">The output coordinates of the fourth point.</param>
+            <returns>An IAffineMapper3D object that is used to specify the coordinates
+            of the input points in the destination coordinate system..</returns>
+            <exception cref="T:System.ArgumentNullException">
+            dst1, dst2, dst3 or dst4 are null.</exception>
             <exception cref="T:System.ArgumentException">The input points are
             linearly dependent.</exception>
         </member>
@@ -107,6 +142,133 @@
         <member name="P:UnaryHeap.DataType.Circle2D.Quadrance">
             <summary>
             Gets the quadrance of this Circle2D.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.DataType.Facet2D">
+            <summary>
+            Represents a two-dimensinal facet, e.g. a line segment.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Facet2D.Plane">
+            <summary>
+            The line on which the line segment lies.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Facet2D.Start">
+            <summary>
+            The start point of the line segment.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Facet2D.End">
+            <summary>
+            The end point of the line segment.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Facet2D.#ctor(UnaryHeap.DataType.Hyperplane2D,UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Initializes a new instance of the Facet2D class.
+            </summary>
+            <param name="plane">The line on which the line segment lies.</param>
+            <param name="start">The start point of the line segment.</param>
+            <param name="end">The end point of the line segment.</param>
+        </member>
+        <member name="M:UnaryHeap.DataType.Facet2D.#ctor(UnaryHeap.DataType.Hyperplane2D,UnaryHeap.DataType.Rational)">
+            <summary>
+            OSHT FIXME
+            </summary>
+            <param name="plane"></param>
+            <param name="size"></param>
+        </member>
+        <member name="M:UnaryHeap.DataType.Facet2D.Split(UnaryHeap.DataType.Hyperplane2D,UnaryHeap.DataType.Facet2D@,UnaryHeap.DataType.Facet2D@)">
+            <summary>
+            Computes the front and half facets which would result from splitting this
+            instance along a line.
+            </summary>
+            <param name="plane">The line by which to split this instance.</param>
+            <param name="frontFacet">The component of this facet in the front halfspace
+            of the splitting line.</param>
+            <param name="backFacet">The component of this facet in the back halfspace
+            of the splitting line.</param>
+        </member>
+        <member name="P:UnaryHeap.DataType.Facet2D.Cofacet">
+            <summary>
+            Gets the facet representing this facet, if its front and back halfspaces were flipped.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.DataType.Facet3D">
+            <summary>
+            Represents a three-dimensional facet, e.g. a polygon.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Facet3D.NumPoints">
+            <summary>
+            Gets the number of points in this Facet3D's winding.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Facet3D.Points">
+            <summary>
+            The points of the polygon, in a right-handed winding around
+            the surface normal.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Facet3D.Plane">
+            <summary>
+            The plane on which the polygon lies.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Facet3D.#ctor(UnaryHeap.DataType.Hyperplane3D,System.Collections.Generic.IEnumerable{UnaryHeap.DataType.Point3D})">
+            <summary>
+            Initializes a new instance of the Facet3D class.
+            </summary>
+            <param name="plane">The plane on which the polygon lies.</param>
+            <param name="points">The points of the polygon.</param>
+        </member>
+        <member name="M:UnaryHeap.DataType.Facet3D.#ctor(UnaryHeap.DataType.Hyperplane3D,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initializes a new instance of the Facet3D class by intersecting a plane with a
+            hypercube of given side length.
+            </summary>
+            <param name="plane">The plane upon which the facet should lie.</param>
+            <param name="sideLength">The length of side of hypercube to use to find the
+            corners of the plane.</param>
+        </member>
+        <member name="M:UnaryHeap.DataType.Facet3D.Split(UnaryHeap.DataType.Hyperplane3D,UnaryHeap.DataType.Facet3D@,UnaryHeap.DataType.Facet3D@)">
+            <summary>
+            Computes the front and half polygons which would result from splitting this
+            instance along a plane.
+            </summary>
+            <param name="plane">The plane by which to split this instance.</param>
+            <param name="frontFacet">The component of this face in the front half
+            of the splitting plane.</param>
+            <param name="backFacet">The component of this facet in the back half
+            of the splitting plane.</param>
+        </member>
+        <member name="M:UnaryHeap.DataType.Facet3D.Triangulate">
+            <summary>
+            Compuutes point indcies for a triangulation of this Facet3D.
+            </summary>
+            <returns>A list of triples of points, corresponding to indices of Points.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Facet3D.AddPointsToEdge(System.Collections.Generic.IEnumerable{UnaryHeap.DataType.Point3D})">
+            <summary>
+            Makes a copy of this Facet3D with additional edge points
+            </summary>
+            <param name="extraPoints">The points to add.</param>
+            <returns>A new Facet3D, with any points in extraPoints that lie between points in
+            the original facet added to the new facet.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Facet3D.PointsInLine(UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D)">
+            <summary>
+            Check if three points lie in a line
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <param name="c"></param>
+            <returns></returns>
+        </member>
+        <member name="P:UnaryHeap.DataType.Facet3D.Cofacet">
+            <summary>
+            Gets the facet representing this facet, if its front and back halfspaces were flipped.
             </summary>
         </member>
         <member name="T:UnaryHeap.DataType.Hyperplane2D">
@@ -168,6 +330,16 @@
             Zero, if p is incident to this Hyperplane2D.</returns>
             <exception cref="T:System.ArgumentNullException">p is null.</exception>
         </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane2D.Determinant(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Computes the determinant of a point. The magnitude of the result will be positive
+            for points in the front halfspace of the plane, negative for points in the back
+            halfspace of the plane, and zero for points on the plane.
+            </summary>
+            <param name="p">The point for which to calculate the determinant.</param>
+            <returns>The determinant of the point with respect to this hyperplane.</returns>
+            <exception cref="T:System.ArgumentNullException">p is null.</exception>
+        </member>
         <member name="M:UnaryHeap.DataType.Hyperplane2D.FindIntersection(UnaryHeap.DataType.Hyperplane2D)">
             <summary>
             Determines the point at which two Hyperplane2Ds intersect.
@@ -207,6 +379,116 @@
             Serves as a hash function for the Hyperplane2D type.
             </summary>
             <returns>A hash code for the current Hyperplane2D object.</returns>
+        </member>
+        <member name="T:UnaryHeap.DataType.Hyperplane3D">
+            <summary>
+            Represents a hyperplane in two-dimensional space (i.e. a plane).
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Hyperplane3D.A">
+            <summary>
+            The plane normal's X coefficient.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Hyperplane3D.B">
+            <summary>
+            The plane normal's Y coefficient.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Hyperplane3D.C">
+            <summary>
+            The plane normal's Z coefficient.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Hyperplane3D.D">
+            <summary>
+            The plane normal's constant term.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane3D.#ctor(UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D)">
+            <summary>
+            Initializes a new instance of the Hyperplane3D class. The given points will lie on
+            the resulting plane, and the plane normal will follow the right-hand rule for the
+            given points.
+            </summary>
+            <param name="p1">A point on the plane.</param>
+            <param name="p2">Another point on the plane.</param>
+            <param name="p3">A third point on the plane.</param>
+            <exception cref="T:System.ArgumentNullException">p1, p2 or p3 are null.</exception>
+            <exception cref="T:System.InvalidOperationException">p1, p2 and p3 are colinear.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane3D.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initializes a new instance of the Hyperplane3D class.
+            </summary>
+            <param name="a">The X coefficient of the plane normal.</param>
+            <param name="b">The Y coefficient of the plane normal.</param>
+            <param name="c">The Z coefficient of the plane normal.</param>
+            <param name="d">The constant term of the plane normal.</param>
+            <exception cref="T:System.ArgumentNullException">a, b, c or d are null.</exception>
+            <exception cref="T:System.ArgumentException">
+            a, b and c are all equal to zero.
+            </exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane3D.DetermineHalfspaceOf(UnaryHeap.DataType.Point3D)">
+            <summary>
+            Determines where the given point lies in relation to this Hyperplane3D.
+            </summary>
+            <param name="p">The point to classify.</param>
+            <returns>A positive value, if p is in the front halfspace of this Hyperplane3D.
+            A negative value, if p is in the back halfspace of this Hyperplane3D.
+            Zero, if p is incident to this Hyperplane3D.</returns>
+            <exception cref="T:System.ArgumentNullException">p is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane3D.Determinant(UnaryHeap.DataType.Point3D)">
+            <summary>
+            Computes the determinant of a point. The magnitude of the result will be positive
+            for points in the front halfspace of the plane, negative for points in the back
+            halfspace of the plane, and zero for points on the plane.
+            Note that as most Hyperplanes do not have unit vectors, the returned value is not
+            guaranteed to be the exact distance between the plane and the point.
+            </summary>
+            <param name="p">The point for which to calculate the determinant.</param>
+            <returns>The determinant of the point with respect to this hyperplane.</returns>
+            <exception cref="T:System.ArgumentNullException">p is null.</exception>
+        </member>
+        <member name="P:UnaryHeap.DataType.Hyperplane3D.Coplane">
+            <summary>
+            Gets a copy of the current Hyperplane3D, with the front and half
+            halfspaces swapped.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane3D.Equals(UnaryHeap.DataType.Hyperplane3D)">
+            <summary>
+            Indicates whether the current Hyperplane3D is equal to another Hyperplane3D.
+            </summary>
+            <param name="other">The Hyperplane to compare with this Hyperplane.</param>
+            <returns>true if the current Hyperplane is equal to the other parameter;
+            otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane3D.Equals(System.Object)">
+            <summary>
+            Indicates whether the current Hyperplane3D is equal to another object.
+            </summary>
+            <param name="obj">The object to compare with this Hyperplane.</param>
+            <returns>true if the current Hyperplane is equal to the obj parameter;
+            otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane3D.GetHashCode">
+            <summary>
+            Serves as a hash function for the Hyperplane3D type.
+            </summary>
+            <returns>A hash code for the current Hyperplane3D object.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Hyperplane3D.Intersect(UnaryHeap.DataType.Hyperplane3D,UnaryHeap.DataType.Hyperplane3D,UnaryHeap.DataType.Hyperplane3D)">
+            <summary>
+            Finds the single point at the intersection of three Hyperplane3Ds.
+            </summary>
+            <param name="p1">A plane.</param>
+            <param name="p2">Another plane.</param>
+            <param name="p3">Yet another plane.</param>
+            <returns>The single point at the intersection of three Hyperplane3Ds, or null if the 
+            planes are not linearly independent.</returns>
         </member>
         <member name="T:UnaryHeap.DataType.ILinearMapper2D">
             <summary>
@@ -441,7 +723,7 @@
         </member>
         <member name="F:UnaryHeap.DataType.Matrix3D.Identity">
             <summary>
-            Returns the two-dimensional identity matrix.
+            Returns the three-dimensional identity matrix.
             </summary>
         </member>
         <member name="M:UnaryHeap.DataType.Matrix3D.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
@@ -525,6 +807,104 @@
             </summary>
             <returns>A string that represents the current object.</returns>
         </member>
+        <member name="T:UnaryHeap.DataType.Matrix4D">
+            <summary>
+            Represents a four-dimensional matrix.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.DataType.Matrix4D.Identity">
+            <summary>
+            Returns the four-dimensional identity matrix.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix4D.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initializes a new instance of the Matrix4D class
+            </summary>
+            <param name="elem00">The coefficient in the first row and first column</param>
+            <param name="elem01">The coefficient in the first row and second column</param>
+            <param name="elem02">The coefficient in the first row and third column</param>
+            <param name="elem03">The coefficient in the first row and fourth column</param>
+            <param name="elem10">The coefficient in the second row and first column</param>
+            <param name="elem11">The coefficient in the second row and second column</param>
+            <param name="elem12">The coefficient in the second row and third column</param>
+            <param name="elem13">The coefficient in the second row and fourth column</param>
+            <param name="elem20">The coefficient in the third row and first column</param>
+            <param name="elem21">The coefficient in the third row and second column</param>
+            <param name="elem22">The coefficient in the third row and third column</param>
+            <param name="elem23">The coefficient in the third row and fourth column</param>
+            <param name="elem30">The coefficient in the fourth row and first column</param>
+            <param name="elem31">The coefficient in the fourth row and second column</param>
+            <param name="elem32">The coefficient in the fourth row and third column</param>
+            <param name="elem33">The coefficient in the fourth row and fourth column</param>
+            <exception cref="T:System.ArgumentNullException">
+            Any of the parameters are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix4D.op_Multiply(UnaryHeap.DataType.Matrix4D,UnaryHeap.DataType.Matrix4D)">
+            <summary>
+            Computes the product of two matrices.
+            </summary>
+            <param name="left">The 'left' matrix of the computation.</param>
+            <param name="right">The 'right' matrix of the computation.</param>
+            <returns>A Matrix4D whose coefficients are computed by taking the dot products
+            of rows from left and columns from right.</returns>
+            <exception cref="T:System.ArgumentNullException">left or right are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix4D.Multiply(UnaryHeap.DataType.Matrix4D,UnaryHeap.DataType.Matrix4D)">
+            <summary>
+            Computes the product of two matrices.
+            </summary>
+            <param name="left">The 'left' matrix of the computation.</param>
+            <param name="right">The 'right' matrix of the computation.</param>
+            <returns>A Matrix4D whose coefficients are computed by taking the dot products
+            of rows from left and columns from right.</returns>
+            <exception cref="T:System.ArgumentNullException">left or right are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix4D.op_Multiply(UnaryHeap.DataType.Matrix4D,UnaryHeap.DataType.Point4D)">
+            <summary>
+            Computes the linear transformation of a point.
+            </summary>
+            <param name="m">The matrix corresponding to the transformation.</param>
+            <param name="p">The point to transform.</param>
+            <returns>A Point4D whose coefficients are the dot product of p and
+            rows of m.</returns>
+            <exception cref="T:System.ArgumentNullException">m or p are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix4D.Transform(UnaryHeap.DataType.Matrix4D,UnaryHeap.DataType.Point4D)">
+            <summary>
+            Computes the linear transformation of a point.
+            </summary>
+            <param name="m">The matrix corresponding to the transformation.</param>
+            <param name="p">The point to transform.</param>
+            <returns>A Point4D whose coefficients are the dot product of p and
+            rows of m.</returns>
+            <exception cref="T:System.ArgumentNullException">m or p are null.</exception>
+        </member>
+        <member name="P:UnaryHeap.DataType.Matrix4D.Item(System.Int32,System.Int32)">
+            <summary>
+            Gets a coefficient in the matrix.
+            </summary>
+            <param name="row">The row of the coefficient to retrieve.</param>
+            <param name="col">The column of the coefficient to retrieve.</param>
+            <returns>The coefficient at the specified row and column.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">row or col are less than zero
+            or greater than two.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix4D.ComputeInverse">
+            <summary>
+            Computes the inverse of this Matrix4D.
+            </summary>
+            <returns>The Matrix4D that, when multiplied by this Matrix4D, yields the
+            Matrix4D.Identity.</returns>
+            <exception cref="T:System.InvalidOperationException">This matrix is singular
+            (i.e. its determinant is zero).</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Matrix4D.ToString">
+            <summary>
+            Returns a string that represents the current object.
+            </summary>
+            <returns>A string that represents the current object.</returns>
+        </member>
         <member name="T:UnaryHeap.DataType.Orthotope2D">
             <summary>
             Represents a two-dimensional closed interval; ie, a rectangle.
@@ -535,7 +915,7 @@
             Intializes a new instance of the Orthotope2D class.
             </summary>
             <param name="x">The x-interval of the new instance.</param>
-            <param name="y">The x-interval of the new instance.</param>
+            <param name="y">The y-interval of the new instance.</param>
             <exception cref="T:System.ArgumentNullException">x or y are null.</exception>
         </member>
         <member name="M:UnaryHeap.DataType.Orthotope2D.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
@@ -622,6 +1002,143 @@
             is equal to the center specified.</returns>
             <exception cref="T:System.ArgumentNullException">center is null.
             </exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope2D.MakeFacets">
+            <summary>
+            Constructs a set of facets corresponding to the inside of this instance.
+            </summary>
+            <returns>
+            Facets for each side of this instance, with surface normals facing inwards.
+            </returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope2D.Intersects(UnaryHeap.DataType.Orthotope2D)">
+            <summary>
+            Checks whether this Orthotope2D and another Orthotope2D share any points.
+            </summary>
+            <param name="other">The Orthotope2D to check against.</param>
+            <returns>true if at least one Point2D is contained in both instances. </returns>
+        </member>
+        <member name="T:UnaryHeap.DataType.Orthotope3D">
+            <summary>
+            Represents a two-dimensional closed interval; ie, a rectangular prism.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope3D.#ctor(UnaryHeap.DataType.Range,UnaryHeap.DataType.Range,UnaryHeap.DataType.Range)">
+            <summary>
+            Intializes a new instance of the Orthotope3D class.
+            </summary>
+            <param name="x">The x-interval of the new instance.</param>
+            <param name="y">The y-interval of the new instance.</param>
+            <param name="z">The z-interval of the new instance.</param>
+            <exception cref="T:System.ArgumentNullException">x, y or z are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope3D.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Intializes a new instance of the Orthotope3D class.
+            </summary>
+            <param name="minX">The smallest value in the x interval.</param>
+            <param name="minY">The smallest value in the y interval.</param>
+            <param name="minZ">The smallest value in the z interval.</param>
+            <param name="maxX">The largest value in the x interval.</param>
+            <param name="maxY">The largest value in the y interval.</param>
+            <param name="maxZ">The largest value in the z interval.</param>
+            <exception cref="T:System.ArgumentNullException">
+            minX, minY, minZ, maxX maxY or maxZ are null.</exception>
+            <exception cref="T:System.ArgumentException">
+            minX is greater than maxX, minY is greater than maxY, or
+            minZ is greater than maxZ.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope3D.FromPoints(System.Collections.Generic.IEnumerable{UnaryHeap.DataType.Point3D})">
+            <summary>
+            Initializes a new instance of the Orthotope3D class as the bounding box
+            of a set of points.
+            </summary>
+            <param name="points">The points from which to compute the bounding box.</param>
+            <returns>A new Orthotope3D object with the smallest range containing
+            all of the input points.</returns>
+            <exception cref="T:System.ArgumentNullException">points is null.</exception>
+            <exception cref="T:System.ArgumentException">
+            points is empty, or contains a null value.</exception>
+        </member>
+        <member name="P:UnaryHeap.DataType.Orthotope3D.X">
+            <summary>
+            Gets the x-axis interval.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Orthotope3D.Y">
+            <summary>
+            Gets the y-axis interval.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Orthotope3D.Z">
+            <summary>
+            Gets the z-axis interval.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Orthotope3D.Center">
+            <summary>
+            Gets the Point3D of the center of the current Orthotope2D.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope3D.Contains(UnaryHeap.DataType.Point3D)">
+            <summary>
+            Determines whether the specified Point3D value lies within the
+            current Orthotope3D.
+            </summary>
+            <param name="value">The value to check for membership.</param>
+            <returns>True, if value.X lies within the X range, value.Y
+            lies within the Y range and value.Z lies within the Z range.</returns>
+            <exception cref="T:System.ArgumentNullException">value is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope3D.GetPadded(UnaryHeap.DataType.Rational)">
+            <summary>
+            Gets a new Orthotope3D object whose endpoints wre offset from the
+            current Orthotope3D instance.
+            </summary>
+            <param name="thickness">The amount by which to offset.</param>
+            <returns>A new Orthotope3D object with each axis padded by
+            the specified amount.</returns>
+            <exception cref="T:System.ArgumentNullException">thickness is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            thickness is negative and more than half of X.Size, Y.Size or Z.Size.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope3D.GetScaled(UnaryHeap.DataType.Rational)">
+            <summary>
+            Gets a new Orthotope3D object whose size is a multiple of the
+            current Orthotope3D instance.
+            </summary>
+            <param name="factor">The amount by which to scale.</param>
+            <returns>A new Orthotope3D object with each axis scaled by
+            the specified amount.</returns>
+            <exception cref="T:System.ArgumentNullException">factor is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            factor is negative.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope3D.CenteredAt(UnaryHeap.DataType.Point3D)">
+            <summary>
+            Gets a new Orthotope3D object with the same area whose center
+            is equal to the center specified.
+            </summary>
+            <param name="center">The center of the new Orthotope3D.</param>
+            <returns>A new Orthotope3D object with the same area whose center
+            is equal to the center specified.</returns>
+            <exception cref="T:System.ArgumentNullException">center is null.
+            </exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope3D.MakeFacets">
+            <summary>
+            Constructs a set of facets corresponding to the inside of this instance.
+            </summary>
+            <returns>
+            Facets for each side of this instance, with surface normals facing inwards.
+            </returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Orthotope3D.Intersects(UnaryHeap.DataType.Orthotope3D)">
+            <summary>
+            Checks whether this Orthotope3D and another Orthotope3D share any points.
+            </summary>
+            <param name="other">The Orthotope3D to check against.</param>
+            <returns>true if at least one Point3D is contained in both instances. </returns>
         </member>
         <member name="T:UnaryHeap.DataType.Parabola">
             <summary>
@@ -967,6 +1484,101 @@
             <param name="p2">The second point.</param>
             <returns>The squared distance between the two points.</returns>
         </member>
+        <member name="M:UnaryHeap.DataType.Point3D.AreIndependent(UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D)">
+            <summary>
+            Check if three points are linearly independent.
+            </summary>
+            <param name="a">The first point.</param>
+            <param name="b">The second point.</param>
+            <param name="c">The third point.</param>
+            <returns>True, if the points are linearly dependent; false otherwise.</returns>
+        </member>
+        <member name="T:UnaryHeap.DataType.Point3DComparer">
+            <summary>
+            Defines a class that can be used to order Point3D objects.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.DataType.Point3DComparer.Instance">
+            <summary>
+            The singleton instance of Point3DComparer.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point3DComparer.Compare(UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D)">
+            <summary>
+            Compares two Point2D objects and returns a value indicating whether one is less than,
+            equal to, or greater than the other.
+            </summary>
+            <param name="x">The first object to compare.</param>
+            <param name="y">The second object to compare.</param>
+            <returns>A negative integer, if x is less than y. Zero, if x equals y.
+            A positive integer, if x is greater than y.</returns>
+        </member>
+        <member name="T:UnaryHeap.DataType.Point4D">
+            <summary>
+            Represents a point in four-dimensional space.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point4D.#ctor(UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initializes a new instance of the Point4D class.
+            </summary>
+            <param name="x">The x-coordinate of the new point.</param>
+            <param name="y">The y-coordinate of the new point.</param>
+            <param name="z">The z-coordinate of the new point.</param>
+            <param name="w">The w-coordinate of the new point.</param>
+            <exception cref="T:System.ArgumentNullException">
+            x, y, z or w are null references.</exception>
+        </member>
+        <member name="P:UnaryHeap.DataType.Point4D.Origin">
+            <summary>
+            Gets a value that represents the point (0, 0, 0, 0).
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Point4D.X">
+            <summary>
+            Gets the x-cooridante of the current Point4D object.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Point4D.Y">
+            <summary>
+            Gets the y-cooridante of the current Point4D object.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Point4D.Z">
+            <summary>
+            Gets the z-cooridante of the current Point4D object.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Point4D.W">
+            <summary>
+            Gets the w-cooridante of the current Point4D object.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point4D.Equals(System.Object)">
+            <summary>
+            Determines whether the specified System.Object object is equal to
+            the current Point4D object.
+            </summary>
+            <param name="obj">The object to compare.</param>
+            <returns>true if the obj parameter is a Point4D object or a type capable of implicit
+            conversion to a Point4D value, and its value is equal to the value of the current
+            Point4D object; otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point4D.Equals(UnaryHeap.DataType.Point4D)">
+            <summary>
+            Determines whether the specified Point3D object is equal to the
+            current Point3D object.
+            </summary>
+            <param name="other">The object to compare.</param>
+            <returns>true if the value of the obj parameter is equal to the value of
+            the current Point3D object; otherwise, false.</returns>
+        </member>
+        <member name="M:UnaryHeap.DataType.Point4D.GetHashCode">
+            <summary>
+            Serves as a hash function for the Point4D type.
+            </summary>
+            <returns>A hash code for the current Point4D object.</returns>
+        </member>
         <member name="T:UnaryHeap.DataType.Range">
             <summary>
             Represents a closed interval.
@@ -1043,6 +1655,14 @@
             <returns>A new Range object with the same area centered at the point specified.
             </returns>
             <exception cref="T:System.ArgumentNullException">center is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Range.Intersects(UnaryHeap.DataType.Range)">
+            <summary>
+            Checks whether this interval and another interval have any points in common.
+            </summary>
+            <param name="other">The Range to check against.</param>
+            <returns>true if the two Ranges overlap; false otherwise.</returns>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:UnaryHeap.DataType.Rational">
             <summary>
@@ -1465,6 +2085,47 @@
             <exception cref="T:System.NotSupportedException">
             numerator or denominator are more than System.Int32.MaxValue
             bytes in size.</exception>
+        </member>
+        <member name="T:UnaryHeap.DataType.Sphere3D">
+            <summary>
+            Represents a rational sphere in 3D space.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Sphere3D.Center">
+            <summary>
+            The cneter of the Sphere3D.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.DataType.Sphere3D.Quadrance">
+            <summary>
+            The square of the radius of the Sphere3D.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.DataType.Sphere3D.#ctor(UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Rational)">
+            <summary>
+            Initializes a new instance of the Sphere3D class.
+            </summary>
+            <param name="center">The center of the sphere.</param>
+            <param name="quadrance">The square of the radius of the Sphere3D.</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:UnaryHeap.DataType.Sphere3D.Circumcircle(UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D,UnaryHeap.DataType.Point3D)">
+            <summary>
+            Initializes a new instance of the Sphere3D class to be the sphere with the given
+            points on its surface and whose center lies on the plane defined by the given points.
+            </summary>
+            <param name="p1">The first point.</param>
+            <param name="p2">The second point.</param>
+            <param name="p3">The third point.</param>
+        </member>
+        <member name="M:UnaryHeap.DataType.Sphere3D.DetermineHalfspaceOf(UnaryHeap.DataType.Point3D)">
+            <summary>
+            Classify a point against this Sphere3D.
+            </summary>
+            <param name="point">The point to classify.</param>
+            <returns>A positive value, if the point is outside the sphere.
+            Zero, if the point lies on the surface of the sphere.
+            A negative value, if the point is inside the sphere.</returns>
         </member>
     </members>
 </doc>

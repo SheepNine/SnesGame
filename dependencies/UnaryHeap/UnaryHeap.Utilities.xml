@@ -1,0 +1,549 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UnaryHeap.Utilities</name>
+    </assembly>
+    <members>
+        <member name="T:UnaryHeap.Utilities.GifGenerator">
+            <summary>
+            Encapsulates an algorithm for generating an animated GIF image stream from a
+            collection of dynamically-generated image frames.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.GifGenerator.RenderFrame(System.Drawing.Graphics,System.Int32)">
+            <summary>
+            Callback to render a frame of animation.
+            </summary>
+            <param name="g">The target graphics context upon which to render the frame.</param>
+            <param name="frameIndex">The frame index of the animation.
+            Ranges from 0 to FrameCount - 1.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.GifGenerator.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the GifGenerator class.
+            </summary>
+            <param name="width">The width, in pixels, of the output image.</param>
+            <param name="height">The height, in pixels, of the output image.</param>
+            <param name="frameCount">The numer of frames in the animation.</param>
+        </member>
+        <member name="P:UnaryHeap.Utilities.GifGenerator.Width">
+            <summary>
+            The width, in pixels, of the output image.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Utilities.GifGenerator.Height">
+            <summary>
+            The height, in pixels, of the output image.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Utilities.GifGenerator.FrameCount">
+            <summary>
+            The numer of frames in the animation.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.GifGenerator.Generate(System.String)">
+            <summary>
+            Writes the GIF image stream of this GifGenerator to the specified filename.
+            </summary>
+            <param name="outputFileName">The filename of the resulting file.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.GifGenerator.Generate(System.IO.Stream)">
+            <summary>
+            Writes the GIF image stream of this GifGenerator to the specified stream.
+            </summary>
+            <param name="output">The stream into which the result will be written.</param>
+        </member>
+        <member name="T:UnaryHeap.Utilities.IndexAssigner`1">
+            <summary>
+            Dynamically assigns ordinal indices to arbitrary objects.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.IndexAssigner`1.#ctor">
+            <summary>
+            Constructs a new instance of the IndexAssigner class with the default
+            object comparer.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.IndexAssigner`1.#ctor(System.Collections.Generic.IComparer{`0})">
+            <summary>
+            Constructs a new instance of the IndexAssigner class with the specified
+            object comparer.
+            </summary>
+            <param name="comparer">The comparer to use to de-duplicate objects</param>
+        </member>
+        <member name="P:UnaryHeap.Utilities.IndexAssigner`1.Count">
+            <summary>
+            The number of objects that have had ordinals assigned.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Utilities.IndexAssigner`1.Item(System.Int32)">
+            <summary>
+            Gets the item with the specified index.
+            </summary>
+            <param name="index">The index to look up.</param>
+            <returns>The item with the specified index.</returns>
+        </member>
+        <member name="M:UnaryHeap.Utilities.IndexAssigner`1.GetIndex(`0)">
+            <summary>
+            Gets the index of the specified object. 
+            </summary>
+            <param name="item">The item to which to assign an index.</param>
+            <returns>A new index if item has not previously been seen;
+            otherwise, returns the previously-assigned index.</returns>
+        </member>
+        <member name="T:UnaryHeap.Utilities.LinearFeedbackShiftRegister">
+            <summary>
+            Represents a shift register whose feedback is a linear function (XOR) of a subset of
+            the bits in its current value, referred to as the tap bits.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Utilities.LinearFeedbackShiftRegister.RegisterValue">
+            <summary>
+            Gets or sets the current value of the shift register.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.LinearFeedbackShiftRegister.#ctor(System.Int32,System.UInt64)">
+            <summary>
+            Initializes a new instance of the LinearFeedbackShiftRegister class.
+            </summary>
+            <param name="numBits">The size, in bits, of the shift register.</param>
+            <param name="tappedBits">A binary value where a bit value of 1 means that the
+            corresponding bit of the register will be tapped.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.LinearFeedbackShiftRegister.#ctor(System.Int32,System.Int32[])">
+            <summary>
+            Initializes a new instance of the LinearFeedbackShiftRegister class.
+            </summary>
+            <param name="numBits">The size, in bits, of the shift register.</param>
+            <param name="tappedBits">An array of integers specifying which bits of the
+            register will be tapped.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.LinearFeedbackShiftRegister.Shift">
+            <summary>
+            Advances the shift register to its next state.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.LinearFeedbackShiftRegister.GetCycleLength">
+            <summary>
+            Determines how many times the shift register can be shifted before it returns to
+            its current value.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.LinearFeedbackShiftRegister.GetCyclePattern">
+            <summary>
+            Computes the bit pattern that is produced by one iteration of the current cycle.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.LinearFeedbackShiftRegister.GetSmallestValueInCycle">
+            <summary>
+            Determines the state in the current cycle of the shift register with the
+            smallest binary value.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.LinearFeedbackShiftRegister.GetCycleValues">
+            <summary>
+            Computes the shift register values possible in the current cycle.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.LinearFeedbackShiftRegister.IterateCycle(System.Action{System.UInt64})">
+            <summary>
+            Iterate through the shift register values in the current cycle and pass them to the
+            supplied callback delegate.
+            </summary>
+            <param name="callback">The callback to invoke on each shift register value.</param>
+        </member>
+        <member name="T:UnaryHeap.Utilities.RawImage">
+            <summary>
+            Represents an in-memory 8bpp RGB image that can be efficiently
+            manipulated on a per-pixel basis.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.RawImage.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the RawImage class.
+            </summary>
+            <param name="width">The width of the image, in pixels.</param>
+            <param name="height">The height of the image, in pixels</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            width or height are less than one</exception>
+        </member>
+        <member name="P:UnaryHeap.Utilities.RawImage.Width">
+            <summary>
+            Gets the width of the image, in pixels.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Utilities.RawImage.Height">
+            <summary>
+            Gets the height of the image, in pixels.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.RawImage.GetPixel(System.Int32,System.Int32,System.Byte@,System.Byte@,System.Byte@)">
+            <summary>
+            Retrieves the color of a specified pixel.
+            </summary>
+            <param name="x">The X-coordinate of the pxiel to retrieve.</param>
+            <param name="y">The Y-coordinate of the pixel to retrieve.</param>
+            <param name="r">The red component of the specified pixel.</param>
+            <param name="g">The green component of the specified pixel.</param>
+            <param name="b">The blue component of the specified pixel.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">x/y are less than zero
+            or greater than or equal to Width/Height.</exception>
+        </member>
+        <member name="M:UnaryHeap.Utilities.RawImage.SetPixel(System.Int32,System.Int32,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Updates the color of a specified pixel.
+            </summary>
+            <param name="x">The X-coordinate of the pixel to update.</param>
+            <param name="y">The Y-coordinate of the pixel to update.</param>
+            <param name="r">
+            The value to which to set the red component of the pixel specified.</param>
+            <param name="g">
+            The value to which to set the green component of the pixel specified.</param>
+            <param name="b">
+            The value to which to set the blue component of the pixel specified.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">x/y are less than zero
+            or greater than or equal to Width/Height.</exception>
+        </member>
+        <member name="M:UnaryHeap.Utilities.RawImage.BlendPixel(System.Int32,System.Int32,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Updates the color of a specified pixel to be the average of its existing
+            color and a new color.
+            </summary>
+            <param name="x">The X-coordinate of the pixel to update.</param>
+            <param name="y">The Y-coordinate of the pixel to update.</param>
+            <param name="r">
+            The value to which to blend the red component of the pixel specified.</param>
+            <param name="g">
+            The value to which to blend the green component of the pixel specified.</param>
+            <param name="b">
+            The value to which to blend the blue component of the pixel specified.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">x/y are less than zero
+            or greater than or equal to Width/Height.</exception>
+        </member>
+        <member name="M:UnaryHeap.Utilities.RawImage.MakeBitmap">
+            <summary>
+            Creates a GDI Bitmap of this RawImage.
+            </summary>
+            <returns>A Bitmap containing the current color values of the RawImage.</returns>
+        </member>
+        <member name="M:UnaryHeap.Utilities.RawImage.Serialize(System.IO.Stream)">
+            <summary>
+            Writes a binary representation of the current RawImage value to a stream.
+            </summary>
+            <param name="output">The stream to which to write the binary representation.</param>
+            <exception cref="T:System.ArgumentNullException">output is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Utilities.RawImage.Deserialize(System.IO.Stream)">
+            <summary>
+            Reads the binary representation of a RawImage object from a stream.
+            </summary>
+            <param name="input">The stream from which to read the binary representation.</param>
+            <returns>The RawImage value read.</returns>
+            <exception cref="T:System.ArgumentNullException">input is null.</exception>
+        </member>
+        <member name="T:UnaryHeap.Utilities.TextWriterIndenter">
+            <summary>
+            Inserts indentation into a TextWriter as data is being written to it.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Utilities.TextWriterIndenter.IndentString">
+            <summary>
+            Get or set the string used for a single level of indentation.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.#ctor(System.IO.TextWriter)">
+            <summary>
+            Initializes a new instance of the TextWriter class.
+            </summary>
+            <param name="target">The TextWriter that will receive indented text.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing,
+            or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the Control and its child
+            controls and optionally releases the managed resources.
+            </summary>
+            <param name="disposing">true to release both managed and unmanaged resources;
+            false to release only unmanaged resources.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Flush">
+            <summary>
+            Clears all buffers for the current writer and causes any buffered data to be
+            written to the underlying device.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.IncreaseIndent">
+            <summary>
+            Increases by one the number of indentations added at the start of each line.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.DecreaseIndent">
+            <summary>
+            Decreases by one the number of indentations added at the start of each line.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.WriteLine">
+            <summary>
+            Starts a new line.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.WriteLine(System.String)">
+            <summary>
+            Writes data to the target, and starts a new line.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.WriteLine(System.Char[])">
+            <summary>
+            Writes data to the target, and starts a new line.
+            </summary>
+            <param name="buffer">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.WriteLine(System.Double)">
+            <summary>
+            Writes data to the target, and starts a new line.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.WriteLine(System.Decimal)">
+            <summary>
+            Writes data to the target, and starts a new line.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.WriteLine(System.Single)">
+            <summary>
+            Writes data to the target, and starts a new line.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.WriteLine(System.Boolean)">
+            <summary>
+            Writes data to the target, and starts a new line.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.WriteLine(System.Int32)">
+            <summary>
+            Writes data to the target, and starts a new line.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.WriteLine(System.UInt32)">
+            <summary>
+            Writes data to the target, and starts a new line.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.WriteLine(System.UInt64)">
+            <summary>
+            Writes data to the target, and starts a new line.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.WriteLine(System.Int64)">
+            <summary>
+            Writes data to the target, and starts a new line.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.WriteLine(System.Char)">
+            <summary>
+            Writes data to the target, and starts a new line.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Write(System.String)">
+            <summary>
+            Writes data to the target.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Write(System.Char[])">
+            <summary>
+            Writes data to the target.
+            </summary>
+            <param name="buffer">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Write(System.Double)">
+            <summary>
+            Writes data to the target.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Write(System.Decimal)">
+            <summary>
+            Writes data to the target.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Write(System.Single)">
+            <summary>
+            Writes data to the target.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Write(System.Boolean)">
+            <summary>
+            Writes data to the target.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Write(System.Int32)">
+            <summary>
+            Writes data to the target.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Write(System.UInt32)">
+            <summary>
+            Writes data to the target.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Write(System.UInt64)">
+            <summary>
+            Writes data to the target.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Write(System.Int64)">
+            <summary>
+            Writes data to the target.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="M:UnaryHeap.Utilities.TextWriterIndenter.Write(System.Char)">
+            <summary>
+            Writes data to the target.
+            </summary>
+            <param name="value">The data to write.</param>
+        </member>
+        <member name="T:UnaryHeap.Utilities.WadFile">
+            <summary>
+            Represents a WAD file (as used by DooM and DooM II), providing access to the
+            lumps contained therein.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.WadFile.#ctor(System.IO.Stream)">
+            <summary>
+            Initializes a new instance of the WadFile class.
+            </summary>
+            <param name="source">The stream from which to read the WAD file data.</param>
+            <exception cref="T:System.ArgumentNullException">source is null.</exception>
+            <exception cref="T:System.IO.InvalidDataException">The data in source is not
+            correctly-formatted WAD data.</exception>
+        </member>
+        <member name="M:UnaryHeap.Utilities.WadFile.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the WadFile class.
+            </summary>
+            <param name="fileName">The file from which to read the WAD file data.</param>
+            <exception cref="T:System.ArgumentNullException">filename is null.</exception>
+            <exception cref="T:System.IO.InvalidDataException">The data in the file specified
+            is not correctly-formatted WAD data.</exception>
+        </member>
+        <member name="M:UnaryHeap.Utilities.WadFile.#ctor(System.Byte[])">
+            <summary>
+            Initializes a new instance of the WadFile class.
+            </summary>
+            <param name="data">The WAD file data.</param>
+            <exception cref="T:System.ArgumentNullException">data is null.</exception>
+            <exception cref="T:System.IO.InvalidDataException">The data specified
+            is not correctly-formatted WAD data.</exception>
+        </member>
+        <member name="P:UnaryHeap.Utilities.WadFile.IsPatchWad">
+            <summary>
+            Returns true if this WAD is a patch wad, or false if this wad is an initial wad.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Utilities.WadFile.LumpCount">
+            <summary>
+            Gets the number of lumps in this WAD.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.WadFile.GetLumpName(System.Int32)">
+            <summary>
+            Gets the name of the specified lump.
+            </summary>
+            <param name="index">The index of the lump for which to get the name.</param>
+            <returns>The name of the specified lump.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            index is negative or not less than LumpCount.</exception>
+        </member>
+        <member name="M:UnaryHeap.Utilities.WadFile.GetLumpSize(System.Int32)">
+            <summary>
+            Gets the size of the specified lump.
+            </summary>
+            <param name="index">The index of the lump for which to get the size.</param>
+            <returns>The size of the specified lump.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            index is negative or not less than LumpCount.</exception>
+        </member>
+        <member name="M:UnaryHeap.Utilities.WadFile.GetLumpData(System.Int32)">
+            <summary>
+            Gets the data of the specified lump.
+            </summary>
+            <param name="index">The index of the lump for which to get the data.</param>
+            <returns>The data of the specified lump.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            index is negative or not less than LumpCount.</exception>
+        </member>
+        <member name="M:UnaryHeap.Utilities.WadFile.FindLumpByName(System.String)">
+            <summary>
+            Looks up the index of a lump by name.
+            </summary>
+            <param name="lumpName">The name of the lump to find.</param>
+            <returns>The index of the first lump whose name matches lumpName,
+            or -1 of no lump is found.</returns>
+        </member>
+        <member name="M:UnaryHeap.Utilities.WadFile.FindLumpByName(System.String,System.Int32)">
+            <summary>
+            Looks up the index of a lump by name, skipping some indices.
+            </summary>
+            <param name="lumpName">The name of the lump to find.</param>
+            <param name="searchStart">The first lump name to inspect.</param>
+            <returns>The index of the first lump whose name matches lumpName and
+            whose index is not less than searchStart, or -1 of no lump is found.
+            </returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            searchStart is negative or not less than LumpCount.</exception>
+        </member>
+        <member name="M:UnaryHeap.Utilities.WadFile.ReadLittleEndianInt32(System.Byte[],System.Int32)">
+            <summary>
+            Reads a little-endian encoded 32-bit signed integer from a DooM WAD.
+            </summary>
+            <param name="bytes">The contents of the WAD file.</param>
+            <param name="offset">The index of the first (lowest-order) byte
+            of the value to be read.</param>
+            <returns>The 32-bit signed integer at the specified index.</returns>
+        </member>
+        <member name="M:UnaryHeap.Utilities.WadFile.ReadString(System.Byte[],System.Int32)">
+            <summary>
+            Reads a string from a DooM WAD.
+            </summary>
+            <param name="bytes">The contents of the WAD file.</param>
+            <param name="offset">The index of the first (lowest-order) byte
+            of the value to be read.</param>
+            <returns>The string value of the WAD, with trailing nulls removed.</returns>
+        </member>
+        <member name="T:UnaryHeap.Utilities.WaveFileFormatExtension">
+            <summary>
+            Provides a set of static methods for generating WAVE files.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Utilities.WaveFileFormatExtension.WriteWaveFile(System.IO.Stream,System.Int32,System.Int16[])">
+            <summary>
+            Writes 16-bit mono PCM data as a WAVE file format.
+            </summary>
+            <param name="destination">The stream to which data is written.</param>
+            <param name="samplesPerSecond">The number of data samples per second.</param>
+            <param name="pcmData">The PCM data to write.</param>
+        </member>
+    </members>
+</doc>
