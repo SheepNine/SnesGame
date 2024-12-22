@@ -9,7 +9,7 @@ namespace SnesGame.ResourceCompiler
     {
         public string OutputDirectory { get; private set; }
 
-        private IDictionary<string, IDictionary<string, ManifestEntry>> entries;
+        private SortedDictionary<string, IDictionary<string, ManifestEntry>> entries;
 
         public Manifest(string manifestFilename, IEnumerable<IPipeline> pipelines,
             string outputDirectory)
