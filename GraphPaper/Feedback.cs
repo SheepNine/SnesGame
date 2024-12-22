@@ -11,7 +11,7 @@ namespace GraphPaper
         void Render(Screen screen);
     }
 
-    class NullFeedback : IFeedback
+    sealed class NullFeedback : IFeedback
     {
         public bool Equals(IFeedback other)
         {
@@ -24,7 +24,7 @@ namespace GraphPaper
         }
     }
 
-    class UnsupportedFeedback : IFeedback
+    sealed class UnsupportedFeedback : IFeedback
     {
         public bool Equals(IFeedback other)
         {
@@ -40,7 +40,7 @@ namespace GraphPaper
         }
     }
 
-    class HoverFeedback : IFeedback
+    sealed class HoverFeedback : IFeedback
     {
         Point2D feedbackPoint;
 
@@ -73,7 +73,7 @@ namespace GraphPaper
         }
     }
 
-    class AddVertexFeedback : IFeedback
+    sealed class AddVertexFeedback : IFeedback
     {
         Point2D vertexPoint;
 
@@ -106,7 +106,7 @@ namespace GraphPaper
         }
     }
 
-    class AddEdgeFeedback : IFeedback
+    sealed class AddEdgeFeedback : IFeedback
     {
         Point2D startPoint;
         Point2D endPoint;
@@ -152,7 +152,7 @@ namespace GraphPaper
         }
     }
 
-    class SplitEdgeFeedback : IFeedback
+    sealed class SplitEdgeFeedback : IFeedback
     {
         Point2D splitPoint;
 
@@ -187,7 +187,7 @@ namespace GraphPaper
         }
     }
 
-    class ErrorFeedback : IFeedback
+    sealed class ErrorFeedback : IFeedback
     {
         string message;
 
@@ -213,7 +213,7 @@ namespace GraphPaper
         }
     }
 
-    class MessageFeedback : IFeedback
+    sealed class MessageFeedback : IFeedback
     {
         string message;
 
@@ -239,7 +239,7 @@ namespace GraphPaper
         }
     }
 
-    class AdjustViewExtentsFeedback : IFeedback
+    sealed class AdjustViewExtentsFeedback : IFeedback
     {
         Orthotope2D bounds;
 
@@ -282,7 +282,7 @@ namespace GraphPaper
         }
     }
 
-    class SelectObjectsFeedback : IFeedback
+    sealed class SelectObjectsFeedback : IFeedback
     {
         Orthotope2D bounds;
 
@@ -323,7 +323,7 @@ namespace GraphPaper
         }
     }
 
-    class AppendSelectionFeedback : IFeedback
+    sealed class AppendSelectionFeedback : IFeedback
     {
         Orthotope2D bounds;
 
@@ -364,7 +364,7 @@ namespace GraphPaper
         }
     }
 
-    class CenterViewFeedback : IFeedback
+    sealed class CenterViewFeedback : IFeedback
     {
         Point2D newCenterPoint;
 
@@ -404,7 +404,7 @@ namespace GraphPaper
         }
     }
 
-    class SelectPointFeedback : IFeedback
+    sealed class SelectPointFeedback : IFeedback
     {
         Point2D candidatePoint;
 
@@ -430,7 +430,7 @@ namespace GraphPaper
         }
     }
 
-    class SelectEdgeFeedback : IFeedback
+    sealed class SelectEdgeFeedback : IFeedback
     {
         Point2D startPoint;
         Point2D endPoint;

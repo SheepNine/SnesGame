@@ -7,7 +7,7 @@ using UnaryHeap.Graph;
 
 namespace GraphPaper
 {
-    class Metadata
+    sealed class Metadata
     {
         public static MetadataChange ViewAndEdit(MetadataSet input, string title)
         {
@@ -36,7 +36,7 @@ namespace GraphPaper
         }
     }
 
-    class MetadataSet
+    sealed class MetadataSet
     {
         SortedDictionary<string, string> data;
 
@@ -119,7 +119,7 @@ namespace GraphPaper
         }
     }
 
-    class MetadataChange
+    sealed class MetadataChange
     {
         List<string> keysToRemove = new List<string>();
         SortedDictionary<string, string> keysToSet = new SortedDictionary<string, string>();

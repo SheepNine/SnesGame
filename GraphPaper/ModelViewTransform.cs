@@ -4,10 +4,10 @@ using UnaryHeap.DataType;
 
 namespace GraphPaper
 {
-    class ModelViewTransform : ICloneable
+    sealed class ModelViewTransform : ICloneable
     {
         public event EventHandler TransformChanged;
-        protected void OnTransformChanged()
+        private void OnTransformChanged()
         {
             if (null != TransformChanged)
                 TransformChanged(this, EventArgs.Empty);

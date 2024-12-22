@@ -119,7 +119,7 @@ namespace SnesGame.CLR
 
         public void SetLength(int newLength)
         {
-            if (newLength < 1) throw new ArgumentOutOfRangeException(nameof(newLength));
+            ArgumentOutOfRangeException.ThrowIfLessThan(newLength, 1);
             if (newLength == length) return;
             if (newLength < length)
             {
@@ -134,8 +134,7 @@ namespace SnesGame.CLR
         {
             if (trackIndex < 0 || trackIndex >= tracks.Count)
                 throw new ArgumentOutOfRangeException(nameof(trackIndex));
-            if (notePosition >= length)
-                throw new ArgumentOutOfRangeException(nameof(notePosition));
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(notePosition, length);
 
             tracks[trackIndex].AddNote(notePosition, note);
         }
@@ -144,8 +143,7 @@ namespace SnesGame.CLR
         {
             if (trackIndex < 0 || trackIndex >= tracks.Count)
                 throw new ArgumentOutOfRangeException(nameof(trackIndex));
-            if (notePosition >= length)
-                throw new ArgumentOutOfRangeException(nameof(notePosition));
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(notePosition, length);
 
             tracks[trackIndex].RemoveNote(notePosition);
         }
@@ -154,8 +152,7 @@ namespace SnesGame.CLR
         {
             if (trackIndex < 0 || trackIndex >= tracks.Count)
                 throw new ArgumentOutOfRangeException(nameof(trackIndex));
-            if (notePosition >= length)
-                throw new ArgumentOutOfRangeException(nameof(notePosition));
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(notePosition, length);
 
             tracks[trackIndex].EditNote(notePosition, note);
         }
@@ -164,8 +161,7 @@ namespace SnesGame.CLR
         {
             if (trackIndex < 0 || trackIndex >= tracks.Count)
                 throw new ArgumentOutOfRangeException(nameof(trackIndex));
-            if (newPosition >= length)
-                throw new ArgumentOutOfRangeException(nameof(newPosition));
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(newPosition, length);
 
             tracks[trackIndex].MoveNote(oldPosition, newPosition);
         }

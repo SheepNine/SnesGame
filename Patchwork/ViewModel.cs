@@ -735,7 +735,7 @@ namespace Patchwork
         #endregion
     }
 
-    class RectFeedback : IWysiwygFeedbackStrategy
+    sealed class RectFeedback : IWysiwygFeedbackStrategy
     {
         Rectangle rect;
 

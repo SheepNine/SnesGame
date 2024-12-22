@@ -507,7 +507,7 @@ namespace Potatune
         }
     }
 
-    class NoteBoxHighlightFeedback : IWysiwygFeedbackStrategy
+    sealed class NoteBoxHighlightFeedback : IWysiwygFeedbackStrategy
     {
         int track;
         int screenPosition;

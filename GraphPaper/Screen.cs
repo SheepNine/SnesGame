@@ -6,7 +6,7 @@ using UnaryHeap.DataType;
 
 namespace GraphPaper
 {
-    class Screen : IDisposable
+    sealed class Screen : IDisposable
     {
         Graphics g;
         GraphicsState gState;

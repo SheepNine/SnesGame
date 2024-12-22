@@ -5,11 +5,11 @@ using UnaryHeap.DataType;
 
 namespace GraphPaper
 {
-    class GraphObjectSelection
+    sealed class GraphObjectSelection
     {
         public event EventHandler SelectionChanged;
 
-        protected void OnSelectionChanged()
+        private void OnSelectionChanged()
         {
             if (null != SelectionChanged)
                 SelectionChanged(this, EventArgs.Empty);

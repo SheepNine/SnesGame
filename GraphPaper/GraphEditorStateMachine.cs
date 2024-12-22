@@ -8,7 +8,7 @@ using UnaryHeap.GUI;
 
 namespace GraphPaper
 {
-    class Graph2DCreateArgs
+    sealed class Graph2DCreateArgs
     {
         public bool Directed { get; private set; }
 
@@ -18,7 +18,7 @@ namespace GraphPaper
         }
     }
 
-    class GraphEditorStateMachine : ModelEditorStateMachine<
+    sealed class GraphEditorStateMachine : ModelEditorStateMachine<
         Graph2DCreateArgs, Graph2D, ReadOnlyGraph2D>
     {
         public GraphEditorStateMachine() : base(new Prompts())
@@ -53,7 +53,7 @@ namespace GraphPaper
         }
     }
 
-    class ReadOnlyGraph2D
+    sealed class ReadOnlyGraph2D
     {
         Graph2D graph;
 

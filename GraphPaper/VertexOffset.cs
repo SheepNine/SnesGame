@@ -9,7 +9,7 @@ namespace GraphPaper
         Point2D GetOffsetVertex(Point2D source);
     }
 
-    class VertexOffset : IVertexOffset
+    sealed class VertexOffset : IVertexOffset
     {
         Rational dX;
         Rational dY;
@@ -41,7 +41,7 @@ namespace GraphPaper
         }
     }
 
-    class IdentityOffset : IVertexOffset
+    sealed class IdentityOffset : IVertexOffset
     {
         public static readonly IdentityOffset Instance = new IdentityOffset();
 

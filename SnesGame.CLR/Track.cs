@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace SnesGame.CLR
 {
-    class Track
+    sealed class Track
     {
         private List<INote> notes;
         private List<int> notePositions;
@@ -161,10 +161,8 @@ namespace SnesGame.CLR
 
         public void AddNote(int notePosition, INote note)
         {
-            if (note == null)
-                throw new ArgumentNullException(nameof(note));
-            if (notePosition < 0)
-                throw new ArgumentOutOfRangeException(nameof(notePosition));
+            ArgumentNullException.ThrowIfNull(note);
+            ArgumentOutOfRangeException.ThrowIfNegative(notePosition);
             if (notePositions.Contains(notePosition))
                 throw new InvalidOperationException(
                     "A note is already present at the specified position");
@@ -187,8 +185,7 @@ namespace SnesGame.CLR
 
         public void EditNote(int notePosition, INote note)
         {
-            if (note == null)
-                throw new ArgumentNullException(nameof(note));
+            ArgumentNullException.ThrowIfNull(note);
 
             var updateIndex = notePositions.IndexOf(notePosition);
             if (updateIndex == -1)
@@ -203,8 +200,7 @@ namespace SnesGame.CLR
             if (!notePositions.Contains(oldPosition))
                 throw new InvalidOperationException(
                     "No note is present at the specified position");
-            if (newPosition < 0)
-                throw new ArgumentOutOfRangeException(nameof(newPosition));
+            ArgumentOutOfRangeException.ThrowIfNegative(newPosition);
             if (notePositions.Contains(newPosition))
                 throw new InvalidOperationException(
                     "A note is already present at the specified position");
@@ -216,10 +212,8 @@ namespace SnesGame.CLR
 
         public void RemoveSection(int position, int size)
         {
-            if (position < 0)
-                throw new ArgumentOutOfRangeException(nameof(position));
-            if (size < 1)
-                throw new ArgumentOutOfRangeException(nameof(size));
+            ArgumentOutOfRangeException.ThrowIfNegative(position);
+            ArgumentOutOfRangeException.ThrowIfLessThan(size, 1);
 
             foreach (var i in Enumerable.Range(0, notes.Count).Reverse())
             {

@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace GraphPaper
 {
-    partial class ViewEditMetadataDialog : Form
+    sealed partial class ViewEditMetadataDialog : Form
     {
         List<MetadatumControl> controls = new List<MetadatumControl>();
 

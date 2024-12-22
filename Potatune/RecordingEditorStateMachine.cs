@@ -4,14 +4,14 @@ using UnaryHeap.GUI;
 
 namespace Potatune
 {
-    class RecordingCreateArgs
+    sealed class RecordingCreateArgs
     {
         public static RecordingCreateArgs Instance = new RecordingCreateArgs();
 
         private RecordingCreateArgs() { }
     }
 
-    class Prompts : BoilerplatePromptStrategy<RecordingCreateArgs>
+    sealed class Prompts : BoilerplatePromptStrategy<RecordingCreateArgs>
     {
         protected override string Extension
         {
@@ -29,7 +29,7 @@ namespace Potatune
         }
     }
 
-    class RecordingEditorStateMachine : ModelEditorStateMachine<
+    sealed class RecordingEditorStateMachine : ModelEditorStateMachine<
         RecordingCreateArgs, Recording, IReadOnlyRecording>
     {
         public RecordingEditorStateMachine()

@@ -6,7 +6,7 @@ using UnaryHeap.GUI;
 
 namespace GraphPaper
 {
-    partial class View : Form, IView
+    sealed partial class View : Form, IView
     {
         IViewModel viewModel;
 

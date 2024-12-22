@@ -49,7 +49,7 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
         }
     }
 
-    class BrushListBytes
+    sealed class BrushListBytes
     {
         private BrushBytes[] brushes = new BrushBytes[256];
 
@@ -76,14 +76,14 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
                         foreach (var x in Enumerable.Range(0, 8))
                         {
                             var sourceColor = bitmap.GetPixel(glyphOffsetX + x, glyphOffsetY + y);
-                            if (!paletteMap.ContainsKey(sourceColor))
+                            if (!paletteMap.TryGetValue(sourceColor, out int value))
                             {
                                 throw new InvalidDataException(string.Format(
                                     CultureInfo.InvariantCulture,
                                     "Brush list {0} has unexpected color {1}",
                                     manifestBrushlist.ID, sourceColor));
                             }
-                            brush.SetIndex(x, y, paletteMap[sourceColor]);
+                            brush.SetIndex(x, y, value);
                         }
                 }
             }
@@ -95,7 +95,7 @@ namespace SnesGame.ResourceCompiler.Pipelines.Brushlist
         }
     }
 
-    class BrushBytes
+    sealed class BrushBytes
     {
         private byte[] data;
 

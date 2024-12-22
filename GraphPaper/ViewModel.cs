@@ -71,7 +71,7 @@ namespace GraphPaper
         void PreviewPan(Point start, Point current);
     }
 
-    class ViewModel : IDisposable, IViewModel
+    sealed class ViewModel : IDisposable, IViewModel
     {
         GraphEditorStateMachine stateMachine;
         ModelViewTransform mvTransform;
@@ -83,14 +83,14 @@ namespace GraphPaper
         IVertexOffset offset = IdentityOffset.Instance;
 
         public event EventHandler FeedbackChanged;
-        protected void OnFeedbackChanged()
+        private void OnFeedbackChanged()
         {
             if (null != FeedbackChanged)
                 FeedbackChanged(this, EventArgs.Empty);
         }
 
         public event EventHandler ContentChanged;
-        protected void OnContentChanged()
+        private void OnContentChanged()
         {
             if (null != ContentChanged)
                 ContentChanged(this, EventArgs.Empty);

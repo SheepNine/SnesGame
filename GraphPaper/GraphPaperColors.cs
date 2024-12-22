@@ -2,7 +2,7 @@
 
 namespace GraphPaper
 {
-    class GraphPaperColors
+    sealed class GraphPaperColors
     {
         public static Color HotTrackingPen { get { return Color.FromArgb(128, 128, 128); } }
         public static Color Paper { get { return Color.FromArgb(0, 64, 192); } }

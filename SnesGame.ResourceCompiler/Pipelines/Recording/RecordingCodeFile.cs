@@ -32,12 +32,12 @@ namespace SnesGame.ResourceCompiler.Pipelines.Recording
                 w.Write("Uint16 offsets_{0}[count_{0}] = {{ ", recording.ID);
                 foreach (var offset in data.Offsets)
                     w.Write("{0}, ", offset);
-                w.WriteLine("}};", recording.ID);
+                w.WriteLine("}};");
 
                 w.Write("Uint16 lengths_{0}[count_{0}] = {{ ", recording.ID);
                 foreach (var length in data.Lengths)
                     w.Write("{0}, ", length);
-                w.WriteLine("}};", recording.ID);
+                w.WriteLine("}};");
 
                 w.Write("Uint8 stream_{0}[{1}] = {{",
                     recording.ID, data.OpcodeCount);
@@ -54,7 +54,7 @@ namespace SnesGame.ResourceCompiler.Pipelines.Recording
                     w.Write("0x{0:X2},", opcode);
                 }
                 w.WriteLine();
-                w.WriteLine("}};", recording.ID);
+                w.WriteLine("}};");
                 w.WriteLine();
             }
 
@@ -74,7 +74,7 @@ namespace SnesGame.ResourceCompiler.Pipelines.Recording
             w.WriteLine("}");
         }
 
-        class RecordingOpcodeStream
+        sealed class RecordingOpcodeStream
         {
             const byte OPC_PLAY = 0;
             const byte OPC_SILENCE = 1;

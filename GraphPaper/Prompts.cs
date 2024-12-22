@@ -3,7 +3,7 @@ using UnaryHeap.GUI;
 
 namespace GraphPaper
 {
-    class Prompts : BoilerplatePromptStrategy<Graph2DCreateArgs>
+    sealed class Prompts : BoilerplatePromptStrategy<Graph2DCreateArgs>
     {
         protected override string Extension
         {

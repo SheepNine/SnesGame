@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace Potatune
 {
-    partial class SquareNoteEditor : Form
+    sealed partial class SquareNoteEditor : Form
     {
         public SquareNoteEditor()
         {

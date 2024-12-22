@@ -33,14 +33,12 @@ namespace SnesGame.CLR
             if (periodMin > periodMax)
                 throw new ArgumentException("period envelope inverted");
 
-            if (volumeShiftParameters == null)
-                throw new ArgumentNullException(nameof(volumeShiftParameters));
+            ArgumentNullException.ThrowIfNull(volumeShiftParameters);
             if ((volumeMin == volumeMax)
                     ^ (volumeShiftParameters.Direction == ShiftDirection.None))
                 throw new ArgumentException("volume envelope incompatible with shift direction");
 
-            if (periodShiftParameters == null)
-                throw new ArgumentNullException(nameof(periodShiftParameters));
+            ArgumentNullException.ThrowIfNull(periodShiftParameters);
             if ((periodMin == periodMax)
                     ^ (periodShiftParameters.Direction == ShiftDirection.None))
                 throw new ArgumentException("period envelope incompatible with shift direction");

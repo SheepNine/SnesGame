@@ -26,7 +26,7 @@ namespace Patchwork
         void SaveCurrentTilesets(IEnumerable<string> filenames, int tileSize);
     }
 
-    class SettingsLocker : ISettingsLocker
+    sealed class SettingsLocker : ISettingsLocker
     {
         Settings backingStore;
 
@@ -38,7 +38,7 @@ namespace Patchwork
         public MruList LoadMruList()
         {
             return new MruList(backingStore.MruList.Split(
-                new[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+                ['|'], StringSplitOptions.RemoveEmptyEntries));
         }
 
         public void SaveMruList(MruList data)

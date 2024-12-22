@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace GraphPaper
 {
-    class GraphPaperToolbox : Toolbox<IViewModel>
+    sealed class GraphPaperToolbox : Toolbox<IViewModel>
     {
         public static readonly IToolbox<IViewModel> Instance = new GraphPaperToolbox();
 
@@ -28,7 +28,7 @@ namespace GraphPaper
         }
     }
 
-    class UnsupportedTool : IClickTool<IViewModel>, IDragTool<IViewModel>
+    sealed class UnsupportedTool : IClickTool<IViewModel>, IDragTool<IViewModel>
     {
         public static readonly UnsupportedTool Instance = new UnsupportedTool();
 
@@ -60,7 +60,7 @@ namespace GraphPaper
         }
     }
 
-    class SelectSingleObjectTool : IClickTool<IViewModel>
+    sealed class SelectSingleObjectTool : IClickTool<IViewModel>
     {
         public void Gestured(IViewModel context, Point p)
         {
@@ -78,7 +78,7 @@ namespace GraphPaper
         }
     }
 
-    class AppendSingleObjectToSelectionTool : IClickTool<IViewModel>
+    sealed class AppendSingleObjectToSelectionTool : IClickTool<IViewModel>
     {
         public void Gestured(IViewModel context, Point p)
         {
@@ -96,7 +96,7 @@ namespace GraphPaper
         }
     }
 
-    class ToggleSingleObjectSelectionTool : IClickTool<IViewModel>
+    sealed class ToggleSingleObjectSelectionTool : IClickTool<IViewModel>
     {
         public void Gestured(IViewModel context, Point p)
         {
@@ -114,7 +114,7 @@ namespace GraphPaper
         }
     }
 
-    class CenterViewTool : IClickTool<IViewModel>
+    sealed class CenterViewTool : IClickTool<IViewModel>
     {
         public void Gestured(IViewModel context, Point p)
         {
@@ -132,7 +132,7 @@ namespace GraphPaper
         }
     }
 
-    class AddVertexTool : IClickTool<IViewModel>
+    sealed class AddVertexTool : IClickTool<IViewModel>
     {
         public void Gestured(IViewModel context, Point p)
         {
@@ -150,7 +150,7 @@ namespace GraphPaper
         }
     }
 
-    class SplitEdgeTool : IClickTool<IViewModel>
+    sealed class SplitEdgeTool : IClickTool<IViewModel>
     {
         public void Gestured(IViewModel context, Point p)
         {
@@ -168,7 +168,7 @@ namespace GraphPaper
         }
     }
 
-    class AdjustViewTool : IDragTool<IViewModel>
+    sealed class AdjustViewTool : IDragTool<IViewModel>
     {
         public void Gestured(IViewModel context, Point start, Point end)
         {
@@ -186,7 +186,7 @@ namespace GraphPaper
         }
     }
 
-    class AddEdgeTool : IDragTool<IViewModel>
+    sealed class AddEdgeTool : IDragTool<IViewModel>
     {
         public void Gestured(IViewModel context, Point start, Point end)
         {
@@ -204,7 +204,7 @@ namespace GraphPaper
         }
     }
 
-    class SelectObjectsInAreaTool : IDragTool<IViewModel>
+    sealed class SelectObjectsInAreaTool : IDragTool<IViewModel>
     {
         public void Gestured(IViewModel context, Point start, Point end)
         {
@@ -222,7 +222,7 @@ namespace GraphPaper
         }
     }
 
-    class AppendObjectsInAreaToSelectionTool : IDragTool<IViewModel>
+    sealed class AppendObjectsInAreaToSelectionTool : IDragTool<IViewModel>
     {
         public void Gestured(IViewModel context, Point start, Point end)
         {
@@ -240,7 +240,7 @@ namespace GraphPaper
         }
     }
 
-    class MoveSelectedTool : IDragTool<IViewModel>
+    sealed class MoveSelectedTool : IDragTool<IViewModel>
     {
         public void Gestured(IViewModel context, Point start, Point end)
         {
@@ -258,7 +258,7 @@ namespace GraphPaper
         }
     }
 
-    class PanTool : IDragTool<IViewModel>
+    sealed class PanTool : IDragTool<IViewModel>
     {
         public void Gestured(IViewModel context, Point start, Point end)
         {

@@ -2,7 +2,7 @@
 
 namespace GraphPaper
 {
-    class GridSnapper
+    sealed class GridSnapper
     {
         public Rational GridSize { get; set; }
 
