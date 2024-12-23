@@ -1,0 +1,48 @@
+====== HEADER FILE identifier.h ======
+
+#pragma once
+
+typedef struct s_identifier* Identifier;
+
+Identifier new_Identifier();
+void end_Identifier(Identifier obj);
+
+int getValue_Identifier(Identifier obj);
+
+
+====== SOURCE FILE identifier.c ======
+
+#include "identifier.h"
+
+struct s_identifier {
+	void* member1;
+};
+
+Identifier new_Identifier() {
+	Identifier self = (Identifier)SDL_malloc(sizeof(struct s_identifier));
+	self->member1 = NULL;
+	return self;
+}
+
+void end_Identifier(Identifier self) {
+	SDL_free(self);
+}
+
+int getValue_Identifier(Identifier self) {
+	return self->member1 == NULL ? 0 : 1;
+}
+
+
+======== Notes ========
+
+The interface 'structure tag' name (s_identifier) is snake-cased and prefixed with 's' to prevent name collisions. It is never written in code, outside of a constructor.
+
+The interface 'pointer typedef' name (Identifier) is camel-cased. This is the one that shows up in code all the time, so make it distinctive.
+
+Each interface method name is suffixed with the pointer typedef name. With the exception of constructors, they have as their first parameter an interface pointer named 'self'.
+
+Interface names are as short as possible: they are typed constantly in method invocations and shortness is better. (Target 6 chars)
+
+Constructors are prefixed with 'new'; destructors are prefixed with 'end'.
+
+A pattern for providing different 'implementations' of the 'interface' (by storing function pointers) can be devised once a use case presents.

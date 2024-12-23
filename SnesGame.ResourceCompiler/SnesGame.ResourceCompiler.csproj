@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <OutputPath>..\artifacts\bin\$(MSBuildProjectName)\$(Configuration)\$(Platform)\</OutputPath>
+    <IntermediateOutputPath>..\artifacts\obj\$(MSBuildProjectName)\$(Configuration)\$(Platform)\</IntermediateOutputPath>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <OutputType>Exe</OutputType>
+    <AnalysisMode>Recommended</AnalysisMode>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SnesGame.CLR\SnesGame.CLR.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="UnaryHeap.Mosaic">
+      <HintPath>..\dependencies\UnaryHeap\UnaryHeap.Mosaic.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

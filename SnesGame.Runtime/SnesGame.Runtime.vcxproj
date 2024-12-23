@@ -71,47 +71,33 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)\artifacts\SnesGame.Runtime\bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)\artifacts\SnesGame.Runtime\obj\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(ProjectDir)\..\artifacts\bin\SnesGame.Runtime\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)\..\artifacts\obj\SnesGame.Runtime\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)\artifacts\SnesGame.Runtime\bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)\artifacts\SnesGame.Runtime\obj\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(ProjectDir)\..\artifacts\bin\SnesGame.Runtime\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)\..\artifacts\obj\SnesGame.Runtime\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)\artifacts\SnesGame.Runtime\bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)\artifacts\SnesGame.Runtime\obj\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(ProjectDir)\..\artifacts\bin\SnesGame.Runtime\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)\..\artifacts\obj\SnesGame.Runtime\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)\artifacts\SnesGame.Runtime\bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)\artifacts\SnesGame.Runtime\obj\$(Configuration)\$(Platform)\</IntDir>
+    <OutDir>$(ProjectDir)\..\artifacts\bin\SnesGame.Runtime\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(ProjectDir)\..\artifacts\obj\SnesGame.Runtime\$(Configuration)\$(Platform)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <TreatWarningAsError>true</TreatWarningAsError>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -121,14 +107,25 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+    </ClCompile>
+    <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -138,12 +135,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -157,47 +153,46 @@
     <ClCompile Include="keydriver.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mapper.c" />
-    <ClCompile Include="pb.c" />
+    <ClCompile Include="dp.c" />
     <ClCompile Include="perf.c" />
     <ClCompile Include="ppu.c" />
-    <ClCompile Include="rec.c" />
+    <ClCompile Include="rand.c" />
+    <ClCompile Include="dr.c" />
     <ClCompile Include="render.c" />
     <ClCompile Include="sc.c" />
-    <ClCompile Include="snes_foundation_classes.c" />
-    <ClCompile Include="sw.c" />
     <ClCompile Include="update.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="api\snes_api.h" />
-    <ClInclude Include="api\snes_foundation_classes.h" />
+    <ClInclude Include="api\snes_runtime.h" />
+    <ClInclude Include="api\snes_runtime_enums.h" />
     <ClInclude Include="bb.h" />
     <ClInclude Include="gamepad.h" />
     <ClInclude Include="init.h" />
     <ClInclude Include="joydriver.h" />
     <ClInclude Include="keydriver.h" />
     <ClInclude Include="mapper.h" />
-    <ClInclude Include="pb.h" />
+    <ClInclude Include="dp.h" />
     <ClInclude Include="perf.h" />
     <ClInclude Include="ppu.h" />
-    <ClInclude Include="rec.h" />
+    <ClInclude Include="rand.h" />
+    <ClInclude Include="dr.h" />
     <ClInclude Include="render.h" />
     <ClInclude Include="sc.h" />
-    <ClInclude Include="sw.h" />
     <ClInclude Include="update.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets" Condition="Exists('..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" />
-    <Import Project="..\packages\sdl2.2.0.5\build\native\sdl2.targets" Condition="Exists('..\packages\sdl2.2.0.5\build\native\sdl2.targets')" />
+    <Import Project="..\artifacts\ext\vc\sdl2.redist.2.0.5\build\native\sdl2.redist.targets" Condition="Exists('..\artifacts\ext\vc\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" />
+    <Import Project="..\artifacts\ext\vc\sdl2.2.0.5\build\native\sdl2.targets" Condition="Exists('..\artifacts\ext\vc\sdl2.2.0.5\build\native\sdl2.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets'))" />
-    <Error Condition="!Exists('..\packages\sdl2.2.0.5\build\native\sdl2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.2.0.5\build\native\sdl2.targets'))" />
+    <Error Condition="!Exists('..\artifacts\ext\vc\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\artifacts\ext\vc\sdl2.redist.2.0.5\build\native\sdl2.redist.targets'))" />
+    <Error Condition="!Exists('..\artifacts\ext\vc\sdl2.2.0.5\build\native\sdl2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\artifacts\ext\vc\sdl2.2.0.5\build\native\sdl2.targets'))" />
   </Target>
 </Project>

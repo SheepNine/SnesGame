@@ -1,0 +1,888 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UnaryHeap.Graph</name>
+    </assembly>
+    <members>
+        <member name="T:UnaryHeap.Graph.AnnotatedGraph">
+            <summary>
+            Represents an extension of the SimpleGraph class 
+            that can associate arbitrary string metadata with the graph, its
+            vertices and its edges.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the AnnotatedGraph class.
+            </summary>
+            <param name="directed">Whether or not the resulting graph is directed.</param>
+        </member>
+        <member name="P:UnaryHeap.Graph.AnnotatedGraph.IsDirected">
+            <summary>
+            Indicates whether the current AnnotatedGraph instance is a directed graph.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.AnnotatedGraph.NumVertices">
+            <summary>
+            Gets the number of vertices in the current AnnotatedGraph instance.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.AnnotatedGraph.Vertices">
+            <summary>
+            Gets the indices of the vertices in the current AnnotatedGraph instance.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.AnnotatedGraph.Edges">
+            <summary>
+            Gets [start, end] vertex index tuples for the edges in the current
+            AnnotatedGraph instance.
+            </summary>
+            <remarks>For undirected graphs, each edge occurs only once in the
+            resulting enumeration.</remarks>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.AddVertex">
+            <summary>
+            Adds a new vertex to the current AnnotatedGraph instance.
+            </summary>
+            <returns>The index of the newly-created vertex.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.RemoveVertex(System.Int32)">
+            <summary>
+            Removes a vertex from the current AnnotatedGraph instance, as well as all
+            edges incident to that vertex.
+            </summary>
+            <param name="index">The index of the vertex to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            index is negative or the current AnnotatedGraph instance does
+            not contain a vertex with the given index.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.RemoveVertices(System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Removes several vertices from the current AnnotatedGraph, as well as all
+            edges incident to that vertex. This method is much faster than calling
+            RemoveVertex() multiple times.
+            </summary>
+            <param name="indexes">The indices of the vertices to remove.</param>
+            <returns>An array containing the new vertex index of the vertices in this
+            AnnotatedGraph, or -1 if that vertex was deleted.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.AddEdge(System.Int32,System.Int32)">
+            <summary>
+            Adds a new edge to the current AnnotatedGraph instance.
+            </summary>
+            <param name="from">The index of the source vertex.</param>
+            <param name="to">The index of the destination vertex.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            from or to is negative or the current AnnotatedGraph
+            instance does not contain a vertex with the given index.</exception>
+            <exception cref="T:System.ArgumentException">
+            from and to are equal, or an edge already exists between from and to.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.RemoveEdge(System.Int32,System.Int32)">
+            <summary>
+            Remove an edge from the current AnnotatedGraph instance.
+            </summary>
+            <param name="from">The index of the source vertex.</param>
+            <param name="to">The index of the destination vertex.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            from or to is negative or the current AnnotatedGraph
+            instance does not contain a vertex with the given index.</exception>
+            <exception cref="T:System.ArgumentException">
+            from and to are equal, or no edge exists between from and to.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.HasEdge(System.Int32,System.Int32)">
+            <summary>
+            Determines whether the current AnnotatedGraph instance
+            has the specified edge.
+            </summary>
+            <param name="from">The index of the source vertex.</param>
+            <param name="to">The index of the destination vertex.</param>
+            <returns>True, if there is an edge with the given from/to indices;
+            otherwise, False.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            from or to is negative or the current AnnotatedGraph instance
+            does not contain a vertex with the given index.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.GetNeighbours(System.Int32)">
+            <summary>
+            Determine which vertices are neighbours of the specified vertex.
+            </summary>
+            <param name="from">The index of the source vertex.</param>
+            <returns>An array containing the vertex indices of vertices connected to the
+            specified vertex.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            index is negative or the current AnnotatedGraph instance does
+            not contain a vertex with the given index.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.NumNeighbours(System.Int32)">
+            <summary>
+            Determine how many vertices are neighbours of the specified vertex.
+            </summary>
+            <param name="from">The index of the source vertex.</param>
+            <returns>The number of  vertices connected to the
+            specified vertex.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            index is negative or the current AnnotatedGraph instance does
+            not contain a vertex with the given index.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.Clone">
+            <summary>
+            Creates a copy of the current AnnotatedGraph object.
+            </summary>
+            <returns>A copy of the current AnnotatedGraph object.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.UnsetGraphMetadatum(System.String)">
+            <summary>
+            Removes a metadata entry (if present) from the graph.
+            </summary>
+            <param name="key">The key of the metadata entry to remove.</param>
+            <exception cref="T:System.ArgumentNullException">key is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.SetGraphMetadatum(System.String,System.String)">
+            <summary>
+            Adds or updates the value of a metadata entry of the graph.
+            </summary>
+            <param name="key">The key of the metadata entry to set.</param>
+            <param name="value">The value of the metadata entry to set.</param>
+            <exception cref="T:System.ArgumentNullException">key is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.GetGraphMetadatum(System.String,System.String)">
+            <summary>
+            Gets the value of a metadata entry of the graph.
+            </summary>
+            <param name="key">The key of the metadata entry to retrieve.</param>
+            <param name="defaultValue">The value to return if the graph does not have a
+            metadata entry with the given key.</param>
+            <returns>The value of the metadata entry with the specified key, or defaultValue,
+            if no entry with that key exists.</returns>
+            <exception cref="T:System.ArgumentNullException">key is null.</exception>
+        </member>
+        <member name="P:UnaryHeap.Graph.AnnotatedGraph.GraphMetadata">
+            <summary>
+            Gets all of the metadata entries of the graph.
+            </summary>
+            <returns>A dictionary of all the metadata entries of the graph.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.UnsetVertexMetadatum(System.Int32,System.String)">
+            <summary>
+            Removes a metadata entry (if present) from the specified vertex.
+            </summary>
+            <param name="index">The index of the vertex from which to remove
+            the metadata entry.</param>
+            <param name="key">The name of the metadata entry to remove.</param>
+            <exception cref="T:System.InvalidOperationException">
+            The specified vertex is not present in the graph.</exception>
+            <exception cref="T:System.ArgumentNullException">key is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.SetVertexMetadatum(System.Int32,System.String,System.String)">
+            <summary>
+            Adds or updates the value of a metadata entry of the specified vertex.
+            </summary>
+            <param name="index">The index of the vertex to which to add
+            the metadata entry.</param>
+            <param name="key">The key of the metadata entry to set.</param>
+            <param name="value">The value of the metadata entry to set.</param>
+            <exception cref="T:System.InvalidOperationException">
+            The specified vertex is not present in the graph.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">key is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.GetVertexMetadatum(System.Int32,System.String,System.String)">
+            <summary>
+            Gets the value of a metadata entry of the specified vertex.
+            </summary>
+            <param name="index">The index of the vertex from which to retrieve the
+            metadata entry.</param>
+            <param name="key">The key of the metadata entry to retrieve.</param>
+            <param name="defaultValue">
+            The value to return if the vertex does not have a metadata entry with the given key.
+            </param>
+            <returns>The value of the metadata entry with the specified key, or defaultValue,
+            if no entry with that key exists.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The specified vertex is not present in the graph.</exception>
+            <exception cref="T:System.ArgumentNullException">key is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.GetVertexMetadata(System.Int32)">
+            <summary>
+            Gets all of the metadata entries of a vertex.
+            </summary>
+            <returns>A dictionary of all the metadata entries of a vertex.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The specified vertex is not present in the graph.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.UnsetEdgeMetadatum(System.Int32,System.Int32,System.String)">
+            <summary>
+            Removes a metadata value (if present) from the specified edge.
+            </summary>
+            <param name="from">The index of the source vertex.</param>
+            <param name="to">The index of the destination vertex.</param>
+            <param name="key">The name of the metadata entry to remove.</param>
+            <exception cref="T:System.InvalidOperationException">
+            The specified edge is not present in the graph.</exception>
+            <exception cref="T:System.ArgumentNullException">key is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.SetEdgeMetadatum(System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Adds or updates the value of a metadata entry of the specified edge.
+            </summary>
+            <param name="from">The index of the source vertex.</param>
+            <param name="to">The index of the destination vertex.</param>
+            <param name="key">The key of the metadata entry to set.</param>
+            <param name="value">The value of the metadata entry to set.</param>
+            <exception cref="T:System.InvalidOperationException">
+            The specified edge is not present in the graph.</exception>
+            <exception cref="T:System.ArgumentNullException">key is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.GetEdgeMetadatum(System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Gets the value of a metadata entry of the specified edge.
+            </summary>
+            <param name="from">The index of the source vertex.</param>
+            <param name="to">The index of the destination vertex.</param>
+            <param name="key">The key of the metadata entry to retrieve.</param>
+            <param name="defaultValue">The value to return if the edge does not have a
+            metadata entry with the given key.</param>
+            <returns>The value of the metadata entry with the specified key, or defaultValue,
+            if no entry with that key exists.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The specified edge is not present in the graph.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">key is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.GetEdgeMetadata(System.Int32,System.Int32)">
+            <summary>
+            Gets all of the metadata entries of an edge.
+            </summary>
+            <returns>A dictionary of all the metadata entries of an edge.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The specified edge is not present in the graph.
+            </exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.ToJson(System.IO.TextWriter)">
+            <summary>
+            Writes a JSON object representation of the current AnnotatedGraph instance.
+            </summary>
+            <param name="output">The TextWriter to which the JSON is written.</param>
+            <exception cref="T:System.ArgumentNullException">output is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.AnnotatedGraph.FromJson(System.IO.TextReader)">
+            <summary>
+            Constructs a new AnnotatedGraph object from a JSON object representation.
+            </summary>
+            <param name="input">The TextReader from which the JSON is read.</param>
+            <returns>The AnnotatedGraph specified by the JSON object.</returns>
+            <exception cref="T:System.ArgumentNullException">input is null.</exception>
+            <exception cref="T:System.IO.InvalidDataException">
+            input contains an incorrectly-formatted JSON object, or there are errors
+            in the JSON object data.</exception>
+        </member>
+        <member name="T:UnaryHeap.Graph.Graph2D">
+            <summary>
+            Represents an extension of the AnnotatedGraph class
+            that assigns 2D coordinates to the vertices.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.IsReservedMetadataKey(System.String)">
+            <summary>
+            Checks if the given metadatum key is reserved by the Graph2D class.
+            </summary>
+            <param name="key">The key to check.</param>
+            <returns>true if metadata with the associated key is managed by the Graph2D class;
+            false otherwise.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the Graph2D class.
+            </summary>
+            <param name="directed">Whether or not the resulting graph is directed.</param>
+        </member>
+        <member name="P:UnaryHeap.Graph.Graph2D.IsDirected">
+            <summary>
+            Indicates whether the current Graph2D instance is a directed graph.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.Graph2D.NumVertices">
+            <summary>
+            Gets the number of vertices in the current Graph2D instance.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.Graph2D.Vertices">
+            <summary>
+            Gets the locations of the vertices in the current Graph2D instance.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.Graph2D.Edges">
+            <summary>
+            Gets [start, end] vertex location tuples for the edges in the
+            current Graph2D instance.
+            </summary>
+            <remarks>
+            For undirected graphs, each edge occurs only once in the resulting enumeration.
+            </remarks>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.AddVertex(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Adds a new vertex to the current Graph2D instance.
+            </summary>
+            <param name="coordinates">The coordinates of the new vertex.</param>
+            <exception cref="T:System.ArgumentNullException">coordinates is null.</exception>
+            <exception cref="T:System.ArgumentException">
+            There is already a vertex at the specified coordinates.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.HasVertex(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Determines whether the graph contains a vertex at the coordinates specified.
+            </summary>
+            <param name="coordinates">The coordinates to query.</param>
+            <returns>Whether the graph contains a vertex at the coordinates specified.</returns>
+            <exception cref="T:System.ArgumentNullException">coordinates is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.MoveVertex(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Changes the coordinates of a vertex.
+            </summary>
+            <param name="origin">The coordinates of the vertex to change.</param>
+            <param name="destination">The coordinates to apply to the selected vertex.</param>
+            <exception cref="T:System.ArgumentNullException">
+            oridin or destination are null.</exception>
+            <exception cref="T:System.ArgumentException">
+            The graph does not contain a vertex at origin,
+            or it contains a vertex at destination.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.RemoveVertex(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Removes a vertex from the current Graph2D instance, as well as all
+            edges incident to that vertex.
+            </summary>
+            <param name="vertex">The coordinates of the vertex to remove.</param>
+            <exception cref="T:System.ArgumentNullException">vertex is null.</exception>
+            <exception cref="T:System.ArgumentException">
+            The graph does not contain the specified vertex.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.RemoveVertices(System.Collections.Generic.IEnumerable{UnaryHeap.DataType.Point2D})">
+            <summary>
+            Removes several vertices from the current Graph2D, as well as all
+            edges incident to that vertex. This method is much faster than calling
+            RemoveVertex() multiple times.
+            </summary>
+            <param name="vertices">The indices of the vertices to remove.</param>
+            <returns>An array containing the new vertex index of the vertices in this
+            Graph2D, or -1 if that vertex was deleted.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.AddEdge(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Adds a new edge to the current AnnotatedGraph instance.
+            </summary>
+            <param name="from">The coordinates of the source vertex.</param>
+            <param name="to">The coordinates of the destination vertex.</param>
+            <exception cref="T:System.ArgumentNullException">from or to are null.</exception>
+            <exception cref="T:System.ArgumentException">
+            The graph does not contain a vertex at from or to.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.RemoveEdge(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Remove an edge from the current AnnotatedGraph instance.
+            </summary>
+            <param name="from">The coordinates of the source vertex.</param>
+            <param name="to">The coordinates of the destination vertex.</param>
+            <exception cref="T:System.ArgumentNullException">from or to are null.</exception>
+            <exception cref="T:System.ArgumentException">
+            The graph does not contain a vertex at from or to.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.HasEdge(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Determines whether the current AnnotatedGraph instance has the specified edge.
+            </summary>
+            <param name="from">The coordinates of the source vertex.</param>
+            <param name="to">The coordinates of the destination vertex.</param>
+            <returns>True, if there is an edge with the given from/to indices;
+            otherwise, False.</returns>
+            <exception cref="T:System.ArgumentNullException">from or to are null.</exception>
+            <exception cref="T:System.ArgumentException">
+            The graph does not contain a vertex at from or to.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.GetNeighbours(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Determine which vertices are neighbours of the specified vertex.
+            </summary>
+            <param name="from">The coordinates of the vertex to query.</param>
+            <returns>An array containing the coordinates of vertices connected to
+            the specified vertex.</returns>
+            <exception cref="T:System.ArgumentNullException">from is null.</exception>
+            <exception cref="T:System.ArgumentException">
+            The graph does not contain the specified vertex.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.NumNeighbours(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Determine how many vertices are neighbours of the specified vertex.
+            </summary>
+            <param name="from">The coordinates of the vertex to query.</param>
+            <returns>The number of vertices connected to
+            the specified vertex.</returns>
+            <exception cref="T:System.ArgumentNullException">from is null.</exception>
+            <exception cref="T:System.ArgumentException">
+            The graph does not contain the specified vertex.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.Clone">
+            <summary>
+            Creates a copy of the current Graph2D object.
+            </summary>
+            <returns>A copy of the current Graph2D object.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.UnsetGraphMetadatum(System.String)">
+            <summary>
+            Removes a metadata entry (if present) from the graph.
+            </summary>
+            <param name="key">The key of the metadata entry to remove.</param>
+            <exception cref="T:System.ArgumentNullException">key is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.SetGraphMetadatum(System.String,System.String)">
+            <summary>
+            Adds or updates the value of a metadata entry of the graph.
+            </summary>
+            <param name="key">The key of the metadata entry to set.</param>
+            <param name="value">The value of the metadata entry to set.</param>
+            <exception cref="T:System.ArgumentNullException">key is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.GetGraphMetadatum(System.String,System.String)">
+            <summary>
+            Gets the value of a metadata entry of the graph.
+            </summary>
+            <param name="key">The key of the metadata entry to retrieve.</param>
+            <param name="defaultValue">
+            The value to return if the graph does not have a metadata entry
+            with the given key.</param>
+            <returns>The value of the metadata entry with the specified key, or defaultValue,
+            if no entry with that key exists.</returns>
+            <exception cref="T:System.ArgumentNullException">key is null.</exception>
+        </member>
+        <member name="P:UnaryHeap.Graph.Graph2D.GraphMetadata">
+            <summary>
+            Gets all of the metadata entries of the graph.
+            </summary>
+            <returns>A dictionary of all the metadata entries of the graph.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.UnsetVertexMetadatum(UnaryHeap.DataType.Point2D,System.String)">
+            <summary>
+            Removes a metadata entry (if present) from the specified vertex.
+            </summary>
+            <param name="vertex">
+            The coordinates of the vertex from which to remove the metadata entry.</param>
+            <param name="key">The name of the metadata entry to remove.</param>
+            <exception cref="T:System.InvalidOperationException">
+            The specified vertex is not present in the graph, or key is "xy".</exception>
+            <exception cref="T:System.ArgumentNullException">vertex or key are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.SetVertexMetadatum(UnaryHeap.DataType.Point2D,System.String,System.String)">
+            <summary>
+            Adds or updates the value of a metadata entry of the specified vertex.
+            </summary>
+            <param name="vertex">The coordinates of the vertex to which to add
+            the metadata entry.</param>
+            <param name="key">The key of the metadata entry to set.</param>
+            <param name="value">The value of the metadata entry to set.</param>
+            <exception cref="T:System.InvalidOperationException">
+            The specified vertex is not present in the graph, or key is "xy".</exception>
+            <exception cref="T:System.ArgumentNullException">vertex or key are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.GetVertexMetadatum(UnaryHeap.DataType.Point2D,System.String,System.String)">
+            <summary>
+            Gets the value of a metadata entry of the specified vertex.
+            </summary>
+            <param name="vertex">The coordinates of the vertex from which to retrieve the
+            metadata entry.</param>
+            <param name="key">The key of the metadata entry to retrieve.</param>
+            <param name="defaultValue">The value to return if the vertex does not have a
+            metadata entry with the given key.</param>
+            <returns>The value of the metadata entry with the specified key, or defaultValue,
+            if no entry with that key exists.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The specified vertex is not present in the graph.</exception>
+            <exception cref="T:System.ArgumentNullException">vertex or key are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.GetVertexMetadata(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Gets all of the metadata entries of a vertex.
+            </summary>
+            <returns>A dictionary of all the metadata entries of a vertex.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The specified vertex is not present in the graph.</exception>
+            <exception cref="T:System.ArgumentNullException">vertex is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.UnsetEdgeMetadatum(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D,System.String)">
+            <summary>
+            Removes a metadata value (if present) from the specified edge.
+            </summary>
+            <param name="from">The coordinates of the source vertex.</param>
+            <param name="to">The coordinates of the destination vertex.</param>
+            <param name="key">The name of the metadata entry to remove.</param>
+            <exception cref="T:System.InvalidOperationException">
+            The specified edge is not present in the graph.</exception>
+            <exception cref="T:System.ArgumentNullException">
+            from, to, or key is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.SetEdgeMetadatum(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D,System.String,System.String)">
+            <summary>
+            Adds or updates the value of a metadata entry of the specified edge.
+            </summary>
+            <param name="from">The coordinates of the source vertex.</param>
+            <param name="to">The coordinates of the destination vertex.</param>
+            <param name="key">The key of the metadata entry to set.</param>
+            <param name="value">The value of the metadata entry to set.</param>
+            <exception cref="T:System.InvalidOperationException">
+            The specified edge is not present in the graph.</exception>
+            <exception cref="T:System.ArgumentNullException">
+            from, to, or key is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.GetEdgeMetadatum(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D,System.String,System.String)">
+            <summary>
+            Gets the value of a metadata entry of the specified edge.
+            </summary>
+            <param name="from">The coordinates of the source vertex.</param>
+            <param name="to">The coordinates of the destination vertex.</param>
+            <param name="key">The key of the metadata entry to retrieve.</param>
+            <param name="defaultValue">The value to return if the edge does not have a metadata
+            entry with the given key.</param>
+            <returns>The value of the metadata entry with the specified key, or defaultValue,
+            if no entry with that key exists.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The specified edge is not present in the graph.</exception>
+            <exception cref="T:System.ArgumentNullException">
+            from, to, or key is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.GetEdgeMetadata(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Gets all of the metadata entries of an edge.
+            </summary>
+            <returns>A dictionary of all the metadata entries of an edge.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The specified edge is not present in the graph.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            from or to is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.ToJson(System.IO.TextWriter)">
+            <summary>
+            Writes a JSON object representation of the current Graph2D instance.
+            </summary>
+            <param name="output">The TextWriter to which the JSON is written.</param>
+            <exception cref="T:System.ArgumentNullException">output is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2D.FromJson(System.IO.TextReader)">
+            <summary>
+            Constructs a new UnaryHeap.Utilities.Graph2D object from a JSON object representation.
+            </summary>
+            <param name="input">The TextReader from which the JSON is read.</param>
+            <returns>The UnaryHeap.Utilities.Graph2D specified by the JSON object.</returns>
+            <exception cref="T:System.ArgumentNullException">input is null.</exception>
+            <exception cref="T:System.IO.InvalidDataException">
+            input contains an incorrectly-formatted JSON
+            object, or there are errors in the JSON object data.</exception>
+        </member>
+        <member name="T:UnaryHeap.Graph.Graph2DExtensions">
+            <summary>
+            Contains extension methods for the Graph2D class.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.Graph.Graph2DExtensions.DualMetadataKey">
+            <summary>
+            The key used for the DualEdge metadata methods.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2DExtensions.UnsetDualEdge(UnaryHeap.Graph.Graph2D,UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Removes a dual edge record (if present) from the specified edge.
+            </summary>
+            <param name="this">The Graph2D from which to remove the metadata.</param>
+            <param name="p1">The first edge vertex.</param>
+            <param name="p2">The second edge vertex.</param>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2DExtensions.SetDualEdge(UnaryHeap.Graph.Graph2D,UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Record a pair of dual edge vertices for a given edge.
+            </summary>
+            <param name="this">The Graph2D for which to record the data.</param>
+            <param name="p1">The first edge vertex.</param>
+            <param name="p2">The second edge vertex.</param>
+            <param name="d1">The first dual edge vertex.</param>
+            <param name="d2">The second dual edge vertex.</param>
+        </member>
+        <member name="M:UnaryHeap.Graph.Graph2DExtensions.GetDualEdge(UnaryHeap.Graph.Graph2D,UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Retrieve a recorded pair of dual edge vertices for a given edge.
+            </summary>
+            <param name="this">The Graph2D from which to retrieve the data.</param>
+            <param name="p1">The first edge vertex.</param>
+            <param name="p2">The second edge vertex.</param>
+            <returns>The stored dual edge vertices.</returns>
+        </member>
+        <member name="T:UnaryHeap.Graph.SimpleGraph">
+            <summary>
+            Represents a mathematical graph (a set of vertices and a set of
+            edges connecting vertices) which may only contain at most one
+            edge from a given start vertex to a given end vertex.
+            </summary>
+            <remarks>
+            A SimpleGraph may be directed or undirected. If it is undirected, then
+            edges are symmetric; that is, if there exists an edge from
+            vertex A to vertex B, then there also exists an edge from
+            vertex B to vertex A. If it is directed, then edges are not
+            symmetric, and an edge from vertex A to vertex B may exist
+            without a corresponding edge from vertex B to vertex A.
+            </remarks>
+        </member>
+        <member name="M:UnaryHeap.Graph.SimpleGraph.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the SimpleGraph class.
+            </summary>
+            <param name="directed">Whether or not the resulting graph is directed.</param>
+        </member>
+        <member name="P:UnaryHeap.Graph.SimpleGraph.IsDirected">
+            <summary>
+            Indicates whether the current SimpleGraph instance is a directed graph.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SimpleGraph.NumVertices">
+            <summary>
+            Gets the number of vertices in the current SimpleGraph instance.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SimpleGraph.Vertices">
+            <summary>
+            Gets the indices of the vertices in the current SimpleGraph instance.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SimpleGraph.Edges">
+            <summary>
+            Gets [start, end] vertex index tuples for the edges in the
+            current SimpleGraph instance.
+            </summary>
+            <remarks>For undirected graphs, each edge occurs only once in
+            the resulting enumeration.</remarks>
+        </member>
+        <member name="M:UnaryHeap.Graph.SimpleGraph.AddVertex">
+            <summary>
+            Adds a new vertex to the current SimpleGraph instance.
+            </summary>
+            <returns>The index of the newly-created vertex.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.SimpleGraph.RemoveVertex(System.Int32)">
+            <summary>
+            Removes a vertex from the current SimpleGraph instance, as well as all
+            edges incident to that vertex.
+            </summary>
+            <param name="index">The index of the vertex to remove.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            index is negative or the current SimpleGraph instance does not contain a vertex
+            with the given index.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.SimpleGraph.RemoveVertices(System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Removes several vertices from the current SimpleGraph, as well as all
+            edges incident to that vertex. This method is much faster than calling
+            RemoveVertex() multiple times.
+            </summary>
+            <param name="indexes">The indices of the vertices to remove.</param>
+            <returns>An array containing the new vertex index of the vertices in this
+            SimpleGraph, or -1 if that vertex was deleted.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.SimpleGraph.AddEdge(System.Int32,System.Int32)">
+            <summary>
+            Adds a new edge to the current SimpleGraph instance.
+            </summary>
+            <param name="from">The index of the source vertex.</param>
+            <param name="to">The index of the destination vertex.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            from or to is negative or the current SimpleGraph instance does not contain
+            a vertex with the given index.</exception>
+            <exception cref="T:System.ArgumentException">
+            from and to are equal, or an edge already exists between from and to.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.SimpleGraph.RemoveEdge(System.Int32,System.Int32)">
+            <summary>
+            Remove an edge from the current SimpleGraph instance.
+            </summary>
+            <param name="from">The index of the source vertex.</param>
+            <param name="to">The index of the destination vertex.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            from or to is negative or the current SimpleGraph instance does not contain a
+            vertex with the given index.</exception>
+            <exception cref="T:System.ArgumentException">
+            from and to are equal, or no edge exists between from and to.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.SimpleGraph.HasEdge(System.Int32,System.Int32)">
+            <summary>
+            Determines whether the current SimpleGraph instance has the specified edge.
+            </summary>
+            <param name="from">The index of the source vertex.</param>
+            <param name="to">The index of the destination vertex.</param>
+            <returns>True, if there is an edge with the given from/to indices;
+            otherwise, False.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            from or to is negative or the current SimpleGraph instance does not contain a
+            vertex with the given index.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.SimpleGraph.GetNeighbours(System.Int32)">
+            <summary>
+            Determine which vertices are neighbours of the specified vertex.
+            </summary>
+            <param name="from">The index of the source vertex.</param>
+            <returns>An array containing the vertex indices of vertices connected
+            to the specified vertex.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            index is negative or the current SimpleGraph instance does not contain a
+            vertex with the given index.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.SimpleGraph.NumNeighbours(System.Int32)">
+            <summary>
+            Determine how many vertices are neighbours of the specified vertex.
+            </summary>
+            <param name="from">The index of the source vertex.</param>
+            <returns>The number of vertices connected
+            to the specified vertex.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            index is negative or the current SimpleGraph instance does not contain a
+            vertex with the given index.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.SimpleGraph.Clone">
+            <summary>
+            Creates a copy of the current SimpleGraph instance.
+            </summary>
+            <returns>A copy of the current SimpleGraph instance.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.SimpleGraph.ToJson(System.IO.TextWriter)">
+            <summary>
+            Writes a JSON object representation of the current SimpleGraph instance.
+            </summary>
+            <param name="output">The TextWriter to which the JSON is written.</param>
+            <exception cref="T:System.ArgumentNullException">output is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Graph.SimpleGraph.FromJson(System.IO.TextReader)">
+            <summary>
+            Constructs a new SimpleGraph object from a JSON object representation.
+            </summary>
+            <param name="input">The TextReader from which the JSON is read.</param>
+            <returns>The UnaryHeap.Utilities.SimpleGraph specified by the JSON object.</returns>
+            <exception cref="T:System.ArgumentNullException">input is null.</exception>
+            <exception cref="T:System.IO.InvalidDataException">
+            input contains an incorrectly-formatted JSON
+            object, or there are errors in the JSON object data.</exception>
+        </member>
+        <member name="T:UnaryHeap.Graph.SvgFormatterSettings">
+            <summary>
+            Specifies color and size information for the SvgGraph2DFormatter class.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Graph.SvgFormatterSettings.#ctor">
+            <summary>
+            Initializes a new instance of the SvgFormatterSettings class with default settings.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Graph.SvgFormatterSettings.#ctor(UnaryHeap.Graph.Graph2D)">
+            <summary>
+            Initializes a new instance of the SvgFormatterSettings class
+            by reading override defaults from the specified Graph2D object.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SvgFormatterSettings.MajorAxisSize">
+            <summary>
+            The width, in pixels, of the major axis of the output SVG image.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SvgFormatterSettings.MajorAxis">
+            <summary>
+            Specifies how the SVGWriter determines which axis to anchor to ImageSize.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SvgFormatterSettings.VertexDiameter">
+            <summary>
+            The diameter, in pixels, of vertices in the output SVG image.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SvgFormatterSettings.EdgeThickness">
+            <summary>
+            The thickness, in pixels, of edges in the output SVG image.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SvgFormatterSettings.OutlineThickness">
+            <summary>
+            The thickness, in pixels, of the outline of vertices and edges in
+            the output SVG image.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SvgFormatterSettings.BackgroundColor">
+            <summary>
+            The color used to fill the background.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SvgFormatterSettings.VertexColor">
+            <summary>
+            The color used to render vertices.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SvgFormatterSettings.EdgeColor">
+            <summary>
+            The color used to render edges.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SvgFormatterSettings.OutlineColor">
+            <summary>
+            The color used to render vertex and edge outlines.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SvgFormatterSettings.InvertYAxis">
+            <summary>
+            Whether to invert the Y axis so that the output image appears in a right-handed
+            coordinate system.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SvgFormatterSettings.PadImage">
+            <summary>
+            Whether to increase the output SVG view box so that vertcies/edges are not
+            clipped off along the boundary of the image.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.SvgFormatterSettings.PaddingThickness">
+            <summary>
+            Gets the size, in pixels, of the padding inside the image that prevents vertices
+            and edges from being clipped by the SVG viewport.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.Graph.AxisOption">
+            <summary>
+            Specifies the axis used to convert image units to graph units.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.Graph.AxisOption.X">
+            <summary>
+            Always use the X axis.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.Graph.AxisOption.Y">
+            <summary>
+            Always use the Y axis.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.Graph.AxisOption.FromData">
+            <summary>
+            Use whichever axis has the largest range in graph units.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.Graph.SvgGraph2DFormatter">
+            <summary>
+            Provides methods for producing an SVG file of a Graph2D object.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Graph.SvgGraph2DFormatter.Generate(UnaryHeap.Graph.Graph2D,System.IO.TextWriter,UnaryHeap.Graph.SvgFormatterSettings)">
+            <summary>
+            Produces an SVG file for a Graph2D object.
+            </summary>
+            <param name="graph">The graph to format.</param>
+            <param name="destination">
+            The writer to which the SVG content will be written.</param>
+            <param name="options">
+            The formatting options applied to the output SVG file.</param>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UnaryHeap.GraphAlgorithms</name>
+    </assembly>
+    <members>
+        <member name="T:UnaryHeap.Graph.GraphAlgorithmExtensions">
+            <summary>
+            Contains extension methods for the Graph2D class.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Graph.GraphAlgorithmExtensions.ConstructBspTree(UnaryHeap.Graph.Graph2D)">
+            <summary>
+            Constructs a BSP tree for a set of graph edges.
+            </summary>
+            <param name="graph">The graph to partition.</param>
+            <returns>The root node of the resulting BSP tree.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.GraphAlgorithmExtensions.ConstructBspTree(UnaryHeap.Graph.Graph2D,System.Func{System.Collections.Generic.IEnumerable{UnaryHeap.Algorithms.Spatial{UnaryHeap.Graph.GraphSegment,UnaryHeap.DataType.Hyperplane2D,UnaryHeap.DataType.Orthotope2D,UnaryHeap.DataType.Facet2D,UnaryHeap.DataType.Point2D}.IBspSurface},UnaryHeap.DataType.Hyperplane2D})">
+            <summary>
+            Constructs a BSP tree for a set of graph edges.
+            </summary>
+            <param name="graph">The graph to partition.</param>
+            <param name="partitioner">The partitioner to use to construct the tree.</param>
+            <returns>The root node of the resulting BSP tree.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.GraphAlgorithmExtensions.Portalize(UnaryHeap.Algorithms.Spatial{UnaryHeap.Graph.GraphSegment,UnaryHeap.DataType.Hyperplane2D,UnaryHeap.DataType.Orthotope2D,UnaryHeap.DataType.Facet2D,UnaryHeap.DataType.Point2D}.IBspTree,System.Collections.Generic.IEnumerable{UnaryHeap.Algorithms.Portal{UnaryHeap.DataType.Facet2D}}@,System.Collections.Generic.IEnumerable{System.Tuple{System.Int32,UnaryHeap.DataType.Facet2D}}@)">
+            <summary>
+            Constructs the portal set for a BSP of graph edges.
+            </summary>
+            <param name="root">The root of the BSP tree to portalize.</param>
+            <param name="portals">
+            The set of portals connecting the leaves of the BSP tree.</param>
+            <param name="bspHints">
+            A collection of facets that can be used to reconstruct the BSP splitting planes
+            </param>
+        </member>
+        <member name="M:UnaryHeap.Graph.GraphAlgorithmExtensions.CullOutside(UnaryHeap.Algorithms.Spatial{UnaryHeap.Graph.GraphSegment,UnaryHeap.DataType.Hyperplane2D,UnaryHeap.DataType.Orthotope2D,UnaryHeap.DataType.Facet2D,UnaryHeap.DataType.Point2D}.IBspTree,System.Collections.Generic.IEnumerable{UnaryHeap.Algorithms.Portal{UnaryHeap.DataType.Facet2D}},System.Collections.Generic.IEnumerable{UnaryHeap.DataType.Point2D})">
+            <summary>
+            Cull leaves of a BSP tree which are not interior spaces.
+            </summary>
+            <param name="root">The BSP tree to cull.</param>
+            <param name="portals">Portals between leaf nodes in the tree.</param>
+            <param name="interiorPoints">Locations in the tree which are considered interior.
+            </param>
+            <returns>A new BSP with only leaves which are interior, or are connected
+            to interior spaces.</returns>
+        </member>
+        <member name="T:UnaryHeap.Graph.GraphSpatial">
+            <summary>
+            Implements the Spatial2D abstract class with customizations for surfaces that
+            come from Graph objects.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.Graph.GraphSpatial.Instance">
+            <summary>
+            Gets the singleton instance of the GraphSpatial class.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.Graph.GraphLine">
+            <summary>
+            POCO object containing the data for an initial Graph2D edge.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.Graph.GraphLine.TwoSidedKey">
+            <summary>
+            Graph metadata key whose presence indicates a two-sided line.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Graph.GraphLine.#ctor(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D,System.Collections.Generic.IReadOnlyDictionary{System.String,System.String})">
+            <summary>
+            Contstructs a new instance of the GraphEdge class.
+            </summary>
+            <param name="start">The edge start point.</param>
+            <param name="end">The edge end point.</param>
+            <param name="metadata">The metadata for the edge.</param>
+        </member>
+        <member name="P:UnaryHeap.Graph.GraphLine.Facet">
+            <summary>
+            Gets the line's segment.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.GraphLine.Metadata">
+            <summary>
+            Gets the metadata for the edge.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.GraphLine.IsTwoSided">
+            <summary>
+            Whether this graph line is two-sided.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.Graph.GraphSegment">
+            <summary>
+            POCO object containing the data for a segment of a GraphLine.
+            Initially all segments in a BSP are copies of the GraphLines,
+            but they may be split into sub-segments by the partitioning planes.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.GraphSegment.Source">
+            <summary>
+            Gets the source line for the edge.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Graph.GraphSegment.Cosurface">
+            <summary>
+            Gets a copy of a surface with the front and back sides reversed.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Graph.GraphSegment.#ctor(UnaryHeap.Graph.GraphLine,System.Int32,System.Int32)">
+            <summary>
+            Contstructs a new instance of the GraphSegment class as
+            a copy of a given line.
+            </summary>
+            <param name="source">The source line.</param>
+            <param name="frontMaterial">
+            The material on the front of the surface.
+            </param>
+            <param name="backMaterial">
+            The material on the front of the surface.
+            </param>
+        </member>
+        <member name="M:UnaryHeap.Graph.GraphSegment.#ctor(UnaryHeap.DataType.Facet2D,UnaryHeap.Graph.GraphLine,System.Int32,System.Int32)">
+            <summary>
+            Contstructs a new instance of the GraphSegment class as
+            a copy of a given line.
+            </summary>
+            <param name="facet">The line segment of this graph segment.</param>
+            <param name="source">The source line.</param>
+            <param name="frontMaterial">
+            The material on the front of the surface.
+            </param>
+            <param name="backMaterial">
+            The material on the front of the surface.
+            </param>
+        </member>
+        <member name="P:UnaryHeap.Graph.GraphSegment.HintLevel">
+            <summary>
+            For hint surfaces, returns the level that the hint surfaces applies to.
+            For non-hint surfaces, returns null.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Graph.GraphSegment.Split(UnaryHeap.DataType.Hyperplane2D,UnaryHeap.Graph.GraphSegment@,UnaryHeap.Graph.GraphSegment@)">
+            <summary>
+            Splits a surface into two subsurfaces lying on either side of a
+            partitioning plane.
+            If surface lies on the partitioningPlane, it should be considered in the
+            front halfspace of partitioningPlane if its front halfspace is identical
+            to that of partitioningPlane. Otherwise, it should be considered in the 
+            back halfspace of partitioningPlane.
+            </summary>
+            <param name="partitioningPlane">The plane used to split surface.</param>
+            <param name="frontSurface">The subsurface of surface lying in the front
+            halfspace of partitioningPlane, or null, if surface is entirely in the
+            back halfspace of partitioningPlane.</param>
+            <param name="backSurface">The subsurface of surface lying in the back
+            halfspace of partitioningPlane, or null, if surface is entirely in the
+            front halfspace of partitioningPlane.</param>
+        </member>
+        <member name="M:UnaryHeap.Graph.GraphSegment.FillFront(System.Int32)">
+            <summary>
+            Makes a copy of a surface, with the front material replaced.
+            </summary>
+            <param name="material">The material to fill in the front.</param>
+            <returns>The copied surface.</returns>
+        </member>
+        <member name="M:UnaryHeap.Graph.GraphSegment.HealEdges(System.Collections.Generic.List{UnaryHeap.DataType.Facet2D})">
+            <summary>
+            Makes a copy of a surface, with any edges between the given facets and this
+            surface's facets healed.
+            </summary>
+            <param name="facets">The other surfaces that are potentially adjacent
+            to this surface.</param>
+            <returns>A new Surface that has no cracks with the input facets.</returns>
+        </member>
+        <member name="P:UnaryHeap.Graph.GraphSegment.IsTwoSided">
+            <summary>
+            Whether this surface is two-sided (i.e. both its front and back halves are
+            interior spaces.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.Graph.PrimsAlgorithm">
+            <summary>
+            Provides an implementation of Prim's Algorithm for finindg a minimal spanning tree for
+            a connected component in a Graph2D object.
+            </summary>
+            <remarks>Each edge is assigned a weight equal to the square of the distance between
+            its two vertices. The edge weight can be overridden by assigning a Rational value to
+            the edge's 'weight' metadata entry.
+            </remarks>
+        </member>
+        <member name="M:UnaryHeap.Graph.PrimsAlgorithm.FindMinimumSpanningTree(UnaryHeap.Graph.Graph2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Calculates a minimum spanning tree of the specified Graph2D instance.
+            </summary>
+            <param name="inputGraph">The graph for which to compute the spanning tree.</param>
+            <param name="startingVertex">The starting vertex for Prim's Algorithm.</param>
+            <returns>
+            A copy of inputGraph, with all edges removed, except for those that are part of
+            a minimum spanning tree.
+            </returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <OutputPath>..\artifacts\bin\$(MSBuildProjectName)\$(Configuration)\$(Platform)\</OutputPath>
+    <IntermediateOutputPath>..\artifacts\obj\$(MSBuildProjectName)\$(Configuration)\$(Platform)\</IntermediateOutputPath>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <OutputType>WinExe</OutputType>
+    <Platforms>x86;x64</Platforms>
+    <AnalysisMode>Recommended</AnalysisMode>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SnesGame.CLR.Mixer\SnesGame.CLR.Mixer.vcxproj" />
+    <ProjectReference Include="..\SnesGame.CLR\SnesGame.CLR.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="UnaryHeap.GUI">
+      <HintPath>..\dependencies\UnaryHeap\UnaryHeap.GUI.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

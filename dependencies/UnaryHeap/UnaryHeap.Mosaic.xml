@@ -1,0 +1,289 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UnaryHeap.Mosaic</name>
+    </assembly>
+    <members>
+        <member name="T:UnaryHeap.Mosaic.ImageTileset">
+            <summary>
+            Represents a collection of tiles as subsets of a single tileset image.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.ImageTileset.#ctor(System.Drawing.Image,System.Int32)">
+            <summary>
+            Constructs a new instance of the ImageTileset class.
+            </summary>
+            <param name="tileImages">The image containing the individual tiles.</param>
+            <param name="tileSize">The size of an individual tile.</param>
+            <exception cref="T:System.ArgumentNullException">tileImages is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            tileSize is less than one, or tileImage's width or height are not
+            multiples of tileSize.
+            </exception>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.ImageTileset.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing,
+            or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.ImageTileset.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the Control and its child
+            controls and optionally releases the managed resources.
+            </summary>
+            <param name="disposing">true to release both managed and unmanaged resources;
+            false to release only unmanaged resources.</param>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.ImageTileset.NumTiles">
+            <summary>
+            Gets the number of tiles in this Tileset.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.ImageTileset.TileSize">
+            <summary>
+            Gets the size in pixels of a single tile in this Tileset.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.ImageTileset.ImageWidth">
+            <summary>
+            Gets the width in pixels of the underlying Tileset image.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.ImageTileset.ImageHeight">
+            <summary>
+            Gets the height in pixels of the underlying Tileset image.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.ImageTileset.DrawTile(System.Drawing.Graphics,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws the specified tile at the specified location.
+            </summary>
+            <param name="g">The Graphics context to which to draw the tile.</param>
+            <param name="tileIndex">The index of the tile to be drawn.</param>
+            <param name="x">The destination coordinates of the upper-left corner
+            of the tile.</param>
+            <param name="y">The destination coordinates of the upper-left corner
+            of the tile.</param>
+            <param name="scale">The amount by which to scale the tile drawn.</param>
+        </member>
+        <member name="T:UnaryHeap.Mosaic.ITileset">
+            <summary>
+            Represents a collection of image tiles.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.ITileset.TileSize">
+            <summary>
+            Gets the size in pixels of a single tile in this Tileset.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.ITileset.NumTiles">
+            <summary>
+            Gets the number of tiles in this Tileset.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.ITileset.ImageWidth">
+            <summary>
+            Gets the width in pixels of the underlying Tileset image.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.ITileset.ImageHeight">
+            <summary>
+            Gets the height in pixels of the underlying Tileset image.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.ITileset.DrawTile(System.Drawing.Graphics,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws the specified tile at the specified location.
+            </summary>
+            <param name="g">The Graphics context to which to draw the tile.</param>
+            <param name="tileIndex">The index of the tile to be drawn.</param>
+            <param name="x">The destination coordinates of the upper-left corner
+            of the tile.</param>
+            <param name="y">The destination coordinates of the upper-left corner
+            of the tile.</param>
+            <param name="scale">The amount by which to scale the tile drawn.</param>
+        </member>
+        <member name="T:UnaryHeap.Mosaic.MultiTileset">
+            <summary>
+            Represents an aggregation of multiple ITilesets into a single set.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.MultiTileset.#ctor(UnaryHeap.Mosaic.ITileset[])">
+            <summary>
+            Constructs a new instance of the MultiTileset class.
+            </summary>
+            <param name="tilesets">The tilesets to aggregate.</param>
+            <exception cref="T:System.ArgumentNullException">tilesets is null.</exception>
+            <exception cref="T:System.ArgumentException">
+            tilesets is empty, or contains a null value, or the tilesets do not share
+            a common ImageWidth or TileSize value.
+            </exception>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.MultiTileset.TileSize">
+            <summary>
+            Gets the size in pixels of a single tile in this Tileset.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.MultiTileset.NumTiles">
+            <summary>
+            Gets the number of tiles in this Tileset.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.MultiTileset.ImageWidth">
+            <summary>
+            Gets the width in pixels of the underlying Tileset image.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.MultiTileset.ImageHeight">
+            <summary>
+            Gets the height in pixels of the underlying Tileset image.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.MultiTileset.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing,
+            or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.MultiTileset.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the Control and its child
+            controls and optionally releases the managed resources.
+            </summary>
+            <param name="disposing">true to release both managed and unmanaged resources;
+            false to release only unmanaged resources.</param>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.MultiTileset.DrawTile(System.Drawing.Graphics,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Draws the specified tile at the specified location.
+            </summary>
+            <param name="g">The Graphics context to which to draw the tile.</param>
+            <param name="tileIndex">The index of the tile to be drawn.</param>
+            <param name="x">The destination coordinates of the upper-left corner
+            of the tile.</param>
+            <param name="y">The destination coordinates of the upper-left corner
+            of the tile.</param>
+            <param name="scale">The amount by which to scale the tile drawn.</param>
+        </member>
+        <member name="T:UnaryHeap.Mosaic.TileArrangement">
+            <summary>
+            Represents a 2D arrangement of image tiles from a TileSet.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the TileArrangmenet class.
+            </summary>
+            <param name="tileCountX">The number of tiles along the X-axis.</param>
+            <param name="tileCountY">The number of tiles along the Y-axis.</param>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.TileArrangement.TileCountX">
+            <summary>
+            Gets the number of tiles along the X-axis.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.TileArrangement.TileCountY">
+            <summary>
+            Gets the number of tiles along the Y-axis.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Mosaic.TileArrangement.Item(System.Int32,System.Int32)">
+            <summary>
+            Gets or sets the index of the tile at the specified X,Y location.
+            Tile (0,0) is located in the upper-left corner of the arrangement.
+            </summary>
+            <param name="x">The x-coordinate of the tile.</param>
+            <param name="y">The y-coordinate of the tile.</param>
+            <returns>The index of the tile at the specified location.</returns>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.Serialize(System.IO.Stream)">
+            <summary>
+            Write a binary representation of this TileArrangement to the specified
+            Stream.
+            </summary>
+            <param name="destination">The stream to which to write the representation.</param>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.Deserialize(System.IO.Stream)">
+            <summary>
+            Read a binary representation of a TileArrangmenet from the specified Stream.
+            </summary>
+            <param name="source">The stream from which to read the representation.</param>
+            <returns>A copy of the binary representation.</returns>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.Clone">
+            <summary>
+            Creates a copy of the current TileArrangment object.
+            </summary>
+            <returns>A copy of the current TileArrangement object.</returns>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.ExpandRight">
+            <summary>
+            Adds a blank column on the right side of the current TileArrangement object.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.ExpandLeft">
+            <summary>
+            Adds a blank column on the left side of the current TileArrangement object.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.ExpandBottom">
+            <summary>
+            Adds a blank column on the bottom side of the current TileArrangement object.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.ExpandTop">
+            <summary>
+            Adds a blank column on the top side of the current TileArrangement object.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.ContractRight">
+            <summary>
+            Removes a column on the right side of the current TileArrangement object.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.ContractLeft">
+            <summary>
+            Removes a column on the left side of the current TileArrangement object.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.ContractBottom">
+            <summary>
+            Removes a column on the bottom side of the current TileArrangement object.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.ContractTop">
+            <summary>
+            Removes a column on the top side of the current TileArrangement object.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.Render(System.Drawing.Graphics,UnaryHeap.Mosaic.ITileset,System.Int32)">
+            <summary>
+            Draws the current TileArrangment using the specified TileSet.
+            </summary>
+            <param name="g">The graphics context to which to render the
+            current TileArrangement.</param>
+            <param name="tileset">The TileSet to use to render the tiles
+            in the current TileArrangment.</param>
+            <param name="scale">The amount by which to scale the output image.</param>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.RenderSubset(System.Drawing.Graphics,UnaryHeap.Mosaic.ITileset,System.Int32,System.Drawing.Rectangle)">
+            <summary>
+            Draws the current TileArrangment using the specified TileSet.
+            </summary>
+            <param name="g">The graphics context to which to render the
+            current TileArrangement.</param>
+            <param name="tileset">The TileSet to use to render the tiles
+            in the current TileArrangment.</param>
+            <param name="scale">The amount by which to scale the output image.</param>
+            <param name="visibleRect">The area (in pixel coordinates) to draw.</param>
+        </member>
+        <member name="M:UnaryHeap.Mosaic.TileArrangement.SwapTileIndexes(System.Int32,System.Int32)">
+            <summary>
+            Switches all occurrence of one tileset for another and vice versa.
+            </summary>
+            <param name="from"></param>
+            <param name="to"></param>
+        </member>
+    </members>
+</doc>

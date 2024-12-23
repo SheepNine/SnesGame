@@ -1,5 +1,5 @@
 #pragma once
-#include "api/snes_api.h"
+#include "api/snes_runtime.h"
 
 typedef struct GP* hGP;
 

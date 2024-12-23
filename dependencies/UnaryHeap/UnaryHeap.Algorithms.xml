@@ -1,0 +1,904 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UnaryHeap.Algorithms</name>
+    </assembly>
+    <members>
+        <member name="T:UnaryHeap.Algorithms.BinarySearchLinkedList`1">
+            <summary>
+            Represents a combination of a linked list (providing O(1) insertion and removal) and a
+            binary tree (provding O(lg(n)) searching of ordered data).
+            </summary>
+            <remarks>
+            User is responsible for maintaining order of the BinarySearchLinkedList.
+            </remarks>
+            <typeparam name="T">The type of data in the BinarySearchLinkedList.</typeparam>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.BinarySearchLinkedList`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the BinarySearchLinkedList class.
+            </summary>
+            <param name="data">
+            The initial data to populate in the BinarySearchLinkedList.</param>
+            <exception cref="T:System.ArgumentNullException">data is null.</exception>
+            <exception cref="T:System.ArgumentException">data is empty.</exception>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.BinarySearchLinkedList`1.Length">
+            <summary>
+            The number of nodes in the BinarySearchLinkedList.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.BinarySearchLinkedList`1.InsertBefore(`0,UnaryHeap.Algorithms.IBsllNode{`0})">
+            <summary>
+            Inserts a new node into the BinarySearchLinkedList before the specified node.
+            </summary>
+            <param name="data">The new value to add.</param>
+            <param name="node">The node to insert before.</param>
+            <returns>The newly-created node.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.BinarySearchLinkedList`1.InsertAfter(UnaryHeap.Algorithms.IBsllNode{`0},`0)">
+            <summary>
+            Inserts a new node into the BinarySearchLinkedList after the specified node.
+            </summary>
+            <param name="node">The node to insert after.</param>
+            <param name="data">The new value to add.</param>
+            <returns>The newly-created node.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.BinarySearchLinkedList`1.Delete(UnaryHeap.Algorithms.IBsllNode{`0})">
+            <summary>
+            Remove the specified node from the BinarySearchLinkedList.
+            </summary>
+            <param name="node">The node to delete.</param>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.BinarySearchLinkedList`1.RotatePredecessorUp(UnaryHeap.Algorithms.BinarySearchLinkedList{`0}.TreeNode,UnaryHeap.Algorithms.BinarySearchLinkedList{`0}.TreeNode)">
+            <summary>
+            The predecessor of node root is rotated into its place, making root its successor.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.BinarySearchLinkedList`1.RotateSuccessorUp(UnaryHeap.Algorithms.BinarySearchLinkedList{`0}.TreeNode,UnaryHeap.Algorithms.BinarySearchLinkedList{`0}.TreeNode)">
+            <summary>
+            The successor of node root is rotated into its place, making root its predecessor.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.BinarySearchLinkedList`1.BinarySearch(`0,UnaryHeap.Algorithms.BinarySearchComparator{`0,`0})">
+            <summary>
+            Search the BinarySearchLinkedList to find two nodes bracketing a given value.
+            </summary>
+            <param name="searchValue">The vlaue for which to find bracketing nodes.</param>
+            <param name="comparator">
+            A delegate comparing searchValue to two adjacent node data.</param>
+            <returns>One linked list node if there is a single closest value, or two sequential
+            linked list nodes if searchValue is exactly halfway between them.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.BinarySearchLinkedList`1.BinarySearch``1(``0,UnaryHeap.Algorithms.BinarySearchComparator{``0,`0})">
+            <summary>
+            Search the BinarySearchLinkedList to find two nodes bracketing a given value.
+            </summary>
+            <typeparam name="TSearch">The type of searchValue.</typeparam>
+            <param name="searchValue">The vlaue for which to find bracketing nodes.</param>
+            <param name="comparator">
+            A delegate comparing searchValue to the DataSelector return value for
+            two adjacent nodes.</param>
+            <returns>One linked list node if there is a single closest value, or two sequential
+            linked list nodes if searchValue is exactly halfway between them.</returns>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.BinarySearchComparator`2">
+            <summary>
+            Comparison delegate for the BinarySearchLinkedList.BinarySearch method. The value
+            being searched is compared to two sequential nodes in the linked list, and
+            the delegate determines which node is 'closer' to the search data.
+            </summary>
+            <param name="searchValue">The vlaue for which to find bracketing nodes.</param>
+            <param name="predValue">The first bracketing value.</param>
+            <param name="succValue">The second bracketing value.</param>
+            <returns>A negative value, if searchValue is 'closer to' predValue.
+            Zero, if searchValue is 'exactly between' predValue and succValue.
+            A positive value, if searchValue is 'closer to' succValue.</returns>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.IBsllNode`1">
+            <summary>
+            Represents a node of a BinarySearchLinkedList.
+            </summary>
+            <typeparam name="T">The type of data in the BinarySearchLinkedList.</typeparam>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.IBsllNode`1.Data">
+            <summary>
+            Returns the value stored in this node.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.IBsllNode`1.PrevNode">
+            <summary>
+            Returns the list node preceding this node in the linked list.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.IBsllNode`1.NextNode">
+            <summary>
+            Returns ths list node following this node in the linked list.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.CircleBottomComparer">
+            <summary>
+            A comparison object that orders Circle2D instances according to the least Y-value
+            of the circles, in descending order.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.CircleBottomComparer.Compare(UnaryHeap.DataType.Circle2D,UnaryHeap.DataType.Circle2D)">
+            <summary>
+            Compares two Circle2D objects and returns a value indicating whether one is less than,
+            equal to, or greater than the other.
+            </summary>
+            <param name="x">The first object to compare.</param>
+            <param name="y">The second object to compare.</param>
+            <returns>A negative integer, if x is less than y. Zero, if x equals y.
+            A positive integer, if x is greater than y.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.CircleBottomComparer.CompareCircles(UnaryHeap.DataType.Circle2D,UnaryHeap.DataType.Circle2D)">
+            <summary>
+            Compares two Circle2D objects and returns a value indicating whether one is less than,
+            equal to, or greater than the other.
+            </summary>
+            <param name="x">The first object to compare.</param>
+            <param name="y">The second object to compare.</param>
+            <returns>A negative integer, if x is less than y. Zero, if x equals y.
+            A positive integer, if x is greater than y.</returns>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.FortunesAlgorithm">
+            <summary>
+            Provides an implementation of Fortune's algorithm for computing the Delaunay
+            triangulation and the Voronoi diagram of a set of points.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.FortunesAlgorithm.DetermineBeachLineArcIntersected(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Calculate which of two adjacent beach line arcs is intersected by the vertical
+            line produced by a site.
+            </summary>
+            <param name="site">The site projecting the intersection line.</param>
+            <param name="arcAFocus">The site from which the first arc is produced.</param>
+            <param name="arcBFocus">The site from which the second arc is produced.</param>
+            <returns>-1, if arcA is intersected. 1, if arcB is intersected.
+            0, if the intersection line contains the intersection point of the arcs.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.FortunesAlgorithm.AddBoundarySites(System.Collections.Generic.IEnumerable{UnaryHeap.DataType.Point2D})">
+            <summary>
+            Adds points to a set of points covering a square area which will guarantee
+            that the Voronoi vertices for the point set do not exceed the convex hull
+            of the augmented set.
+            </summary>
+            <param name="points">The points to which to add a boundary.</param>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.FortunesAlgorithm.Execute(System.Collections.Generic.IEnumerable{UnaryHeap.DataType.Point2D},UnaryHeap.Algorithms.IFortunesAlgorithmListener)">
+            <summary>
+            Run Fortune's algorithm over a set of sites.
+            </summary>
+            <param name="sites">The input sites to the algorithm.</param>
+            <param name="listener">The listener </param>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.IFortunesAlgorithmListener">
+            <summary>
+            Interface to listen for events in Fortune's algorithm and respond accordingly.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.IFortunesAlgorithmListener.EmitDelaunayVertex(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Called when Fortune's algorithm encounters a site.
+            </summary>
+            <param name="p">The location of the site.</param>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.IFortunesAlgorithmListener.EmitVoronoiVertex(UnaryHeap.DataType.Point2D)">
+            <summary>
+            Called when Fortune's algorithm finds a Voronoi vertex. This is either
+            at circle events or when a site event intersects the beachline at one
+            of its intersection points.
+            </summary>
+            <param name="p">The location of the vertex.</param>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.IFortunesAlgorithmListener.EmitDualEdges(UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D,UnaryHeap.DataType.Point2D)">
+            <summary>
+            Called when Fortune's algorithm identifies a dual pair of
+            Voronoi/Delaunay edges
+            </summary>
+            <param name="d1">The first endpoint of the Delaunay edge.</param>
+            <param name="d2">The second endpoint of the Delaunay edge.</param>
+            <param name="v1">The first endpoint of the Voronoi edge.</param>
+            <param name="v2">The second endpoint of the Voronoi edge, or null,
+            indicating that the Voronoi edge has one endpoint at infinity.
+            v2 may also be equal to v1.</param>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.IFortunesAlgorithmListener.AlgorithmComplete">
+            <summary>
+            Called once all the vertices and edges of the Delaunay and Voronoi
+            graphs have been enumerated.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.PriorityQueue`1">
+            <summary>
+            Represents a strongly-typed queue of objects where the least element is the one at the
+            front of the queue.
+            </summary>
+            <remarks>
+            The priority of an object should not be modified while it is in a PriorityQueue.
+            If it is, the PriorityQueue class may return incorrect results.</remarks>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.PriorityQueue`1.#ctor">
+            <summary>
+            Initializes a new instance of the PriorityQueue class that is empty and has
+            the default initial capacity and uses the default comparison for type T.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.PriorityQueue`1.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the PriorityQueue class that is empty and has
+            the specified initial capacity and uses the default comparison for type T.
+            </summary>
+            <param name="capacity">The initial capacity of the PriorityQueue.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            capacity is negative.</exception>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.PriorityQueue`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the PriorityQueue class that contains elements
+            copied from the specified collection and has sufficient capacity to accommodate
+            the number of elements copied, and uses the default comparison for type T.
+            </summary>
+            <param name="collection">
+            The collection whose elements are copied to the new PriorityQueue.</param>
+            <exception cref="T:System.ArgumentNullException">collection is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.PriorityQueue`1.#ctor(System.Collections.Generic.IComparer{`0})">
+            <summary>
+            Initializes a new instance of the PriorityQueue class that is empty and has
+            the default initial capacity and uses the specified comparison for type T. 
+            </summary>
+            <param name="comparer">
+            The comparison defining the priority order of the objects in the queue.</param>
+            <exception cref="T:System.ArgumentNullException">comparer is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.PriorityQueue`1.#ctor(System.Int32,System.Collections.Generic.IComparer{`0})">
+            <summary>
+            Initializes a new instance of the PriorityQueue class that is empty and has
+            the specified initial capacity and uses the specified comparison for type T.
+            </summary>
+            <param name="capacity">The initial capacity of the PriorityQueue.</param>
+            <param name="comparer">
+            The comparison defining the priority order of the objects in the queue.</param>
+            <exception cref="T:System.ArgumentNullException">comparer is null.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            capacity is negative.</exception>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.PriorityQueue`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Collections.Generic.IComparer{`0})">
+            <summary>
+            Initializes a new instance of the PriorityQueue class that contains elements
+            copied from the specified collection and has sufficient capacity to accommodate
+            the number of elements copied, and uses the specified comparison for type T.
+            </summary>
+            <param name="collection">
+            The collection whose elements are copied to the new PriorityQueue.</param>
+            <param name="comparer">
+            The comparison defining the priority order of the objects in the queue.</param>
+            <exception cref="T:System.ArgumentNullException">
+            collection or comparer are null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.PriorityQueue`1.Enqueue(`0)">
+            <summary>
+            Adds an object to the PriorityQueue.
+            </summary>
+            <param name="item">The object to be added to the PriorityQueue.
+            The value can be null for reference types.</param>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.PriorityQueue`1.Dequeue">
+            <summary>
+            Removes and returns the object at the front of the PriorityQueue.
+            </summary>
+            <returns>The object at the front of the PriorityQueue.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The PriorityQueue contains no elements.</exception>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.PriorityQueue`1.Peek">
+            <summary>
+            Returns the object at the front of the PriorityQueue without removing it.
+            </summary>
+            <returns>The object at the front of the PriorityQueue.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The PriorityQueue contains no elements.</exception>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.PriorityQueue`1.IsEmpty">
+            <summary>
+            Gets whether there are any objects in the PriorityQueue.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.Spatial`5">
+            <summary>
+            Provides an implementation of the binary space partitioning algorithm that is
+            dimensionally-agnostic.
+            </summary>
+            <typeparam name="TSurface">The type representing surfaces to be partitioned by
+            the algorithm.</typeparam>
+            <typeparam name="TPlane">The type representing the partitioning planes to be
+            chosen by the algorithm.</typeparam>
+            <typeparam name="TBounds">The type representing an axially-aligned bounding box for 
+            the dimension.</typeparam>
+            <typeparam name="TFacet">The type representing a facet for the dimension.</typeparam>
+            <typeparam name="TPoint">The type representing a point for the dimension.</typeparam>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.ConstructBspTree(System.Func{System.Collections.Generic.IEnumerable{UnaryHeap.Algorithms.Spatial{`0,`1,`2,`3,`4}.IBspSurface},`1},System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Constructs a BSP tree for a set of input surfaces.
+            </summary>
+            <param name="strategy">The strategy to use to select a partitioning plane.</param>
+            <param name="inputSurfaces">The surfaces to partition.</param>
+            <returns>The root node of the resulting BSP tree.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.AreConvex(`3,`3)">
+            <summary>
+            Checks whether two surfaces are mutually convex (that is, neither one is
+            behind the other). Surfaces which are convex do not need to be partitioned.
+            </summary>
+            <param name="a">The first surface to check.</param>
+            <param name="b">The second surface to check.</param>
+            <returns>True, if a is in the front halfspace of b and vice versa;
+            false otherwise.</returns>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.Spatial`5.IBspTree">
+            <summary>
+            Class representing a BSP tree.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.IBspTree.NodeCount">
+            <summary>
+            Counts the number of nodes in a BSP tree.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IBspTree.IsLeaf(System.Numerics.BigInteger)">
+            <summary>
+            Checks if a given node is a leaf or a branch.
+            </summary>
+            <param name="index">The node index.</param>
+            <returns>true, if the node is a leaf; false otherwise.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IBspTree.PartitionPlane(System.Numerics.BigInteger)">
+            <summary>
+            Gets the partitioning plane of a branch node.
+            </summary>
+            <param name="index">The node index.</param>
+            <returns>The partitioning plane of the node.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IBspTree.SurfaceCount(System.Numerics.BigInteger)">
+            <summary>
+            Gets the number of surfaces of a leaf node.
+            </summary>
+            <param name="index">The node index.</param>
+            <returns>The number of surfaces in the node.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IBspTree.Surfaces(System.Numerics.BigInteger)">
+            <summary>
+            Gets the surfaces of a leaf node.
+            </summary>
+            <param name="index">The node index.</param>
+            <returns>The surfaces of the node.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IBspTree.CalculateBoundingBox">
+            <summary>
+            Computes the bounding box containing all of the tree's surfaces.
+            </summary>
+            <returns>The bounding box containing all of the tree's surfaces.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IBspTree.FindLeafContaining(`4)">
+            <summary>
+            Find the index of the leaf node containing a given point.
+            </summary>
+            <param name="point">The point to check against.</param>
+            <returns>The leaf containing a point, so long as it is in the front halfspace
+            of that leaf's surfaces; NullNodeIndex otherwise.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IBspTree.PreOrderTraverse(System.Action{System.Numerics.BigInteger})">
+            <summary>
+            Iterates a BSP tree in pre-order.
+            </summary>
+            <param name="callback">The callback to run for each node traversed.</param>
+            <exception cref="T:System.ArgumentNullException">callback is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IBspTree.InOrderTraverse(System.Action{System.Numerics.BigInteger})">
+            <summary>
+            Iterates a BSP tree in in-order.
+            </summary>
+            <param name="callback">The callback to run for each node traversed.</param>
+            <exception cref="T:System.ArgumentNullException">callback is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IBspTree.PostOrderTraverse(System.Action{System.Numerics.BigInteger})">
+            <summary>
+            Iterates a BSP tree in post-order.
+            </summary>
+            <param name="callback">The callback to run for each node traversed.</param>
+            <exception cref="T:System.ArgumentNullException">callback is null.</exception>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.Spatial`5.IBspSurface">
+            <summary>
+            Class representing a surface in a BSP tree.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.IBspSurface.FrontLeaf">
+            <summary>
+            Index of the front leaf of the tree for this surface.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.IBspSurface.BackLeaf">
+            <summary>
+            Index of the back leaf of the tree of this surface.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.IBspSurface.Surface">
+            <summary>
+            The underlying surface of this BspSurface.
+            </summary>
+        </member>
+        <member name="F:UnaryHeap.Algorithms.Spatial`5.NullNodeIndex">
+            <summary>
+            The node index for 'not a node'.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.Spatial`5.Brush">
+            <summary>
+            Represents a convex polytope for constructive solid geometry.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.Brush.Surfaces">
+            <summary>
+            The surfaces of the polytope.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.Brush.Bounds">
+            <summary>
+            The bounding box that contains all the surfaces of the polytope.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.Brush.Material">
+            <summary>
+            The material on the interior of the brush.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.Brush.#ctor(System.Collections.Generic.IEnumerable{`0},`2,System.Int32)">
+            <summary>
+            Initializes a new instance of the Brush class.
+            </summary>
+            <param name="surfaces">The surfaces of the polytope.</param>
+            <param name="bounds">
+            The bounding box that contains all the surfaces of the polytope.
+            </param>
+            <param name="material">The material on the interior of the brush.</param>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.ReifyImplicitBrush(System.Collections.Generic.IDictionary{`1,System.Func{`3,`0}})">
+            <summary>
+            Convert a brush represented by implicit planes into an explicit one with
+            explicit facets corresponding to the planes intersecting with one another.
+            </summary>
+            <param name="planes">A map from brush face planes to a surface constructor.</param>
+            <returns>The set of facets for the brush.</returns>
+            <exception cref="T:System.IO.InvalidDataException">If the brush does not contain enough
+            unique facets to be considered closed for the current dimension.</exception>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.MakeBrush(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the Brush class.
+            </summary>
+            <param name="surfaces">The surfaces of the polytope.</param>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.ConstructSolidGeometry(System.Collections.Generic.IList{UnaryHeap.Algorithms.Spatial{`0,`1,`2,`3,`4}.Brush})">
+            <summary>
+            Perform constructive solid geometry on a set of brushes.
+            </summary>
+            <param name="brushes">The brushes from which to construct geometry.</param>
+            <returns>A set of facets for the brushes.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.ExhaustivePartitionStrategy(System.Int32,System.Int32)">
+            <summary>
+            Provides a partitioning strategy which evaluates all available splitting planes.
+            </summary>
+            <param name="imbalanceWeight">How many points to deduct for imbalance between
+            the number of surfaces on the front and back halves of a splitting plane.</param>
+            <param name="splitWeight">How many points to deduct for each surface that is split
+            by a splitting plane.</param>
+            <returns>A partitioner with the given settings.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.CullOutside(UnaryHeap.Algorithms.Spatial{`0,`1,`2,`3,`4}.IBspTree,System.Collections.Generic.IEnumerable{UnaryHeap.Algorithms.Portal{`3}},System.Collections.Generic.IEnumerable{`4})">
+            <summary>
+            Cull leaves of a BSP tree which are not interior spaces.
+            </summary>
+            <param name="root">The BSP tree to cull.</param>
+            <param name="portals">Portals between leaf nodes in the tree.</param>
+            <param name="interiorPoints">Locations in the tree which are considered interior.
+            </param>
+            <returns>A new BSP with only leaves which are interior, or are connected
+            to interior spaces.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.Portalize(UnaryHeap.Algorithms.Spatial{`0,`1,`2,`3,`4}.IBspTree,System.Collections.Generic.IEnumerable{UnaryHeap.Algorithms.Portal{`3}}@,System.Collections.Generic.IEnumerable{System.Tuple{System.Int32,`3}}@)">
+            <summary>
+            Calculate the set of portals between BSP leaves.
+            </summary>
+            <param name="tree">The BSP tree to portalize.</param>
+            <param name="portals">
+            The set of portals connecting the leaves of the BSP tree.</param>
+            <param name="bspHints">
+            A collection of facets that can be used to reconstruct the BSP splitting planes
+            </param>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.Spatial`5.SurfaceBase">
+            <summary>
+            Base class for surfaces.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.SurfaceBase.Facet">
+            <summary>
+            The facet for the surface.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.SurfaceBase.FrontMaterial">
+            <summary>
+            The density value of the front half of the surface.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.SurfaceBase.BackMaterial">
+            <summary>
+            The density value of the back half of the surface.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.SurfaceBase.IsTwoSided">
+            <summary>
+            Whether this surface is two-sided (i.e. both its front and back halves are
+            interior spaces.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.SurfaceBase.Cosurface">
+            <summary>
+            Gets a copy of a surface with the front and back sides reversed.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.SurfaceBase.#ctor(`3,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the SurfaceBase class.
+            </summary>
+            <param name="facet">The facet for the surface.</param>
+            <param name="frontDensity">
+            The density value of the front half of the surface.</param>
+            <param name="backDensity">
+            The density value of the back half of the surface.</param>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.SurfaceBase.HintLevel">
+            <summary>
+            For hint surfaces, returns the level that the hint surfaces applies to.
+            For non-hint surfaces, returns null.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.SurfaceBase.Split(`1,`0@,`0@)">
+            <summary>
+            Splits a surface into two subsurfaces lying on either side of a
+            partitioning plane.
+            If surface lies on the partitioningPlane, it should be considered in the
+            front halfspace of partitioningPlane if its front halfspace is identical
+            to that of partitioningPlane. Otherwise, it should be considered in the 
+            back halfspace of partitioningPlane.
+            </summary>
+            <param name="partitioningPlane">The plane used to split surface.</param>
+            <param name="frontSurface">The subsurface of surface lying in the front
+            halfspace of partitioningPlane, or null, if surface is entirely in the
+            back halfspace of partitioningPlane.</param>
+            <param name="backSurface">The subsurface of surface lying in the back
+            halfspace of partitioningPlane, or null, if surface is entirely in the
+            front halfspace of partitioningPlane.</param>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.SurfaceBase.FillFront(System.Int32)">
+            <summary>
+            Makes a copy of a surface, with the front material replaced.
+            </summary>
+            <param name="material">The material to fill in the front.</param>
+            <returns>The copied surface.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.SurfaceBase.HealEdges(System.Collections.Generic.List{`3})">
+            <summary>
+            Makes a copy of a surface, with any edges between the given facets and this
+            surface's facets healed.
+            </summary>
+            <param name="facets">The other surfaces that are potentially adjacent
+            to this surface.</param>
+            <returns>A new Surface that has no cracks with the input facets.</returns>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.Spatial`5.IDimension">
+            <summary>
+            Dimension-specific logic for the dimensionally-agnostic algorithms.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.IDimension.MinBrushFacets">
+            <summary>
+            Gets the minimum number of facets needed to create a closed polytope.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IDimension.ClassifySurface(`3,`1,System.Int32@,System.Int32@)">
+            <summary>
+            Gets the min and max determinant for a facet against a plane.
+            If the facet is coincident with the plane, min=max=1.
+            If the facet is coincident with the coplane, min=max=-1.
+            Otherwise, this gives the range of determinants of the surface against the plane.
+            </summary>
+            <param name="facet">The facet to classify.</param>
+            <param name="plane">The plane to classify against.</param>
+            <param name="minDeterminant">
+            The smallest determinant among the facet's points.</param>
+            <param name="maxDeterminant">
+            The greatest determinant among the facet's points.
+            </param>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IDimension.ClassifyPoint(`4,`1)">
+            <summary>
+            Gets the determinant for a point against a plane.
+            </summary>
+            <param name="point">The point to classify.</param>
+            <param name="plane">The plane against which to classify the point.</param>
+            <returns>
+            1, if the point is in the front halfspace of the plane
+            -1, if the point is in the back halfspace of the plane
+            otherwise, 0
+            </returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IDimension.CalculateBounds(System.Collections.Generic.IEnumerable{`3})">
+            <summary>
+            Determine a bounding box containing all of the input surfaces.
+            </summary>
+            <param name="facets">The facets to bound.</param>
+            <returns>The bounding box calculated.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IDimension.MakeFacets(`2)">
+            <summary>
+            Calculates the set of facets corresponding to a bounding box.
+            </summary>
+            <param name="bounds">The boudning box from which to create facets.</param>
+            <returns>The set of facets corresponding to bounds.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IDimension.Facetize(`1)">
+            <summary>
+            Create a big facet for a given plane.
+            </summary>
+            <param name="plane">The plane of the facet.</param>
+            <returns>A large facet on the plane.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IDimension.GetCoplane(`1)">
+            <summary>
+            Computes the coplane of the given plane.
+            </summary>
+            <param name="plane">The plane from which to get a coplane.</param>
+            <returns>The complane of the given plane.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IDimension.Split(`3,`1,`3@,`3@)">
+            <summary>
+            Divide a facet to the pieces lying on either side of a plane.
+            </summary>
+            <param name="facet">The facet to split.</param>
+            <param name="plane">The plane to split with.</param>
+            <param name="front">The component of facet on the front of the plane.</param>
+            <param name="back">The component of faet on the back of the plane.</param>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IDimension.GetPlane(`3)">
+            <summary>
+            Gets the plane that a facet lies on.
+            </summary>
+            <param name="facet">The facet for which to determine a plane.</param>
+            <returns>The plane that the facet lies on.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IDimension.GetCofacet(`3)">
+            <summary>
+            Get the cofacet of a given facet.
+            </summary>
+            <param name="facet">The facet for which to compute a cofacet.</param>
+            <returns>The cofacet of the given facet.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IDimension.BoundsOverlap(`2,`2)">
+            <summary>
+            Check whether two bounds overlap.
+            </summary>
+            <param name="a">The first bound to check.</param>
+            <param name="b">The second bound to check.</param>
+            <returns>true, if the bounds overlap; false otherwise.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.IDimension.Expand(`2)">
+            <summary>
+            Make a bounding box a bit bigger.
+            </summary>
+            <param name="bounds">The bounding box to make bigger.</param>
+            <returns>A slightly larget bounding box.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.#ctor(UnaryHeap.Algorithms.Spatial{`0,`1,`2,`3,`4}.IDimension)">
+            <summary>
+            Initializes a new instance of the BinarySpacePartitioner class.
+            </summary>
+            <param name="dimension">Dimensional logic.</param>
+            <exception cref="T:System.ArgumentNullException">partitioner is null.</exception>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.HealEdges(UnaryHeap.Algorithms.Spatial{`0,`1,`2,`3,`4}.IBspTree)">
+            <summary>
+            Modifies a BSP to ensure that all of the facets meet on mutually-shared edges.
+            For the 3D case, this solves T-join intersections.
+            </summary>
+            <param name="tree">The tree to heal.</param>
+            <returns>A copy of the tree with edges healed.</returns>
+        </member>
+        <member name="E:UnaryHeap.Algorithms.Spatial`5.InsideFilled">
+            <summary>
+            Event raised during outside culling each time new leaves are marked as interior.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.OnInsideFilled(`4,System.Collections.Generic.HashSet{System.Numerics.BigInteger},System.Int32)">
+            <summary>
+            Raises the InsideFilled event.
+            </summary>
+            <param name="interiorPoint">The origin point of the fill.</param>
+            <param name="interiorLeaves">The current list of interior leaves.</param>
+            <param name="leafCount">The number of leaves in the tree.</param>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.Spatial`5.InsideFilledEventArgs">
+            <summary>
+            Contains debugging information about the progress of an outside cull operation.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.InsideFilledEventArgs.InteriorPoint">
+            <summary>
+            The origin point of the fill.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.InsideFilledEventArgs.InteriorLeaves">
+            <summary>
+            The current list of interior leaves.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.InsideFilledEventArgs.LeafCount">
+            <summary>
+            The number of leaves in the tree.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.InsideFilledEventArgs.#ctor(`4,System.Collections.Generic.HashSet{System.Numerics.BigInteger},System.Int32)">
+            <summary>
+            Initializes a new instance of the InsideFilledEventArgs class.
+            </summary>
+            <param name="interiorPoint">The origin point of the fill.</param>
+            <param name="interiorLeaves">The current list of interior leaves.</param>
+            <param name="leafCount">The number of leaves in the tree.</param>
+        </member>
+        <member name="E:UnaryHeap.Algorithms.Spatial`5.SplittingPlaneChosen">
+            <summary>
+            Event raised during binary space paritioning each time a node needs to be parittioned.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.OnSplittingPlaneChosen(System.Int64,System.Int32,System.Int32,`1)">
+            <summary>
+            Raises the SplittingPlaneChosen event.
+            </summary>
+            <param name="elapsedMs">The amount of time it took to choose
+            a partitioning plane.</param>
+            <param name="surfaceCount">The number of surfaces that
+            required partitioning.</param>
+            <param name="depth">The depth of the current node being
+            considered in the BSP tree.</param>
+            <param name="chosenPlane">The plane chosen to partition the surfaces.</param>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.Spatial`5.SplittingPlaneChosenEventArgs">
+            <summary>
+            Contains diagnostic information about the performance of BSP partitioning selection.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.SplittingPlaneChosenEventArgs.ElapsedMs">
+            <summary>
+            The amount of time it took to choose a partitioning plane.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.SplittingPlaneChosenEventArgs.SurfaceCount">
+            <summary>
+            The number of surfaces that required partitioning.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.SplittingPlaneChosenEventArgs.Depth">
+            <summary>
+            The depth of the current node being considered in the BSP tree.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Spatial`5.SplittingPlaneChosenEventArgs.ChosenPlane">
+            <summary>
+            The plane chosen to partition the surfaces.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial`5.SplittingPlaneChosenEventArgs.#ctor(System.Int64,System.Int32,System.Int32,`1)">
+            <summary>
+            Initializes a new instance of the SplittingPlaneChosenEventArgs class. 
+            </summary>
+            <param name="elapsedMs">The amount of time it took to choose
+            a partitioning plane.</param>
+            <param name="surfaceCount">The number of surfaces that
+            required partitioning.</param>
+            <param name="depth">The depth of the current node being
+            considered in the BSP tree.</param>
+            <param name="chosenPlane">The plane chosen to partition the surfaces.</param>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.HeapIndex">
+            <summary>
+            Utility methods for computing indices in a heap data structure.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.HeapIndex.FrontChildIndex(System.Numerics.BigInteger)">
+            <summary>
+            Gets the index of the front child of an index.
+            </summary>
+            <param name="index">The parent index.</param>
+            <returns>The front child index.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.HeapIndex.BackChildIndex(System.Numerics.BigInteger)">
+            <summary>
+            Gets the index of the back child of an index.
+            </summary>
+            <param name="index">The parent index.</param>
+            <returns>The back child index.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.HeapIndex.ParentIndex(System.Numerics.BigInteger)">
+            <summary>
+            Gets the index of the parent of an index.
+            </summary>
+            <param name="index">The child index.</param>
+            <returns>The parent index, or -1 for child index 0.</returns>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.HeapIndex.Depth(System.Numerics.BigInteger)">
+            <summary>
+            Gets the 0-based depth of an index.
+            </summary>
+            <param name="index">The index for which to compute.</param>
+            <returns>The depth of the index in the tree, starting with zero.</returns>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.Portal`1">
+            <summary>
+            Represents a portal facet between two BSP leaves.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Portal`1.Facet">
+            <summary>
+            The facet defining the portal.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Portal`1.Front">
+            <summary>
+            The BSP leaf on the front side of the facet.
+            </summary>
+        </member>
+        <member name="P:UnaryHeap.Algorithms.Portal`1.Back">
+            <summary>
+            The BSP leaf on the back side of the facet.
+            </summary>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Portal`1.#ctor(`0,System.Numerics.BigInteger,System.Numerics.BigInteger)">
+            <summary>
+            Initializes a new instance of the Portal class.
+            </summary>
+            <param name="facet">The facet defining the portal.</param>
+            <param name="front">The BSP leaf on the front side of the facet.</param>
+            <param name="back">The BSP leaf on the back side of the facet.</param>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.Spatial2D`1">
+            <summary>
+            Provides 2D-specific implementations of dimensionally-agnostic algorithms.
+            </summary>
+            <typeparam name="TSurface">The type representing surfaces to be partitioned by
+            the algorithm.</typeparam>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial2D`1.#ctor">
+            <summary>
+            Initializes a new instance of the Spatial2D class.
+            </summary>
+        </member>
+        <member name="T:UnaryHeap.Algorithms.Spatial3D`1">
+            <summary>
+            Provides 3D-specific implementations of dimensionally-agnostic algorithms.
+            </summary>
+            <typeparam name="TSurface">The type representing surfaces to be partitioned by
+            the algorithm.</typeparam>
+        </member>
+        <member name="M:UnaryHeap.Algorithms.Spatial3D`1.#ctor">
+            <summary>
+            Initializes a new instance of the Spatial3D class.
+            </summary>
+        </member>
+    </members>
+</doc>

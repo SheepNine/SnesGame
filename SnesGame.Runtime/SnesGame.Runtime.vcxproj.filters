@@ -33,9 +33,6 @@
     <ClCompile Include="perf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sw.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="sc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -54,21 +51,18 @@
     <ClCompile Include="update.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="snes_foundation_classes.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="keydriver.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rec.c">
+    <ClCompile Include="dr.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pb.c">
+    <ClCompile Include="dp.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ClCompile Include="rand.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bb.h">
@@ -83,9 +77,6 @@
     <ClInclude Include="perf.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="sc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -95,7 +86,7 @@
     <ClInclude Include="gamepad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="api\snes_api.h">
+    <ClInclude Include="api\snes_runtime.h">
       <Filter>Header Files\api</Filter>
     </ClInclude>
     <ClInclude Include="init.h">
@@ -107,17 +98,23 @@
     <ClInclude Include="update.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="api\snes_foundation_classes.h">
-      <Filter>Header Files\api</Filter>
-    </ClInclude>
     <ClInclude Include="keydriver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="rec.h">
+    <ClInclude Include="dr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="pb.h">
+    <ClInclude Include="dp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="rand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="api\snes_runtime_enums.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
