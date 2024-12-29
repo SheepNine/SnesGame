@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <RepositoryTargetFramework>net8.0-windows</RepositoryTargetFramework>
+    <RepositoryVersion>0.0.0.0</RepositoryVersion>
+	<RepositoryArtifactDirectory>$(MSBuildThisFileDirectory)artifacts\</RepositoryArtifactDirectory>
+	
+	<!-- Shared project settings -->
+    <Configuration Condition="$(Configuration) == ''">Debug</Configuration>	
+    <TargetFramework>$(RepositoryTargetFramework)</TargetFramework>
+    <AssemblyVersion>$(RepositoryVersion)</AssemblyVersion>
+    <FileVersion>$(RepositoryVersion)</FileVersion>
+    <OutputPath>$(RepositoryArtifactDirectory)bin\$(MSBuildProjectName)\$(Configuration)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <IntermediateOutputPath>$(RepositoryArtifactDirectory)\obj\$(MSBuildProjectName)\$(Configuration)\</IntermediateOutputPath>
+    <AppendTargetFrameworkToIntermediateOutputPath>false</AppendTargetFrameworkToIntermediateOutputPath>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisMode>Recommended</AnalysisMode>
+  </PropertyGroup>
+</Project>
