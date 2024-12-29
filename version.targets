@@ -10,9 +10,9 @@
     <TargetFramework>$(RepositoryTargetFramework)</TargetFramework>
     <AssemblyVersion>$(RepositoryVersion)</AssemblyVersion>
     <FileVersion>$(RepositoryVersion)</FileVersion>
-    <OutputPath>$(RepositoryArtifactDirectory)bin\$(MSBuildProjectName)\$(Configuration)\</OutputPath>
+    <OutputPath>$(RepositoryArtifactDirectory)bin\$(MSBuildProjectName)\$(Configuration)\$(Platform)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <IntermediateOutputPath>$(RepositoryArtifactDirectory)\obj\$(MSBuildProjectName)\$(Configuration)\</IntermediateOutputPath>
+    <IntermediateOutputPath>$(RepositoryArtifactDirectory)\obj\$(MSBuildProjectName)\$(Configuration)\$(Platform)\</IntermediateOutputPath>
     <AppendTargetFrameworkToIntermediateOutputPath>false</AppendTargetFrameworkToIntermediateOutputPath>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AnalysisMode>Recommended</AnalysisMode>
